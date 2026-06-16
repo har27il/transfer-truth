@@ -111,10 +111,12 @@ positive-evidence rule, or it silently corrupts ground truth. Plan requires both
 ## Implementation Tasks
 Synthesized from this review's findings. Run with Claude Code; checkbox as you ship.
 
-- [ ] **T1 (P1, human: ~30min / CC: ~5min)** — repo — git init, push to GitHub, enable Pages
-  - Surfaced by: Architecture Issue 4 — Actions needs a git repo (none exists yet)
-  - Files: `.gitignore`, repo root
-  - Verify: `git remote -v` shows origin; Pages serves `site/`
+- [x] **T1 (P1)** — repo — git init, push to GitHub, enable Pages ✅ DONE
+  - Repo: https://github.com/har27il/transfer-truth (was private; made PUBLIC so free-tier
+    Pages works — key/data leak-safe: key is an Actions secret, workflow is dispatch-only,
+    no private data in repo). Pages serves `main /docs`: https://har27il.github.io/transfer-truth/
+  - Decision (2nd eng review D2): publish from `/docs` (no workflow, no secret in publish path).
+  - Files: `.gitignore`, `.gitattributes`, `README.md`, output moved `site/` -> `docs/`
 - [x] **T2 (P1, human: ~30min / CC: ~10min)** — stagemap — extract STAGE_P to shared module ✅ DONE — `stagemap.py` created; score.py + deal_predictor.py import it; output unchanged
   - Surfaced by: Code Quality Issue 5 — STAGE_P duplicated in 3 files (DRY)
   - Files: `stagemap.py`, `scoring/score.py`, `ml/deal_predictor.py`
@@ -144,10 +146,13 @@ Synthesized from this review's findings. Run with Claude Code; checkbox as you s
     `tests/golden/cases.jsonl` = 15 labeled posts (every stage, denied, free, multi-claim,
     nickname, 2 non-transfer). Offline tests prove the grader catches each regression
     class; live eval (`TM_LLM_TESTS=1` + key) asserts pass-rate >= 80%, field-acc >= 90%.
-- [ ] **T7 (P2, human: ~2h / CC: ~20min)** — CI — daily Actions workflow, commit-on-change
-  - Surfaced by: D4 runner v2 — serverless, footgun-guarded
-  - Files: `.github/workflows/outcomes.yml`
-  - Verify: manual dispatch resolves + commits with [skip ci]; no re-trigger loop
+- [x] **T7 (P2)** — CI — Actions workflow, commit-on-change ✅ DONE (manual-trigger now)
+  - 2nd eng review D1: `workflow_dispatch` only; daily `schedule:` line present but COMMENTED
+    until Phase 3 ingestion creates `unknown` deals (a cron with no inputs is pure waste).
+  - Hardening: `permissions: contents:write` (least privilege), concurrency lock, `pytest`
+    gate before any auto-write, secret-leak guard (`git grep nvapi-`), commit `[skip ci]`.
+  - Files: `.github/workflows/outcomes.yml`, `requirements.txt`
+  - Verify: needs `gh secret set NVIDIA_API_KEY`, then "Run workflow" in Actions tab.
 - [ ] **T8 (P3, human: ~1h / CC: ~10min)** — perf — recompute only changed clusters (later, at scale)
   - Surfaced by: Performance Review — full recompute fine now, matters at 10k+ deals
   - Files: `scoring/score.py`
@@ -159,11 +164,24 @@ Synthesized from this review's findings. Run with Claude Code; checkbox as you s
 |--------|---------|-----|------|--------|----------|
 | CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | — |
 | Codex Review | `/codex review` | Independent 2nd opinion | 0 | — | — |
-| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | CLEAR | 6 issues, 0 critical gaps |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 2 | CLEAR | run 1: 6 issues; run 2 (T1/T7 infra): 2 arch findings, 0 critical gaps |
 | Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | — |
 | DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | — |
 
-- **CROSS-MODEL:** Outside voice (Claude subagent) — Codex not installed. Surfaced 6 concerns. Two reversed locked decisions: (1) sequencing → user pivoted to outcomes-first; (2) runner → daily + commit-on-change. Clustering-key and Reddit-signal-quality concerns parked as Phase 3 risks. The "no ground truth = tuning by vibes" point matched a prior in-session warning on the ML model.
-- **VERDICT:** ENG CLEARED — ready to implement. Scope reduced to automated outcome detection (Phase 2); ingestion + live meter deferred to Phase 3.
+**Run 2 (T1/T7 runner/CI/deploy):**
+- Step 0 scope: T7 cron has NO inputs until Phase 3 ingestion (all 38 deals already verified).
+  Decided (D1): ship `workflow_dispatch` only; daily `schedule:` stays commented. Boring + reversible.
+- Arch (D2): GitHub Pages can't serve `site/` natively → publish from `/docs` (no workflow, no
+  secret in publish path = cannot leak the NIM key). Output moved `site/` -> `docs/`.
+- Constraint hit: free-tier Pages needs a public repo. User chose public; key/data leak-safe
+  (key is encrypted Actions secret, workflow dispatch-only so no fork-PR exfiltration, no private
+  data in repo, CI secret-leak guard). Repo flipped private -> PUBLIC.
+- NOT in scope: live `schedule:` cron, ingestion (Phase 3), private-repo Pages (needs Pro).
+- Failure modes covered: broken code auto-writing (pytest gate), leaked key (git-grep guard),
+  concurrent writes (concurrency lock), commit loop (`[skip ci]`).
+- **CROSS-MODEL:** Codex not installed; outside voice not separately spawned for this small
+  infra slice (1 workflow file). Findings stand on the single-model review.
+- **VERDICT:** ENG CLEARED — T1 + T7 implemented and pushed. Repo live, Pages building,
+  workflow registered (manual trigger). Remaining: `gh secret set NVIDIA_API_KEY` before first run.
 
 NO UNRESOLVED DECISIONS
