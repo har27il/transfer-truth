@@ -14,6 +14,7 @@ happens. Learning side project.
                                               docs/index.html  (GitHub Pages)
 ```
 
+- **`ingest/`** — Phase 3 ingestion: RSS sources -> extract (engine) -> dedup -> cluster by player -> SQLite (`sources.py`, `store.py`, `cluster.py`, `pipeline.py`). `bridge.py` turns new clusters into proposed `deals.csv` rows (`unknown`/`auto`) for the outcome workflow to resolve — closing the loop.
 - **`engine/`** — turns one raw post into strict JSON (`run.py` + system prompt). Graded by `tests/golden/`.
 - **`outcome/`** — resolves whether a rumoured deal completed or collapsed (`source.py` fetch + `detect.py` decision, positive-evidence only). `apply.py` writes results back atomically.
 - **`ground_truth.py`** — single trusted-outcome gate: auto-resolved rows (`verified=auto`) are *proposed* and don't score until a human promotes them to `verified=YES`.
