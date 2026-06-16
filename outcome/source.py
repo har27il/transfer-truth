@@ -22,6 +22,8 @@ and endpoint are env-overridable, so swapping providers never touches detect.py.
 import json
 import os
 import re
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date
@@ -29,6 +31,17 @@ from datetime import date
 WIKI_API = "https://en.wikipedia.org/w/api.php"
 NIM_BASE = os.environ.get("NIM_BASE_URL", "https://integrate.api.nvidia.com/v1")
 NIM_MODEL = os.environ.get("NIM_MODEL", "meta/llama-3.3-70b-instruct")
+# Fallbacks if the default is deprecated / rate-limited / 5xx-ing. All are
+# OpenAI-compatible chat models on build.nvidia.com — swap with NIM_MODEL=...,
+# no code change. Ranked best-for-this-task first (strong JSON instruction-following):
+#   meta/llama-3.3-70b-instruct           <- default
+#   nvidia/llama-3.1-nemotron-70b-instruct  alt 70B, often better at following format
+#   meta/llama-3.1-70b-instruct           previous-gen, very stable
+#   qwen/qwen2.5-72b-instruct             strong reasoning + JSON
+#   mistralai/mixtral-8x22b-instruct-v0.1 different family (provider-diversity hedge)
+#   meta/llama-3.1-8b-instruct            small + FAST: use if speed/throughput matters
+# NOTE: a model swap is for resilience, not speed. Speed comes from concurrency,
+# not a smaller model. Verify availability/exact id at build.nvidia.com before relying on one.
 USER_AGENT = "TransferMarket/0.1 (outcome-detection; research; contact via repo)"
 
 # When a window's deadline has passed, "player stayed" becomes positive evidence
@@ -45,20 +58,48 @@ def window_is_closed(window, today=None):
     return close is not None and today > close
 
 
-def fetch_player_text(player, timeout=20):
-    """Return the plain-text Wikipedia extract for a player, or '' if not found."""
+# Politeness throttle: a batch resolve hits Wikipedia from a shared CI IP, which
+# gets rate-limited (HTTP 429) fast. Space requests out so we stay a good citizen.
+_MIN_INTERVAL = float(os.environ.get("WIKI_MIN_INTERVAL", "0.6"))
+_last_fetch = [0.0]
+
+
+def fetch_player_text(player, timeout=20, retries=3):
+    """Return the plain-text Wikipedia extract for a player, or '' on miss/error.
+
+    Resilient by design: a network blip or rate-limit (HTTP 429) must never crash a
+    batch resolve. We throttle, retry transient errors with backoff, and on persistent
+    failure return '' -- which resolve() treats as 'unclear', so a fetch failure can
+    never fabricate an outcome."""
     q = urllib.parse.urlencode({
         "action": "query", "prop": "extracts", "explaintext": 1,
         "redirects": 1, "format": "json", "titles": player,
     })
     req = urllib.request.Request(WIKI_API + "?" + q, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        data = json.load(r)
-    pages = data.get("query", {}).get("pages", {})
-    if not pages:
-        return ""
-    page = next(iter(pages.values()))
-    return page.get("extract", "") or ""
+    for attempt in range(retries):
+        wait = _MIN_INTERVAL - (time.monotonic() - _last_fetch[0])
+        if wait > 0:
+            time.sleep(wait)
+        _last_fetch[0] = time.monotonic()
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                data = json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
+                time.sleep(2 ** attempt)  # back off 1s, 2s, ... on transient errors
+                continue
+            return ""
+        except (urllib.error.URLError, TimeoutError, OSError):
+            if attempt < retries - 1:
+                time.sleep(2 ** attempt)
+                continue
+            return ""
+        pages = data.get("query", {}).get("pages", {})
+        if not pages:
+            return ""
+        page = next(iter(pages.values()))
+        return page.get("extract", "") or ""
+    return ""  # all retries exhausted
 
 
 _SYS = ("You verify football (soccer) transfers from an encyclopedia extract. "

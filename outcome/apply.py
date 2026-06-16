@@ -66,7 +66,11 @@ def resolve_unknowns(rows, resolver=_default_resolver):
     for r in rows:
         if (r.get("outcome") or "").strip().lower() not in ("", "unknown"):
             continue
-        res = resolver(r)
+        try:
+            res = resolver(r)
+        except Exception as e:  # one deal's network/API failure != abort the batch
+            print(f"  ! resolve failed for deal {r.get('deal_id')} {r.get('player')}: {e}")
+            continue
         outcome, reason = classify(r, res)
         if outcome not in RESOLVED:
             continue  # D-safety: never write an unresolved outcome
