@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 """
-Render the live transfer-rumour feed to docs/feed.html.
+Render the live transfer-rumour feed to docs/feed.html (Pitch design, see site/theme.py).
 
 Reads clustered claims from the ingest store, computes each deal's probability via
-ingest.meter (real reliability weights from the leaderboard), and renders a card per
-deal: player -> destination, the colour-coded % meter, label, and the reporting
-sources. When the store is empty (no live ingestion yet) it shows a DEMO feed built
-from real meter math, clearly banner'd, and switches to live data automatically once
-ingestion produces claims.
+ingest.meter (real reliability weights), and renders a card per deal: player ->
+destination, the colour-coded % meter, label, and reporting sources. When the store
+is empty it shows a DEMO feed built from real meter math (clearly banner'd) and
+switches to live data automatically once ingestion produces claims.
 
     python site/build_feed.py
 """
@@ -18,14 +17,42 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "site"))
 
+import theme
 from ingest import store, cluster, meter
 
 OUT = ROOT / "docs" / "feed.html"
-HEX = {"green": "#22c55e", "yellow": "#eab308", "red": "#ef4444"}
+TIER = {"green": theme.GREEN, "yellow": theme.AMBER, "red": theme.RED}
 
-# Illustrative deals for the empty state — rendered through the SAME meter math, so
-# the numbers are honest meter output (not hardcoded), just on placeholder claims.
+PAGE_CSS = """
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+        padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow);
+        transition:transform .15s ease,box-shadow .15s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,24,40,.10)}
+  .feature{background:linear-gradient(180deg,#fff,#f3fdf8);border:1px solid #bbf0d6;border-radius:20px;
+           padding:22px 24px;margin-bottom:18px;box-shadow:0 12px 34px rgba(18,183,106,.12)}
+  .flabel{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+          color:var(--accent);margin-bottom:10px}
+  .feature .deal{font-size:24px}
+  .feature .pct{font-size:48px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .deal{font-size:19px}
+  .deal .player{font-weight:700}
+  .deal .arrow{color:#94a3b8;margin:0 6px}
+  .deal .to{color:#334155;font-weight:600}
+  .pct{font-family:'Space Grotesk';font-weight:700;font-size:34px;line-height:1}
+  .pct s{font-size:15px;text-decoration:none;opacity:.55}
+  .meta{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin-top:12px}
+  .label{border:1px solid;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700}
+  .srcs{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .src{background:#f1f4f8;border:1px solid var(--line);border-radius:8px;padding:3px 9px;
+       font-size:12.5px;color:#475467}
+  .src b{color:var(--ink)}
+  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}}
+"""
+
+# Illustrative deals for the empty state — rendered through the SAME meter math.
 _DEMO = [
     ("Alexander Isak", "Liverpool", "Newcastle United",
      [(0.99, "Fabrizio Romano", "2025-09-01", "here_we_go"),
@@ -58,28 +85,28 @@ def _demo_meters():
     return meter.meters(conn, today=date(2025, 9, 1))
 
 
-def _card(m, reliability):
-    c = HEX[m["color"]]
+def _card(m, reliability, feature=False):
+    c0, c1 = TIER.get(m["color"], theme.AMBER)
     player = html.escape(m["player"] or "Unknown")
     to_club = html.escape(m["to_club"] or "?")
     from_club = html.escape(m["from_club"] or "")
     src_chips = "".join(
         f'<span class="src">{html.escape(s)}'
         + (f' <b>{round(reliability[s]*100)}%</b>' if s in reliability else "")
-        + "</span>"
-        for s in m["sources"])
+        + "</span>" for s in m["sources"])
+    flabel = '<div class="flabel">&#128293; Hottest right now</div>' if feature else ""
     return f"""
-      <div class="card">
-        <div class="head">
+      <div class="{'feature' if feature else 'card'}">
+        {flabel}
+        <div class="top">
           <div class="deal"><span class="player">{player}</span>
-            <span class="arrow">&rarr;</span> <span class="to">{to_club}</span></div>
-          <div class="pct" style="color:{c}">{m['percent']}<span>%</span></div>
+            <span class="arrow">&rarr;</span><span class="to">{to_club}</span></div>
+          <div class="pct" style="color:{c0}">{m['percent']}<s>%</s></div>
         </div>
-        <div class="bar"><span style="width:{max(2,m['percent'])}%;background:{c}"></span></div>
+        <div class="track"><div class="fill" style="width:{max(2,m['percent'])}%;background:linear-gradient(90deg,{c0},{c1})"></div></div>
         <div class="meta">
-          <span class="chip" style="color:{c};border-color:{c}">{m['label']}</span>
-          <span>from {from_club}</span>
-          <span>&middot; {m['latest_stage']}</span>
+          <span class="label" style="color:{c0};border-color:{c0}">{m['label']}</span>
+          <span>from {from_club}</span><span>&middot; {html.escape(m['latest_stage'] or '')}</span>
         </div>
         <div class="srcs">{src_chips}</div>
       </div>"""
@@ -93,57 +120,38 @@ def main():
     if is_demo:
         rows = _demo_meters()
 
-    banner = ('<div class="banner">Showing <b>demo data</b> — live ingestion is not '
-              'running yet (needs an NVIDIA_API_KEY). Numbers are real meter output on '
-              'placeholder rumours; the feed switches to live data automatically once '
-              'ingestion produces claims.</div>') if is_demo else ""
-    cards = "".join(_card(m, reliability) for m in rows) or \
-        '<div class="empty">No live rumours yet.</div>'
+    banner = ('<div class="banner">Showing <b>demo data</b> — live ingestion isn&rsquo;t running '
+              'yet (needs an NVIDIA_API_KEY). Numbers are real meter output on placeholder rumours; '
+              'the feed switches to live data automatically once ingestion produces claims.</div>'
+              ) if is_demo else ""
+    feature = _card(rows[0], reliability, feature=True) if rows else ""
+    rest = "".join(_card(m, reliability) for m in rows[1:])
+    if not rows:
+        feature = '<div class="empty">No live rumours yet.</div>'
+    more = (f'<div class="secthead"><h2>More deals</h2><h2>Probability</h2></div>{rest}'
+            if rest else "")
     gen = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    page = f"""<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Transfer Truth — Live Rumour Feed</title>
-<style>
-  :root {{ color-scheme: dark; }}
-  * {{ box-sizing: border-box; }}
-  body {{ margin:0; background:#0b0f17; color:#e7ecf3;
-         font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }}
-  .wrap {{ max-width:760px; margin:0 auto; padding:40px 20px 80px; }}
-  h1 {{ font-size:30px; margin:0 0 4px; letter-spacing:-.02em; }}
-  .sub {{ color:#9aa7b8; margin:0 0 20px; }}
-  nav a {{ color:#7aa2f7; text-decoration:none; font-size:14px; margin-right:14px; }}
-  .banner {{ background:#3a2a08; border:1px solid #7c5e12; color:#f5d98a;
-            padding:10px 14px; border-radius:10px; font-size:14px; margin:16px 0 24px; }}
-  .card {{ background:#0f1521; border:1px solid #1b2433; border-radius:12px;
-          padding:16px 18px; margin-bottom:14px; }}
-  .head {{ display:flex; align-items:center; justify-content:space-between; gap:12px; }}
-  .deal {{ font-size:18px; }}
-  .player {{ font-weight:700; }}
-  .arrow {{ color:#6b7888; margin:0 4px; }}
-  .to {{ color:#cdd6e3; }}
-  .pct {{ font-weight:800; font-size:30px; line-height:1; }}
-  .pct span {{ font-size:14px; opacity:.7; }}
-  .bar {{ background:#161e2b; border-radius:6px; height:8px; overflow:hidden; margin:12px 0 10px; }}
-  .bar span {{ display:block; height:100%; border-radius:6px; }}
-  .meta {{ display:flex; align-items:center; gap:10px; color:#8a97a8; font-size:13px; }}
-  .chip {{ border:1px solid; border-radius:999px; padding:1px 9px; font-size:12px; font-weight:650; }}
-  .srcs {{ margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }}
-  .src {{ background:#161e2b; border-radius:6px; padding:2px 8px; font-size:12.5px; color:#aeb9c8; }}
-  .src b {{ color:#e7ecf3; }}
-  .empty {{ color:#7e8b9c; padding:30px 0; }}
-  .foot {{ margin-top:30px; color:#8a97a8; font-size:13px; border-top:1px solid #1b2433; padding-top:16px; }}
-</style></head>
-<body><div class="wrap">
-  <h1>Live Rumour Feed</h1>
-  <p class="sub">Each deal's probability, weighted by how reliable the reporting journalists are.</p>
-  <nav><a href="index.html">&larr; Reliability leaderboard</a></nav>
-  {banner}
-  <div class="feed">{cards}</div>
-  <div class="foot">Probability = reliability-weighted, recency-decayed average of each
-    source's claim, plus a corroboration boost for independent sources. Generated {gen}.</div>
-</div></body></html>"""
+    page = f"""{theme.head("Transfer Truth — Live Rumour Feed", PAGE_CSS)}
+<body>
+  {theme.header("feed")}
+  <div class="wrap">
+    <h1 class="h">Live <em>rumour feed</em></h1>
+    <p class="lede">Every deal&rsquo;s probability, weighted by how reliable the reporting
+       journalists are — and how recently they said it.</p>
+    <div class="chips">
+      <span class="chip">{len(rows)} live deals</span>
+      <span class="chip alt">Reliability-weighted</span>
+      <span class="chip alt">Updated live</span>
+    </div>
+    {banner}
+    {feature}
+    {more}
+    <p class="foot"><b>How the meter works.</b> Probability is a reliability-weighted,
+      recency-decayed average of each source&rsquo;s claim, plus a corroboration boost when
+      independent sources agree. A denial from a trusted source drags it down. Generated {gen}.</p>
+  </div>
+</body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")
     print(f"Wrote {OUT.relative_to(ROOT)}  ({len(rows)} deals{', DEMO' if is_demo else ''})")

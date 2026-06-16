@@ -1,99 +1,151 @@
-<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Transfer Truth — Live Rumour Feed</title>
-<style>
-  :root { color-scheme: dark; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:#0b0f17; color:#e7ecf3;
-         font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
-  .wrap { max-width:760px; margin:0 auto; padding:40px 20px 80px; }
-  h1 { font-size:30px; margin:0 0 4px; letter-spacing:-.02em; }
-  .sub { color:#9aa7b8; margin:0 0 20px; }
-  nav a { color:#7aa2f7; text-decoration:none; font-size:14px; margin-right:14px; }
-  .banner { background:#3a2a08; border:1px solid #7c5e12; color:#f5d98a;
-            padding:10px 14px; border-radius:10px; font-size:14px; margin:16px 0 24px; }
-  .card { background:#0f1521; border:1px solid #1b2433; border-radius:12px;
-          padding:16px 18px; margin-bottom:14px; }
-  .head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
-  .deal { font-size:18px; }
-  .player { font-weight:700; }
-  .arrow { color:#6b7888; margin:0 4px; }
-  .to { color:#cdd6e3; }
-  .pct { font-weight:800; font-size:30px; line-height:1; }
-  .pct span { font-size:14px; opacity:.7; }
-  .bar { background:#161e2b; border-radius:6px; height:8px; overflow:hidden; margin:12px 0 10px; }
-  .bar span { display:block; height:100%; border-radius:6px; }
-  .meta { display:flex; align-items:center; gap:10px; color:#8a97a8; font-size:13px; }
-  .chip { border:1px solid; border-radius:999px; padding:1px 9px; font-size:12px; font-weight:650; }
-  .srcs { margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }
-  .src { background:#161e2b; border-radius:6px; padding:2px 8px; font-size:12.5px; color:#aeb9c8; }
-  .src b { color:#e7ecf3; }
-  .empty { color:#7e8b9c; padding:30px 0; }
-  .foot { margin-top:30px; color:#8a97a8; font-size:13px; border-top:1px solid #1b2433; padding-top:16px; }
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transfer Truth — Live Rumour Feed</title><meta name="description" content="Football journalists ranked by how often their transfer calls come true."><meta name="theme-color" content="#12b76a"><meta property="og:title" content="Transfer Truth — Live Rumour Feed"><meta property="og:description" content="Football journalists ranked by how often their transfer calls come true."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312b76a'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+  :root{ --bg:#f5f7fa; --surface:#fff; --ink:#0b1220; --muted:#64748b; --line:#e7ebf0;
+         --accent:#12b76a; --accent2:#34d399; --gold:#f59e0b;
+         --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06); }
+  *{box-sizing:border-box}
+  body{margin:0;background:radial-gradient(1200px 500px at 50% -10%,#e9fbf2 0%,var(--bg) 55%);
+       color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+       -webkit-font-smoothing:antialiased;min-height:100vh}
+  .h{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.02em}
+  a{color:inherit}
+  header{position:sticky;top:0;z-index:5;backdrop-filter:saturate(1.4) blur(10px);
+         background:rgba(245,247,250,.78);border-bottom:1px solid var(--line)}
+  .bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px}
+  .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+        display:grid;place-items:center;color:#04130c;font-weight:800;box-shadow:0 6px 16px rgba(18,183,106,.35)}
+  .brand{font-weight:700;font-size:18px}.brand span{color:var(--accent)}
+  nav{margin-left:auto;display:flex;gap:6px;background:#eef1f5;padding:4px;border-radius:999px}
+  nav a{padding:7px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none}
+  nav a.on{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
+  .wrap{max-width:880px;margin:0 auto;padding:44px 20px 80px}
+  h1{font-size:46px;line-height:1.04;margin:0 0 12px;font-weight:700}
+  h1 em{font-style:normal;background:linear-gradient(90deg,#0fae63,#34d399);
+        -webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{color:var(--muted);font-size:18px;max-width:540px;margin:0 0 18px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0}
+  .chip{font-size:13px;font-weight:600;color:#0f766e;background:#d8f6e8;border:1px solid #b6ecd3;
+        padding:6px 12px;border-radius:999px}
+  .chip.alt{color:#475467;background:#fff;border-color:var(--line)}
+  /* hero: text column + a strong visual anchor on the right */
+  .hero{display:grid;grid-template-columns:1fr 280px;gap:30px;align-items:center;margin:0 0 40px}
+  .hero-l{min-width:0}
+  .livedot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;
+           margin-right:6px;box-shadow:0 0 0 0 rgba(18,183,106,.5);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(18,183,106,.5)}70%{box-shadow:0 0 0 7px rgba(18,183,106,0)}
+                   100%{box-shadow:0 0 0 0 rgba(18,183,106,0)}}
+  @media(max-width:720px){.hero{grid-template-columns:1fr;gap:22px}}
+  .banner{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:11px 14px;
+          border-radius:12px;font-size:14px;margin:0 0 24px}
+  .secthead{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 14px}
+  .secthead h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+               margin:0;font-weight:700}
+  .track{height:10px;border-radius:99px;background:#eef1f5;overflow:hidden}
+  .fill{height:100%;border-radius:99px;transform-origin:left;
+        animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .foot{margin-top:30px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);padding-top:18px}
+  .foot b{color:var(--ink)}
+  .empty{color:var(--muted);padding:30px 0}
+  @media(max-width:640px){h1{font-size:34px}.lede{font-size:16px}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+        padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow);
+        transition:transform .15s ease,box-shadow .15s ease}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,24,40,.10)}
+  .feature{background:linear-gradient(180deg,#fff,#f3fdf8);border:1px solid #bbf0d6;border-radius:20px;
+           padding:22px 24px;margin-bottom:18px;box-shadow:0 12px 34px rgba(18,183,106,.12)}
+  .flabel{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+          color:var(--accent);margin-bottom:10px}
+  .feature .deal{font-size:24px}
+  .feature .pct{font-size:48px}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .deal{font-size:19px}
+  .deal .player{font-weight:700}
+  .deal .arrow{color:#94a3b8;margin:0 6px}
+  .deal .to{color:#334155;font-weight:600}
+  .pct{font-family:'Space Grotesk';font-weight:700;font-size:34px;line-height:1}
+  .pct s{font-size:15px;text-decoration:none;opacity:.55}
+  .meta{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin-top:12px}
+  .label{border:1px solid;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700}
+  .srcs{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .src{background:#f1f4f8;border:1px solid var(--line);border-radius:8px;padding:3px 9px;
+       font-size:12.5px;color:#475467}
+  .src b{color:var(--ink)}
+  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}}
 </style></head>
-<body><div class="wrap">
-  <h1>Live Rumour Feed</h1>
-  <p class="sub">Each deal's probability, weighted by how reliable the reporting journalists are.</p>
-  <nav><a href="index.html">&larr; Reliability leaderboard</a></nav>
-  <div class="banner">Showing <b>demo data</b> — live ingestion is not running yet (needs an NVIDIA_API_KEY). Numbers are real meter output on placeholder rumours; the feed switches to live data automatically once ingestion produces claims.</div>
-  <div class="feed">
-      <div class="card">
-        <div class="head">
+<body>
+  <header><div class="bar"><div class="mark h">&#10003;</div><div class="brand h">Transfer<span>Truth</span></div><nav><a class="" href="index.html">Leaderboard</a><a class="on" href="feed.html"><span class="livedot"></span>Live Feed</a></nav></div></header>
+  <div class="wrap">
+    <h1 class="h">Live <em>rumour feed</em></h1>
+    <p class="lede">Every deal&rsquo;s probability, weighted by how reliable the reporting
+       journalists are — and how recently they said it.</p>
+    <div class="chips">
+      <span class="chip">4 live deals</span>
+      <span class="chip alt">Reliability-weighted</span>
+      <span class="chip alt">Updated live</span>
+    </div>
+    <div class="banner">Showing <b>demo data</b> — live ingestion isn&rsquo;t running yet (needs an NVIDIA_API_KEY). Numbers are real meter output on placeholder rumours; the feed switches to live data automatically once ingestion produces claims.</div>
+    
+      <div class="feature">
+        <div class="flabel">&#128293; Hottest right now</div>
+        <div class="top">
           <div class="deal"><span class="player">Alexander Isak</span>
-            <span class="arrow">&rarr;</span> <span class="to">Liverpool</span></div>
-          <div class="pct" style="color:#22c55e">94<span>%</span></div>
+            <span class="arrow">&rarr;</span><span class="to">Liverpool</span></div>
+          <div class="pct" style="color:#12b76a">94<s>%</s></div>
         </div>
-        <div class="bar"><span style="width:94%;background:#22c55e"></span></div>
+        <div class="track"><div class="fill" style="width:94%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
         <div class="meta">
-          <span class="chip" style="color:#22c55e;border-color:#22c55e">Likely</span>
-          <span>from Newcastle United</span>
-          <span>&middot; here_we_go</span>
+          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
+          <span>from Newcastle United</span><span>&middot; here_we_go</span>
         </div>
         <div class="srcs"><span class="src">David Ornstein <b>83%</b></span><span class="src">Fabrizio Romano <b>80%</b></span><span class="src">Sky Sports <b>81%</b></span></div>
       </div>
+    <div class="secthead"><h2>More deals</h2><h2>Probability</h2></div>
       <div class="card">
-        <div class="head">
+        
+        <div class="top">
           <div class="deal"><span class="player">Nick Woltemade</span>
-            <span class="arrow">&rarr;</span> <span class="to">Newcastle United</span></div>
-          <div class="pct" style="color:#22c55e">72<span>%</span></div>
+            <span class="arrow">&rarr;</span><span class="to">Newcastle United</span></div>
+          <div class="pct" style="color:#12b76a">72<s>%</s></div>
         </div>
-        <div class="bar"><span style="width:72%;background:#22c55e"></span></div>
+        <div class="track"><div class="fill" style="width:72%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
         <div class="meta">
-          <span class="chip" style="color:#22c55e;border-color:#22c55e">Likely</span>
-          <span>from VfB Stuttgart</span>
-          <span>&middot; agreement</span>
+          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
+          <span>from VfB Stuttgart</span><span>&middot; agreement</span>
         </div>
         <div class="srcs"><span class="src">Florian Plettenberg <b>77%</b></span><span class="src">Sky Sports <b>81%</b></span></div>
       </div>
       <div class="card">
-        <div class="head">
+        
+        <div class="top">
           <div class="deal"><span class="player">Marc Guehi</span>
-            <span class="arrow">&rarr;</span> <span class="to">Liverpool</span></div>
-          <div class="pct" style="color:#eab308">45<span>%</span></div>
+            <span class="arrow">&rarr;</span><span class="to">Liverpool</span></div>
+          <div class="pct" style="color:#f59e0b">45<s>%</s></div>
         </div>
-        <div class="bar"><span style="width:45%;background:#eab308"></span></div>
+        <div class="track"><div class="fill" style="width:45%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div>
         <div class="meta">
-          <span class="chip" style="color:#eab308;border-color:#eab308">Contested</span>
-          <span>from Crystal Palace</span>
-          <span>&middot; here_we_go</span>
+          <span class="label" style="color:#f59e0b;border-color:#f59e0b">Contested</span>
+          <span>from Crystal Palace</span><span>&middot; here_we_go</span>
         </div>
         <div class="srcs"><span class="src">BBC Sport <b>80%</b></span><span class="src">David Ornstein <b>83%</b></span><span class="src">Fabrizio Romano <b>80%</b></span></div>
       </div>
       <div class="card">
-        <div class="head">
+        
+        <div class="top">
           <div class="deal"><span class="player">Marcus Rashford</span>
-            <span class="arrow">&rarr;</span> <span class="to">Barcelona</span></div>
-          <div class="pct" style="color:#ef4444">15<span>%</span></div>
+            <span class="arrow">&rarr;</span><span class="to">Barcelona</span></div>
+          <div class="pct" style="color:#ef4444">15<s>%</s></div>
         </div>
-        <div class="bar"><span style="width:15%;background:#ef4444"></span></div>
+        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
         <div class="meta">
-          <span class="chip" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Manchester United</span>
-          <span>&middot; interest</span>
+          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
+          <span>from Manchester United</span><span>&middot; interest</span>
         </div>
         <div class="srcs"><span class="src">Football Espana <b>79%</b></span><span class="src">Goal <b>76%</b></span></div>
-      </div></div>
-  <div class="foot">Probability = reliability-weighted, recency-decayed average of each
-    source's claim, plus a corroboration boost for independent sources. Generated 2026-06-16 11:55.</div>
-</div></body></html>
+      </div>
+    <p class="foot"><b>How the meter works.</b> Probability is a reliability-weighted,
+      recency-decayed average of each source&rsquo;s claim, plus a corroboration boost when
+      independent sources agree. A denial from a trusted source drags it down. Generated 2026-06-16 14:27.</p>
+  </div>
+</body></html>

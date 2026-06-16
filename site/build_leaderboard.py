@@ -1,28 +1,28 @@
 #!/usr/bin/env python3
 """
-Static leaderboard site generator.
+Static leaderboard site generator (Pitch design system, see site/theme.py).
 
 Reads scoring/leaderboard.json and writes docs/index.html as a single
-self-contained file (no server, no build step, no JS dependencies). Open it
-directly in a browser, or let GitHub Pages serve the docs/ folder.
-
-This script lives in site/ but the PUBLISHED output is docs/index.html, because
-GitHub Pages serves a branch folder (root or /docs) with no workflow and no
-secret — the safest publish path (it cannot leak the NIM API key).
+self-contained file (no server, no build step, no JS dependencies). GitHub Pages
+serves the docs/ folder.
 
 Re-run after each scoring pass:
     python scoring/score.py ground-truth/journalist_claims.csv   # regenerate JSON
     python site/build_leaderboard.py                             # regenerate docs/index.html
-
-Usage:
-    python site/build_leaderboard.py
 """
 
-import json, html
+import html
+import json
+import math
+import sys
 from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "site"))
+
+import theme
+
 DATA = ROOT / "scoring" / "leaderboard.json"
 OUT = ROOT / "docs" / "index.html"
 
@@ -30,27 +30,79 @@ OUT = ROOT / "docs" / "index.html"
 # show a banner so a sample render is never mistaken for real data.
 SAMPLE_NAMES = {"TierOne_Reporter", "Hype_Account_99", "Cautious_Beat"}
 
+PAGE_CSS = """
+  .spotlight{background:linear-gradient(180deg,#fff,#f1fcf6);border:1px solid #bbf0d6;border-radius:22px;
+             padding:24px 22px;text-align:center;box-shadow:0 10px 30px rgba(18,183,106,.10)}
+  .sl-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+            color:var(--gold);margin-bottom:12px}
+  .sl-ring{position:relative;width:120px;height:120px;margin:0 auto 14px}
+  .sl-ring svg{display:block}
+  .sl-ring .ring .p{animation:ringgrow 1.1s cubic-bezier(.2,.8,.2,1) both}
+  .sl-score{line-height:1}
+  @keyframes ringgrow{from{stroke-dashoffset:var(--circ)}}
+  .sl-score{position:absolute;inset:0;display:grid;place-items:center;font-family:'Space Grotesk';
+            font-weight:700;font-size:32px;color:var(--ink)}
+  .sl-score s{font-size:14px;text-decoration:none;opacity:.5}
+  .sl-name{font-weight:700;font-size:18px}
+  .sl-sub{color:var(--muted);font-size:13px;margin-top:3px}
+  .row{display:grid;grid-template-columns:46px 1fr 220px 96px;align-items:center;gap:18px;
+       background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px;
+       margin-bottom:10px;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
+  .row:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,24,40,.10)}
+  .row.r1{border-color:#fde7b3;background:linear-gradient(0deg,#fff,#fffaf0)}
+  .rank{font-family:'Space Grotesk';font-weight:700;font-size:20px;color:var(--muted);text-align:center}
+  .row.r1 .rank,.row.r2 .rank,.row.r3 .rank{color:#fff;border-radius:999px;width:32px;height:32px;
+       display:grid;place-items:center;margin:0 auto;font-size:15px;box-shadow:var(--shadow)}
+  .row.r1 .rank{background:linear-gradient(135deg,#f59e0b,#fbbf24)}
+  .row.r2 .rank{background:linear-gradient(135deg,#94a3b8,#cbd5e1)}
+  .row.r3 .rank{background:linear-gradient(135deg,#c2703a,#e0975a)}
+  .name{font-weight:700;font-size:17px}
+  .sub{color:var(--muted);font-size:13px;margin-top:2px}
+  .score{font-family:'Space Grotesk';font-weight:700;font-size:30px;text-align:right}
+  .score s{font-size:14px;text-decoration:none;opacity:.55}
+  @media(max-width:640px){.row{grid-template-columns:34px 1fr 84px;gap:12px}.track{display:none}}
+"""
 
-def colour(score):
-    if score >= 75: return "#22c55e"      # green
-    if score >= 60: return "#eab308"      # amber
-    return "#ef4444"                       # red
+
+def tier(score):
+    if score >= 75:
+        return theme.GREEN
+    if score >= 60:
+        return theme.AMBER
+    return theme.RED
+
+
+def ring(pct, c0, c1):
+    """Animated circular progress ring (SVG) for the spotlight score."""
+    r = 54
+    circ = 2 * math.pi * r
+    off = circ * (1 - min(100, max(0, pct)) / 100)
+    return (f'<svg class="ring" viewBox="0 0 120 120" width="120" height="120">'
+            f'<circle cx="60" cy="60" r="{r}" fill="none" stroke="#e6f4ec" stroke-width="11"/>'
+            f'<circle class="p" cx="60" cy="60" r="{r}" fill="none" stroke="url(#g)" stroke-width="11" '
+            f'stroke-linecap="round" stroke-dasharray="{circ:.1f}" stroke-dashoffset="{off:.1f}" '
+            f'style="--circ:{circ:.1f}px" transform="rotate(-90 60 60)"/>'
+            f'<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
+            f'<stop offset="0" stop-color="{c0}"/><stop offset="1" stop-color="{c1}"/>'
+            f'</linearGradient></defs></svg>')
 
 
 def row_html(i, r):
     s = r["score"]
+    c0, c1 = tier(s)
     bar = max(2, min(100, s))
     name = html.escape(r["source"])
     early = f" &middot; +{r['earliness_bonus']:.1f} scoop" if r.get("earliness_bonus") else ""
+    cls = f"row r{i}" if i <= 3 else "row"
     return f"""
-      <div class="row">
+      <div class="{cls}">
         <div class="rank">{i}</div>
-        <div class="who">
+        <div>
           <div class="name">{name}</div>
-          <div class="meta">{r['n_claims']} resolved claims &middot; raw {r['raw_accuracy']:.0f}%{early}</div>
+          <div class="sub">{r['n_claims']} resolved claims &middot; raw {r['raw_accuracy']:.0f}%{early}</div>
         </div>
-        <div class="bar"><span style="width:{bar}%;background:{colour(s)}"></span></div>
-        <div class="score" style="color:{colour(s)}">{s:.0f}<span>%</span></div>
+        <div class="track"><div class="fill" style="width:{bar}%;background:linear-gradient(90deg,{c0},{c1})"></div></div>
+        <div class="score" style="color:{c0}">{s:.0f}<s>%</s></div>
       </div>"""
 
 
@@ -60,64 +112,55 @@ def main():
     d = json.loads(DATA.read_text(encoding="utf-8"))
     board = d.get("leaderboard", [])
     is_sample = any(r["source"] in SAMPLE_NAMES for r in board)
+    n = d.get("n_claims", 0)
 
     rows = "".join(row_html(i, r) for i, r in enumerate(board, 1)) or \
         '<div class="empty">No scored journalists yet. Fill journalist_claims.csv and run score.py.</div>'
 
-    banner = ('<div class="banner">⚠ Showing <b>sample data</b> with fictional '
-              'sources. Replace journalist_claims.sample.csv with real claims, '
-              're-run score.py, then rebuild.</div>') if is_sample else ""
-
+    banner = ('<div class="banner">Showing <b>sample data</b> with fictional sources. '
+              'Replace journalist_claims.sample.csv with real claims, re-run score.py, then rebuild.</div>'
+              ) if is_sample else ""
     gen = datetime.now().strftime("%Y-%m-%d %H:%M")
-    page = f"""<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Transfer Truth — Journalist Reliability Leaderboard</title>
-<style>
-  :root {{ color-scheme: dark; }}
-  * {{ box-sizing: border-box; }}
-  body {{ margin:0; background:#0b0f17; color:#e7ecf3;
-         font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }}
-  .wrap {{ max-width:760px; margin:0 auto; padding:40px 20px 80px; }}
-  h1 {{ font-size:30px; margin:0 0 6px; letter-spacing:-.02em; }}
-  .sub {{ color:#9aa7b8; margin:0 0 10px; }}
-  nav a {{ color:#7aa2f7; text-decoration:none; font-size:14px; }}
-  .banner {{ background:#3a2a08; border:1px solid #7c5e12; color:#f5d98a;
-            padding:10px 14px; border-radius:10px; font-size:14px; margin-bottom:24px; }}
-  .row {{ display:grid; grid-template-columns:34px 1fr 120px 84px; align-items:center;
-         gap:14px; padding:14px 12px; border-bottom:1px solid #1b2433; }}
-  .row:first-of-type {{ border-top:1px solid #1b2433; }}
-  .rank {{ color:#6b7888; font-weight:700; text-align:center; }}
-  .name {{ font-weight:650; }}
-  .meta {{ color:#7e8b9c; font-size:12.5px; }}
-  .bar {{ background:#161e2b; border-radius:6px; height:8px; overflow:hidden; }}
-  .bar span {{ display:block; height:100%; border-radius:6px; }}
-  .score {{ text-align:right; font-weight:750; font-size:24px; }}
-  .score span {{ font-size:13px; opacity:.7; margin-left:1px; }}
-  .empty {{ color:#7e8b9c; padding:30px 0; }}
-  .method {{ margin-top:34px; color:#8a97a8; font-size:13.5px; border-top:1px solid #1b2433;
-            padding-top:18px; }}
-  .method b {{ color:#c3cedb; }}
-  code {{ background:#161e2b; padding:1px 5px; border-radius:4px; }}
-</style></head>
-<body><div class="wrap">
-  <h1>Journalist Reliability Leaderboard</h1>
-  <p class="sub">Who actually calls transfers right — scored against real outcomes,
-     not vibes. {d.get('n_claims', 0)} resolved claims.</p>
-  <nav><a href="feed.html">Live rumour feed &rarr;</a></nav>
-  {banner}
-  <div class="board">{rows}</div>
-  <div class="method">
-    <p><b>How the score works.</b> Every claim is graded by a Brier score against
-    what actually happened: saying “here we go” (99%) on a deal that collapsed is
-    punished hard; “in talks” (35%) on the same deal barely dents you. Scores are
-    shrunk toward the average by sample size (<code>K={d.get('k','?')}</code>) so a
-    spammer with a few lucky calls can’t top the table, and a small bonus rewards
-    genuinely breaking a deal early.</p>
-    <p>Population mean accuracy: <b>{d.get('population_mean_accuracy','?')}%</b>.
-    Generated {gen}. Static file — no backend.</p>
+
+    spotlight = ""
+    if board:
+        t = board[0]
+        c0, c1 = tier(t["score"])
+        spotlight = f"""<aside class="spotlight">
+        <div class="sl-label">&#9733; Top of the table</div>
+        <div class="sl-ring">{ring(t['score'], c0, c1)}<div class="sl-score"><span>{t['score']:.0f}<s>%</s></span></div></div>
+        <div class="sl-name">{html.escape(t['source'])}</div>
+        <div class="sl-sub">{t['n_claims']} resolved claims</div>
+      </aside>"""
+
+    page = f"""{theme.head("Transfer Truth — Reliability Leaderboard", PAGE_CSS)}
+<body>
+  {theme.header("leaderboard")}
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-l">
+        <h1 class="h">Who actually <em>calls it right?</em></h1>
+        <p class="lede">Football journalists, ranked by how often their transfer calls come true —
+           scored against real outcomes, not vibes.</p>
+        <div class="chips">
+          <span class="chip">{n} resolved claims</span>
+          <span class="chip alt">Brier-scored</span>
+          <span class="chip alt">Pop. avg {d.get('population_mean_accuracy','?')}%</span>
+        </div>
+      </div>
+      {spotlight}
+    </div>
+    {banner}
+    <div class="secthead"><h2>Reliability leaderboard</h2><h2>Accuracy</h2></div>
+    <div class="board">{rows}</div>
+    <p class="foot"><b>How the score works.</b> Every claim is graded by a Brier score against
+      what actually happened: saying &ldquo;here we go&rdquo; (99%) on a deal that collapsed is
+      punished hard; &ldquo;in talks&rdquo; (35%) on the same deal barely dents you. Scores are
+      shrunk toward the average by sample size (K={d.get('k','?')}) so a spammer with a few lucky
+      calls can&rsquo;t top the table, and a small bonus rewards genuinely breaking a deal early.
+      Generated {gen}. Static file, no backend.</p>
   </div>
-</div></body></html>"""
+</body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")
     print(f"Wrote {OUT.relative_to(ROOT)}  ({len(board)} journalists"

@@ -20,3 +20,4 @@ ml/deal_predictions.json
 
 # Ingestion machine state (SQLite)
 ingest/*.db
+.gstack/
