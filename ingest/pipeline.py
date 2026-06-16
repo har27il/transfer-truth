@@ -17,7 +17,7 @@ sys.path.insert(0, str(ROOT))
 
 from ingest import store, cluster, sources
 
-DEFAULT_WINDOW = "2025-summer"
+DEFAULT_WINDOW = "2026-summer"
 MIN_CONFIDENCE = 0.5   # drop vague extractions before they pollute a deal
 
 
@@ -67,7 +67,12 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
             continue
         stats["new"] += 1
         text = " ".join(filter(None, [post.get("title"), post.get("summary")]))
-        result = analyze_fn(text)
+        try:
+            result = analyze_fn(text)
+        except Exception as e:  # one bad NIM call (rate limit/timeout) != lose the whole run
+            stats["extract_err"] = stats.get("extract_err", 0) + 1
+            print(f"  ! extract failed for {post.get('url')}: {e}")
+            continue
         if not result or not result.get("is_transfer_claim"):
             stats["non_transfer"] += 1
             continue

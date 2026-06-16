@@ -35,6 +35,7 @@ USER_AGENT = "TransferMarket/0.1 (outcome-detection; research; contact via repo)
 # of a collapse. Add windows here as they are tracked.
 WINDOW_CLOSE = {
     "2025-summer": date(2025, 9, 2),
+    "2026-summer": date(2026, 9, 1),
 }
 
 

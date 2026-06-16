@@ -1,0 +1,78 @@
+name: Update site (ingest -> bridge -> resolve -> rebuild)
+
+# The full live loop. Manual-only for now (workflow_dispatch = a "Run workflow"
+# button in the Actions tab). Enable the daily schedule below only AFTER one clean
+# manual run — see README. Until then a cron could commit from an unverified run.
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '17 6 * * *'   # daily 06:17 UTC — uncomment after first clean manual run
+
+# Least privilege: the job only needs to push the rebuilt site + resolved CSVs.
+permissions:
+  contents: write
+
+# Never let two runs write deals.csv / docs at once.
+concurrency:
+  group: update-site
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # Job-level so BOTH ingest (engine.run.analyze) and resolve (outcome.source)
+    # see the NIM key. Setting it per-step is the easy way to leave ingest keyless.
+    env:
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      # Gate: never auto-write data or rebuild the site from broken code.
+      - name: Run tests
+        run: pytest -q
+
+      # 1. Pull live RSS, extract structured claims (NIM), cluster by player.
+      - name: Ingest live feeds
+        run: python ingest/pipeline.py
+
+      # 2. Turn new player clusters into proposed deals.csv rows (verified=auto).
+      - name: Bridge clusters to deals
+        run: python ingest/bridge.py
+
+      # 3. Resolve any 'unknown' deals whose window has closed (positive-evidence only).
+      - name: Resolve outcomes
+        run: python outcome/apply.py
+
+      # 4. Rebuild both static pages: leaderboard (scored) + live feed (current snapshot).
+      - name: Rebuild site
+        run: |
+          python scoring/score.py ground-truth/journalist_claims.csv
+          python site/build_leaderboard.py
+          python site/build_feed.py
+
+      # Defense in depth: fail loudly if anything resembling a NIM key ever lands
+      # in a tracked file. (.github excluded so this guard can't match itself.)
+      - name: Guard - no leaked secrets in tracked files
+        run: |
+          if git grep -nI -E 'nvapi-[A-Za-z0-9_-]{10,}' -- . ':!.github'; then
+            echo "::error::Possible API key found in a tracked file"; exit 1
+          fi
+
+      - name: Commit on change
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name  "transfer-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add ground-truth/deals.csv docs/ scoring/leaderboard.json
+            git commit -m "chore: live update (ingest+resolve+rebuild) [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi

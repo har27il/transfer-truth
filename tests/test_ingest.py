@@ -69,7 +69,8 @@ def _fake_analyze(text):
 
 def test_pipeline_dedups_filters_and_clusters():
     conn = _conn()
-    stats = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze)
+    stats = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
+                         window="2025-summer")
     assert stats == {"fetched": 6, "dup": 1, "new": 5, "non_transfer": 1,
                      "low_conf": 1, "no_player": 1, "claims": 2}
 
