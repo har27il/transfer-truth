@@ -14,7 +14,7 @@ happens. Learning side project.
                                               docs/index.html  (GitHub Pages)
 ```
 
-- **`ingest/`** — Phase 3 ingestion: RSS sources -> extract (engine) -> dedup -> cluster by player -> SQLite (`sources.py`, `store.py`, `cluster.py`, `pipeline.py`). `bridge.py` turns new clusters into proposed `deals.csv` rows (`unknown`/`auto`) for the outcome workflow to resolve — closing the loop.
+- **`ingest/`** — Phase 3 ingestion: RSS sources -> extract (engine) -> dedup -> cluster by player -> SQLite (`sources.py`, `store.py`, `cluster.py`, `pipeline.py`). `bridge.py` turns new clusters into proposed `deals.csv` rows (`unknown`/`auto`) for the outcome workflow to resolve. `meter.py` computes each deal's live probability (reliability-weighted, recency-decayed, corroboration-boosted) -> `docs/feed.html`.
 - **`engine/`** — turns one raw post into strict JSON (`run.py` + system prompt). Graded by `tests/golden/`.
 - **`outcome/`** — resolves whether a rumoured deal completed or collapsed (`source.py` fetch + `detect.py` decision, positive-evidence only). `apply.py` writes results back atomically.
 - **`ground_truth.py`** — single trusted-outcome gate: auto-resolved rows (`verified=auto`) are *proposed* and don't score until a human promotes them to `verified=YES`.
@@ -29,6 +29,7 @@ pip install -r requirements.txt
 pytest -q                                               # 38 tests
 python scoring/score.py ground-truth/journalist_claims.csv
 python site/build_leaderboard.py                        # -> docs/index.html
+python site/build_feed.py                               # -> docs/feed.html (live meter; demo until ingestion runs)
 ```
 
 ## Automation (Phase 2)

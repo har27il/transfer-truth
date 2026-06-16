@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transfer Truth — Live Rumour Feed</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#0b0f17; color:#e7ecf3;
+         font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  .wrap { max-width:760px; margin:0 auto; padding:40px 20px 80px; }
+  h1 { font-size:30px; margin:0 0 4px; letter-spacing:-.02em; }
+  .sub { color:#9aa7b8; margin:0 0 20px; }
+  nav a { color:#7aa2f7; text-decoration:none; font-size:14px; margin-right:14px; }
+  .banner { background:#3a2a08; border:1px solid #7c5e12; color:#f5d98a;
+            padding:10px 14px; border-radius:10px; font-size:14px; margin:16px 0 24px; }
+  .card { background:#0f1521; border:1px solid #1b2433; border-radius:12px;
+          padding:16px 18px; margin-bottom:14px; }
+  .head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .deal { font-size:18px; }
+  .player { font-weight:700; }
+  .arrow { color:#6b7888; margin:0 4px; }
+  .to { color:#cdd6e3; }
+  .pct { font-weight:800; font-size:30px; line-height:1; }
+  .pct span { font-size:14px; opacity:.7; }
+  .bar { background:#161e2b; border-radius:6px; height:8px; overflow:hidden; margin:12px 0 10px; }
+  .bar span { display:block; height:100%; border-radius:6px; }
+  .meta { display:flex; align-items:center; gap:10px; color:#8a97a8; font-size:13px; }
+  .chip { border:1px solid; border-radius:999px; padding:1px 9px; font-size:12px; font-weight:650; }
+  .srcs { margin-top:10px; display:flex; flex-wrap:wrap; gap:6px; }
+  .src { background:#161e2b; border-radius:6px; padding:2px 8px; font-size:12.5px; color:#aeb9c8; }
+  .src b { color:#e7ecf3; }
+  .empty { color:#7e8b9c; padding:30px 0; }
+  .foot { margin-top:30px; color:#8a97a8; font-size:13px; border-top:1px solid #1b2433; padding-top:16px; }
+</style></head>
+<body><div class="wrap">
+  <h1>Live Rumour Feed</h1>
+  <p class="sub">Each deal's probability, weighted by how reliable the reporting journalists are.</p>
+  <nav><a href="index.html">&larr; Reliability leaderboard</a></nav>
+  <div class="banner">Showing <b>demo data</b> — live ingestion is not running yet (needs an NVIDIA_API_KEY). Numbers are real meter output on placeholder rumours; the feed switches to live data automatically once ingestion produces claims.</div>
+  <div class="feed">
+      <div class="card">
+        <div class="head">
+          <div class="deal"><span class="player">Alexander Isak</span>
+            <span class="arrow">&rarr;</span> <span class="to">Liverpool</span></div>
+          <div class="pct" style="color:#22c55e">94<span>%</span></div>
+        </div>
+        <div class="bar"><span style="width:94%;background:#22c55e"></span></div>
+        <div class="meta">
+          <span class="chip" style="color:#22c55e;border-color:#22c55e">Likely</span>
+          <span>from Newcastle United</span>
+          <span>&middot; here_we_go</span>
+        </div>
+        <div class="srcs"><span class="src">David Ornstein <b>83%</b></span><span class="src">Fabrizio Romano <b>80%</b></span><span class="src">Sky Sports <b>81%</b></span></div>
+      </div>
+      <div class="card">
+        <div class="head">
+          <div class="deal"><span class="player">Nick Woltemade</span>
+            <span class="arrow">&rarr;</span> <span class="to">Newcastle United</span></div>
+          <div class="pct" style="color:#22c55e">72<span>%</span></div>
+        </div>
+        <div class="bar"><span style="width:72%;background:#22c55e"></span></div>
+        <div class="meta">
+          <span class="chip" style="color:#22c55e;border-color:#22c55e">Likely</span>
+          <span>from VfB Stuttgart</span>
+          <span>&middot; agreement</span>
+        </div>
+        <div class="srcs"><span class="src">Florian Plettenberg <b>77%</b></span><span class="src">Sky Sports <b>81%</b></span></div>
+      </div>
+      <div class="card">
+        <div class="head">
+          <div class="deal"><span class="player">Marc Guehi</span>
+            <span class="arrow">&rarr;</span> <span class="to">Liverpool</span></div>
+          <div class="pct" style="color:#eab308">45<span>%</span></div>
+        </div>
+        <div class="bar"><span style="width:45%;background:#eab308"></span></div>
+        <div class="meta">
+          <span class="chip" style="color:#eab308;border-color:#eab308">Contested</span>
+          <span>from Crystal Palace</span>
+          <span>&middot; here_we_go</span>
+        </div>
+        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span><span class="src">David Ornstein <b>83%</b></span><span class="src">Fabrizio Romano <b>80%</b></span></div>
+      </div>
+      <div class="card">
+        <div class="head">
+          <div class="deal"><span class="player">Marcus Rashford</span>
+            <span class="arrow">&rarr;</span> <span class="to">Barcelona</span></div>
+          <div class="pct" style="color:#ef4444">15<span>%</span></div>
+        </div>
+        <div class="bar"><span style="width:15%;background:#ef4444"></span></div>
+        <div class="meta">
+          <span class="chip" style="color:#ef4444;border-color:#ef4444">Cold</span>
+          <span>from Manchester United</span>
+          <span>&middot; interest</span>
+        </div>
+        <div class="srcs"><span class="src">Football Espana <b>79%</b></span><span class="src">Goal <b>76%</b></span></div>
+      </div></div>
+  <div class="foot">Probability = reliability-weighted, recency-decayed average of each
+    source's claim, plus a corroboration boost for independent sources. Generated 2026-06-16 11:55.</div>
+</div></body></html>
