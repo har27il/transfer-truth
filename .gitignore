@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Secrets / local env — NEVER commit an API key
+.env
+.env.*
+*.key
+*secret*
+nvapi-*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+ml/deal_predictions.json

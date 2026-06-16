@@ -1,0 +1,4 @@
+# Runtime + test deps for CI (the daily outcomes workflow installs these).
+openai>=1.0      # NVIDIA NIM extraction (outcome/source.py, engine/run.py)
+numpy>=1.26      # ml/deal_predictor.py (imported by the test suite)
+pytest>=8        # test suite — runs before any auto-write so the bot never writes from broken code

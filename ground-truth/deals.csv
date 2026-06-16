@@ -1,0 +1,39 @@
+deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outcome_source_url,verified,notes
+1,Alexander Isak,Newcastle United,Liverpool,2025-summer,completed,145000000,2025-09-01,https://www.liverpoolfc.com/news/liverpool-agree-british-record-ps125m-fee-isak,YES,British record fee; deadline day
+2,Florian Wirtz,Bayer Leverkusen,Liverpool,2025-summer,completed,125000000,2025-06-20,https://www.cnn.com/2025/06/20/sport/florian-wirtz-liverpool-transfer-spt-intl,YES,"Fee disputed across sources (£100m base, up to £116m); spot-check"
+3,Hugo Ekitike,Eintracht Frankfurt,Liverpool,2025-summer,completed,91500000,2025-07-23,https://www.liverpoolfc.com/news/liverpool-agree-deal-sign-hugo-ekitike-eintracht-frankfurt,YES,Liverpool hijacked Newcastle (see deal 37)
+4,Benjamin Sesko,RB Leipzig,Manchester United,2025-summer,completed,85000000,2025-08-09,https://feeds.bbci.co.uk/sport/football/articles/cp89dmz39m9o,YES,
+5,Bryan Mbeumo,Brentford,Manchester United,2025-summer,completed,82000000,2025-07-21,https://www.soccerway.com/news/soccer-premier-league-manchester-united-announce-arrival-of-forward-mbeumo-from-brentford/AHvJxSnD,YES,incl add-ons
+6,Matheus Cunha,Wolverhampton Wanderers,Manchester United,2025-summer,completed,73000000,2025-06-12,https://www.skysports.com/football/news/11095/13375784,YES,
+7,Viktor Gyokeres,Sporting CP,Arsenal,2025-summer,completed,63500000,2025-07-26,https://www.skysports.com/football/news/11095/13401260,YES,£55m + add-ons
+8,Eberechi Eze,Crystal Palace,Arsenal,2025-summer,completed,78000000,2025-08-23,https://www.cbssports.com/soccer/news/eberechi-eze-signs-for-arsenal-gunners-make-transfer-from-crystal-palace-official-ahead-of-leeds-match,YES,Arsenal hijacked Tottenham (see deal 28)
+9,Martin Zubimendi,Real Sociedad,Arsenal,2025-summer,completed,60000000,2025-07-06,https://www.skysports.com/football/news/11095/13376347,YES,£51m release clause
+10,Noni Madueke,Chelsea,Arsenal,2025-summer,completed,60000000,2025-07-18,https://feeds.bbci.co.uk/sport/football/articles/cvg8j1l0751o,YES,incl add-ons
+11,Tijjani Reijnders,AC Milan,Manchester City,2025-summer,completed,55000000,2025-06-11,https://www.skysports.com/football/news/11095/13379209,YES,
+12,Joao Pedro,Brighton,Chelsea,2025-summer,completed,70000000,2025-07-02,https://www.espn.com/soccer/story/_/id/45628669,YES,
+13,Jamie Gittens,Borussia Dortmund,Chelsea,2025-summer,completed,60000000,2025-07-05,https://www.chelseafc.com/en/teams/profile/jamie-gittens,YES,incl add-ons
+14,Liam Delap,Ipswich Town,Chelsea,2025-summer,completed,35000000,2025-06-04,https://feeds.bbci.co.uk/sport/football/articles/c0k3dkd0gvno,YES,£30m release clause
+15,Mohammed Kudus,West Ham United,Tottenham Hotspur,2025-summer,completed,64000000,2025-07-10,https://www.skysports.com/football/news/11095/13394694,YES,
+16,Anthony Elanga,Nottingham Forest,Newcastle United,2025-summer,completed,63500000,2025-07-12,https://feeds.bbci.co.uk/sport/football/articles/ce9x4p492ydo,YES,incl add-ons
+17,Nick Woltemade,VfB Stuttgart,Newcastle United,2025-summer,completed,80000000,2025-08-30,https://www.skysports.com/football/news/11095/13421141,YES,Joined Newcastle after Bayern move collapsed (see deal 31)
+18,Dean Huijsen,AFC Bournemouth,Real Madrid,2025-summer,completed,59000000,2025-06-01,https://www.espn.com/soccer/story/_/id/45162232,YES,£50m release clause; agreed mid-May
+19,Kevin De Bruyne,Manchester City,Napoli,2025-summer,completed,0,2025-06-11,https://www.skysports.com/football/news/11095/13375823,YES,Free transfer
+20,Luis Diaz,Liverpool,Bayern Munich,2025-summer,completed,75000000,2025-07-30,https://www.espn.com/soccer/story/_/id/45840477,YES,incl add-ons
+21,Jonathan Tah,Bayer Leverkusen,Bayern Munich,2025-summer,completed,0,2025-05-29,https://www.bavarianfootballworks.com/2025/5/29/24439200,YES,Free transfer; effective 1 July
+22,Jobe Bellingham,Sunderland,Borussia Dortmund,2025-summer,completed,35500000,2025-06-10,https://feeds.bbci.co.uk/sport/football/articles/cp8y0j8k1vro,YES,
+23,Granit Xhaka,Bayer Leverkusen,Sunderland,2025-summer,completed,20000000,2025-07-28,https://feeds.bbci.co.uk/sport/football/articles/cm219dkz1xno,YES,incl add-ons
+24,Ardon Jashari,Club Brugge,AC Milan,2025-summer,completed,37000000,2025-08-06,https://www.acmilan.com/en/news/articles/media/2025-08-06/official-statement-ardon-jashari,YES,
+25,Kingsley Coman,Bayern Munich,Al-Nassr,2025-summer,completed,30000000,2025-08-15,https://www.espn.com/soccer/story/_/id/45954204/kingsley-coman-transfer-bayern-munich-al-nassr,YES,
+26,Marc Guehi,Crystal Palace,Liverpool,2025-summer,collapsed,,2025-09-01,https://www.skysports.com/football/news/11706/13423967,YES,"Collapsed in final hours of deadline day; Palace couldn't sign a replacement. Guehi stayed."
+27,Morgan Gibbs-White,Nottingham Forest,Tottenham Hotspur,2025-summer,collapsed,,2025-07-11,https://www.skysports.com/football/news/11095/13396393,YES,"Medical lined up via release clause; Forest alleged illegal approach. Signed new Forest contract."
+28,Eberechi Eze,Crystal Palace,Tottenham Hotspur,2025-summer,collapsed,,2025-08-23,https://www.skysports.com/football/news/11661/13390844,YES,"Deal in principle, then Arsenal hijacked it (see deal 8). Eze chose Arsenal."
+29,Nico Williams,Athletic Club,Barcelona,2025-summer,collapsed,,2025-07-04,https://www.beinsports.com/en-us/soccer/la-liga/articles/the-saga-is-over-nico-williams-rejects-barcelona-and-extends-his-contract-with-athletic-club-2025-07-04,YES,"Collapsed over release clause / LaLiga FFP registration. Signed new deal to 2035."
+30,Ademola Lookman,Atalanta,Inter Milan,2025-summer,collapsed,,2025-08-18,https://tribuna.com/en/news/2025-08-18-ademola-lookman-move-to-inter-milan-off-romano/,YES,"Agreed personal terms, made transfer request, skipped training; Atalanta refused fee. Stayed."
+31,Nick Woltemade,VfB Stuttgart,Bayern Munich,2025-summer,collapsed,,2025-08-30,https://global.espn.com/football/story/_/id/46105451,YES,"Bayern made 3 bids then withdrew; signed Jackson loan instead. Woltemade went to Newcastle (deal 17)."
+32,Savinho,Manchester City,Tottenham Hotspur,2025-summer,collapsed,,2025-09-01,https://www.espn.com/soccer/story/_/id/46089045,YES,"City refused to sell despite summer-long Spurs pursuit. Stayed."
+33,Dusan Vlahovic,Juventus,AC Milan,2025-summer,collapsed,,2025-09-01,https://football-italia.net/vlahovic-milan-transfer-juventus-asking-price/,YES,"Long Milan talks over wages/fee never closed. Stayed at Juventus."
+34,Rodrygo,Real Madrid,Arsenal,2025-summer,collapsed,,2025-09-01,https://www.managingmadrid.com/2025/7/23/24472864/rodrygo-real-madrid-tottenham-arsenal-liverpool-rumors-2025,YES,"Arsenal explored then dropped out over fee; signed Madueke/Gyokeres. Rodrygo stayed."
+35,Antoine Semenyo,AFC Bournemouth,Tottenham Hotspur,2025-summer,collapsed,,2025-09-01,https://www.eplindex.com/133100/report-spurs-told-to-pay-65m-after-fresh-transfer-bid-fails.html,YES,"Spurs walked away over ~£65-70m valuation. Stayed at Bournemouth."
+36,Carlos Baleba,Brighton,Manchester United,2025-summer,collapsed,,2025-09-01,https://www.givemesport.com/man-utd-pull-out-carlos-baleba-transfer-huge-mistake/,YES,"United chased all summer; Brighton held firm. United pulled out. Stayed."
+37,Hugo Ekitike,Eintracht Frankfurt,Newcastle United,2025-summer,collapsed,,2025-07-23,https://www.si.com/soccer/hugo-ekitike-agent-reveals-how-liverpool-hijacked-newcastle-transfer,YES,"Newcastle agreed terms with club + player, then Liverpool hijacked (see deal 3)."
+38,Florian Wirtz,Bayer Leverkusen,Bayern Munich,2025-summer,collapsed,,2025-06-20,https://www.liverpoolfc.com/news/liverpool-agree-signing-florian-wirtz-bayer-leverkusen,YES,"Bayern long-linked for months; Wirtz chose Liverpool instead (see deal 2)."

@@ -1,0 +1,27 @@
+claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,verified
+1,28,Fabrizio Romano,twitter,2025-08-16,agreement,https://x.com/FabrizioRomano/status/1956742787992330675,Eze personal terms agreed with Spurs; fee talks ongoing,YES
+2,8,Fabrizio Romano,twitter,2025-08-20,here_we_go,https://x.com/FabrizioRomano/status/1958270938765533643,Eze to Arsenal here we go; Arsenal win race over Spurs,YES
+3,8,David Ornstein,twitter,2025-08-21,agreement,https://x.com/David_Ornstein/status/1958260267693048130,Arsenal reach agreement in principle with Palace for Eze,YES
+4,8,Sky Sports,news_site,2025-08-23,official,https://www.skysports.com/football/news/11095/13416014,Arsenal sign Eze in 67.5m deal; medical completed,YES
+5,31,Florian Plettenberg,twitter,2025-06-26,agreement,https://x.com/Plettigoal/status/1938290479814095001,Bayern and Woltemade reach full verbal agreement on personal terms,YES
+6,17,Fabrizio Romano,twitter,2025-08-30,official,https://x.com/FabrizioRomano/status/1961731284683616441,Official Woltemade joins Newcastle club record deal,YES
+7,17,Sky Sports,news_site,2025-08-30,agreement,https://www.skysports.com/football/news/11678/13420116,Newcastle agree club record deal; medical to follow,YES
+8,17,BBC Sport,news_site,2025-08-30,official,https://feeds.bbci.co.uk/sport/football/articles/c9vdzl3gek3o,Newcastle sign Woltemade in club record 69m deal,YES
+9,37,Fabrizio Romano,twitter,2025-07-09,interest,https://x.com/FabrizioRomano/status/1942986564990063032,Newcastle keen on Ekitike amid Premier League interest,YES
+10,37,Julien Laurens,news_site,2025-07-14,medical,https://www.espn.com/soccer/story/_/id/45740144/newcastle-transfers-hugo-ekitike-set-80m-move-sources,Newcastle on verge of 80m deal; player prepared for medical,YES
+11,37,Florian Plettenberg,twitter,2025-07-16,advanced,https://www.givemesport.com/hugo-ekitike-advanced-deal-progressing-newcastle-united/,Newcastle talks advanced; Frankfurt expecting second offer,YES
+12,3,David Ornstein,twitter,2025-07-16,talks,https://www.nufcblog.co.uk/2025/07/16/liverpool-make-hugo-ekitike-move-david-ornstein-update/,Liverpool contact Frankfurt over possible Ekitike move,YES
+13,3,Mark McAdam,news_site,2025-07-23,agreement,https://www.skysports.com/football/news/11095/13399592,Liverpool reach full agreement with Frankfurt; medical underway,YES
+14,3,Fabrizio Romano,twitter,2025-07-20,here_we_go,https://x.com/FabrizioRomano/status/1946857051520376856,Ekitike to Liverpool here we go; deal in place,YES
+15,1,David Ornstein,news_site,2025-08-07,advanced,https://www.givemesport.com/david-ornstein-shares-alexander-isak-to-liverpool-update/,Good chance Isak departs Newcastle by deadline; Liverpool preferred,YES
+16,1,Sky Sports,news_site,2025-09-01,official,https://www.skysports.com/football/news/11669/13422894,Isak joins Liverpool in British record 125m deadline-day deal,YES
+17,1,Fabrizio Romano,twitter,2025-09-01,here_we_go,https://anfieldindex.com/85707/here-we-go-fabrizio-romano-confirms-liverpool-will-sign-alexander-isak-for-130m.html,Isak to Liverpool here we go; medical on deadline day,YES
+18,2,David Ornstein,twitter,2025-06-13,agreement,https://x.com/David_Ornstein/status/1933457244663804024,Liverpool strike verbal agreement with Leverkusen for Wirtz,YES
+19,2,Fabrizio Romano,twitter,2025-06-10,here_we_go,https://x.com/FabrizioRomano/status/1932537807039603095,Wirtz to Liverpool here we go; deal in principle agreed,YES
+20,38,Florian Plettenberg,twitter,2025-03-04,interest,https://www.bavarianfootballworks.com/2025/3/4/24377484,Bayern in ongoing talks for Wirtz; targeting summer move,YES
+21,26,Fabrizio Romano,twitter,2025-09-01,here_we_go,https://x.com/FabrizioRomano/status/1962520297883545845,Liverpool agree deal for Guehi here we go; fee over 35m,YES
+22,26,BBC Sport,news_site,2025-08-30,talks,https://feeds.bbci.co.uk/sport/football/articles/c5ypkrgp8p6o,Liverpool improve bid to 35m; fee negotiations ongoing,YES
+23,26,David Ornstein,twitter,2025-09-01,denied,https://x.com/David_Ornstein/status/1962586980333556155,Guehi set to stay at Palace despite medical; Palace replacement issue,YES
+24,29,Fabrizio Romano,twitter,2025-06-29,agreement,https://x.com/FabrizioRomano/status/1937527724848849052,Barca-Nico agreement on personal terms done; Athletic fee unresolved,YES
+25,29,Goal,news_site,2025-06-17,agreement,https://www.goal.com/en/lists/barcelona-reach-agreement-sign-nico-williams-six-year-contract/bltcaace7bd2a1cfd6f,Barca secure pre-agreement with Nico Williams on six-year deal,YES
+26,29,Football Espana,news_site,2025-07-04,denied,https://www.football-espana.net/2025/07/04/nico-williams-rejects-barcelona-to-sign-contract-renewal-with-athletic-club,Nico Williams rejects Barca and renews with Athletic,YES

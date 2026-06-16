@@ -1,0 +1,60 @@
+name: Resolve transfer outcomes
+
+# Manual-only for now (workflow_dispatch = a "Run workflow" button in the Actions
+# tab). The daily schedule stays commented until Phase 3 ingestion starts producing
+# `unknown` deals to resolve — until then a cron would just make empty runs.
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: '17 6 * * *'   # daily 06:17 UTC — uncomment when ingestion lands (Phase 3)
+
+# Least privilege: the job only needs to push the resolved deals.csv / rebuilt site.
+permissions:
+  contents: write
+
+# Never let two runs write deals.csv at once.
+concurrency:
+  group: outcomes
+  cancel-in-progress: false
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      # Gate: never auto-write ground truth from broken code.
+      - name: Run tests
+        run: pytest -q
+
+      - name: Resolve unknown outcomes
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: python outcome/apply.py
+
+      # Defense in depth: fail loudly if anything resembling a NIM key ever lands
+      # in a tracked file. (.github excluded so this guard can't match itself.)
+      - name: Guard - no leaked secrets in tracked files
+        run: |
+          if git grep -nI -E 'nvapi-[A-Za-z0-9_-]{10,}' -- . ':!.github'; then
+            echo "::error::Possible API key found in a tracked file"; exit 1
+          fi
+
+      - name: Commit on change
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name  "transfer-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add ground-truth/deals.csv docs/ scoring/leaderboard.json
+            git commit -m "chore: auto-resolve outcomes [skip ci]"
+            git push
+          else
+            echo "No outcome changes to commit."
+          fi

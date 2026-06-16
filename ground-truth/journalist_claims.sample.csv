@@ -1,0 +1,21 @@
+claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,verified
+1,1,TierOne_Reporter,twitter,2025-08-30,here_we_go,SAMPLE,"Isak to Liverpool, here we go",SAMPLE
+2,1,Hype_Account_99,twitter,2025-08-28,here_we_go,SAMPLE,"DONE DEAL ISAK CONFIRMED",SAMPLE
+3,1,Cautious_Beat,news_site,2025-08-29,talks,SAMPLE,"Liverpool in talks for Isak",SAMPLE
+4,8,TierOne_Reporter,twitter,2025-08-22,here_we_go,SAMPLE,"Eze to Arsenal, here we go",SAMPLE
+5,8,Hype_Account_99,twitter,2025-08-10,interest,SAMPLE,"Arsenal keen on Eze",SAMPLE
+6,28,Hype_Account_99,twitter,2025-08-15,here_we_go,SAMPLE,"EZE TO SPURS DONE",SAMPLE
+7,28,TierOne_Reporter,twitter,2025-08-18,advanced,SAMPLE,"Spurs advancing for Eze but Arsenal lurking",SAMPLE
+8,17,TierOne_Reporter,twitter,2025-08-29,agreement,SAMPLE,"Woltemade to Newcastle, agreement reached",SAMPLE
+9,31,Hype_Account_99,twitter,2025-08-20,here_we_go,SAMPLE,"WOLTEMADE TO BAYERN HERE WE GO",SAMPLE
+10,31,TierOne_Reporter,twitter,2025-08-25,talks,SAMPLE,"Bayern in talks for Woltemade, Stuttgart firm",SAMPLE
+11,26,Hype_Account_99,twitter,2025-08-31,here_we_go,SAMPLE,"GUEHI TO LIVERPOOL DONE DEAL",SAMPLE
+12,26,Cautious_Beat,news_site,2025-08-30,talks,SAMPLE,"Liverpool exploring Guehi",SAMPLE
+13,26,TierOne_Reporter,twitter,2025-09-01,advanced,SAMPLE,"Guehi deal advanced but replacement issue at Palace",SAMPLE
+14,3,TierOne_Reporter,twitter,2025-07-22,here_we_go,SAMPLE,"Ekitike to Liverpool, here we go",SAMPLE
+15,37,Hype_Account_99,twitter,2025-07-18,agreement,SAMPLE,"EKITIKE TO NEWCASTLE AGREED",SAMPLE
+16,37,TierOne_Reporter,twitter,2025-07-20,talks,SAMPLE,"Newcastle in talks for Ekitike, not done",SAMPLE
+17,2,TierOne_Reporter,twitter,2025-06-18,here_we_go,SAMPLE,"Wirtz to Liverpool here we go",SAMPLE
+18,2,Cautious_Beat,news_site,2025-06-15,talks,SAMPLE,"Liverpool negotiating for Wirtz",SAMPLE
+19,29,Hype_Account_99,twitter,2025-07-01,here_we_go,SAMPLE,"NICO WILLIAMS TO BARCA DONE",SAMPLE
+20,29,Cautious_Beat,news_site,2025-06-28,interest,SAMPLE,"Barca interested in Nico Williams",SAMPLE

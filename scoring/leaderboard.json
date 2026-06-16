@@ -1,0 +1,79 @@
+{
+  "population_mean_accuracy": 78.2,
+  "k": 20,
+  "n_claims": 26,
+  "leaderboard": [
+    {
+      "source": "David Ornstein",
+      "n_claims": 5,
+      "raw_accuracy": 86.7,
+      "shrunk": 79.9,
+      "earliness_bonus": 3.0,
+      "score": 82.9
+    },
+    {
+      "source": "Sky Sports",
+      "n_claims": 3,
+      "raw_accuracy": 98.7,
+      "shrunk": 80.9,
+      "earliness_bonus": 0.0,
+      "score": 80.9
+    },
+    {
+      "source": "Fabrizio Romano",
+      "n_claims": 9,
+      "raw_accuracy": 74.6,
+      "shrunk": 77.1,
+      "earliness_bonus": 3.0,
+      "score": 80.1
+    },
+    {
+      "source": "BBC Sport",
+      "n_claims": 2,
+      "raw_accuracy": 93.9,
+      "shrunk": 79.7,
+      "earliness_bonus": 0.0,
+      "score": 79.7
+    },
+    {
+      "source": "Football Espana",
+      "n_claims": 1,
+      "raw_accuracy": 100.0,
+      "shrunk": 79.3,
+      "earliness_bonus": 0.0,
+      "score": 79.3
+    },
+    {
+      "source": "Mark McAdam",
+      "n_claims": 1,
+      "raw_accuracy": 96.0,
+      "shrunk": 79.1,
+      "earliness_bonus": 0.0,
+      "score": 79.1
+    },
+    {
+      "source": "Florian Plettenberg",
+      "n_claims": 3,
+      "raw_accuracy": 65.9,
+      "shrunk": 76.6,
+      "earliness_bonus": 0.0,
+      "score": 76.6
+    },
+    {
+      "source": "Goal",
+      "n_claims": 1,
+      "raw_accuracy": 36.0,
+      "shrunk": 76.2,
+      "earliness_bonus": 0.0,
+      "score": 76.2
+    },
+    {
+      "source": "Julien Laurens",
+      "n_claims": 1,
+      "raw_accuracy": 15.4,
+      "shrunk": 75.2,
+      "earliness_bonus": 0.0,
+      "score": 75.2
+    }
+  ]
+}
