@@ -24,16 +24,37 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 23,Granit Xhaka,Bayer Leverkusen,Sunderland,2025-summer,completed,20000000,2025-07-28,https://feeds.bbci.co.uk/sport/football/articles/cm219dkz1xno,YES,incl add-ons
 24,Ardon Jashari,Club Brugge,AC Milan,2025-summer,completed,37000000,2025-08-06,https://www.acmilan.com/en/news/articles/media/2025-08-06/official-statement-ardon-jashari,YES,
 25,Kingsley Coman,Bayern Munich,Al-Nassr,2025-summer,completed,30000000,2025-08-15,https://www.espn.com/soccer/story/_/id/45954204/kingsley-coman-transfer-bayern-munich-al-nassr,YES,
-26,Marc Guehi,Crystal Palace,Liverpool,2025-summer,collapsed,,2025-09-01,https://www.skysports.com/football/news/11706/13423967,YES,"Collapsed in final hours of deadline day; Palace couldn't sign a replacement. Guehi stayed."
-27,Morgan Gibbs-White,Nottingham Forest,Tottenham Hotspur,2025-summer,collapsed,,2025-07-11,https://www.skysports.com/football/news/11095/13396393,YES,"Medical lined up via release clause; Forest alleged illegal approach. Signed new Forest contract."
+26,Marc Guehi,Crystal Palace,Liverpool,2025-summer,collapsed,,2025-09-01,https://www.skysports.com/football/news/11706/13423967,YES,Collapsed in final hours of deadline day; Palace couldn't sign a replacement. Guehi stayed.
+27,Morgan Gibbs-White,Nottingham Forest,Tottenham Hotspur,2025-summer,collapsed,,2025-07-11,https://www.skysports.com/football/news/11095/13396393,YES,Medical lined up via release clause; Forest alleged illegal approach. Signed new Forest contract.
 28,Eberechi Eze,Crystal Palace,Tottenham Hotspur,2025-summer,collapsed,,2025-08-23,https://www.skysports.com/football/news/11661/13390844,YES,"Deal in principle, then Arsenal hijacked it (see deal 8). Eze chose Arsenal."
-29,Nico Williams,Athletic Club,Barcelona,2025-summer,collapsed,,2025-07-04,https://www.beinsports.com/en-us/soccer/la-liga/articles/the-saga-is-over-nico-williams-rejects-barcelona-and-extends-his-contract-with-athletic-club-2025-07-04,YES,"Collapsed over release clause / LaLiga FFP registration. Signed new deal to 2035."
+29,Nico Williams,Athletic Club,Barcelona,2025-summer,collapsed,,2025-07-04,https://www.beinsports.com/en-us/soccer/la-liga/articles/the-saga-is-over-nico-williams-rejects-barcelona-and-extends-his-contract-with-athletic-club-2025-07-04,YES,Collapsed over release clause / LaLiga FFP registration. Signed new deal to 2035.
 30,Ademola Lookman,Atalanta,Inter Milan,2025-summer,collapsed,,2025-08-18,https://tribuna.com/en/news/2025-08-18-ademola-lookman-move-to-inter-milan-off-romano/,YES,"Agreed personal terms, made transfer request, skipped training; Atalanta refused fee. Stayed."
-31,Nick Woltemade,VfB Stuttgart,Bayern Munich,2025-summer,collapsed,,2025-08-30,https://global.espn.com/football/story/_/id/46105451,YES,"Bayern made 3 bids then withdrew; signed Jackson loan instead. Woltemade went to Newcastle (deal 17)."
-32,Savinho,Manchester City,Tottenham Hotspur,2025-summer,collapsed,,2025-09-01,https://www.espn.com/soccer/story/_/id/46089045,YES,"City refused to sell despite summer-long Spurs pursuit. Stayed."
-33,Dusan Vlahovic,Juventus,AC Milan,2025-summer,collapsed,,2025-09-01,https://football-italia.net/vlahovic-milan-transfer-juventus-asking-price/,YES,"Long Milan talks over wages/fee never closed. Stayed at Juventus."
-34,Rodrygo,Real Madrid,Arsenal,2025-summer,collapsed,,2025-09-01,https://www.managingmadrid.com/2025/7/23/24472864/rodrygo-real-madrid-tottenham-arsenal-liverpool-rumors-2025,YES,"Arsenal explored then dropped out over fee; signed Madueke/Gyokeres. Rodrygo stayed."
-35,Antoine Semenyo,AFC Bournemouth,Tottenham Hotspur,2025-summer,collapsed,,2025-09-01,https://www.eplindex.com/133100/report-spurs-told-to-pay-65m-after-fresh-transfer-bid-fails.html,YES,"Spurs walked away over ~£65-70m valuation. Stayed at Bournemouth."
-36,Carlos Baleba,Brighton,Manchester United,2025-summer,collapsed,,2025-09-01,https://www.givemesport.com/man-utd-pull-out-carlos-baleba-transfer-huge-mistake/,YES,"United chased all summer; Brighton held firm. United pulled out. Stayed."
+31,Nick Woltemade,VfB Stuttgart,Bayern Munich,2025-summer,collapsed,,2025-08-30,https://global.espn.com/football/story/_/id/46105451,YES,Bayern made 3 bids then withdrew; signed Jackson loan instead. Woltemade went to Newcastle (deal 17).
+32,Savinho,Manchester City,Tottenham Hotspur,2025-summer,collapsed,,2025-09-01,https://www.espn.com/soccer/story/_/id/46089045,YES,City refused to sell despite summer-long Spurs pursuit. Stayed.
+33,Dusan Vlahovic,Juventus,AC Milan,2025-summer,collapsed,,2025-09-01,https://football-italia.net/vlahovic-milan-transfer-juventus-asking-price/,YES,Long Milan talks over wages/fee never closed. Stayed at Juventus.
+34,Rodrygo,Real Madrid,Arsenal,2025-summer,collapsed,,2025-09-01,https://www.managingmadrid.com/2025/7/23/24472864/rodrygo-real-madrid-tottenham-arsenal-liverpool-rumors-2025,YES,Arsenal explored then dropped out over fee; signed Madueke/Gyokeres. Rodrygo stayed.
+35,Antoine Semenyo,AFC Bournemouth,Tottenham Hotspur,2025-summer,collapsed,,2025-09-01,https://www.eplindex.com/133100/report-spurs-told-to-pay-65m-after-fresh-transfer-bid-fails.html,YES,Spurs walked away over ~£65-70m valuation. Stayed at Bournemouth.
+36,Carlos Baleba,Brighton,Manchester United,2025-summer,collapsed,,2025-09-01,https://www.givemesport.com/man-utd-pull-out-carlos-baleba-transfer-huge-mistake/,YES,United chased all summer; Brighton held firm. United pulled out. Stayed.
 37,Hugo Ekitike,Eintracht Frankfurt,Newcastle United,2025-summer,collapsed,,2025-07-23,https://www.si.com/soccer/hugo-ekitike-agent-reveals-how-liverpool-hijacked-newcastle-transfer,YES,"Newcastle agreed terms with club + player, then Liverpool hijacked (see deal 3)."
-38,Florian Wirtz,Bayer Leverkusen,Bayern Munich,2025-summer,collapsed,,2025-06-20,https://www.liverpoolfc.com/news/liverpool-agree-signing-florian-wirtz-bayer-leverkusen,YES,"Bayern long-linked for months; Wirtz chose Liverpool instead (see deal 2)."
+38,Florian Wirtz,Bayer Leverkusen,Bayern Munich,2025-summer,collapsed,,2025-06-20,https://www.liverpoolfc.com/news/liverpool-agree-signing-florian-wirtz-bayer-leverkusen,YES,Bayern long-linked for months; Wirtz chose Liverpool instead (see deal 2).
+39,Andy Robertson,Liverpool,Tottenham Hotspur,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Andy_Robertson,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | He will leave Liverpool on 30 June 2026, upon the expiry of his contract, and will join Tottenham Hotspur."
+40,Anthony Gordon,Newcastle,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+41,Beth Mead,Arsenal,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+42,Caroline Weir,Real Madrid,Lyon,2026-summer,collapsed,,2026-06-16,https://en.wikipedia.org/wiki/Caroline_Weir,auto,"[auto] player joined OL Lyonnes, not Lyon - rumour did not happen | On 16 June 2026, French Première Ligue side OL Lyonnes announced the signing of Weir on a free transfer"
+43,Curtis Jones,Liverpool,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+44,Derek McInnes,Hearts,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+45,Éderson,Atalanta,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+46,Elliot Anderson,Nottingham Forest,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+47,Hayden Hackney,Middlesbrough,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+48,Ibrahima Konaté,Liverpool,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+49,Jan Paul van Hecke,Brighton,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+50,João Palhinha,Bayern Munich,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+51,Julián Alvarez,Atlético Madrid,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+52,Katie McCabe,Arsenal,Chelsea,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Katie_McCabe,auto,"[auto] player joined Chelsea - the rumoured destination | On 1 June 2026, it was announced that McCabe had signed a three-year contract with Chelsea"
+53,Marc Cucurella,Chelsea,Real Madrid,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Marc_Cucurella,auto,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
+54,Marcus Rashford,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+55,Mary Earps,Paris Saint-Germain,London City Lionesses,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+56,Mateus Fernandes,West Ham United,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+57,Michael Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+58,Niamh Charles,Chelsea,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
