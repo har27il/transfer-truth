@@ -17,3 +17,6 @@ nvapi-*
 .DS_Store
 Thumbs.db
 ml/deal_predictions.json
+
+# Ingestion machine state (SQLite)
+ingest/*.db
