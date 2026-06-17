@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """
-Static leaderboard site generator (Pitch design system, see site/theme.py).
+Static reliability-leaderboard generator (editorial system, see DESIGN.md).
 
-Reads scoring/leaderboard.json and writes docs/index.html as a single
-self-contained file (no server, no build step, no JS dependencies). GitHub Pages
-serves the docs/ folder.
+Reads scoring/leaderboard.json and writes docs/index.html as a single self-contained
+file (no server, no build step, no JS beyond the theme toggle). Renders the same
+broadsheet front page as the feed: a front-page nameplate, the top reporter as a lede
+spotlight, a standings table, and a rail that ties back to the live desk.
+
+The leaderboard ranks *reporters*, not deals — so the score is the single green brand
+thread (green = verified/true throughout), NOT the 3-stop deal meter spectrum. A reporter
+is never painted amber/red; rank position and bar length carry "who's better". This keeps
+the number identical to how the feed's rail shows the same standings.
 
 Re-run after each scoring pass:
     python scoring/score.py ground-truth/journalist_claims.csv   # regenerate JSON
@@ -13,9 +19,8 @@ Re-run after each scoring pass:
 
 import html
 import json
-import math
 import sys
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -30,79 +35,129 @@ OUT = ROOT / "docs" / "index.html"
 # show a banner so a sample render is never mistaken for real data.
 SAMPLE_NAMES = {"TierOne_Reporter", "Hype_Account_99", "Cautious_Beat"}
 
+# Page-specific CSS, scoped under .board so nothing collides with the feed page (which
+# scopes its own under .feed). Mirrors the feed's editorial chrome — nameplate, broadsheet
+# grid, lede spotlight, standings rows — so the two pages read as one masthead.
 PAGE_CSS = """
-  .spotlight{background:linear-gradient(180deg,#fff,#f1fcf6);border:1px solid #bbf0d6;border-radius:22px;
-             padding:24px 22px;text-align:center;box-shadow:0 10px 30px rgba(18,183,106,.10)}
-  .sl-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-            color:var(--gold);margin-bottom:12px}
-  .sl-ring{position:relative;width:120px;height:120px;margin:0 auto 14px}
-  .sl-ring svg{display:block}
-  .sl-ring .ring .p{animation:ringgrow 1.1s cubic-bezier(.2,.8,.2,1) both}
-  .sl-score{line-height:1}
-  @keyframes ringgrow{from{stroke-dashoffset:var(--circ)}}
-  .sl-score{position:absolute;inset:0;display:grid;place-items:center;font-family:'Space Grotesk';
-            font-weight:700;font-size:32px;color:var(--ink)}
-  .sl-score s{font-size:14px;text-decoration:none;opacity:.5}
-  .sl-name{font-weight:700;font-size:18px}
-  .sl-sub{color:var(--muted);font-size:13px;margin-top:3px}
-  .row{display:grid;grid-template-columns:46px 1fr 220px 96px;align-items:center;gap:18px;
-       background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px;
-       margin-bottom:10px;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
-  .row:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,24,40,.10)}
-  .row.r1{border-color:#fde7b3;background:linear-gradient(0deg,#fff,#fffaf0)}
-  .rank{font-family:'Space Grotesk';font-weight:700;font-size:20px;color:var(--muted);text-align:center}
-  .row.r1 .rank,.row.r2 .rank,.row.r3 .rank{color:#fff;border-radius:999px;width:32px;height:32px;
-       display:grid;place-items:center;margin:0 auto;font-size:15px;box-shadow:var(--shadow)}
-  .row.r1 .rank{background:linear-gradient(135deg,#f59e0b,#fbbf24)}
-  .row.r2 .rank{background:linear-gradient(135deg,#94a3b8,#cbd5e1)}
-  .row.r3 .rank{background:linear-gradient(135deg,#c2703a,#e0975a)}
-  .name{font-weight:700;font-size:17px}
-  .sub{color:var(--muted);font-size:13px;margin-top:2px}
-  .score{font-family:'Space Grotesk';font-weight:700;font-size:30px;text-align:right}
-  .score s{font-size:14px;text-decoration:none;opacity:.55}
-  @media(max-width:640px){.row{grid-template-columns:34px 1fr 84px;gap:12px}.track{display:none}}
+  .board{max-width:var(--frame);margin:0 auto;padding:0 32px}
+  /* nameplate (shared visual language with the feed) */
+  .board .nameplate{text-align:center;padding:30px 0 0}
+  .board .rule{height:0;border-top:1px solid var(--ink)}
+  .board .rule.thin{border-top:1px solid var(--hair)}
+  .board .np-name{font-family:var(--serif);font-optical-sizing:auto;font-weight:900;
+                  font-size:clamp(40px,7vw,80px);line-height:.96;letter-spacing:-.03em;margin:14px 0 6px}
+  .board .np-slogan{font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;
+                    color:var(--muted);margin:0 0 14px}
+  .board .np-line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
+                  font-size:11.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);padding:9px 0}
+  .board .np-line .sep{opacity:.4}
+  /* broadsheet grid */
+  .board .grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0;margin-top:8px}
+  .board .rail{border-left:1px solid var(--hair);margin-left:40px;padding-left:40px}
+  @media(max-width:900px){.board .grid{grid-template-columns:1fr}
+    .board .rail{border-left:0;margin-left:0;padding-left:0;margin-top:24px;border-top:2px solid var(--ink);padding-top:8px}}
+  /* lede spotlight: the top reporter */
+  .board .lede{padding:34px 0 32px;border-bottom:1px solid var(--hair)}
+  .board .kicker{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink);
+                 margin:0 0 16px;display:flex;align-items:center;gap:10px}
+  .board .kicker::before{content:"";width:24px;height:2px;background:var(--likely)}
+  .board .lede h2{font-family:var(--serif);font-optical-sizing:auto;font-weight:600;
+                  font-size:clamp(36px,6vw,68px);line-height:1.0;letter-spacing:-.025em;margin:0 0 16px}
+  .board .dek{font-size:18px;color:var(--muted);max-width:54ch;margin:0 0 26px;line-height:1.5}
+  .board .dek em{font-style:italic;color:var(--ink)}
+  /* the score gauge — green brand thread, reporter semantics (not a deal probability) */
+  .board .meter{display:flex;align-items:center;gap:24px;max-width:600px;flex-wrap:wrap}
+  .board .readout{flex:none}
+  .board .readout .pct{display:block;font-weight:600;font-size:50px;letter-spacing:-.02em;line-height:.92;
+                       color:var(--likely);font-variant-numeric:tabular-nums}
+  .board .readout .pct s{font-size:19px;text-decoration:none;color:var(--muted);font-weight:500}
+  .board .readout .verdict{display:block;margin-top:6px;font-size:12px;font-weight:700;text-transform:uppercase;
+                           letter-spacing:.08em;color:var(--ink)}
+  .board .meter .col{flex:1;min-width:180px}
+  .board .meter .track{position:relative;height:9px;background:var(--hair);border-radius:2px;overflow:hidden}
+  .board .meter .track .t{position:absolute;top:0;bottom:0;width:1px;background:color-mix(in srgb,var(--paper) 55%,var(--hair))}
+  .board .meter .fill{height:100%;border-radius:2px;background:var(--likely)}
+  .board .scale{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;
+                text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  /* section head + standings rows */
+  .board .sec{display:flex;align-items:baseline;justify-content:space-between;margin:32px 0 2px;
+              padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+  .board .sec h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin:0}
+  .board .sec .count{font-size:12.5px;color:var(--muted)}
+  .board .brow{display:grid;grid-template-columns:44px 1fr 150px 60px;align-items:center;gap:18px;
+               padding:14px 0;border-bottom:1px solid var(--hair)}
+  .board .brow .rk{font-variant-numeric:tabular-nums;font-size:18px;color:var(--muted);text-align:center}
+  .board .brow.top .rk{color:var(--ink);font-weight:600}
+  .board .brow .nm{font-size:17px;font-weight:500}
+  .board .brow .sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .board .brow .minimeter{width:150px;height:6px;background:var(--hair);border-radius:2px;overflow:hidden}
+  .board .brow .minimeter .fill{height:100%;border-radius:2px;background:var(--likely)}
+  .board .brow .sc{font-weight:600;font-size:18px;min-width:54px;text-align:right;
+                   color:var(--likely);font-variant-numeric:tabular-nums}
+  /* rail */
+  .board .railsec{margin-bottom:32px}
+  .board .railhead{font-family:var(--serif);font-weight:700;font-size:21px;margin:0 0 3px;letter-spacing:-.01em}
+  .board .railsub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .board .stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+               padding:11px 0;border-bottom:1px solid var(--hair);font-size:15px}
+  .board .stat .v{font-weight:600;font-variant-numeric:tabular-nums}
+  .board .live{display:block;background:var(--surface);border:1px solid var(--hair);border-radius:10px;
+               padding:16px 18px;text-decoration:none;color:inherit}
+  .board .live .t{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+  .board .live p{font-size:13.5px;color:var(--muted);margin:6px 0 0;line-height:1.5}
+  .board .live .go{color:var(--likely);font-weight:600}
+  .board .explain{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;
+                  font-size:13.5px;color:var(--muted);line-height:1.6}
+  .board .explain b{color:var(--ink)}
+  .board .foot{margin-top:42px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--hair);padding-top:18px}
+  .board .foot b{color:var(--ink)}
+  .board .empty{color:var(--muted);padding:30px 0}
+  @media(max-width:640px){.board .brow{grid-template-columns:34px 1fr auto;gap:12px}
+    .board .brow .minimeter{display:none}}
+  /* dark mode — its own block so the approved feed page is never touched */
+  body[data-theme="dark"]{--paper:#141210;--ink:#F2EEE4;--muted:#A99F8B;--hair:#2E2A24;--surface:#1B1814;
+                          --denied:#E0675A;--contested:#E0AE5A;--likely:#4FB07E;}
 """
 
 
-def tier(score):
-    if score >= 75:
-        return theme.GREEN
-    if score >= 60:
-        return theme.AMBER
-    return theme.RED
-
-
-def ring(pct, c0, c1):
-    """Animated circular progress ring (SVG) for the spotlight score."""
-    r = 54
-    circ = 2 * math.pi * r
-    off = circ * (1 - min(100, max(0, pct)) / 100)
-    return (f'<svg class="ring" viewBox="0 0 120 120" width="120" height="120">'
-            f'<circle cx="60" cy="60" r="{r}" fill="none" stroke="#e6f4ec" stroke-width="11"/>'
-            f'<circle class="p" cx="60" cy="60" r="{r}" fill="none" stroke="url(#g)" stroke-width="11" '
-            f'stroke-linecap="round" stroke-dasharray="{circ:.1f}" stroke-dashoffset="{off:.1f}" '
-            f'style="--circ:{circ:.1f}px" transform="rotate(-90 60 60)"/>'
-            f'<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">'
-            f'<stop offset="0" stop-color="{c0}"/><stop offset="1" stop-color="{c1}"/>'
-            f'</linearGradient></defs></svg>')
-
-
-def row_html(i, r):
-    s = r["score"]
-    c0, c1 = tier(s)
-    bar = max(2, min(100, s))
-    name = html.escape(r["source"])
-    early = f" &middot; +{r['earliness_bonus']:.1f} scoop" if r.get("earliness_bonus") else ""
-    cls = f"row r{i}" if i <= 3 else "row"
-    return f"""
-      <div class="{cls}">
-        <div class="rank">{i}</div>
-        <div>
-          <div class="name">{name}</div>
-          <div class="sub">{r['n_claims']} resolved claims &middot; raw {r['raw_accuracy']:.0f}%{early}</div>
+def _spotlight(t, mean):
+    """The top reporter as a lede story: serif headline + green score gauge.
+    Reuses the feed's gauge VISUAL but with reporter semantics — no deal-probability
+    scale, the tick marks the field average a name has to clear."""
+    name = html.escape(t["source"])
+    score = t["score"]
+    early = " &middot; broke deals early" if t.get("earliness_bonus") else ""
+    dek = (f"<em>{name}</em> tops the desk &mdash; {t['n_claims']} resolved calls graded against what "
+           f"actually happened, {t['raw_accuracy']:.0f}% landing before the score is shrunk toward the field{early}.")
+    tick = max(0, min(100, mean)) if isinstance(mean, (int, float)) else 50
+    return f"""<section class="lede">
+        <p class="kicker">Top of the table</p>
+        <h2>{name}</h2>
+        <p class="dek">{dek}</p>
+        <div class="meter">
+          <div class="readout"><span class="pct">{score:.0f}<s>%</s></span>
+            <span class="verdict">Most reliable</span></div>
+          <div class="col">
+            <div class="track"><span class="t" style="left:{tick}%"></span>
+              <div class="fill" style="width:{max(3, min(100, score)):.0f}%"></div></div>
+            <div class="scale"><span>Reliability score</span><span>Field avg {mean}%</span></div>
+          </div>
         </div>
-        <div class="track"><div class="fill" style="width:{bar}%;background:linear-gradient(90deg,{c0},{c1})"></div></div>
-        <div class="score" style="color:{c0}">{s:.0f}<s>%</s></div>
+      </section>"""
+
+
+def _brow(i, r):
+    name = html.escape(r["source"])
+    score = r["score"]
+    bar = max(3, min(100, score))
+    early = f" &middot; +{r['earliness_bonus']:.1f} scoop" if r.get("earliness_bonus") else ""
+    top = " top" if i == 1 else ""
+    return f"""<div class="brow{top}">
+        <div class="rk">{i}</div>
+        <div><div class="nm">{name}</div>
+          <div class="sub">{r['n_claims']} resolved calls &middot; raw {r['raw_accuracy']:.0f}%{early}</div></div>
+        <div class="minimeter"><div class="fill" style="width:{bar:.0f}%"></div></div>
+        <div class="sc">{score:.0f}%</div>
       </div>"""
 
 
@@ -113,57 +168,79 @@ def main():
     board = d.get("leaderboard", [])
     is_sample = any(r["source"] in SAMPLE_NAMES for r in board)
     n = d.get("n_claims", 0)
+    mean = d.get("population_mean_accuracy", "?")
 
-    rows = "".join(row_html(i, r) for i, r in enumerate(board, 1)) or \
-        '<div class="empty">No scored journalists yet. Fill journalist_claims.csv and run score.py.</div>'
+    rows = "".join(_brow(i, r) for i, r in enumerate(board, 1)) or \
+        '<div class="empty">No scored reporters yet. Fill journalist_claims.csv and run score.py.</div>'
+    spotlight = _spotlight(board[0], mean) if board else (
+        '<section class="lede"><p class="kicker">Pre-season</p><h2>No reporters scored yet</h2>'
+        '<p class="dek">Once resolved calls are graded the most reliable name leads here, '
+        'and the full table fills in below.</p></section>')
 
     banner = ('<div class="banner">Showing <b>sample data</b> with fictional sources. '
               'Replace journalist_claims.sample.csv with real claims, re-run score.py, then rebuild.</div>'
               ) if is_sample else ""
-    gen = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    spotlight = ""
-    if board:
-        t = board[0]
-        c0, c1 = tier(t["score"])
-        spotlight = f"""<aside class="spotlight">
-        <div class="sl-label">&#9733; Top of the table</div>
-        <div class="sl-ring">{ring(t['score'], c0, c1)}<div class="sl-score"><span>{t['score']:.0f}<s>%</s></span></div></div>
-        <div class="sl-name">{html.escape(t['source'])}</div>
-        <div class="sl-sub">{t['n_claims']} resolved claims</div>
-      </aside>"""
+    today = date.today()
+    datestr = f"{today.strftime('%a')} {today.day} {today.strftime('%B %Y')}"
+    nameplate = (f'<div class="nameplate"><div class="rule"></div>'
+                 f'<h1 class="np-name">Transfer&nbsp;Truth</h1>'
+                 f'<p class="np-slogan">The credibility desk for football transfers</p>'
+                 f'<div class="rule thin"></div>'
+                 f'<div class="np-line"><span>Reliability standings</span>'
+                 f'<span class="sep">&middot;</span><span>{datestr}</span>'
+                 f'<span class="sep">&middot;</span><span>{len(board)} reporters</span>'
+                 f'<span class="sep">&middot;</span><span>{n} resolved calls</span>'
+                 f'</div><div class="rule"></div></div>')
+
+    rail = (f'<div class="railsec"><a class="live" href="feed.html">'
+            f'<span class="t"><span class="livedot"></span>From the live desk</span>'
+            f'<p>See these reporters&rsquo; calls play out in real time &mdash; the contested deals, '
+            f'the &ldquo;here we go&rdquo;s, and what&rsquo;s already settled. <span class="go">Open the feed &rarr;</span></p>'
+            f'</a></div>'
+            f'<div class="railsec"><h3 class="railhead">By the numbers</h3>'
+            f'<p class="railsub">This window, across every graded call.</p>'
+            f'<div class="stat"><span>Field average</span><span class="v">{mean}%</span></div>'
+            f'<div class="stat"><span>Resolved calls</span><span class="v">{n}</span></div>'
+            f'<div class="stat"><span>Shrinkage prior K</span><span class="v">{d.get("k","?")}</span></div></div>'
+            f'<div class="railsec"><h3 class="railhead">How the score works</h3>'
+            f'<p class="railsub">Brier-graded against real outcomes.</p>'
+            f'<div class="explain">Every claim is scored against what actually happened: a confident '
+            f'&ldquo;here we go&rdquo; on a deal that <b>collapsed</b> is punished hard; a hedged '
+            f'&ldquo;in talks&rdquo; on the same deal barely dents you. Scores are shrunk toward the '
+            f'field average by sample size (K={d.get("k","?")}) so a few lucky calls can&rsquo;t top the '
+            f'table, and breaking a deal genuinely early earns a small bonus.</div></div>')
+
+    toggle = ('<button class="toggle" type="button" onclick="ttTheme()" '
+              'aria-label="Toggle dark mode">&#9681;</button>')
+    gen = datetime.now().strftime("%Y-%m-%d %H:%M")
+    foot = (f'<p class="foot"><b>Reliability, made visible.</b> Reporters ranked by how often their '
+            f'transfer calls come true &mdash; scored against real outcomes, not vibes. The score is the '
+            f'only colour on the page. Static file, rebuilt daily. Generated {gen}.</p>')
 
     page = f"""{theme.head("Transfer Truth — Reliability Leaderboard", PAGE_CSS)}
 <body>
-  {theme.header("leaderboard")}
-  <div class="wrap">
-    <div class="hero">
-      <div class="hero-l">
-        <h1 class="h">Who actually <em>calls it right?</em></h1>
-        <p class="lede">Football journalists, ranked by how often their transfer calls come true —
-           scored against real outcomes, not vibes.</p>
-        <div class="chips">
-          <span class="chip">{n} resolved claims</span>
-          <span class="chip alt">Brier-scored</span>
-          <span class="chip alt">Pop. avg {d.get('population_mean_accuracy','?')}%</span>
-        </div>
-      </div>
-      {spotlight}
-    </div>
+  {theme.header("leaderboard", trailing=toggle)}
+  <div class="board">
+    {nameplate}
     {banner}
-    <div class="secthead"><h2>Reliability leaderboard</h2><h2>Accuracy</h2></div>
-    <div class="board">{rows}</div>
-    <p class="foot"><b>How the score works.</b> Every claim is graded by a Brier score against
-      what actually happened: saying &ldquo;here we go&rdquo; (99%) on a deal that collapsed is
-      punished hard; &ldquo;in talks&rdquo; (35%) on the same deal barely dents you. Scores are
-      shrunk toward the average by sample size (K={d.get('k','?')}) so a spammer with a few lucky
-      calls can&rsquo;t top the table, and a small bonus rewards genuinely breaking a deal early.
-      Generated {gen}. Static file, no backend.</p>
+    <div class="grid">
+      <main>
+        {spotlight}
+        <div class="sec"><h2>Reliability standings</h2><span class="count">Score</span></div>
+        {rows}
+      </main>
+      <aside class="rail">
+        {rail}
+      </aside>
+    </div>
+    {foot}
   </div>
+  <script>function ttTheme(){{var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='dark'?'':'dark');}}</script>
 </body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")
-    print(f"Wrote {OUT.relative_to(ROOT)}  ({len(board)} journalists"
+    print(f"Wrote {OUT.relative_to(ROOT)}  ({len(board)} reporters"
           f"{', SAMPLE data' if is_sample else ''})")
 
 
