@@ -1,12 +1,12 @@
 name: Update site (ingest -> bridge -> resolve -> rebuild)
 
-# The full live loop. Manual-only for now (workflow_dispatch = a "Run workflow"
-# button in the Actions tab). Enable the daily schedule below only AFTER one clean
-# manual run — see README. Until then a cron could commit from an unverified run.
+# The full live loop. Runs daily on a schedule (enabled after a verified clean
+# manual run) and on-demand via workflow_dispatch (the "Run workflow" button).
+# Safe to run unattended: test gate + secret guard + job timeout all precede any push.
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: '17 6 * * *'   # daily 06:17 UTC — uncomment after first clean manual run
+  schedule:
+    - cron: '17 6 * * *'   # daily 06:17 UTC (off-peak to dodge the top-of-hour cron stampede)
 
 # Least privilege: the job only needs to push the rebuilt site + resolved CSVs.
 permissions:
