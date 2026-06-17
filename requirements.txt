@@ -1,4 +1,8 @@
-# Runtime + test deps for CI (the daily outcomes workflow installs these).
-openai>=1.0      # NVIDIA NIM extraction (outcome/source.py, engine/run.py)
-numpy>=1.26      # ml/deal_predictor.py (imported by the test suite)
-pytest>=8        # test suite — runs before any auto-write so the bot never writes from broken code
+# Runtime + test deps for CI (the daily cron installs these on every run).
+# Upper bounds matter here: this loop runs UNATTENDED, so a surprise major bump
+# (e.g. openai 3.x) must not silently break extraction at 6am with nobody watching.
+# Caps sit below the next major; the known-good set today is openai 2.x / numpy 2.x
+# / pytest 9.x. Dependabot (follow-up) will manage bumps inside these ranges.
+openai>=2,<3     # NVIDIA NIM extraction (outcome/source.py, engine/run.py)
+numpy>=2,<3      # ml/deal_predictor.py (imported by the test suite)
+pytest>=8,<10    # test gate — runs before any auto-write so the bot never writes from broken code

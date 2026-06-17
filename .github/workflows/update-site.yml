@@ -20,6 +20,12 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    # Unattended safety: a hung run (stuck NIM call / hanging feed) must die fast.
+    # With concurrency cancel-in-progress:false, a hang would otherwise sit in the
+    # queue and block every following day's run -- silently killing the cron. A clean
+    # run is ~10 min; 20 gives headroom while capping a true hang well under GitHub's
+    # 6h default.
+    timeout-minutes: 20
     # Job-level so BOTH ingest (engine.run.analyze) and resolve (outcome.source)
     # see the NIM key. Setting it per-step is the easy way to leave ingest keyless.
     env:
