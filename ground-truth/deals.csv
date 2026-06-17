@@ -38,7 +38,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 37,Hugo Ekitike,Eintracht Frankfurt,Newcastle United,2025-summer,collapsed,,2025-07-23,https://www.si.com/soccer/hugo-ekitike-agent-reveals-how-liverpool-hijacked-newcastle-transfer,YES,"Newcastle agreed terms with club + player, then Liverpool hijacked (see deal 3)."
 38,Florian Wirtz,Bayer Leverkusen,Bayern Munich,2025-summer,collapsed,,2025-06-20,https://www.liverpoolfc.com/news/liverpool-agree-signing-florian-wirtz-bayer-leverkusen,YES,Bayern long-linked for months; Wirtz chose Liverpool instead (see deal 2).
 39,Andy Robertson,Liverpool,Tottenham Hotspur,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Andy_Robertson,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | He will leave Liverpool on 30 June 2026, upon the expiry of his contract, and will join Tottenham Hotspur."
-40,Anthony Gordon,Newcastle,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+40,Anthony Gordon,Newcastle,Barcelona,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Anthony_Gordon,auto,[auto] player joined Barcelona - the rumoured destination | He will join La Liga club Barcelona on 1 July 2026.
 41,Beth Mead,Arsenal,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 42,Caroline Weir,Real Madrid,Lyon,2026-summer,collapsed,,2026-06-16,https://en.wikipedia.org/wiki/Caroline_Weir,auto,"[auto] player joined OL Lyonnes, not Lyon - rumour did not happen | On 16 June 2026, French Première Ligue side OL Lyonnes announced the signing of Weir on a free transfer"
 43,Curtis Jones,Liverpool,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -54,7 +54,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 53,Marc Cucurella,Chelsea,Real Madrid,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Marc_Cucurella,auto,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
 54,Marcus Rashford,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 55,Mary Earps,Paris Saint-Germain,London City Lionesses,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-56,Mateus Fernandes,West Ham United,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+56,Mateus Fernandes,West Ham United,Real Madrid,2026-summer,collapsed,,2026-06-17,https://en.wikipedia.org/wiki/Mateus_Fernandes,auto,"[auto] player joined West Ham United, not Real Madrid - rumour did not happen | On 29 August 2025, Fernandes joined Premier League club West Ham United on a five-year contract, for a transfer fee reported to be 'more than £40m'."
 57,Michael Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 58,Niamh Charles,Chelsea,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
