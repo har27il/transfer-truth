@@ -80,6 +80,42 @@ def test_window_is_closed():
     assert source.window_is_closed("unknown-window") is False
 
 
+_DISAMBIG = ("Anthony Gordon may refer to:\n\n"
+             "Tony Gordon (active 2007-2010), fictional character\n"
+             "Anthony Gordon (footballer) (born 2001), English footballer with Newcastle United\n"
+             "Anthony Gordon (American football) (born 1997), quarterback\n")
+
+
+def test_looks_like_disambig():
+    assert source._looks_like_disambig(_DISAMBIG) is True
+    assert source._looks_like_disambig("Anthony Gordon is a footballer who plays for Newcastle.") is False
+    assert source._looks_like_disambig("") is False
+
+
+def test_footballer_titles_prefers_parsed_then_fallback():
+    titles = source._footballer_titles("Anthony Gordon", _DISAMBIG)
+    # the (footballer) entry is preferred over the American-football one, and a
+    # generic fallback is always appended last
+    assert titles[0] == "Anthony Gordon (footballer)"
+    assert titles[-1] == "Anthony Gordon (footballer)" or "Anthony Gordon (footballer)" in titles
+
+
+def test_fetch_follows_disambiguation_to_footballer(monkeypatch):
+    # bare name -> disambig people-list; the footballer title -> the real article.
+    real = "Anthony Gordon is an English footballer. On 29 May 2026 he joined Barcelona."
+    pages = {"Anthony Gordon": _DISAMBIG, "Anthony Gordon (footballer)": real}
+    monkeypatch.setattr(source, "_raw_fetch", lambda title, *a, **k: pages.get(title, ""))
+    assert source.fetch_player_text("Anthony Gordon") == real
+
+
+def test_fetch_returns_empty_when_disambiguation_unresolvable(monkeypatch):
+    # No footballer article exists -> return '' (treated as unclear), never the
+    # people-list, so a name collision can't fabricate an outcome.
+    monkeypatch.setattr(source, "_raw_fetch",
+                        lambda title, *a, **k: _DISAMBIG if title == "Ambiguous Name" else "")
+    assert source.fetch_player_text("Ambiguous Name") == ""
+
+
 @pytest.mark.skipif(os.environ.get("TM_NET_TESTS") != "1",
                     reason="set TM_NET_TESTS=1 to run live Wikipedia fetch")
 def test_live_wikipedia_fetch():

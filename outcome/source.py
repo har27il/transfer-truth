@@ -64,8 +64,8 @@ _MIN_INTERVAL = float(os.environ.get("WIKI_MIN_INTERVAL", "0.6"))
 _last_fetch = [0.0]
 
 
-def fetch_player_text(player, timeout=20, retries=3):
-    """Return the plain-text Wikipedia extract for a player, or '' on miss/error.
+def _raw_fetch(title, timeout=20, retries=3):
+    """One Wikipedia extract fetch for an exact title, or '' on miss/error.
 
     Resilient by design: a network blip or rate-limit (HTTP 429) must never crash a
     batch resolve. We throttle, retry transient errors with backoff, and on persistent
@@ -73,7 +73,7 @@ def fetch_player_text(player, timeout=20, retries=3):
     never fabricate an outcome."""
     q = urllib.parse.urlencode({
         "action": "query", "prop": "extracts", "explaintext": 1,
-        "redirects": 1, "format": "json", "titles": player,
+        "redirects": 1, "format": "json", "titles": title,
     })
     req = urllib.request.Request(WIKI_API + "?" + q, headers={"User-Agent": USER_AGENT})
     for attempt in range(retries):
@@ -100,6 +100,49 @@ def fetch_player_text(player, timeout=20, retries=3):
         page = next(iter(pages.values()))
         return page.get("extract", "") or ""
     return ""  # all retries exhausted
+
+
+def _looks_like_disambig(text):
+    """A bare name (e.g. 'Anthony Gordon') often resolves to a disambiguation page
+    listing several people. Its extract opens with '... may refer to:'. We must NOT
+    feed that people-list to the LLM -- it names clubs and could fabricate an outcome
+    for the wrong person, and the selling-club guard can't catch it (the right club
+    appears on the disambig line)."""
+    return bool(text) and "may refer to" in text[:400].lower()
+
+
+def _footballer_titles(player, disambig_text):
+    """Candidate article titles for the FOOTBALLER from a disambiguation extract.
+
+    A disambig line reads e.g. 'Anthony Gordon (footballer) (born 2001), English
+    footballer ...' -> we want the 'Anthony Gordon (footballer)' title. Returns the
+    parsed candidates first, then a generic '<player> (footballer)' fallback."""
+    titles = []
+    for line in disambig_text.splitlines():
+        if "footballer" in line.lower():
+            m = re.match(r"\s*(.+?\(footballer[^)]*\))", line, re.IGNORECASE)
+            if m and m.group(1).strip() not in titles:
+                titles.append(m.group(1).strip())
+    fallback = f"{player} (footballer)"
+    if fallback not in titles:
+        titles.append(fallback)
+    return titles
+
+
+def fetch_player_text(player, timeout=20, retries=3):
+    """Plain-text Wikipedia extract for a player, or '' on miss/error/disambiguation.
+
+    If the bare name lands on a disambiguation page, follow it to the footballer's
+    article. If no real article is found, return '' (treated as 'unclear') rather than
+    the people-list -- never let a name collision fabricate an outcome."""
+    text = _raw_fetch(player, timeout, retries)
+    if not _looks_like_disambig(text):
+        return text
+    for title in _footballer_titles(player, text):
+        alt = _raw_fetch(title, timeout, retries)
+        if alt and not _looks_like_disambig(alt):
+            return alt
+    return ""  # disambiguation we couldn't resolve -> safer than guessing
 
 
 _SYS = ("You verify football (soccer) transfers from an encyclopedia extract. "
