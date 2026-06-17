@@ -10,6 +10,7 @@ switches to live data automatically once ingestion produces claims.
 
     python site/build_feed.py
 """
+import csv
 import html
 import sys
 from datetime import date, datetime
@@ -23,7 +24,12 @@ import theme
 from ingest import store, cluster, meter
 
 OUT = ROOT / "docs" / "feed.html"
+DEALS = ROOT / "ground-truth" / "deals.csv"
+# The window the live feed covers. Must match ingest.pipeline.DEFAULT_WINDOW so the
+# resolved-deal join lines up (both sides key on cluster.deal_key(player, window)).
+ACTIVE_WINDOW = "2026-summer"
 TIER = {"green": theme.GREEN, "yellow": theme.AMBER, "red": theme.RED}
+_RESOLVED = ("completed", "collapsed")
 
 PAGE_CSS = """
   .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
@@ -49,7 +55,18 @@ PAGE_CSS = """
   .src{background:#f1f4f8;border:1px solid var(--line);border-radius:8px;padding:3px 9px;
        font-size:12.5px;color:#475467}
   .src b{color:var(--ink)}
-  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}}
+  /* Done / confirmed deals: muted, factual, clearly past-tense — the track record. */
+  .done{background:#fbfcfd;border:1px solid var(--line);border-radius:12px;
+        padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;
+        justify-content:space-between;gap:12px}
+  .done .deal{font-size:16px}
+  .done .player{font-weight:700}
+  .done .to{color:#475467;font-weight:600}
+  .done .right{display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .done .when{color:var(--muted);font-size:12.5px}
+  .outcome{border:1px solid;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700}
+  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}
+    .done{flex-direction:column;align-items:flex-start;gap:6px}}
 """
 
 # Illustrative deals for the empty state — rendered through the SAME meter math.
@@ -94,7 +111,7 @@ def _card(m, reliability, feature=False):
         f'<span class="src">{html.escape(s)}'
         + (f' <b>{round(reliability[s]*100)}%</b>' if s in reliability else "")
         + "</span>" for s in m["sources"])
-    flabel = '<div class="flabel">&#128293; Hottest right now</div>' if feature else ""
+    flabel = '<div class="flabel">&#128293; Most contested right now</div>' if feature else ""
     return f"""
       <div class="{'feature' if feature else 'card'}">
         {flabel}
@@ -112,6 +129,48 @@ def _card(m, reliability, feature=False):
       </div>"""
 
 
+def load_resolved(path=DEALS, window=ACTIVE_WINDOW):
+    """Read settled deals for the active window from the outcome ledger (deals.csv).
+
+    Returns (resolved_keys, done_rows):
+      resolved_keys -- accent-folded deal keys to PULL OUT of the live feed, so a deal
+                       that already happened/collapsed stops showing as a live rumour.
+      done_rows     -- the settled deals themselves, newest first, for the Done section.
+    deals.csv is authoritative and survives a rumour aging out of the RSS, so a confirmed
+    deal stays on the page even once it's gone from the live ingest store."""
+    resolved_keys, done = set(), []
+    try:
+        with open(path, newline="", encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if (r.get("window") or "").strip() != window:
+                    continue
+                if (r.get("outcome") or "").strip().lower() not in _RESOLVED:
+                    continue
+                resolved_keys.add(cluster.deal_key(r["player"], window))
+                done.append(r)
+    except FileNotFoundError:
+        return set(), []
+    done.sort(key=lambda r: (r.get("outcome_date") or ""), reverse=True)
+    return resolved_keys, done
+
+
+def _done_card(r):
+    """One settled deal, rendered factually past-tense (no live meter)."""
+    player = html.escape(r.get("player") or "Unknown")
+    completed = (r.get("outcome") or "").strip().lower() == "completed"
+    to_club = html.escape(r.get("to_club") or "")
+    if completed:
+        line = (f'<span class="player">{player}</span><span class="arrow">&rarr;</span>'
+                f'<span class="to">{to_club}</span>')
+        badge = f'<span class="outcome" style="color:{theme.GREEN[0]};border-color:{theme.GREEN[0]}">Done &check;</span>'
+    else:  # collapsed
+        line = f'<span class="player">{player}</span> <span class="arrow">stayed put</span>'
+        badge = f'<span class="outcome" style="color:{theme.RED[0]};border-color:{theme.RED[0]}">Move off</span>'
+    when = html.escape((r.get("outcome_date") or "")[:10])
+    return (f'<div class="done"><div class="deal">{line}</div>'
+            f'<div class="right">{badge}<span class="when">{when}</span></div></div>')
+
+
 def main():
     reliability, _ = meter.load_reliability()
     conn = store.connect()
@@ -120,16 +179,33 @@ def main():
     if is_demo:
         rows = _demo_meters()
 
+    # Split the live feed from the track record: any deal already settled in the outcome
+    # ledger leaves the live meter and moves to the Done section. (Demo state has no real
+    # ledger to join against, so it stays a pure illustrative feed.)
+    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved()
+    if resolved_keys:
+        rows = [m for m in rows if m.get("deal_key") not in resolved_keys]
+
     banner = ('<div class="banner">Showing <b>demo data</b> — live ingestion isn&rsquo;t running '
               'yet (needs an NVIDIA_API_KEY). Numbers are real meter output on placeholder rumours; '
               'the feed switches to live data automatically once ingestion produces claims.</div>'
               ) if is_demo else ""
-    feature = _card(rows[0], reliability, feature=True) if rows else ""
-    rest = "".join(_card(m, reliability) for m in rows[1:])
-    if not rows:
-        feature = '<div class="empty">No live rumours yet.</div>'
+
+    # Hero = the most CONTESTED open deal (sources disagree most, verdict nearest a
+    # coin-flip), not the most certain one — the near-certainties everyone agrees on are
+    # the least interesting. `rows` stays probability-sorted (from meter.meters) for the
+    # list below, so we get "most debated up top, closest-to-done underneath".
+    hero = max(rows, key=lambda m: (m.get("spread", 0.0), m.get("uncertainty", 0.0))) if rows else None
+    feature = _card(hero, reliability, feature=True) if hero else '<div class="empty">No live rumours yet.</div>'
+    rest = "".join(_card(m, reliability) for m in rows if m is not hero)
     more = (f'<div class="secthead"><h2>More deals</h2><h2>Probability</h2></div>{rest}'
             if rest else "")
+
+    done_html = ""
+    if done_rows:
+        cards = "".join(_done_card(r) for r in done_rows)
+        done_html = (f'<div class="secthead"><h2>Done &amp; dusted</h2>'
+                     f'<h2>{len(done_rows)} settled</h2></div>{cards}')
     gen = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     page = f"""{theme.head("Transfer Truth — Live Rumour Feed", PAGE_CSS)}
@@ -147,6 +223,7 @@ def main():
     {banner}
     {feature}
     {more}
+    {done_html}
     <p class="foot"><b>How the meter works.</b> Probability is a reliability-weighted,
       recency-decayed average of each source&rsquo;s claim, plus a corroboration boost when
       independent sources agree. A denial from a trusted source drags it down. Generated {gen}.</p>

@@ -101,6 +101,10 @@ def deal_probability(claims, reliability, pop_weight, today=None):
         "percent": round(prob * 100),
         "label": text,
         "color": color,
+        # Contestedness signals for the feed's "most debated" hero: how far apart the
+        # sources are (spread), and how close the verdict sits to a coin-flip (uncertainty).
+        "spread": round(spread, 3),
+        "uncertainty": round(1 - 2 * abs(prob - 0.5), 3),
         "n_claims": len(claims),
         "n_sources": len({c.get("source_name") for c in claims}),
         "latest_stage": latest.get("stage"),

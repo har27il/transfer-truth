@@ -17,8 +17,13 @@ RESOLUTIONS = json.loads((ROOT / "tests" / "fixtures" / "resolutions.json").read
 
 
 def _deals():
+    """Only the HAND-LABELLED ground truth (verified=YES). Auto-resolved rows
+    (verified=auto) are machine proposals appended by the live loop — they have no
+    hand fixture by design, so iterating them would wrongly fail this gate."""
     with open(DEALS, newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):
+            if (r.get("verified") or "").strip().upper() != "YES":
+                continue
             if r["outcome"].strip().lower() in ("completed", "collapsed"):
                 yield r
 
