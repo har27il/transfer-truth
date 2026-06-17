@@ -1,331 +1,174 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transfer Truth — Live Rumour Feed</title><meta name="description" content="Football journalists ranked by how often their transfer calls come true."><meta name="theme-color" content="#12b76a"><meta property="og:title" content="Transfer Truth — Live Rumour Feed"><meta property="og:description" content="Football journalists ranked by how often their transfer calls come true."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312b76a'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
-  :root{ --bg:#f5f7fa; --surface:#fff; --ink:#0b1220; --muted:#64748b; --line:#e7ebf0;
-         --accent:#12b76a; --accent2:#34d399; --gold:#f59e0b;
-         --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06); }
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transfer Truth — Live Rumour Feed</title><meta name="description" content="Football journalists ranked by how often their transfer calls come true."><meta name="theme-color" content="#FAF6EF"><meta property="og:title" content="Transfer Truth — Live Rumour Feed"><meta property="og:description" content="Football journalists ranked by how often their transfer calls come true."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231F7A4D'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,400&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+  :root{
+    --paper:#FAF6EF; --ink:#16130E; --muted:#5E5746; --hair:#E4DCCB; --surface:#FFFDF9;
+    --denied:#C0392B; --contested:#B5791F; --likely:#1F7A4D;
+    --serif:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --frame:1180px;
+  }
   *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1200px 500px at 50% -10%,#e9fbf2 0%,var(--bg) 55%);
-       color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font:16px/1.55 var(--sans);font-feature-settings:"tnum" 1;
        -webkit-font-smoothing:antialiased;min-height:100vh}
-  .h{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.02em}
+  .h{font-family:var(--serif);letter-spacing:-.02em}
   a{color:inherit}
-  header{position:sticky;top:0;z-index:5;backdrop-filter:saturate(1.4) blur(10px);
-         background:rgba(245,247,250,.78);border-bottom:1px solid var(--line)}
-  .bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px}
-  .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));
-        display:grid;place-items:center;color:#04130c;font-weight:800;box-shadow:0 6px 16px rgba(18,183,106,.35)}
-  .brand{font-weight:700;font-size:18px}.brand span{color:var(--accent)}
-  nav{margin-left:auto;display:flex;gap:6px;background:#eef1f5;padding:4px;border-radius:999px}
-  nav a{padding:7px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none}
-  nav a.on{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
-  .wrap{max-width:880px;margin:0 auto;padding:44px 20px 80px}
-  h1{font-size:46px;line-height:1.04;margin:0 0 12px;font-weight:700}
-  h1 em{font-style:normal;background:linear-gradient(90deg,#0fae63,#34d399);
-        -webkit-background-clip:text;background-clip:text;color:transparent}
-  .lede{color:var(--muted);font-size:18px;max-width:540px;margin:0 0 18px}
+
+  /* sticky mini-nav (shared) */
+  header{position:sticky;top:0;z-index:5;backdrop-filter:saturate(1.2) blur(8px);
+         background:color-mix(in srgb,var(--paper) 88%,transparent);border-bottom:1px solid var(--hair)}
+  .bar{max-width:var(--frame);margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:14px}
+  .mini{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap}
+  nav{margin-left:auto;display:flex;gap:22px;align-items:center}
+  @media(max-width:480px){.bar{gap:10px;padding:10px 16px}nav{gap:14px}}
+  nav a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;
+        padding-bottom:2px;border-bottom:2px solid transparent;white-space:nowrap}
+  nav a.on{color:var(--ink);border-color:var(--likely)}
+  .livedot{width:7px;height:7px;border-radius:50%;background:var(--likely);display:inline-block;
+           margin-right:5px;box-shadow:0 0 0 0 color-mix(in srgb,var(--likely) 50%,transparent);
+           animation:pulse 2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 6px transparent}100%{box-shadow:0 0 0 0 transparent}}
+  .toggle{background:none;border:1px solid var(--hair);color:var(--muted);border-radius:8px;
+          min-height:44px;min-width:44px;padding:0 12px;font:inherit;font-size:12.5px;cursor:pointer;
+          display:inline-flex;align-items:center;gap:6px}
+  .toggle:hover{color:var(--ink);border-color:var(--muted)}
+
+  /* shared content shell + bits the leaderboard still uses */
+  .wrap{max-width:880px;margin:0 auto;padding:40px 24px 80px}
+  h1{font-size:46px;line-height:1.04;margin:0 0 12px;font-weight:600;font-family:var(--serif);letter-spacing:-.025em}
+  h1 em{font-style:italic;color:var(--likely)}
+  .lede{color:var(--muted);font-size:18px;max-width:560px;margin:0 0 18px}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0}
-  .chip{font-size:13px;font-weight:600;color:#0f766e;background:#d8f6e8;border:1px solid #b6ecd3;
-        padding:6px 12px;border-radius:999px}
-  .chip.alt{color:#475467;background:#fff;border-color:var(--line)}
-  /* hero: text column + a strong visual anchor on the right */
+  .chip{font-size:12.5px;font-weight:600;color:var(--ink);background:var(--surface);
+        border:1px solid var(--hair);padding:6px 12px;border-radius:999px}
+  .chip.alt{color:var(--muted)}
   .hero{display:grid;grid-template-columns:1fr 280px;gap:30px;align-items:center;margin:0 0 40px}
   .hero-l{min-width:0}
-  .livedot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;
-           margin-right:6px;box-shadow:0 0 0 0 rgba(18,183,106,.5);animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(18,183,106,.5)}70%{box-shadow:0 0 0 7px rgba(18,183,106,0)}
-                   100%{box-shadow:0 0 0 0 rgba(18,183,106,0)}}
   @media(max-width:720px){.hero{grid-template-columns:1fr;gap:22px}}
-  .banner{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:11px 14px;
-          border-radius:12px;font-size:14px;margin:0 0 24px}
-  .secthead{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 14px}
-  .secthead h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  .banner{background:var(--surface);border:1px solid var(--hair);color:var(--ink);padding:11px 14px;
+          border-radius:10px;font-size:14px;margin:0 0 24px}
+  .secthead{display:flex;align-items:baseline;justify-content:space-between;
+            margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+  .secthead h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);
                margin:0;font-weight:700}
-  .track{height:10px;border-radius:99px;background:#eef1f5;overflow:hidden}
-  .fill{height:100%;border-radius:99px;transform-origin:left;
-        animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
+  .track{height:10px;border-radius:99px;background:var(--hair);overflow:hidden}
+  .fill{height:100%;border-radius:99px;transform-origin:left;animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
   @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  .foot{margin-top:30px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);padding-top:18px}
+  .foot{margin-top:30px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--hair);padding-top:18px}
   .foot b{color:var(--ink)}
   .empty{color:var(--muted);padding:30px 0}
   @media(max-width:640px){h1{font-size:34px}.lede{font-size:16px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
-        padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow);
-        transition:transform .15s ease,box-shadow .15s ease}
-  .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,24,40,.10)}
-  .feature{background:linear-gradient(180deg,#fff,#f3fdf8);border:1px solid #bbf0d6;border-radius:20px;
-           padding:22px 24px;margin-bottom:18px;box-shadow:0 12px 34px rgba(18,183,106,.12)}
-  .flabel{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-          color:var(--accent);margin-bottom:10px}
-  .feature .deal{font-size:24px}
-  .feature .pct{font-size:48px}
-  .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .deal{font-size:19px}
-  .deal .player{font-weight:700}
-  .deal .arrow{color:#94a3b8;margin:0 6px}
-  .deal .to{color:#334155;font-weight:600}
-  .pct{font-family:'Space Grotesk';font-weight:700;font-size:34px;line-height:1}
-  .pct s{font-size:15px;text-decoration:none;opacity:.55}
-  .meta{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin-top:12px}
-  .label{border:1px solid;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700}
-  .srcs{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
-  .src{background:#f1f4f8;border:1px solid var(--line);border-radius:8px;padding:3px 9px;
-       font-size:12.5px;color:#475467}
-  .src b{color:var(--ink)}
-  /* Done / confirmed deals: muted, factual, clearly past-tense — the track record. */
-  .done{background:#fbfcfd;border:1px solid var(--line);border-radius:12px;
-        padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;
-        justify-content:space-between;gap:12px}
-  .done .deal{font-size:16px}
-  .done .player{font-weight:700}
-  .done .to{color:#475467;font-weight:600}
-  .done .right{display:flex;align-items:center;gap:10px;white-space:nowrap}
-  .done .when{color:var(--muted);font-size:12.5px}
-  .outcome{border:1px solid;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700}
-  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}
-    .done{flex-direction:column;align-items:flex-start;gap:6px}}
+  .feed{max-width:var(--frame);margin:0 auto;padding:0 32px}
+  /* nameplate */
+  .feed .nameplate{text-align:center;padding:30px 0 0}
+  .feed .rule{height:0;border-top:1px solid var(--ink)}
+  .feed .rule.thin{border-top:1px solid var(--hair)}
+  .feed .np-name{font-family:var(--serif);font-optical-sizing:auto;font-weight:900;
+                 font-size:clamp(40px,7vw,80px);line-height:.96;letter-spacing:-.03em;margin:14px 0 6px}
+  .feed .np-slogan{font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;
+                   color:var(--muted);margin:0 0 14px}
+  .feed .np-line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
+                 font-size:11.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);padding:9px 0}
+  .feed .np-line .sep{opacity:.4}
+  /* broadsheet grid */
+  .feed .grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0;margin-top:8px}
+  .feed .rail{border-left:1px solid var(--hair);margin-left:40px;padding-left:40px}
+  @media(max-width:900px){.feed .grid{grid-template-columns:1fr}
+    .feed .rail{border-left:0;margin-left:0;padding-left:0;margin-top:24px;border-top:2px solid var(--ink);padding-top:8px}}
+  /* lede story */
+  .feed .lede{padding:34px 0 32px;border-bottom:1px solid var(--hair)}
+  .feed .kicker{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink);
+                margin:0 0 16px;display:flex;align-items:center;gap:10px}
+  .feed .kicker::before{content:"";width:24px;height:2px;background:var(--contested)}
+  .feed .lede h2{font-family:var(--serif);font-optical-sizing:auto;font-weight:600;
+                 font-size:clamp(36px,6vw,68px);line-height:1.0;letter-spacing:-.025em;margin:0 0 16px}
+  .feed .lede h2 .arr{color:var(--muted);font-weight:400}
+  .feed .dek{font-size:18px;color:var(--muted);max-width:54ch;margin:0 0 26px;line-height:1.5}
+  .feed .dek em{font-style:italic;color:var(--ink)}
+  /* the meter: credibility gauge */
+  .feed .meter{display:flex;align-items:center;gap:24px;max-width:600px;flex-wrap:wrap}
+  .feed .readout{flex:none}
+  .feed .readout .pct{display:block;font-weight:600;font-size:50px;letter-spacing:-.02em;line-height:.92;font-variant-numeric:tabular-nums}
+  .feed .readout .pct s{font-size:19px;text-decoration:none;color:var(--muted);font-weight:500}
+  .feed .readout .verdict{display:block;margin-top:6px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink)}
+  .feed .meter .col{flex:1;min-width:180px}
+  .feed .meter .track{position:relative;height:9px;background:var(--hair);border-radius:2px;overflow:hidden}
+  .feed .meter .track .t{position:absolute;top:0;bottom:0;width:1px;background:color-mix(in srgb,var(--paper) 55%,var(--hair))}
+  .feed .meter .fill{height:100%;border-radius:2px;position:relative;z-index:1}
+  .feed .scale{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;
+               text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  .feed .sources{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13.5px;color:var(--muted)}
+  .feed .sources b{color:var(--ink);font-weight:600}
+  /* section heads + data rows */
+  .feed .sec{display:flex;align-items:baseline;justify-content:space-between;margin:32px 0 2px;
+             padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+  .feed .sec h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin:0}
+  .feed .sec .count{font-size:12.5px;color:var(--muted)}
+  .feed .row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:18px;
+             padding:14px 0;border-bottom:1px solid var(--hair)}
+  .feed .row .deal{font-size:17px;font-weight:500}
+  .feed .row .deal .arr{color:var(--muted);margin:0 7px}
+  .feed .row .deal .stage{display:block;font-size:12px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.05em}
+  .feed .row .minimeter{width:130px;height:6px;background:var(--hair);border-radius:2px;overflow:hidden}
+  .feed .row .minimeter .fill{height:100%;border-radius:2px}
+  .feed .row .num{font-weight:600;font-size:18px;min-width:54px;text-align:right;font-variant-numeric:tabular-nums}
+  .feed .row.cold .deal,.feed .row.cold .num{color:var(--muted)}
+  /* rail */
+  .feed .railsec{margin-bottom:32px}
+  .feed .railhead{font-family:var(--serif);font-weight:700;font-size:21px;margin:0 0 3px;letter-spacing:-.01em}
+  .feed .railsub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .feed .stand{display:grid;grid-template-columns:18px 1fr auto;gap:12px;align-items:baseline;
+               padding:11px 0;border-bottom:1px solid var(--hair);font-size:15px}
+  .feed .stand .rk{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px}
+  .feed .stand .who{font-weight:500}
+  .feed .stand .who s{display:block;text-decoration:none;color:var(--muted);font-size:12px;margin-top:1px}
+  .feed .stand .sc{font-weight:600;font-variant-numeric:tabular-nums;color:var(--likely)}
+  .feed .doneitem{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+                  padding:10px 0;border-bottom:1px solid var(--hair);font-size:14.5px}
+  .feed .tick{color:var(--likely);font-weight:600}
+  .feed .stayed{color:var(--denied);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+  .feed .explain{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;
+                 font-size:13.5px;color:var(--muted);line-height:1.6}
+  .feed .explain b{color:var(--ink)}
+  .feed .foot{margin-top:42px}
+  @media(max-width:420px){.feed .row .minimeter{display:none}}
+  /* dark mode — feed page only (leaderboard keeps its light styling until its redesign) */
+  body[data-theme="dark"]{--paper:#141210;--ink:#F2EEE4;--muted:#A99F8B;--hair:#2E2A24;--surface:#1B1814;
+                          --denied:#E0675A;--contested:#E0AE5A;--likely:#4FB07E;}
 </style></head>
 <body>
-  <header><div class="bar"><div class="mark h">&#10003;</div><div class="brand h">Transfer<span>Truth</span></div><nav><a class="" href="index.html">Leaderboard</a><a class="on" href="feed.html"><span class="livedot"></span>Live Feed</a></nav></div></header>
-  <div class="wrap">
-    <h1 class="h">Live <em>rumour feed</em></h1>
-    <p class="lede">Every deal&rsquo;s probability, weighted by how reliable the reporting
-       journalists are — and how recently they said it.</p>
-    <div class="chips">
-      <span class="chip">16 live deals</span>
-      <span class="chip alt">Reliability-weighted</span>
-      <span class="chip alt">Updated live</span>
+  <header><div class="bar"><span class="mini">Transfer Truth</span><nav><a class="" href="index.html">Leaderboard</a><a class="on" href="feed.html"><span class="livedot"></span>Live Feed</a><button class="toggle" type="button" onclick="ttTheme()" aria-label="Toggle dark mode">&#9681;</button></nav></div></header>
+  <div class="feed">
+    <div class="nameplate"><div class="rule"></div><h1 class="np-name">Transfer&nbsp;Truth</h1><p class="np-slogan">The credibility desk for football transfers</p><div class="rule thin"></div><div class="np-line"><span><span class="livedot"></span>Live edition</span><span class="sep">&middot;</span><span>Wed 17 June 2026</span><span class="sep">&middot;</span><span>Summer window</span><span class="sep">&middot;</span><span>11 contested &middot; 5 agreed</span></div><div class="rule"></div></div>
+    
+    <div class="grid">
+      <main>
+        <section class="lede">
+        <p class="kicker">Leading the feed</p>
+        <h2><span>Elliot Anderson</span> <span class="arr">&rarr;</span> Manchester City</h2>
+        <p class="dek">Early days &mdash; 1 source(s) so far, nothing settled.</p>
+        <div class="meter">
+          <div class="readout"><span class="pct" style="color:var(--muted)">25<s>%</s></span>
+            <span class="verdict">Cold</span></div>
+          <div class="col">
+            <div class="track"><span class="t" style="left:25%"></span><span class="t" style="left:50%"></span><span class="t" style="left:75%"></span>
+              <div class="fill" style="width:25%;background:var(--muted)"></div></div>
+            <div class="scale"><span>Denied</span><span>Coin-flip</span><span>Done</span></div>
+          </div>
+        </div>
+        <div class="sources"><span><b>The Guardian</b></span></div>
+      </section>
+        <div class="sec"><h2>Agreed &mdash; here we go</h2><span class="count">5 pending official</span></div><div class="row"><div class="deal">Beth Mead <span class="arr">&rarr;</span> Manchester City<span class="stage">official</span></div><div class="minimeter"><div class="fill" style="width:99%;background:var(--likely)"></div></div><div class="num" style="color:var(--likely)">99%</div></div><div class="row"><div class="deal">Jan Paul van Hecke <span class="arr">&rarr;</span> Tottenham Hotspur<span class="stage">agreement</span></div><div class="minimeter"><div class="fill" style="width:81%;background:var(--likely)"></div></div><div class="num" style="color:var(--likely)">81%</div></div><div class="row"><div class="deal">Éderson <span class="arr">&rarr;</span> Manchester United<span class="stage">agreement</span></div><div class="minimeter"><div class="fill" style="width:80%;background:var(--likely)"></div></div><div class="num" style="color:var(--likely)">80%</div></div><div class="row"><div class="deal">Mary Earps <span class="arr">&rarr;</span> London City Lionesses<span class="stage">agreement</span></div><div class="minimeter"><div class="fill" style="width:80%;background:var(--likely)"></div></div><div class="num" style="color:var(--likely)">80%</div></div><div class="row"><div class="deal">Niamh Charles <span class="arr">&rarr;</span> Manchester City<span class="stage">agreement</span></div><div class="minimeter"><div class="fill" style="width:80%;background:var(--likely)"></div></div><div class="num" style="color:var(--likely)">80%</div></div>
+        <div class="sec"><h2>More deals</h2><span class="count">Probability</span></div><div class="row cold"><div class="deal">Curtis Jones <span class="arr">&rarr;</span> Inter Milan<span class="stage">interest</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Derek McInnes <span class="arr">&rarr;</span> Rangers<span class="stage">rumour link</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Hayden Hackney <span class="arr">&rarr;</span> Everton<span class="stage">interest</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Ibrahima Konaté <span class="arr">&rarr;</span> ?<span class="stage">rumour link</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Luka Vuskovic <span class="arr">&rarr;</span> Brighton<span class="stage">interest</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Michael Olise <span class="arr">&rarr;</span> Real Madrid<span class="stage">rumour link</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Nicolas Raskin <span class="arr">&rarr;</span> Atalanta<span class="stage">interest</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Sandro Tonali <span class="arr">&rarr;</span> Manchester City<span class="stage">interest</span></div><div class="minimeter"><div class="fill" style="width:15%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">15%</div></div><div class="row cold"><div class="deal">Julián Alvarez <span class="arr">&rarr;</span> Real Madrid<span class="stage">denied</span></div><div class="minimeter"><div class="fill" style="width:3%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">2%</div></div><div class="row cold"><div class="deal">Marcus Rashford <span class="arr">&rarr;</span> Barcelona<span class="stage">denied</span></div><div class="minimeter"><div class="fill" style="width:3%;background:var(--muted)"></div></div><div class="num" style="color:var(--muted)">2%</div></div>
+      </main>
+      <aside class="rail">
+        <div class="railsec"><h3 class="railhead">Credibility standings</h3><p class="railsub">Top reporters this window, by how often their calls come true.</p><div class="stand"><span class="rk">1</span><span class="who">David Ornstein<s>5 calls</s></span><span class="sc">83%</span></div><div class="stand"><span class="rk">2</span><span class="who">Sky Sports<s>3 calls</s></span><span class="sc">81%</span></div><div class="stand"><span class="rk">3</span><span class="who">Fabrizio Romano<s>9 calls</s></span><span class="sc">80%</span></div><div class="stand"><span class="rk">4</span><span class="who">BBC Sport<s>2 calls</s></span><span class="sc">80%</span></div><div class="stand"><span class="rk">5</span><span class="who">Football Espana<s>1 calls</s></span><span class="sc">79%</span></div></div>
+        <div class="railsec"><h3 class="railhead">Done &amp; dusted</h3><p class="railsub">Settled this window.</p><div class="doneitem"><span>Anthony Gordon <span style="color:var(--muted)">&rarr; Barcelona</span></span><span class="tick">Done &check;</span></div><div class="doneitem"><span>Mateus Fernandes <span style="color:var(--muted)">stayed put</span></span><span class="stayed">Move off</span></div><div class="doneitem"><span>Barney Stewart <span style="color:var(--muted)">&rarr; West Bromwich Albion</span></span><span class="tick">Done &check;</span></div><div class="doneitem"><span>Bernardo Silva <span style="color:var(--muted)">&rarr; Real Madrid</span></span><span class="tick">Done &check;</span></div><div class="doneitem"><span>Kirsty Hanson <span style="color:var(--muted)">&rarr; Tottenham Hotspur</span></span><span class="tick">Done &check;</span></div><div class="doneitem"><span>Andy Robertson <span style="color:var(--muted)">&rarr; Tottenham Hotspur</span></span><span class="tick">Done &check;</span></div></div>
+        <div class="explain"><b>How the meter works.</b> Each rumour&rsquo;s probability is a reliability-weighted, recency-decayed average of every source&rsquo;s claim, plus a corroboration boost when independent outlets agree. A denial from a trusted name drags it down.</div>
+      </aside>
     </div>
-    
-    
-      <div class="feature">
-        <div class="flabel">&#128293; Most contested right now</div>
-        <div class="top">
-          <div class="deal"><span class="player">Elliot Anderson</span>
-            <span class="arrow">&rarr;</span><span class="to">Manchester City</span></div>
-          <div class="pct" style="color:#ef4444">25<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:25%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Nottingham Forest</span><span>&middot; talks</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-    <div class="secthead"><h2>More deals</h2><h2>Probability</h2></div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Beth Mead</span>
-            <span class="arrow">&rarr;</span><span class="to">Manchester City</span></div>
-          <div class="pct" style="color:#12b76a">99<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:99%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Arsenal</span><span>&middot; official</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Jan Paul van Hecke</span>
-            <span class="arrow">&rarr;</span><span class="to">Tottenham Hotspur</span></div>
-          <div class="pct" style="color:#12b76a">81<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:81%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Brighton</span><span>&middot; agreement</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span><span class="src">Sky Sports <b>81%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Éderson</span>
-            <span class="arrow">&rarr;</span><span class="to">Manchester United</span></div>
-          <div class="pct" style="color:#12b76a">80<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:80%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Atalanta</span><span>&middot; agreement</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Mary Earps</span>
-            <span class="arrow">&rarr;</span><span class="to">London City Lionesses</span></div>
-          <div class="pct" style="color:#12b76a">80<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:80%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Paris Saint-Germain</span><span>&middot; agreement</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Niamh Charles</span>
-            <span class="arrow">&rarr;</span><span class="to">Manchester City</span></div>
-          <div class="pct" style="color:#12b76a">80<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:80%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Chelsea</span><span>&middot; agreement</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Curtis Jones</span>
-            <span class="arrow">&rarr;</span><span class="to">Inter Milan</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Liverpool</span><span>&middot; interest</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Derek McInnes</span>
-            <span class="arrow">&rarr;</span><span class="to">Rangers</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Hearts</span><span>&middot; rumour_link</span>
-        </div>
-        <div class="srcs"><span class="src">Tony Docherty</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Hayden Hackney</span>
-            <span class="arrow">&rarr;</span><span class="to">Everton</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Middlesbrough</span><span>&middot; interest</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Ibrahima Konaté</span>
-            <span class="arrow">&rarr;</span><span class="to">?</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Liverpool</span><span>&middot; rumour_link</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Luka Vuskovic</span>
-            <span class="arrow">&rarr;</span><span class="to">Brighton</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Tottenham Hotspur</span><span>&middot; interest</span>
-        </div>
-        <div class="srcs"><span class="src">Sky Sports <b>81%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Michael Olise</span>
-            <span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Bayern Munich</span><span>&middot; rumour_link</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Nicolas Raskin</span>
-            <span class="arrow">&rarr;</span><span class="to">Atalanta</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Rangers</span><span>&middot; interest</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Sandro Tonali</span>
-            <span class="arrow">&rarr;</span><span class="to">Tottenham Hotspur</span></div>
-          <div class="pct" style="color:#ef4444">15<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from </span><span>&middot; interest</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Julián Alvarez</span>
-            <span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div>
-          <div class="pct" style="color:#ef4444">2<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:2%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Atlético Madrid</span><span>&middot; denied</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Marcus Rashford</span>
-            <span class="arrow">&rarr;</span><span class="to">Barcelona</span></div>
-          <div class="pct" style="color:#ef4444">2<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:2%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from </span><span>&middot; denied</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
-      </div>
-    <div class="secthead"><h2>Done &amp; dusted</h2><h2>9 settled</h2></div><div class="done"><div class="deal"><span class="player">Anthony Gordon</span><span class="arrow">&rarr;</span><span class="to">Barcelona</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-17</span></div></div><div class="done"><div class="deal"><span class="player">Mateus Fernandes</span> <span class="arrow">stayed put</span></div><div class="right"><span class="outcome" style="color:#ef4444;border-color:#ef4444">Move off</span><span class="when">2026-06-17</span></div></div><div class="done"><div class="deal"><span class="player">Barney Stewart</span><span class="arrow">&rarr;</span><span class="to">West Bromwich Albion</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-17</span></div></div><div class="done"><div class="deal"><span class="player">Bernardo Silva</span><span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-17</span></div></div><div class="done"><div class="deal"><span class="player">Kirsty Hanson</span><span class="arrow">&rarr;</span><span class="to">Tottenham Hotspur</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-17</span></div></div><div class="done"><div class="deal"><span class="player">Andy Robertson</span><span class="arrow">&rarr;</span><span class="to">Tottenham Hotspur</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-16</span></div></div><div class="done"><div class="deal"><span class="player">Caroline Weir</span> <span class="arrow">stayed put</span></div><div class="right"><span class="outcome" style="color:#ef4444;border-color:#ef4444">Move off</span><span class="when">2026-06-16</span></div></div><div class="done"><div class="deal"><span class="player">Katie McCabe</span><span class="arrow">&rarr;</span><span class="to">Chelsea</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-16</span></div></div><div class="done"><div class="deal"><span class="player">Marc Cucurella</span><span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-16</span></div></div>
-    <p class="foot"><b>How the meter works.</b> Probability is a reliability-weighted,
-      recency-decayed average of each source&rsquo;s claim, plus a corroboration boost when
-      independent sources agree. A denial from a trusted source drags it down. Generated 2026-06-17 16:49.</p>
+    <p class="foot">Reliability-weighted, recency-decayed. The meter is the only colour on the page. Static file, rebuilt daily. Generated 2026-06-17 21:43.</p>
   </div>
+  <script>function ttTheme(){var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='dark'?'':'dark');}</script>
 </body></html>

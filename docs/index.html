@@ -1,195 +1,226 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transfer Truth — Reliability Leaderboard</title><meta name="description" content="Football journalists ranked by how often their transfer calls come true."><meta name="theme-color" content="#12b76a"><meta property="og:title" content="Transfer Truth — Reliability Leaderboard"><meta property="og:description" content="Football journalists ranked by how often their transfer calls come true."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312b76a'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
-  :root{ --bg:#f5f7fa; --surface:#fff; --ink:#0b1220; --muted:#64748b; --line:#e7ebf0;
-         --accent:#12b76a; --accent2:#34d399; --gold:#f59e0b;
-         --shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06); }
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transfer Truth — Reliability Leaderboard</title><meta name="description" content="Football journalists ranked by how often their transfer calls come true."><meta name="theme-color" content="#FAF6EF"><meta property="og:title" content="Transfer Truth — Reliability Leaderboard"><meta property="og:description" content="Football journalists ranked by how often their transfer calls come true."><meta property="og:type" content="website"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231F7A4D'/%3E%3Cpath d='M9 17l5 5 9-11' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,400&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet"><style>
+  :root{
+    --paper:#FAF6EF; --ink:#16130E; --muted:#5E5746; --hair:#E4DCCB; --surface:#FFFDF9;
+    --denied:#C0392B; --contested:#B5791F; --likely:#1F7A4D;
+    --serif:'Fraunces',Georgia,'Times New Roman',serif;
+    --sans:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --frame:1180px;
+  }
   *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1200px 500px at 50% -10%,#e9fbf2 0%,var(--bg) 55%);
-       color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+  body{margin:0;background:var(--paper);color:var(--ink);
+       font:16px/1.55 var(--sans);font-feature-settings:"tnum" 1;
        -webkit-font-smoothing:antialiased;min-height:100vh}
-  .h{font-family:'Space Grotesk',Inter,sans-serif;letter-spacing:-.02em}
+  .h{font-family:var(--serif);letter-spacing:-.02em}
   a{color:inherit}
-  header{position:sticky;top:0;z-index:5;backdrop-filter:saturate(1.4) blur(10px);
-         background:rgba(245,247,250,.78);border-bottom:1px solid var(--line)}
-  .bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px}
-  .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));
-        display:grid;place-items:center;color:#04130c;font-weight:800;box-shadow:0 6px 16px rgba(18,183,106,.35)}
-  .brand{font-weight:700;font-size:18px}.brand span{color:var(--accent)}
-  nav{margin-left:auto;display:flex;gap:6px;background:#eef1f5;padding:4px;border-radius:999px}
-  nav a{padding:7px 16px;border-radius:999px;font-size:14px;font-weight:600;color:var(--muted);text-decoration:none}
-  nav a.on{background:#fff;color:var(--ink);box-shadow:var(--shadow)}
-  .wrap{max-width:880px;margin:0 auto;padding:44px 20px 80px}
-  h1{font-size:46px;line-height:1.04;margin:0 0 12px;font-weight:700}
-  h1 em{font-style:normal;background:linear-gradient(90deg,#0fae63,#34d399);
-        -webkit-background-clip:text;background-clip:text;color:transparent}
-  .lede{color:var(--muted);font-size:18px;max-width:540px;margin:0 0 18px}
+
+  /* sticky mini-nav (shared) */
+  header{position:sticky;top:0;z-index:5;backdrop-filter:saturate(1.2) blur(8px);
+         background:color-mix(in srgb,var(--paper) 88%,transparent);border-bottom:1px solid var(--hair)}
+  .bar{max-width:var(--frame);margin:0 auto;padding:11px 24px;display:flex;align-items:center;gap:14px}
+  .mini{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap}
+  nav{margin-left:auto;display:flex;gap:22px;align-items:center}
+  @media(max-width:480px){.bar{gap:10px;padding:10px 16px}nav{gap:14px}}
+  nav a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;
+        padding-bottom:2px;border-bottom:2px solid transparent;white-space:nowrap}
+  nav a.on{color:var(--ink);border-color:var(--likely)}
+  .livedot{width:7px;height:7px;border-radius:50%;background:var(--likely);display:inline-block;
+           margin-right:5px;box-shadow:0 0 0 0 color-mix(in srgb,var(--likely) 50%,transparent);
+           animation:pulse 2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 6px transparent}100%{box-shadow:0 0 0 0 transparent}}
+  .toggle{background:none;border:1px solid var(--hair);color:var(--muted);border-radius:8px;
+          min-height:44px;min-width:44px;padding:0 12px;font:inherit;font-size:12.5px;cursor:pointer;
+          display:inline-flex;align-items:center;gap:6px}
+  .toggle:hover{color:var(--ink);border-color:var(--muted)}
+
+  /* shared content shell + bits the leaderboard still uses */
+  .wrap{max-width:880px;margin:0 auto;padding:40px 24px 80px}
+  h1{font-size:46px;line-height:1.04;margin:0 0 12px;font-weight:600;font-family:var(--serif);letter-spacing:-.025em}
+  h1 em{font-style:italic;color:var(--likely)}
+  .lede{color:var(--muted);font-size:18px;max-width:560px;margin:0 0 18px}
   .chips{display:flex;gap:8px;flex-wrap:wrap;margin:0}
-  .chip{font-size:13px;font-weight:600;color:#0f766e;background:#d8f6e8;border:1px solid #b6ecd3;
-        padding:6px 12px;border-radius:999px}
-  .chip.alt{color:#475467;background:#fff;border-color:var(--line)}
-  /* hero: text column + a strong visual anchor on the right */
+  .chip{font-size:12.5px;font-weight:600;color:var(--ink);background:var(--surface);
+        border:1px solid var(--hair);padding:6px 12px;border-radius:999px}
+  .chip.alt{color:var(--muted)}
   .hero{display:grid;grid-template-columns:1fr 280px;gap:30px;align-items:center;margin:0 0 40px}
   .hero-l{min-width:0}
-  .livedot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;
-           margin-right:6px;box-shadow:0 0 0 0 rgba(18,183,106,.5);animation:pulse 1.8s infinite}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(18,183,106,.5)}70%{box-shadow:0 0 0 7px rgba(18,183,106,0)}
-                   100%{box-shadow:0 0 0 0 rgba(18,183,106,0)}}
   @media(max-width:720px){.hero{grid-template-columns:1fr;gap:22px}}
-  .banner{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:11px 14px;
-          border-radius:12px;font-size:14px;margin:0 0 24px}
-  .secthead{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 14px}
-  .secthead h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  .banner{background:var(--surface);border:1px solid var(--hair);color:var(--ink);padding:11px 14px;
+          border-radius:10px;font-size:14px;margin:0 0 24px}
+  .secthead{display:flex;align-items:baseline;justify-content:space-between;
+            margin:0 0 14px;padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+  .secthead h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);
                margin:0;font-weight:700}
-  .track{height:10px;border-radius:99px;background:#eef1f5;overflow:hidden}
-  .fill{height:100%;border-radius:99px;transform-origin:left;
-        animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
+  .track{height:10px;border-radius:99px;background:var(--hair);overflow:hidden}
+  .fill{height:100%;border-radius:99px;transform-origin:left;animation:grow 1s cubic-bezier(.2,.8,.2,1) both}
   @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  .foot{margin-top:30px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);padding-top:18px}
+  .foot{margin-top:30px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--hair);padding-top:18px}
   .foot b{color:var(--ink)}
   .empty{color:var(--muted);padding:30px 0}
   @media(max-width:640px){h1{font-size:34px}.lede{font-size:16px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  .spotlight{background:linear-gradient(180deg,#fff,#f1fcf6);border:1px solid #bbf0d6;border-radius:22px;
-             padding:24px 22px;text-align:center;box-shadow:0 10px 30px rgba(18,183,106,.10)}
-  .sl-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-            color:var(--gold);margin-bottom:12px}
-  .sl-ring{position:relative;width:120px;height:120px;margin:0 auto 14px}
-  .sl-ring svg{display:block}
-  .sl-ring .ring .p{animation:ringgrow 1.1s cubic-bezier(.2,.8,.2,1) both}
-  .sl-score{line-height:1}
-  @keyframes ringgrow{from{stroke-dashoffset:var(--circ)}}
-  .sl-score{position:absolute;inset:0;display:grid;place-items:center;font-family:'Space Grotesk';
-            font-weight:700;font-size:32px;color:var(--ink)}
-  .sl-score s{font-size:14px;text-decoration:none;opacity:.5}
-  .sl-name{font-weight:700;font-size:18px}
-  .sl-sub{color:var(--muted);font-size:13px;margin-top:3px}
-  .row{display:grid;grid-template-columns:46px 1fr 220px 96px;align-items:center;gap:18px;
-       background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 20px;
-       margin-bottom:10px;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
-  .row:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(16,24,40,.10)}
-  .row.r1{border-color:#fde7b3;background:linear-gradient(0deg,#fff,#fffaf0)}
-  .rank{font-family:'Space Grotesk';font-weight:700;font-size:20px;color:var(--muted);text-align:center}
-  .row.r1 .rank,.row.r2 .rank,.row.r3 .rank{color:#fff;border-radius:999px;width:32px;height:32px;
-       display:grid;place-items:center;margin:0 auto;font-size:15px;box-shadow:var(--shadow)}
-  .row.r1 .rank{background:linear-gradient(135deg,#f59e0b,#fbbf24)}
-  .row.r2 .rank{background:linear-gradient(135deg,#94a3b8,#cbd5e1)}
-  .row.r3 .rank{background:linear-gradient(135deg,#c2703a,#e0975a)}
-  .name{font-weight:700;font-size:17px}
-  .sub{color:var(--muted);font-size:13px;margin-top:2px}
-  .score{font-family:'Space Grotesk';font-weight:700;font-size:30px;text-align:right}
-  .score s{font-size:14px;text-decoration:none;opacity:.55}
-  @media(max-width:640px){.row{grid-template-columns:34px 1fr 84px;gap:12px}.track{display:none}}
+  .board{max-width:var(--frame);margin:0 auto;padding:0 32px}
+  /* nameplate (shared visual language with the feed) */
+  .board .nameplate{text-align:center;padding:30px 0 0}
+  .board .rule{height:0;border-top:1px solid var(--ink)}
+  .board .rule.thin{border-top:1px solid var(--hair)}
+  .board .np-name{font-family:var(--serif);font-optical-sizing:auto;font-weight:900;
+                  font-size:clamp(40px,7vw,80px);line-height:.96;letter-spacing:-.03em;margin:14px 0 6px}
+  .board .np-slogan{font-family:var(--serif);font-style:italic;font-weight:400;font-size:17px;
+                    color:var(--muted);margin:0 0 14px}
+  .board .np-line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
+                  font-size:11.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);padding:9px 0}
+  .board .np-line .sep{opacity:.4}
+  /* broadsheet grid */
+  .board .grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0;margin-top:8px}
+  .board .rail{border-left:1px solid var(--hair);margin-left:40px;padding-left:40px}
+  @media(max-width:900px){.board .grid{grid-template-columns:1fr}
+    .board .rail{border-left:0;margin-left:0;padding-left:0;margin-top:24px;border-top:2px solid var(--ink);padding-top:8px}}
+  /* lede spotlight: the top reporter */
+  .board .lede{padding:34px 0 32px;border-bottom:1px solid var(--hair)}
+  .board .kicker{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink);
+                 margin:0 0 16px;display:flex;align-items:center;gap:10px}
+  .board .kicker::before{content:"";width:24px;height:2px;background:var(--likely)}
+  .board .lede h2{font-family:var(--serif);font-optical-sizing:auto;font-weight:600;
+                  font-size:clamp(36px,6vw,68px);line-height:1.0;letter-spacing:-.025em;margin:0 0 16px}
+  .board .dek{font-size:18px;color:var(--muted);max-width:54ch;margin:0 0 26px;line-height:1.5}
+  .board .dek em{font-style:italic;color:var(--ink)}
+  /* the score gauge — green brand thread, reporter semantics (not a deal probability) */
+  .board .meter{display:flex;align-items:center;gap:24px;max-width:600px;flex-wrap:wrap}
+  .board .readout{flex:none}
+  .board .readout .pct{display:block;font-weight:600;font-size:50px;letter-spacing:-.02em;line-height:.92;
+                       color:var(--likely);font-variant-numeric:tabular-nums}
+  .board .readout .pct s{font-size:19px;text-decoration:none;color:var(--muted);font-weight:500}
+  .board .readout .verdict{display:block;margin-top:6px;font-size:12px;font-weight:700;text-transform:uppercase;
+                           letter-spacing:.08em;color:var(--ink)}
+  .board .meter .col{flex:1;min-width:180px}
+  .board .meter .track{position:relative;height:9px;background:var(--hair);border-radius:2px;overflow:hidden}
+  .board .meter .track .t{position:absolute;top:0;bottom:0;width:1px;background:color-mix(in srgb,var(--paper) 55%,var(--hair))}
+  .board .meter .fill{height:100%;border-radius:2px;background:var(--likely)}
+  .board .scale{display:flex;justify-content:space-between;margin-top:8px;font-size:11px;
+                text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+  /* section head + standings rows */
+  .board .sec{display:flex;align-items:baseline;justify-content:space-between;margin:32px 0 2px;
+              padding-bottom:8px;border-bottom:1.5px solid var(--ink)}
+  .board .sec h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin:0}
+  .board .sec .count{font-size:12.5px;color:var(--muted)}
+  .board .brow{display:grid;grid-template-columns:44px 1fr 150px 60px;align-items:center;gap:18px;
+               padding:14px 0;border-bottom:1px solid var(--hair)}
+  .board .brow .rk{font-variant-numeric:tabular-nums;font-size:18px;color:var(--muted);text-align:center}
+  .board .brow.top .rk{color:var(--ink);font-weight:600}
+  .board .brow .nm{font-size:17px;font-weight:500}
+  .board .brow .sub{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .board .brow .minimeter{width:150px;height:6px;background:var(--hair);border-radius:2px;overflow:hidden}
+  .board .brow .minimeter .fill{height:100%;border-radius:2px;background:var(--likely)}
+  .board .brow .sc{font-weight:600;font-size:18px;min-width:54px;text-align:right;
+                   color:var(--likely);font-variant-numeric:tabular-nums}
+  /* rail */
+  .board .railsec{margin-bottom:32px}
+  .board .railhead{font-family:var(--serif);font-weight:700;font-size:21px;margin:0 0 3px;letter-spacing:-.01em}
+  .board .railsub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .board .stat{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+               padding:11px 0;border-bottom:1px solid var(--hair);font-size:15px}
+  .board .stat .v{font-weight:600;font-variant-numeric:tabular-nums}
+  .board .live{display:block;background:var(--surface);border:1px solid var(--hair);border-radius:10px;
+               padding:16px 18px;text-decoration:none;color:inherit}
+  .board .live .t{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+  .board .live p{font-size:13.5px;color:var(--muted);margin:6px 0 0;line-height:1.5}
+  .board .live .go{color:var(--likely);font-weight:600}
+  .board .explain{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;
+                  font-size:13.5px;color:var(--muted);line-height:1.6}
+  .board .explain b{color:var(--ink)}
+  .board .foot{margin-top:42px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--hair);padding-top:18px}
+  .board .foot b{color:var(--ink)}
+  .board .empty{color:var(--muted);padding:30px 0}
+  @media(max-width:640px){.board .brow{grid-template-columns:34px 1fr auto;gap:12px}
+    .board .brow .minimeter{display:none}}
+  /* dark mode — its own block so the approved feed page is never touched */
+  body[data-theme="dark"]{--paper:#141210;--ink:#F2EEE4;--muted:#A99F8B;--hair:#2E2A24;--surface:#1B1814;
+                          --denied:#E0675A;--contested:#E0AE5A;--likely:#4FB07E;}
 </style></head>
 <body>
-  <header><div class="bar"><div class="mark h">&#10003;</div><div class="brand h">Transfer<span>Truth</span></div><nav><a class="on" href="index.html">Leaderboard</a><a class="" href="feed.html"><span class="livedot"></span>Live Feed</a></nav></div></header>
-  <div class="wrap">
-    <div class="hero">
-      <div class="hero-l">
-        <h1 class="h">Who actually <em>calls it right?</em></h1>
-        <p class="lede">Football journalists, ranked by how often their transfer calls come true —
-           scored against real outcomes, not vibes.</p>
-        <div class="chips">
-          <span class="chip">26 resolved claims</span>
-          <span class="chip alt">Brier-scored</span>
-          <span class="chip alt">Pop. avg 78.2%</span>
+  <header><div class="bar"><span class="mini">Transfer Truth</span><nav><a class="on" href="index.html">Leaderboard</a><a class="" href="feed.html"><span class="livedot"></span>Live Feed</a><button class="toggle" type="button" onclick="ttTheme()" aria-label="Toggle dark mode">&#9681;</button></nav></div></header>
+  <div class="board">
+    <div class="nameplate"><div class="rule"></div><h1 class="np-name">Transfer&nbsp;Truth</h1><p class="np-slogan">The credibility desk for football transfers</p><div class="rule thin"></div><div class="np-line"><span>Reliability standings</span><span class="sep">&middot;</span><span>Wed 17 June 2026</span><span class="sep">&middot;</span><span>9 reporters</span><span class="sep">&middot;</span><span>26 resolved calls</span></div><div class="rule"></div></div>
+    
+    <div class="grid">
+      <main>
+        <section class="lede">
+        <p class="kicker">Top of the table</p>
+        <h2>David Ornstein</h2>
+        <p class="dek"><em>David Ornstein</em> tops the desk &mdash; 5 resolved calls graded against what actually happened, 87% landing before the score is shrunk toward the field &middot; broke deals early.</p>
+        <div class="meter">
+          <div class="readout"><span class="pct">83<s>%</s></span>
+            <span class="verdict">Most reliable</span></div>
+          <div class="col">
+            <div class="track"><span class="t" style="left:78.2%"></span>
+              <div class="fill" style="width:83%"></div></div>
+            <div class="scale"><span>Reliability score</span><span>Field avg 78.2%</span></div>
+          </div>
         </div>
+      </section>
+        <div class="sec"><h2>Reliability standings</h2><span class="count">Score</span></div>
+        <div class="brow top">
+        <div class="rk">1</div>
+        <div><div class="nm">David Ornstein</div>
+          <div class="sub">5 resolved calls &middot; raw 87% &middot; +3.0 scoop</div></div>
+        <div class="minimeter"><div class="fill" style="width:83%"></div></div>
+        <div class="sc">83%</div>
+      </div><div class="brow">
+        <div class="rk">2</div>
+        <div><div class="nm">Sky Sports</div>
+          <div class="sub">3 resolved calls &middot; raw 99%</div></div>
+        <div class="minimeter"><div class="fill" style="width:81%"></div></div>
+        <div class="sc">81%</div>
+      </div><div class="brow">
+        <div class="rk">3</div>
+        <div><div class="nm">Fabrizio Romano</div>
+          <div class="sub">9 resolved calls &middot; raw 75% &middot; +3.0 scoop</div></div>
+        <div class="minimeter"><div class="fill" style="width:80%"></div></div>
+        <div class="sc">80%</div>
+      </div><div class="brow">
+        <div class="rk">4</div>
+        <div><div class="nm">BBC Sport</div>
+          <div class="sub">2 resolved calls &middot; raw 94%</div></div>
+        <div class="minimeter"><div class="fill" style="width:80%"></div></div>
+        <div class="sc">80%</div>
+      </div><div class="brow">
+        <div class="rk">5</div>
+        <div><div class="nm">Football Espana</div>
+          <div class="sub">1 resolved calls &middot; raw 100%</div></div>
+        <div class="minimeter"><div class="fill" style="width:79%"></div></div>
+        <div class="sc">79%</div>
+      </div><div class="brow">
+        <div class="rk">6</div>
+        <div><div class="nm">Mark McAdam</div>
+          <div class="sub">1 resolved calls &middot; raw 96%</div></div>
+        <div class="minimeter"><div class="fill" style="width:79%"></div></div>
+        <div class="sc">79%</div>
+      </div><div class="brow">
+        <div class="rk">7</div>
+        <div><div class="nm">Florian Plettenberg</div>
+          <div class="sub">3 resolved calls &middot; raw 66%</div></div>
+        <div class="minimeter"><div class="fill" style="width:77%"></div></div>
+        <div class="sc">77%</div>
+      </div><div class="brow">
+        <div class="rk">8</div>
+        <div><div class="nm">Goal</div>
+          <div class="sub">1 resolved calls &middot; raw 36%</div></div>
+        <div class="minimeter"><div class="fill" style="width:76%"></div></div>
+        <div class="sc">76%</div>
+      </div><div class="brow">
+        <div class="rk">9</div>
+        <div><div class="nm">Julien Laurens</div>
+          <div class="sub">1 resolved calls &middot; raw 15%</div></div>
+        <div class="minimeter"><div class="fill" style="width:75%"></div></div>
+        <div class="sc">75%</div>
       </div>
-      <aside class="spotlight">
-        <div class="sl-label">&#9733; Top of the table</div>
-        <div class="sl-ring"><svg class="ring" viewBox="0 0 120 120" width="120" height="120"><circle cx="60" cy="60" r="54" fill="none" stroke="#e6f4ec" stroke-width="11"/><circle class="p" cx="60" cy="60" r="54" fill="none" stroke="url(#g)" stroke-width="11" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="58.0" style="--circ:339.3px" transform="rotate(-90 60 60)"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#12b76a"/><stop offset="1" stop-color="#34d399"/></linearGradient></defs></svg><div class="sl-score"><span>83<s>%</s></span></div></div>
-        <div class="sl-name">David Ornstein</div>
-        <div class="sl-sub">5 resolved claims</div>
+      </main>
+      <aside class="rail">
+        <div class="railsec"><a class="live" href="feed.html"><span class="t"><span class="livedot"></span>From the live desk</span><p>See these reporters&rsquo; calls play out in real time &mdash; the contested deals, the &ldquo;here we go&rdquo;s, and what&rsquo;s already settled. <span class="go">Open the feed &rarr;</span></p></a></div><div class="railsec"><h3 class="railhead">By the numbers</h3><p class="railsub">This window, across every graded call.</p><div class="stat"><span>Field average</span><span class="v">78.2%</span></div><div class="stat"><span>Resolved calls</span><span class="v">26</span></div><div class="stat"><span>Shrinkage prior K</span><span class="v">20</span></div></div><div class="railsec"><h3 class="railhead">How the score works</h3><p class="railsub">Brier-graded against real outcomes.</p><div class="explain">Every claim is scored against what actually happened: a confident &ldquo;here we go&rdquo; on a deal that <b>collapsed</b> is punished hard; a hedged &ldquo;in talks&rdquo; on the same deal barely dents you. Scores are shrunk toward the field average by sample size (K=20) so a few lucky calls can&rsquo;t top the table, and breaking a deal genuinely early earns a small bonus.</div></div>
       </aside>
     </div>
-    
-    <div class="secthead"><h2>Reliability leaderboard</h2><h2>Accuracy</h2></div>
-    <div class="board">
-      <div class="row r1">
-        <div class="rank">1</div>
-        <div>
-          <div class="name">David Ornstein</div>
-          <div class="sub">5 resolved claims &middot; raw 87% &middot; +3.0 scoop</div>
-        </div>
-        <div class="track"><div class="fill" style="width:82.9%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">83<s>%</s></div>
-      </div>
-      <div class="row r2">
-        <div class="rank">2</div>
-        <div>
-          <div class="name">Sky Sports</div>
-          <div class="sub">3 resolved claims &middot; raw 99%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:80.9%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">81<s>%</s></div>
-      </div>
-      <div class="row r3">
-        <div class="rank">3</div>
-        <div>
-          <div class="name">Fabrizio Romano</div>
-          <div class="sub">9 resolved claims &middot; raw 75% &middot; +3.0 scoop</div>
-        </div>
-        <div class="track"><div class="fill" style="width:80.1%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">80<s>%</s></div>
-      </div>
-      <div class="row">
-        <div class="rank">4</div>
-        <div>
-          <div class="name">BBC Sport</div>
-          <div class="sub">2 resolved claims &middot; raw 94%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:79.7%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">80<s>%</s></div>
-      </div>
-      <div class="row">
-        <div class="rank">5</div>
-        <div>
-          <div class="name">Football Espana</div>
-          <div class="sub">1 resolved claims &middot; raw 100%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:79.3%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">79<s>%</s></div>
-      </div>
-      <div class="row">
-        <div class="rank">6</div>
-        <div>
-          <div class="name">Mark McAdam</div>
-          <div class="sub">1 resolved claims &middot; raw 96%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:79.1%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">79<s>%</s></div>
-      </div>
-      <div class="row">
-        <div class="rank">7</div>
-        <div>
-          <div class="name">Florian Plettenberg</div>
-          <div class="sub">3 resolved claims &middot; raw 66%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:76.6%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">77<s>%</s></div>
-      </div>
-      <div class="row">
-        <div class="rank">8</div>
-        <div>
-          <div class="name">Goal</div>
-          <div class="sub">1 resolved claims &middot; raw 36%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:76.2%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">76<s>%</s></div>
-      </div>
-      <div class="row">
-        <div class="rank">9</div>
-        <div>
-          <div class="name">Julien Laurens</div>
-          <div class="sub">1 resolved claims &middot; raw 15%</div>
-        </div>
-        <div class="track"><div class="fill" style="width:75.2%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="score" style="color:#12b76a">75<s>%</s></div>
-      </div></div>
-    <p class="foot"><b>How the score works.</b> Every claim is graded by a Brier score against
-      what actually happened: saying &ldquo;here we go&rdquo; (99%) on a deal that collapsed is
-      punished hard; &ldquo;in talks&rdquo; (35%) on the same deal barely dents you. Scores are
-      shrunk toward the average by sample size (K=20) so a spammer with a few lucky
-      calls can&rsquo;t top the table, and a small bonus rewards genuinely breaking a deal early.
-      Generated 2026-06-17 16:49. Static file, no backend.</p>
+    <p class="foot"><b>Reliability, made visible.</b> Reporters ranked by how often their transfer calls come true &mdash; scored against real outcomes, not vibes. The score is the only colour on the page. Static file, rebuilt daily. Generated 2026-06-17 21:43.</p>
   </div>
+  <script>function ttTheme(){var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='dark'?'':'dark');}</script>
 </body></html>
