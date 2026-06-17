@@ -59,3 +59,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 58,Niamh Charles,Chelsea,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 60,Nicolas Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+61,Barney Stewart,Falkirk,West Bromwich Albion,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Barney_Stewart,auto,"[auto] player joined West Bromwich Albion - the rumoured destination | On 17 June 2026, Stewart signed for EFL Championship club West Bromwich Albion, signing a four-year contract for an undisclosed fee."
+62,Bernardo Silva,Manchester City,Real Madrid,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Bernardo_Silva,auto,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
+63,Kirsty Hanson,Aston Villa,Tottenham Hotspur,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Kirsty_Hanson,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | Upon her departure from Aston Villa, Tottenham Hotspur announced that Hanson had put pen to paper on a long-term contract with the North London club."
+64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
