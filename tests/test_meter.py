@@ -71,3 +71,22 @@ def test_meters_over_store_sorts_hottest_first():
     rows = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)
     assert [m["player"] for m in rows] == ["Hot Deal", "Cold Deal"]
     assert all("deal_key" in m for m in rows)
+
+
+def test_meters_max_age_drops_stale_deals():
+    """A persisted DB accumulates old claims; max_age_days hides deals whose newest
+    claim is past the display window, so the live feed stays current."""
+    conn = store.connect(":memory:")
+    # fresh deal (today) and a stale one (40 days old)
+    for player, d in [("Fresh Deal", "2025-09-01"), ("Stale Deal", "2025-07-23")]:
+        key = cluster.deal_key(player, "2025-summer")
+        url = f"http://x/{player}"
+        store.add_post(conn, {"url": url, "source": "BBC Sport", "title": "t", "summary": ""})
+        store.add_claim(conn, {"post_url": url, "deal_key": key, "player": player,
+                               "from_club": "A", "to_club": "B", "stage": "talks", "implied_p": 0.8,
+                               "source_name": "BBC Sport", "source_identifiable": 1,
+                               "direction_confidence": 0.9, "fee_eur": None, "claim_date": d})
+    fresh_only = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP, max_age_days=21)
+    assert [m["player"] for m in fresh_only] == ["Fresh Deal"]
+    both = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)  # no filter
+    assert sorted(m["player"] for m in both) == ["Fresh Deal", "Stale Deal"]

@@ -115,13 +115,24 @@ def deal_probability(claims, reliability, pop_weight, today=None):
     }
 
 
-def meters(conn, today=None, reliability=None, pop_weight=None):
-    """Compute a meter for every deal in the ingest store, hottest first."""
+def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None):
+    """Compute a meter for every deal in the ingest store, hottest first.
+
+    max_age_days: when set, drop deals whose NEWEST claim is older than this many days.
+    Once ingest.db is persisted between runs it keeps accumulating claims, so without a
+    display window the feed would slowly fill with dead weeks-old rumours. None = no
+    filter (keeps offline tests and the empty-store demo untouched)."""
     if reliability is None or pop_weight is None:
         reliability, pop_weight = load_reliability()
+    today = today or date.today()
     out = []
     for key in store.deal_keys(conn):
-        m = deal_probability(store.claims_for_deal(conn, key), reliability, pop_weight, today)
+        claims = store.claims_for_deal(conn, key)
+        if max_age_days is not None:
+            dates = [d for d in (_parse_date(c.get("claim_date")) for c in claims) if d]
+            if dates and (today - max(dates)).days > max_age_days:
+                continue  # stale deal: newest claim is past the display window
+        m = deal_probability(claims, reliability, pop_weight, today)
         if m:
             m["deal_key"] = key
             out.append(m)

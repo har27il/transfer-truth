@@ -93,3 +93,32 @@ def test_pipeline_is_idempotent_on_rerun():
     stats2 = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze)
     assert stats2["new"] == 0 and stats2["claims"] == 0   # everything already seen
     assert store.counts(conn) == before                   # no growth
+
+
+def test_pipeline_concurrency_matches_sequential():
+    """Parallel extraction must produce byte-identical results to sequential: same
+    stats, same stored deals. The DB is single-threaded; only the NIM calls fan out."""
+    seq = _conn()
+    s1 = pipeline.run(seq, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
+                      window="2025-summer", concurrency=1)
+    par = _conn()
+    s8 = pipeline.run(par, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
+                      window="2025-summer", concurrency=8)
+    assert s1 == s8
+    assert store.counts(seq) == store.counts(par)
+    key = cluster.deal_key("Alexander Isak", "2025-summer")
+    assert sorted(c["source_name"] for c in store.claims_for_deal(seq, key)) == \
+           sorted(c["source_name"] for c in store.claims_for_deal(par, key))
+
+
+def test_pipeline_concurrency_isolates_a_failing_extraction():
+    """One extraction raising under concurrency is counted and skipped, never aborts."""
+    def _flaky(text):
+        if "Match report" in text:
+            raise RuntimeError("simulated NIM 500")
+        return _fake_analyze(text)
+    conn = _conn()
+    stats = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_flaky,
+                         window="2025-summer", concurrency=4)
+    assert stats.get("extract_err") == 1
+    assert stats["claims"] == 2          # the Isak deal still lands despite the failure

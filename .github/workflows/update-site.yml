@@ -38,7 +38,20 @@ jobs:
       - name: Run tests
         run: pytest -q
 
-      # 1. Pull live RSS, extract structured claims (NIM), cluster by player.
+      # Persist the ingest DB across runs so re-ingestion only extracts NEW headlines
+      # (dedup is on post URL, before the expensive NIM call). The cache holds only
+      # public RSS-derived claims -- never the API key -- so it's a safe artifact.
+      # Keyed per-run so each run saves a fresh snapshot; restore-keys grabs the most
+      # recent previous one.
+      - name: Restore ingest cache
+        uses: actions/cache@v4
+        with:
+          path: ingest/ingest.db
+          key: ingest-db-v1-${{ github.run_id }}
+          restore-keys: |
+            ingest-db-v1-
+
+      # 1. Pull live RSS, extract structured claims (NIM, concurrent), cluster by player.
       - name: Ingest live feeds
         run: python ingest/pipeline.py
 

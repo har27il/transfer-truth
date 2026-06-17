@@ -58,7 +58,14 @@ def _nim_complete(system, user, model=None):
         raise RuntimeError(
             "NVIDIA_API_KEY not set. Get a free key at https://build.nvidia.com, or "
             "pass complete=... in tests.")
-    client = OpenAI(base_url=NIM_BASE, api_key=key)
+    # max_retries: the SDK retries 429/5xx/connection errors with exponential backoff
+    # (respecting Retry-After). This is what makes the ingest pipeline's CONCURRENCY
+    # safe -- parallel calls that hit the free-tier rate limit back off and retry
+    # instead of being dropped as extraction errors. timeout caps a hung call so one
+    # stuck request can't pin a worker forever.
+    client = OpenAI(base_url=NIM_BASE, api_key=key,
+                    max_retries=int(os.environ.get("NIM_MAX_RETRIES", "5")),
+                    timeout=float(os.environ.get("NIM_TIMEOUT", "30")))
     resp = client.chat.completions.create(
         model=model or NIM_MODEL,
         messages=[{"role": "system", "content": system},

@@ -28,6 +28,10 @@ DEALS = ROOT / "ground-truth" / "deals.csv"
 # The window the live feed covers. Must match ingest.pipeline.DEFAULT_WINDOW so the
 # resolved-deal join lines up (both sides key on cluster.deal_key(player, window)).
 ACTIVE_WINDOW = "2026-summer"
+# Only show deals whose newest claim is within this many days. With ingest.db now
+# persisted across runs, this keeps the live feed current instead of accreting
+# weeks-old dead rumours (~1.5x the meter's 14-day half-life).
+DISPLAY_MAX_AGE_DAYS = 21
 TIER = {"green": theme.GREEN, "yellow": theme.AMBER, "red": theme.RED}
 _RESOLVED = ("completed", "collapsed")
 
@@ -174,7 +178,7 @@ def _done_card(r):
 def main():
     reliability, _ = meter.load_reliability()
     conn = store.connect()
-    rows = meter.meters(conn)
+    rows = meter.meters(conn, max_age_days=DISPLAY_MAX_AGE_DAYS)
     is_demo = not rows
     if is_demo:
         rows = _demo_meters()
