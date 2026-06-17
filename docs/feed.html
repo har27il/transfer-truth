@@ -72,7 +72,18 @@
   .src{background:#f1f4f8;border:1px solid var(--line);border-radius:8px;padding:3px 9px;
        font-size:12.5px;color:#475467}
   .src b{color:var(--ink)}
-  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}}
+  /* Done / confirmed deals: muted, factual, clearly past-tense — the track record. */
+  .done{background:#fbfcfd;border:1px solid var(--line);border-radius:12px;
+        padding:12px 16px;margin-bottom:8px;display:flex;align-items:center;
+        justify-content:space-between;gap:12px}
+  .done .deal{font-size:16px}
+  .done .player{font-weight:700}
+  .done .to{color:#475467;font-weight:600}
+  .done .right{display:flex;align-items:center;gap:10px;white-space:nowrap}
+  .done .when{color:var(--muted);font-size:12.5px}
+  .outcome{border:1px solid;border-radius:999px;padding:2px 11px;font-size:12px;font-weight:700}
+  @media(max-width:640px){.deal{font-size:16px}.pct{font-size:28px}
+    .done{flex-direction:column;align-items:flex-start;gap:6px}}
 </style></head>
 <body>
   <header><div class="bar"><div class="mark h">&#10003;</div><div class="brand h">Transfer<span>Truth</span></div><nav><a class="" href="index.html">Leaderboard</a><a class="on" href="feed.html"><span class="livedot"></span>Live Feed</a></nav></div></header>
@@ -81,23 +92,23 @@
     <p class="lede">Every deal&rsquo;s probability, weighted by how reliable the reporting
        journalists are — and how recently they said it.</p>
     <div class="chips">
-      <span class="chip">21 live deals</span>
+      <span class="chip">18 live deals</span>
       <span class="chip alt">Reliability-weighted</span>
       <span class="chip alt">Updated live</span>
     </div>
     
     
       <div class="feature">
-        <div class="flabel">&#128293; Hottest right now</div>
+        <div class="flabel">&#128293; Most contested right now</div>
         <div class="top">
-          <div class="deal"><span class="player">Andy Robertson</span>
-            <span class="arrow">&rarr;</span><span class="to">Tottenham Hotspur</span></div>
-          <div class="pct" style="color:#12b76a">99<s>%</s></div>
+          <div class="deal"><span class="player">Elliot Anderson</span>
+            <span class="arrow">&rarr;</span><span class="to">Manchester City</span></div>
+          <div class="pct" style="color:#ef4444">25<s>%</s></div>
         </div>
-        <div class="track"><div class="fill" style="width:99%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
+        <div class="track"><div class="fill" style="width:25%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
         <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Liverpool</span><span>&middot; official</span>
+          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
+          <span>from Nottingham Forest</span><span>&middot; talks</span>
         </div>
         <div class="srcs"><span class="src">The Guardian</span></div>
       </div>
@@ -115,48 +126,6 @@
           <span>from Arsenal</span><span>&middot; official</span>
         </div>
         <div class="srcs"><span class="src">BBC Sport <b>80%</b></span><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Caroline Weir</span>
-            <span class="arrow">&rarr;</span><span class="to">Lyon</span></div>
-          <div class="pct" style="color:#12b76a">99<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:99%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Real Madrid</span><span>&middot; official</span>
-        </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Katie McCabe</span>
-            <span class="arrow">&rarr;</span><span class="to">Chelsea</span></div>
-          <div class="pct" style="color:#12b76a">99<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:99%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Arsenal</span><span>&middot; official</span>
-        </div>
-        <div class="srcs"><span class="src">Suzanne Wrack</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Marc Cucurella</span>
-            <span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div>
-          <div class="pct" style="color:#12b76a">99<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:99%;background:linear-gradient(90deg,#12b76a,#34d399)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#12b76a;border-color:#12b76a">Likely</span>
-          <span>from Chelsea</span><span>&middot; official</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
       </div>
       <div class="card">
         
@@ -231,34 +200,6 @@
       <div class="card">
         
         <div class="top">
-          <div class="deal"><span class="player">Derek McInnes</span>
-            <span class="arrow">&rarr;</span><span class="to">Rangers</span></div>
-          <div class="pct" style="color:#f59e0b">60<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:60%;background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#f59e0b;border-color:#f59e0b">Possible</span>
-          <span>from Hearts</span><span>&middot; advanced</span>
-        </div>
-        <div class="srcs"><span class="src">Tony Docherty</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
-          <div class="deal"><span class="player">Elliot Anderson</span>
-            <span class="arrow">&rarr;</span><span class="to">Manchester City</span></div>
-          <div class="pct" style="color:#ef4444">25<s>%</s></div>
-        </div>
-        <div class="track"><div class="fill" style="width:25%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
-        <div class="meta">
-          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Nottingham Forest</span><span>&middot; talks</span>
-        </div>
-        <div class="srcs"><span class="src">The Guardian</span></div>
-      </div>
-      <div class="card">
-        
-        <div class="top">
           <div class="deal"><span class="player">Curtis Jones</span>
             <span class="arrow">&rarr;</span><span class="to">Inter Milan</span></div>
           <div class="pct" style="color:#ef4444">15<s>%</s></div>
@@ -269,6 +210,20 @@
           <span>from Liverpool</span><span>&middot; interest</span>
         </div>
         <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
+      </div>
+      <div class="card">
+        
+        <div class="top">
+          <div class="deal"><span class="player">Derek McInnes</span>
+            <span class="arrow">&rarr;</span><span class="to">Rangers</span></div>
+          <div class="pct" style="color:#ef4444">15<s>%</s></div>
+        </div>
+        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
+        <div class="meta">
+          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
+          <span>from Hearts</span><span>&middot; rumour_link</span>
+        </div>
+        <div class="srcs"><span class="src">Tony Docherty</span></div>
       </div>
       <div class="card">
         
@@ -316,15 +271,15 @@
         
         <div class="top">
           <div class="deal"><span class="player">Mateus Fernandes</span>
-            <span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div>
+            <span class="arrow">&rarr;</span><span class="to">Manchester United</span></div>
           <div class="pct" style="color:#ef4444">15<s>%</s></div>
         </div>
         <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
         <div class="meta">
           <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from </span><span>&middot; interest</span>
+          <span>from West Ham</span><span>&middot; interest</span>
         </div>
-        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span><span class="src">The Guardian</span></div>
+        <div class="srcs"><span class="src">The Guardian</span></div>
       </div>
       <div class="card">
         
@@ -336,9 +291,23 @@
         <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
         <div class="meta">
           <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Bayern Munich</span><span>&middot; interest</span>
+          <span>from Bayern Munich</span><span>&middot; rumour_link</span>
         </div>
         <div class="srcs"><span class="src">The Guardian</span></div>
+      </div>
+      <div class="card">
+        
+        <div class="top">
+          <div class="deal"><span class="player">Nicolas Raskin</span>
+            <span class="arrow">&rarr;</span><span class="to">Atalanta</span></div>
+          <div class="pct" style="color:#ef4444">15<s>%</s></div>
+        </div>
+        <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
+        <div class="meta">
+          <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
+          <span>from Rangers</span><span>&middot; interest</span>
+        </div>
+        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
       </div>
       <div class="card">
         
@@ -350,9 +319,9 @@
         <div class="track"><div class="fill" style="width:15%;background:linear-gradient(90deg,#ef4444,#f87171)"></div></div>
         <div class="meta">
           <span class="label" style="color:#ef4444;border-color:#ef4444">Cold</span>
-          <span>from Newcastle</span><span>&middot; interest</span>
+          <span>from </span><span>&middot; interest</span>
         </div>
-        <div class="srcs"><span class="src">Sky Sports <b>81%</b></span></div>
+        <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
       </div>
       <div class="card">
         
@@ -382,8 +351,9 @@
         </div>
         <div class="srcs"><span class="src">BBC Sport <b>80%</b></span></div>
       </div>
+    <div class="secthead"><h2>Done &amp; dusted</h2><h2>4 settled</h2></div><div class="done"><div class="deal"><span class="player">Andy Robertson</span><span class="arrow">&rarr;</span><span class="to">Tottenham Hotspur</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-16</span></div></div><div class="done"><div class="deal"><span class="player">Caroline Weir</span> <span class="arrow">stayed put</span></div><div class="right"><span class="outcome" style="color:#ef4444;border-color:#ef4444">Move off</span><span class="when">2026-06-16</span></div></div><div class="done"><div class="deal"><span class="player">Katie McCabe</span><span class="arrow">&rarr;</span><span class="to">Chelsea</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-16</span></div></div><div class="done"><div class="deal"><span class="player">Marc Cucurella</span><span class="arrow">&rarr;</span><span class="to">Real Madrid</span></div><div class="right"><span class="outcome" style="color:#12b76a;border-color:#12b76a">Done &check;</span><span class="when">2026-06-16</span></div></div>
     <p class="foot"><b>How the meter works.</b> Probability is a reliability-weighted,
       recency-decayed average of each source&rsquo;s claim, plus a corroboration boost when
-      independent sources agree. A denial from a trusted source drags it down. Generated 2026-06-16 20:17.</p>
+      independent sources agree. A denial from a trusted source drags it down. Generated 2026-06-17 07:13.</p>
   </div>
 </body></html>
