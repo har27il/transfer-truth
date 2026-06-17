@@ -195,15 +195,35 @@ def main():
               'the feed switches to live data automatically once ingestion produces claims.</div>'
               ) if is_demo else ""
 
+    # Split the near-certainties out of the live view. "Agreed (here we go)" = deals the
+    # reporting all but confirms (agreed terms / medical / reported official) and sources
+    # broadly agree on, but our positive-evidence ledger hasn't verified yet. Pulling them
+    # out stops 80-99% deals from clogging the live feed next to cold rumours.
+    agreed_rows, live_rows = [], []
+    for m in rows:
+        (agreed_rows if meter.classify_tier(m) == "agreed" else live_rows).append(m)
+
     # Hero = the most CONTESTED open deal (sources disagree most, verdict nearest a
-    # coin-flip), not the most certain one — the near-certainties everyone agrees on are
-    # the least interesting. `rows` stays probability-sorted (from meter.meters) for the
-    # list below, so we get "most debated up top, closest-to-done underneath".
-    hero = max(rows, key=lambda m: (m.get("spread", 0.0), m.get("uncertainty", 0.0))) if rows else None
-    feature = _card(hero, reliability, feature=True) if hero else '<div class="empty">No live rumours yet.</div>'
-    rest = "".join(_card(m, reliability) for m in rows if m is not hero)
+    # coin-flip), chosen from LIVE deals only — picked AFTER the agreed near-certainties
+    # are pulled out, so a 99%-everyone-agrees deal can never win "most contested".
+    # `live_rows` stays probability-sorted (from meter.meters) for the list below.
+    hero = max(live_rows, key=lambda m: (m.get("spread", 0.0), m.get("uncertainty", 0.0))) if live_rows else None
+    if hero:
+        feature = _card(hero, reliability, feature=True)
+    elif not agreed_rows:
+        feature = '<div class="empty">No live rumours yet.</div>'
+    else:
+        feature = ""   # nothing genuinely contested, but agreed deals show below
+    rest = "".join(_card(m, reliability) for m in live_rows if m is not hero)
     more = (f'<div class="secthead"><h2>More deals</h2><h2>Probability</h2></div>{rest}'
             if rest else "")
+
+    # Agreed bucket: same card, distinct header (cheap on purpose — frontend rethink next).
+    agreed_html = ""
+    if agreed_rows:
+        cards = "".join(_card(m, reliability) for m in agreed_rows)
+        agreed_html = (f'<div class="secthead"><h2>Agreed &mdash; here we go</h2>'
+                       f'<h2>{len(agreed_rows)} pending official</h2></div>{cards}')
 
     done_html = ""
     if done_rows:
@@ -220,12 +240,14 @@ def main():
     <p class="lede">Every deal&rsquo;s probability, weighted by how reliable the reporting
        journalists are — and how recently they said it.</p>
     <div class="chips">
-      <span class="chip">{len(rows)} live deals</span>
+      <span class="chip">{len(live_rows)} live deals</span>
+      {f'<span class="chip">{len(agreed_rows)} agreed</span>' if agreed_rows else ''}
       <span class="chip alt">Reliability-weighted</span>
       <span class="chip alt">Updated live</span>
     </div>
     {banner}
     {feature}
+    {agreed_html}
     {more}
     {done_html}
     <p class="foot"><b>How the meter works.</b> Probability is a reliability-weighted,
@@ -235,7 +257,8 @@ def main():
 </body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")
-    print(f"Wrote {OUT.relative_to(ROOT)}  ({len(rows)} deals{', DEMO' if is_demo else ''})")
+    print(f"Wrote {OUT.relative_to(ROOT)}  ({len(live_rows)} live + {len(agreed_rows)} agreed"
+          f"{', DEMO' if is_demo else ''})")
 
 
 if __name__ == "__main__":

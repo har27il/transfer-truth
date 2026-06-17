@@ -73,6 +73,44 @@ def test_meters_over_store_sorts_hottest_first():
     assert all("deal_key" in m for m in rows)
 
 
+def _m(stage, prob, spread):
+    return {"latest_stage": stage, "probability": prob, "spread": spread}
+
+
+def test_classify_tier_agreed_needs_stage_low_spread_and_high_prob():
+    # here-we-go / agreed-terms where sources broadly agree -> the Agreed bucket
+    assert meter.classify_tier(_m("agreement", 0.85, 0.10)) == "agreed"
+    assert meter.classify_tier(_m("here_we_go", 0.99, 0.05)) == "agreed"
+    assert meter.classify_tier(_m("official", 0.99, 0.19)) == "agreed"   # Isak-like spread
+
+
+def test_classify_tier_contested_stays_live_despite_agreement_stage():
+    """The trap: recency decay floats a fresh 'agreement' over an older denial to a high
+    prob, but the deal is DISPUTED (wide spread). It must NOT get an Agreed badge."""
+    assert meter.classify_tier(_m("agreement", 0.78, 0.97)) == "live"   # Guehi-like spread
+
+
+def test_classify_tier_early_and_cold_deals_stay_live():
+    assert meter.classify_tier(_m("talks", 0.25, 0.0)) == "live"
+    assert meter.classify_tier(_m("interest", 0.15, 0.0)) == "live"
+    assert meter.classify_tier(_m("agreement", 0.45, 0.05)) == "live"   # below the prob floor
+
+
+def test_classify_tier_matches_real_meter_math_on_demo_archetypes():
+    """Validate the spread cut against actual deal_probability output (not hand-set dicts):
+    Isak (all sources commit) lands 'agreed'; Guehi (a credible denial) stays 'live'."""
+    isak = meter.deal_probability(
+        [_claim(0.99, "Fabrizio Romano", stage="here_we_go"),
+         _claim(0.99, "Sky Sports", stage="official"),
+         _claim(0.80, "BBC Sport", stage="agreement")], REL, POP, TODAY)
+    guehi = meter.deal_probability(
+        [_claim(0.99, "Fabrizio Romano", stage="here_we_go"),
+         _claim(0.02, "BBC Sport", stage="denied"),
+         _claim(0.35, "Sky Sports", stage="talks")], REL, POP, TODAY)
+    assert meter.classify_tier(isak) == "agreed"
+    assert meter.classify_tier(guehi) == "live"
+
+
 def test_meters_max_age_drops_stale_deals():
     """A persisted DB accumulates old claims; max_age_days hides deals whose newest
     claim is past the display window, so the live feed stays current."""

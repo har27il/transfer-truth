@@ -34,6 +34,18 @@ HALFLIFE_DAYS = 14          # a claim's weight halves every two weeks
 MAX_CORRO_BOOST = 0.15      # cap on the independent-corroboration nudge
 DEFAULT_POP_WEIGHT = 0.75   # fallback prior if no leaderboard exists yet
 
+# "Agreed (here we go)" tier: a deal the reporting all but confirms (agreed terms /
+# medical / reported official) but that our positive-evidence ledger (deals.csv) hasn't
+# verified yet. These near-certainties otherwise clog the live view at 80-99% next to
+# cold rumours, so we split them into their own bucket.
+AGREED_STAGES = frozenset({"agreement", "here_we_go", "medical", "official"})
+AGREED_MAX_SPREAD = 0.4     # sources must broadly AGREE. Spread is the real gate, not
+                            # stage+prob: recency decay can float a fresh 'agreement' over
+                            # an older denial to ~78%, but that deal is DISPUTED (wide
+                            # spread) and must stay 'live' -- it hasn't earned an Agreed badge.
+AGREED_MIN_PROB = 0.6       # soft backstop only; live deals gap 25%->80%, so anything in
+                            # 0.5-0.78 is equivalent today and the spread gate does the work.
+
 
 def load_reliability(path=LEADERBOARD):
     """Return (source -> weight in 0..1, population_weight). Empty if no leaderboard."""
@@ -113,6 +125,24 @@ def deal_probability(claims, reliability, pop_weight, today=None):
         "from_club": latest.get("from_club"),
         "sources": sorted({c.get("source_name") for c in claims if c.get("source_name")}),
     }
+
+
+def classify_tier(m):
+    """Partition a live meter into "agreed" vs "live" for the feed's three-way split.
+
+      "agreed" -- here-we-go / agreed-terms / reported-official AND sources broadly agree
+                  (low spread) AND high probability. Near-certain but NOT yet confirmed in
+                  our positive-evidence ledger; "done bar the paperwork".
+      "live"   -- everything still genuinely in play: contested, cold, or early-stage.
+
+    `latest_stage` is a proxy for the deal's strongest current commitment. Stages rarely
+    de-escalate except on collapse, and a collapse spikes spread / drops prob -- both of
+    which the gates below catch -- so the proxy is safe without a max-stage-across-claims pass.
+    (Deals already settled in deals.csv are removed upstream in build_feed, before this.)"""
+    return ("agreed" if (m.get("latest_stage") in AGREED_STAGES
+                         and m.get("probability", 0.0) >= AGREED_MIN_PROB
+                         and m.get("spread", 1.0) <= AGREED_MAX_SPREAD)
+            else "live")
 
 
 def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None):
