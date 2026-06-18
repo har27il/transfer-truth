@@ -35,10 +35,13 @@ jobs:
     # run is ~10 min; 20 gives headroom while capping a true hang well under GitHub's
     # 6h default.
     timeout-minutes: 20
-    # Job-level so BOTH ingest (engine.run.analyze) and resolve (outcome.source)
-    # see the NIM key. Setting it per-step is the easy way to leave ingest keyless.
-    env:
-      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+    # Least privilege: the NIM key is scoped per-step (only Ingest + Resolve call NIM),
+    # NOT job-level -- so checkout / setup-python / pip install / pytest / cache never
+    # carry it in their environment. This is hygiene, not the load-bearing control:
+    # the real protection is the trigger surface above (schedule + workflow_dispatch
+    # only, no pull_request), so no untrusted code ever runs in this job to read it.
+    # If you add a NIM-calling step, give THAT step the env block too -- both keyed
+    # steps below throw loudly without it (engine/run.py:59, outcome/source.py:200).
     steps:
       - uses: actions/checkout@v4
 
@@ -69,6 +72,8 @@ jobs:
       # 1. Pull live RSS, extract structured claims (NIM, concurrent), cluster by player.
       - name: Ingest live feeds
         run: python ingest/pipeline.py
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
 
       # 2. Turn new player clusters into proposed deals.csv rows (verified=auto).
       - name: Bridge clusters to deals
@@ -77,6 +82,8 @@ jobs:
       # 3. Resolve any 'unknown' deals whose window has closed (positive-evidence only).
       - name: Resolve outcomes
         run: python outcome/apply.py
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
 
       # 4. Rebuild both static pages: leaderboard (scored) + live feed (current snapshot).
       - name: Rebuild site
