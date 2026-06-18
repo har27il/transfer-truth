@@ -63,3 +63,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 62,Bernardo Silva,Manchester City,Real Madrid,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Bernardo_Silva,auto,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
 63,Kirsty Hanson,Aston Villa,Tottenham Hotspur,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Kirsty_Hanson,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | Upon her departure from Aston Villa, Tottenham Hotspur announced that Hanson had put pen to paper on a long-term contract with the North London club."
 64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+65,Munoz,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+66,Victor Munoz,Osasuna,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
