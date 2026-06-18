@@ -46,7 +46,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 46,Elliot Anderson,Nottingham Forest,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 47,Hayden Hackney,Middlesbrough,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 48,Ibrahima Konaté,Liverpool,Real Madrid,2026-summer,completed,,2026-06-18,https://en.wikipedia.org/wiki/Ibrahima_Konaté,auto,"[auto] player left Liverpool, joined Real Madrid (no destination was rumoured) | On 18 June 2026, Konate signed for La Liga club Real Madrid on a four-year contract."
-49,Jan Paul van Hecke,Brighton,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+49,Jan Paul van Hecke,Brighton,Tottenham Hotspur,2026-summer,completed,,2026-06-18,https://en.wikipedia.org/wiki/Jan_Paul_van_Hecke,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 18 June 2026, Van Hecke moved to fellow Premier League side Tottenham Hotspur on a long-term contract"
 50,João Palhinha,Bayern Munich,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 51,Julián Alvarez,Atlético Madrid,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 52,Katie McCabe,Arsenal,Chelsea,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Katie_McCabe,auto,"[auto] player joined Chelsea - the rumoured destination | On 1 June 2026, it was announced that McCabe had signed a three-year contract with Chelsea"
