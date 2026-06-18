@@ -25,6 +25,7 @@ sys.path.insert(0, str(ROOT / "site"))
 
 import theme
 from ingest import store, cluster, meter
+from ingest.exclude import is_known_non_player
 
 OUT = ROOT / "docs" / "feed.html"
 DEALS = ROOT / "ground-truth" / "deals.csv"
@@ -304,6 +305,11 @@ def main():
     reliability, _ = meter.load_reliability()
     conn = store.connect()
     rows = meter.meters(conn, max_age_days=DISPLAY_MAX_AGE_DAYS)
+    # The live feed reads clusters straight from the store, so a confirmed non-player
+    # cached before the ingest filter existed (e.g. Derek McInnes) would still surface
+    # here even though bridge keeps him out of deals.csv. Drop denylisted names so the
+    # feed and the deal ledger agree.
+    rows = [m for m in rows if not is_known_non_player(m.get("player"))]
     is_demo = not rows
     if is_demo:
         rows = _demo_meters()
