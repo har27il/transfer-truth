@@ -5,7 +5,17 @@ marks the post seen, so dropping a genuine player transfer is unrecoverable.
 Recall is best-effort and we assert the known gap honestly (an unmarked women's
 transfer reads like a men's one and is NOT caught).
 """
-from ingest.exclude import is_non_player
+from ingest.exclude import is_non_player, is_known_non_player
+
+
+def test_known_non_player_denylist():
+    """Backstop for confirmed managers the text filter can't catch from a headline
+    (e.g. 'McInnes leaves Hearts for Rangers' names no role). Matched by name,
+    accent/case-insensitive."""
+    assert is_known_non_player("Derek McInnes")
+    assert is_known_non_player("derek mcinnes")     # case-insensitive
+    assert not is_known_non_player("Alexander Isak")
+    assert not is_known_non_player("")
 
 
 # --- managers / coaching staff: MUST be excluded ---------------------------------

@@ -127,6 +127,30 @@ def test_manager_cluster_is_filtered_not_bridged(tmp_path):
     assert _read_deals(p) == []                 # nothing written
 
 
+def test_known_non_player_denylist_blocks_bridge(tmp_path):
+    """Backstop: a confirmed manager on the denylist is excluded even when the cached
+    post text carries NO appointment keyword ('McInnes leaves Hearts for Rangers').
+    This is the case that resurrected McInnes from the store after the text filter
+    alone missed his headline."""
+    p = tmp_path / "deals.csv"
+    _write_deals(p, [])
+    conn = store.connect(":memory:")
+    key = cluster.deal_key("Derek McInnes", WIN)
+    store.add_post(conn, {"url": "http://post/mci2", "source": "BBC Sport",
+                          "title": "McInnes leaves Hearts for Rangers",   # no role word
+                          "summary": "The Scot is on his way to Ibrox.", "published": ""})
+    store.add_claim(conn, {
+        "post_url": "http://post/mci2", "deal_key": key, "player": "Derek McInnes",
+        "from_club": "Heart of Midlothian", "to_club": "Rangers", "stage": "talks",
+        "implied_p": 0.6, "source_name": "BBC Sport", "source_identifiable": 1,
+        "direction_confidence": 0.9, "fee_eur": None, "claim_date": "2025-08-01",
+    })
+
+    stats = bridge.bridge(conn, deals_path=p)
+    assert not stats["created"] and key in stats["excluded"]
+    assert _read_deals(p) == []
+
+
 def test_atomic_write_leaves_deals_intact_on_crash(tmp_path, monkeypatch):
     p = tmp_path / "deals.csv"
     _write_deals(p, [])

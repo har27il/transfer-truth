@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from ingest import store, cluster
-from ingest.exclude import is_non_player
+from ingest.exclude import is_non_player, is_known_non_player
 from outcome.apply import DEALS, load_deals, write_atomic
 
 
@@ -90,7 +90,11 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
         claims = store.claims_for_deal(conn, key)
         if not claims:
             continue
-        if _cluster_excluded(conn, claims):
+        player = _provisional(claims, "player")
+        # Two gates: a curated denylist (confirmed managers the text filter can't
+        # catch, e.g. McInnes) and the headline text filter (general manager/women
+        # signal). Either one keeps a non-player out of the deal ledger for good.
+        if is_known_non_player(player) or _cluster_excluded(conn, claims):
             excluded.append(key)            # manager / women's item -> never a player deal
             continue
         window = key.split("|", 1)[1] if "|" in key else ""
@@ -98,7 +102,7 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
         row = {fn: "" for fn in fieldnames}
         row.update({
             "deal_id": str(next_id),
-            "player": _provisional(claims, "player"),
+            "player": player,
             "from_club": _provisional(claims, "from_club"),
             "to_club": _provisional(claims, "to_club"),
             "window": window,

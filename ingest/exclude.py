@@ -26,6 +26,29 @@ distinguishing token, so this catches the EXPLICIT cases (the word "Women",
 guarantee. See tests/test_exclude.py -- the false-positive cases are the gate.
 """
 import re
+import unicodedata
+
+# Confirmed non-players the TEXT filter cannot catch from a headline alone. A
+# manager transfer ("Derek McInnes to Rangers") is structurally identical to a
+# player transfer in the extracted fields, and not every appointment headline says
+# "manager"/"appoint" (e.g. "McInnes leaves Hearts for Rangers"). When such a name
+# slips the text filter and surfaces as a deal, add it here: a small curated
+# backstop, checked by normalized name at bridge time. Keys are pre-normalized.
+_KNOWN_NON_PLAYERS = {
+    "derek mcinnes",   # Rangers manager, not a player (surfaced 2026-summer)
+}
+
+
+def _norm_name(name):
+    s = unicodedata.normalize("NFKD", name or "").encode("ascii", "ignore").decode().lower()
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", s)).strip()
+
+
+def is_known_non_player(name):
+    """True if `name` is a curated, confirmed non-player (manager/coach) the text
+    filter can't reliably catch. Normalized, accent-insensitive match."""
+    return _norm_name(name) in _KNOWN_NON_PLAYERS
+
 
 # Manager / coaching staff. The signal is an APPOINTMENT, not the bare word
 # "manager" -- that word is everywhere in real transfer copy ("Arsenal manager
