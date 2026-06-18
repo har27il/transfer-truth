@@ -6,7 +6,16 @@ name: Update site (ingest -> bridge -> resolve -> rebuild)
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 6 * * *'   # daily 06:17 UTC (off-peak to dodge the top-of-hour cron stampede)
+    # GitHub's schedule trigger is BEST-EFFORT: under load it delays runs by up to a
+    # few hours and sometimes DROPS them entirely. A single daily cron therefore can't
+    # be trusted to actually fire. We fan out across three windows hours apart so a
+    # correlated drop on one window is unlikely to take all three. This is safe to do
+    # because the job is IDEMPOTENT -- "Commit on change" only pushes when data actually
+    # changed, and the concurrency group below serialises overlapping runs -- so the
+    # extra windows simply no-op (warm ingest ~1s, dedup bounds NIM) when nothing's new.
+    - cron: '17 6 * * *'    # 06:17 UTC (primary; off the top-of-hour cron stampede)
+    - cron: '17 11 * * *'   # 11:17 UTC (backup if the morning window is dropped)
+    - cron: '17 16 * * *'   # 16:17 UTC (final backup)
 
 # Least privilege: the job only needs to push the rebuilt site + resolved CSVs.
 permissions:
