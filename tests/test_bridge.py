@@ -103,6 +103,30 @@ def test_provisional_to_club_is_most_common(tmp_path):
     assert _read_deals(p)[0]["to_club"] == "Chelsea"
 
 
+def test_manager_cluster_is_filtered_not_bridged(tmp_path):
+    """A manager appointment sitting in the store (e.g. Derek McInnes, cached before
+    the exclusion filter existed) must NOT become a player deal. Bridge checks the
+    raw post text behind the cluster and skips it."""
+    p = tmp_path / "deals.csv"
+    _write_deals(p, [])
+    conn = store.connect(":memory:")
+    key = cluster.deal_key("Derek McInnes", WIN)
+    store.add_post(conn, {"url": "http://post/mcinnes", "source": "BBC Sport",
+                          "title": "Rangers appoint Derek McInnes as manager",
+                          "summary": "The former Aberdeen boss takes the dugout.", "published": ""})
+    store.add_claim(conn, {
+        "post_url": "http://post/mcinnes", "deal_key": key, "player": "Derek McInnes",
+        "from_club": "Hearts", "to_club": "Rangers", "stage": "talks", "implied_p": 0.5,
+        "source_name": "BBC Sport", "source_identifiable": 1, "direction_confidence": 0.9,
+        "fee_eur": None, "claim_date": "2025-08-01",
+    })
+
+    stats = bridge.bridge(conn, deals_path=p)
+    assert not stats["created"]
+    assert key in stats["excluded"]
+    assert _read_deals(p) == []                 # nothing written
+
+
 def test_atomic_write_leaves_deals_intact_on_crash(tmp_path, monkeypatch):
     p = tmp_path / "deals.csv"
     _write_deals(p, [])

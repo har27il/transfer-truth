@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from ingest import store, cluster, sources
+from ingest.exclude import is_non_player
 
 DEFAULT_WINDOW = "2026-summer"
 MIN_CONFIDENCE = 0.5   # drop vague extractions before they pollute a deal
@@ -66,7 +67,7 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
         from engine.run import analyze as analyze_fn  # deferred: needs NIM key
     if concurrency is None:
         concurrency = DEFAULT_CONCURRENCY
-    stats = {"fetched": 0, "dup": 0, "new": 0, "non_transfer": 0,
+    stats = {"fetched": 0, "dup": 0, "new": 0, "excluded": 0, "non_transfer": 0,
              "low_conf": 0, "no_player": 0, "claims": 0}
 
     # Phase 1 - dedup (sequential SQLite). Already-seen URLs are skipped HERE, before
@@ -77,6 +78,13 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
         stats["fetched"] += 1
         if not store.add_post(conn, post):
             stats["dup"] += 1
+            continue
+        # Drop manager appointments + women's-football items BEFORE the NIM call, so
+        # they never cost a token and never become a deal. The post stays marked seen
+        # (add_post above), so a later run won't re-extract it.
+        excluded, _why = is_non_player(" ".join(filter(None, [post.get("title"), post.get("summary")])))
+        if excluded:
+            stats["excluded"] += 1
             continue
         stats["new"] += 1
         new_posts.append(post)
@@ -130,6 +138,6 @@ if __name__ == "__main__":
     print("Ingesting live feeds (needs NVIDIA_API_KEY for extraction)...")
     s = run(conn)
     print(f"  fetched={s['fetched']} new={s['new']} dup={s['dup']} "
-          f"claims={s['claims']} (non-transfer={s['non_transfer']}, "
-          f"low-conf={s['low_conf']})")
+          f"claims={s['claims']} (excluded={s['excluded']}, "
+          f"non-transfer={s['non_transfer']}, low-conf={s['low_conf']})")
     print("  store:", store.counts(conn))

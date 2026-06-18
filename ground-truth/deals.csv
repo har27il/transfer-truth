@@ -42,11 +42,10 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 41,Beth Mead,Arsenal,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 42,Caroline Weir,Real Madrid,Lyon,2026-summer,collapsed,,2026-06-16,https://en.wikipedia.org/wiki/Caroline_Weir,auto,"[auto] player joined OL Lyonnes, not Lyon - rumour did not happen | On 16 June 2026, French Première Ligue side OL Lyonnes announced the signing of Weir on a free transfer"
 43,Curtis Jones,Liverpool,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-44,Derek McInnes,Hearts,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 45,Éderson,Atalanta,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 46,Elliot Anderson,Nottingham Forest,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 47,Hayden Hackney,Middlesbrough,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-48,Ibrahima Konaté,Liverpool,,2026-summer,collapsed,,2026-06-18,https://en.wikipedia.org/wiki/Ibrahima_Konaté,auto,"[auto] player joined Real Madrid, not  - rumour did not happen | On 18 June 2026, Konate signed for La Liga club Real Madrid on a four-year contract."
+48,Ibrahima Konaté,Liverpool,Real Madrid,2026-summer,completed,,2026-06-18,https://en.wikipedia.org/wiki/Ibrahima_Konaté,auto,"[auto] player left Liverpool, joined Real Madrid (no destination was rumoured) | On 18 June 2026, Konate signed for La Liga club Real Madrid on a four-year contract."
 49,Jan Paul van Hecke,Brighton,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 50,João Palhinha,Bayern Munich,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 51,Julián Alvarez,Atlético Madrid,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional

@@ -124,6 +124,20 @@ def classify(deal, resolution):
         if not joined:
             # claims a move but names no club -> not positive evidence
             return UNKNOWN, "status=moved but no destination club given"
+        if same_club(joined, from_club):
+            # 'moved' but the named club IS the origin = a renewal/stay, not a transfer.
+            # Refuse to decide rather than mislabel (D-safety: when in doubt, UNKNOWN).
+            return UNKNOWN, f"reported moved but joined {joined} = origin club {from_club}"
+        if not (to_club or "").strip():
+            # The rumour named NO destination -- a pure DEPARTURE claim ("X to leave
+            # from_club"). The player demonstrably left (joined another club), so the
+            # rumour came true: positive evidence of a completed exit.
+            #
+            #   WITHOUT this branch, same_club(joined, "") is False and a real
+            #   departure fell through to COLLAPSED below -- the Ibrahima Konate bug
+            #   (signed for Real Madrid, but to_club was blank, so we said "did not
+            #   happen" and the feed rendered "stayed put").
+            return COMPLETED, f"player left {from_club}, joined {joined} (no destination was rumoured)"
         if same_club(joined, to_club):
             return COMPLETED, f"player joined {joined} - the rumoured destination"
         return COLLAPSED, f"player joined {joined}, not {to_club} - rumour did not happen"

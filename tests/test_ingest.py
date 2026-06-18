@@ -67,11 +67,38 @@ def _fake_analyze(text):
     return {**base, "player": "Alexander Isak"}                             # the "here we go"
 
 
+def test_pipeline_excludes_non_player_items_before_extraction():
+    """Manager + women's items are dropped BEFORE the analyzer runs: they never
+    become claims, and the injected analyzer is never even called on them -- which is
+    the proof that excluded posts cost zero NIM tokens."""
+    seen = []
+
+    def feed():
+        s = "BBC Sport"
+        return [
+            {"url": "m", "source": s, "title": "Rangers appoint Derek McInnes as manager", "summary": "", "published": ""},
+            {"url": "w", "source": s, "title": "Arsenal Women sign a striker from Chelsea", "summary": "", "published": ""},
+            {"url": "p", "source": s, "title": "Isak to Liverpool here we go", "summary": "", "published": ""},
+        ]
+
+    def analyze(text):
+        seen.append(text)
+        return {"is_transfer_claim": True, "player": "Alexander Isak", "from_club": "Newcastle United",
+                "to_club": "Liverpool", "stage": "here_we_go", "implied_p": 0.99, "source_name": None,
+                "source_identifiable": False, "direction_confidence": 0.95, "fee_eur": None}
+
+    conn = _conn()
+    stats = pipeline.run(conn, sources_fn=feed, analyze_fn=analyze, window="2025-summer")
+    assert stats["excluded"] == 2
+    assert stats["claims"] == 1
+    assert len(seen) == 1 and "Isak" in seen[0]   # analyzer ran ONLY on the real transfer
+
+
 def test_pipeline_dedups_filters_and_clusters():
     conn = _conn()
     stats = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
                          window="2025-summer")
-    assert stats == {"fetched": 6, "dup": 1, "new": 5, "non_transfer": 1,
+    assert stats == {"fetched": 6, "dup": 1, "new": 5, "excluded": 0, "non_transfer": 1,
                      "low_conf": 1, "no_player": 1, "claims": 2}
 
     c = store.counts(conn)

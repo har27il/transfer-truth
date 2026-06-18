@@ -74,6 +74,12 @@ def resolve_unknowns(rows, resolver=_default_resolver):
         outcome, reason = classify(r, res)
         if outcome not in RESOLVED:
             continue  # D-safety: never write an unresolved outcome
+        # A blank-destination departure that completes (player left, no club was
+        # rumoured) has no to_club to display. Record the club Wikipedia confirms he
+        # joined so the feed can render "-> Real Madrid" instead of "-> ?". Still
+        # positive-evidence-only: we only write the destination the resolver verified.
+        if outcome == COMPLETED and not (r.get("to_club") or "").strip() and res.get("joined_club"):
+            r["to_club"] = res["joined_club"]
         r["outcome"] = outcome
         r["verified"] = "auto"
         r["outcome_date"] = date.today().isoformat()

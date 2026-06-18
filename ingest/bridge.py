@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from ingest import store, cluster
+from ingest.exclude import is_non_player
 from outcome.apply import DEALS, load_deals, write_atomic
 
 
@@ -40,6 +41,24 @@ def _provisional(claims, field):
         if v in winners:
             return v
     return next(iter(winners))
+
+
+def _cluster_excluded(conn, claims):
+    """True if this cluster's source posts look like a non-player item (manager /
+    women's football). Defence in depth behind the pipeline pre-filter: a claim
+    already sitting in the store from before the filter existed (e.g. the Derek
+    McInnes manager appointment) must not resurrect as a deal. Checks the raw post
+    text behind each claim; excludes if ANY source post matches (a player+window
+    cluster is single-subject, so one manager post means the whole cluster is one)."""
+    for c in claims:
+        post = conn.execute("SELECT title, summary FROM posts WHERE url = ?",
+                            (c.get("post_url"),)).fetchone()
+        if not post:
+            continue
+        excluded, _why = is_non_player(" ".join(filter(None, [post["title"], post["summary"]])))
+        if excluded:
+            return True
+    return False
 
 
 def _existing_keys(rows):
@@ -63,13 +82,16 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
     existing = _existing_keys(rows)
     next_id = _next_id(rows)
 
-    created, attached = [], []
+    created, attached, excluded = [], [], []
     for key in store.deal_keys(conn):
         if key in existing:
             attached.append(key)            # already a deal (curated or previously bridged)
             continue
         claims = store.claims_for_deal(conn, key)
         if not claims:
+            continue
+        if _cluster_excluded(conn, claims):
+            excluded.append(key)            # manager / women's item -> never a player deal
             continue
         window = key.split("|", 1)[1] if "|" in key else ""
         next_id += 1
@@ -90,18 +112,20 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
 
     if created and not dry_run:
         write_atomic(deals_path, fieldnames, rows)
-    return {"created": created, "attached": attached}
+    return {"created": created, "attached": attached, "excluded": excluded}
 
 
 def _print(stats, dry_run):
+    excluded = len(stats.get("excluded", []))
+    excl_note = f" {excluded} non-player cluster(s) filtered (manager/women)." if excluded else ""
     if not stats["created"]:
-        print(f"No new deals. {len(stats['attached'])} cluster(s) already represented.")
+        print(f"No new deals. {len(stats['attached'])} cluster(s) already represented.{excl_note}")
         return
     print(f"{'Would create' if dry_run else 'Created'} {len(stats['created'])} proposed deal(s) "
           f"(outcome=unknown, verified=auto):")
     for r in stats["created"]:
         print(f"  deal {r['deal_id']}: {r['player']} -> {r['to_club'] or '?'} ({r['window']})")
-    print(f"{len(stats['attached'])} cluster(s) attached to existing deals.")
+    print(f"{len(stats['attached'])} cluster(s) attached to existing deals.{excl_note}")
     if dry_run:
         print("\n--dry-run: deals.csv NOT modified.")
 

@@ -74,6 +74,29 @@ def test_moved_elsewhere_is_collapse():
     assert classify(deal, {"status": "moved", "joined_club": "Liverpool"})[0] == COLLAPSED
 
 
+def test_blank_destination_departure_completes():
+    """The Ibrahima Konate bug: a rumour that named NO destination (just 'leaving
+    Liverpool'). He moved to Real Madrid, so the departure happened -> COMPLETED,
+    NOT collapsed. Before the fix, same_club('Real Madrid', '') was False and this
+    fell through to 'rumour did not happen'."""
+    deal = {"to_club": "", "from_club": "Liverpool"}
+    outcome, reason = classify(deal, {"status": "moved", "joined_club": "Real Madrid"})
+    assert outcome == COMPLETED
+    assert "Real Madrid" in reason and "Liverpool" in reason
+    # also when the field is missing entirely, not just empty-string
+    assert classify({"from_club": "Liverpool"},
+                    {"status": "moved", "joined_club": "Real Madrid"})[0] == COMPLETED
+
+
+def test_moved_to_origin_club_is_not_a_transfer():
+    """'moved' but the named club IS the origin = renewal/stay. Refuse to call it a
+    completed transfer (D-safety: when contradictory, stay UNKNOWN)."""
+    deal = {"to_club": "", "from_club": "Liverpool"}
+    assert classify(deal, {"status": "moved", "joined_club": "Liverpool"})[0] == UNKNOWN
+    assert classify({"to_club": "Real Madrid", "from_club": "Liverpool"},
+                    {"status": "moved", "joined_club": "Liverpool FC"})[0] == UNKNOWN
+
+
 def test_same_club_normalization():
     assert same_club("Newcastle", "Newcastle United")
     assert same_club("Spurs", "Tottenham Hotspur")

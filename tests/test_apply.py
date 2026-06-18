@@ -58,6 +58,20 @@ def test_resolves_unknowns_but_leaves_resolved_and_ambiguous(tmp_path):
     assert rows["5"]["verified"] == ""          # not re-stamped
 
 
+def test_blank_destination_completion_records_joined_club(tmp_path):
+    """The Konate case: a deal with NO rumoured destination resolves COMPLETED. The
+    resolver knows which club he joined, so apply records it into to_club -- otherwise
+    the feed renders '-> ?'. Positive-evidence-only: only the verified club is written."""
+    p = tmp_path / "deals.csv"
+    _write(p, [_row("1", "Departed Player", "Liverpool", "")])   # to_club blank
+    resolver = lambda row: {"status": "moved", "joined_club": "Real Madrid", "window_closed": True}
+    changes = apply_mod.apply(p, resolver=resolver, dry_run=False, rebuild=False)
+    assert len(changes) == 1
+    row = _read(p)[0]
+    assert row["outcome"] == "completed"
+    assert row["to_club"] == "Real Madrid"      # filled from positive evidence for display
+
+
 def test_idempotent_second_run_changes_nothing(tmp_path):
     p = tmp_path / "deals.csv"
     _write(p, [_row("1", "Stayer", "A", "Liverpool")])
