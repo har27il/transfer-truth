@@ -16,7 +16,7 @@ import csv
 import html
 import json
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -346,9 +346,12 @@ def main():
 
     toggle = ('<button class="toggle" type="button" onclick="ttTheme()" '
               'aria-label="Toggle dark mode">&#9681;</button>')
-    gen = datetime.now().strftime("%Y-%m-%d %H:%M")
+    # UTC-explicit: stamp the zone so the footer never reads an hour "off" against a
+    # local clock (the build runs on a UTC runner; this also stays correct for any
+    # local rebuild in a non-UTC timezone).
+    gen = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     foot = (f'<p class="foot">Reliability-weighted, recency-decayed. The meter is the only colour on the page. '
-            f'Static file, rebuilt daily. Generated {gen}.</p>')
+            f'Static file, rebuilt daily. Generated {gen} UTC.</p>')
 
     page = f"""{theme.head("Transfer Truth — Live Rumour Feed", PAGE_CSS)}
 <body>

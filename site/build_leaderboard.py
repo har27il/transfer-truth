@@ -20,7 +20,7 @@ Re-run after each scoring pass:
 import html
 import json
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -213,10 +213,13 @@ def main():
 
     toggle = ('<button class="toggle" type="button" onclick="ttTheme()" '
               'aria-label="Toggle dark mode">&#9681;</button>')
-    gen = datetime.now().strftime("%Y-%m-%d %H:%M")
+    # UTC-explicit: the build runs on a UTC GitHub runner, but stamp the zone so the
+    # footer never reads an hour "off" against a local clock (and stays correct if a
+    # local rebuild ever happens in a non-UTC timezone).
+    gen = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     foot = (f'<p class="foot"><b>Reliability, made visible.</b> Reporters ranked by how often their '
             f'transfer calls come true &mdash; scored against real outcomes, not vibes. The score is the '
-            f'only colour on the page. Static file, rebuilt daily. Generated {gen}.</p>')
+            f'only colour on the page. Static file, rebuilt daily. Generated {gen} UTC.</p>')
 
     page = f"""{theme.head("Transfer Truth — Reliability Leaderboard", PAGE_CSS)}
 <body>
