@@ -17,6 +17,14 @@ HONEST LIMITS:
   - `fee_eur` is intentionally NOT a feature: collapsed deals have blank fees, so
     using it would be target leakage (the model would cheat). Don't add it back.
 
+PROMOTION GATE (before this ever touches the live site / scores):
+  1. >= ~150 featurizable verified deals (claim-bearing, verified=YES).
+  2. BEATS the live meter.py heuristic on out-of-sample Brier (printed below) --
+     beating coin-flip is not enough when a hand-tuned heuristic already ships.
+  3. Calibrated (predicted P matches realized frequency).
+  Until all three hold, meter.py (probability) + score.py (Brier reliability) stay
+  the single source of truth. This script is a diagnostic, never wired into the cron.
+
 Usage:
     python ml/deal_predictor.py [path/to/journalist_claims.csv]
 Default claims file: ground-truth/journalist_claims.sample.csv
@@ -35,6 +43,7 @@ CLAIMS = Path(_POS[0]) if _POS else ROOT / "ground-truth" / "journalist_claims.s
 sys.path.insert(0, str(ROOT))
 from stagemap import STAGE_P    # shared stage -> implied-probability map (single source of truth)
 from ground_truth import load_outcomes as _load_trusted  # don't train on unverified auto labels
+from ingest import meter        # the LIVE hand-tuned heuristic -- the baseline the model must beat
 
 FEATURES = ["n_claims", "n_sources", "max_p", "mean_p", "denied_flag"]
 
@@ -45,7 +54,10 @@ def load_outcomes():
 
 
 def build_dataset(outcomes):
-    """One feature row per deal that has at least one usable claim."""
+    """One feature row per deal that has at least one usable claim.
+
+    Also returns claims_by_deal (meter-shaped claim dicts) so the incumbent
+    meter.py heuristic can be scored on the SAME deals -- see meter_baseline()."""
     claims_by_deal = {}
     with open(CLAIMS, newline="", encoding="utf-8") as f:
         for r in csv.DictReader(f):
@@ -53,21 +65,41 @@ def build_dataset(outcomes):
             stage = (r.get("stage") or "").strip().lower()
             src = (r.get("source_name") or "").strip()
             if did in outcomes and stage in STAGE_P and src:
-                claims_by_deal.setdefault(did, []).append((src, STAGE_P[stage], stage))
+                claims_by_deal.setdefault(did, []).append({
+                    "source_name": src, "implied_p": STAGE_P[stage], "stage": stage,
+                    "claim_date": (r.get("claim_date") or "").strip(),
+                })
 
     rows, labels, ids = [], [], []
     for did, cs in claims_by_deal.items():
-        ps = [p for _, p, _ in cs]
+        ps = [c["implied_p"] for c in cs]
         rows.append([
-            len(cs),                                   # n_claims
-            len({s for s, _, _ in cs}),                # n_sources (distinct)
-            max(ps),                                   # strongest claim
-            sum(ps) / len(ps),                         # average claim strength
-            1.0 if any(st == "denied" for _, _, st in cs) else 0.0,
+            len(cs),                                       # n_claims
+            len({c["source_name"] for c in cs}),           # n_sources (distinct)
+            max(ps),                                        # strongest claim
+            sum(ps) / len(ps),                              # average claim strength
+            1.0 if any(c["stage"] == "denied" for c in cs) else 0.0,
         ])
         labels.append(outcomes[did])
         ids.append(did)
-    return np.array(rows, dtype=float), np.array(labels, dtype=float), ids
+    return np.array(rows, dtype=float), np.array(labels, dtype=float), ids, claims_by_deal
+
+
+def meter_baseline(claims_by_deal, ids):
+    """Incumbent baseline: the LIVE meter.py probability per deal, UNTRAINED.
+
+    The model must beat THIS on out-of-sample Brier to earn its place -- beating a
+    coin-flip (majority class) is meaningless when a hand-tuned heuristic already
+    ships. The meter is a fixed function (no learned params), so its in-sample ==
+    out-of-sample; comparing it to the model's LOOCV is fair. (It does read source
+    reliability from leaderboard.json, fit on these same outcomes, so the baseline
+    is if anything slightly FLATTERED -- i.e. a conservative, harder bar to clear.)"""
+    reliability, pop = meter.load_reliability()
+    preds = []
+    for did in ids:
+        m = meter.deal_probability(claims_by_deal[did], reliability, pop)
+        preds.append(m["probability"] if m else 0.5)
+    return np.array(preds, dtype=float)
 
 
 def sigmoid(z):
@@ -109,7 +141,7 @@ def loocv(X, y):
 
 def main():
     outcomes = load_outcomes()
-    X, y, ids = build_dataset(outcomes)
+    X, y, ids, claims_by_deal = build_dataset(outcomes)
     if len(y) < 6:
         print(f"Only {len(y)} featurizable deals (need claims with a stage). "
               f"Add more rows to {CLAIMS.name} before this means anything.")
@@ -130,6 +162,27 @@ def main():
     print(f"  Brier    : {brier:5.3f}   (lower is better; 0.25 = coin flip)")
     print(f"  log-loss : {logloss:5.3f}\n")
 
+    # --- Incumbent baseline: the live meter.py heuristic on the SAME deals ---
+    # The real bar is not coin-flip, it's the hand-tuned probability already shipping.
+    mp = meter_baseline(claims_by_deal, ids)
+    m_brier = np.mean((mp - y) ** 2)
+    m_acc = np.mean((mp >= 0.5) == (y == 1))
+    m_logloss = -np.mean(y * np.log(mp + eps) + (1 - y) * np.log(1 - mp + eps))
+    print("Incumbent baseline - live meter.py heuristic (untrained = already out-of-sample):")
+    print(f"  accuracy : {m_acc:5.1%}")
+    print(f"  Brier    : {m_brier:5.3f}")
+    print(f"  log-loss : {m_logloss:5.3f}\n")
+
+    beats = brier < m_brier
+    margin = m_brier - brier
+    print(f"VERDICT: learned model {'BEATS' if beats else 'does NOT beat'} the meter on "
+          f"out-of-sample Brier ({brier:.3f} vs {m_brier:.3f}, {'+' if margin>=0 else ''}{margin:.3f}, n={len(y)}).")
+    print("  Promotion gate (all three required before ML goes near the live site):")
+    print(f"    1. >= ~150 featurizable verified deals   -> have {len(y)}")
+    print(f"    2. beats meter.py on out-of-sample Brier  -> {'PASS' if beats else 'FAIL'}")
+    print( "    3. calibrated (pred P ~ realized freq)    -> not yet measured")
+    print("  Until all three hold, meter.py + score.py stay the source of truth.\n")
+
     # --- Final model on all data, for coefficients + per-deal probabilities ---
     mu, sd = standardize_fit(X)
     w = train((X - mu) / sd, y)
@@ -148,6 +201,8 @@ def main():
     out = ROOT / "ml" / "deal_predictions.json"
     out.write_text(json.dumps({
         "n_deals": len(y), "loocv": {"accuracy": acc, "brier": brier, "logloss": logloss},
+        "baseline_meter": {"accuracy": m_acc, "brier": m_brier, "logloss": m_logloss},
+        "beats_meter": bool(beats),
         "weights": {"bias": w[0], **dict(zip(FEATURES, w[1:].tolist()))},
         "predictions": [{"deal_id": d, "p_completes": float(p), "outcome": int(a)}
                         for d, p, a in ranked],

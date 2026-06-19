@@ -19,7 +19,7 @@ happens. Learning side project.
 - **`outcome/`** — resolves whether a rumoured deal completed or collapsed (`source.py` fetch + `detect.py` decision, positive-evidence only). `apply.py` writes results back atomically.
 - **`ground_truth.py`** — single trusted-outcome gate: auto-resolved rows (`verified=auto`) are *proposed* and don't score until a human promotes them to `verified=YES`.
 - **`scoring/score.py`** — Journalist Truth Score (Brier vs real outcomes, sample-size shrinkage, earliness bonus).
-- **`ml/deal_predictor.py`** — numpy logistic-regression experiment (honest scaffold, not trusted yet).
+- **`ml/deal_predictor.py`** — numpy logistic-regression experiment (honest scaffold, not trusted yet). Dormant: not in the cron/feed/scoring. It self-benchmarks against the live `meter.py` heuristic and prints a 3-condition **promotion gate** (≥~150 deals + beats meter on out-of-sample Brier + calibrated) that must pass before it could ever go live.
 - **`site/build_leaderboard.py`** — renders `docs/index.html` (served by GitHub Pages from `/docs`).
 
 ## Run it
