@@ -8,7 +8,7 @@ with the raw rumor text as the `user` message. Designed to be model-agnostic
 never claim to be one.
 
 > NOTE ON NAMING: The agent's public-facing name is `{{AGENT_NAME}}` (default:
-> "The TM Analyst"). Do not ship output that impersonates or is branded as a real
+> "Verity"). Do not ship output that impersonates or is branded as a real
 > journalist. Change the one placeholder below if you rebrand.
 
 ---

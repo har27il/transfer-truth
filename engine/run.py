@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PROMPT_FILE = ROOT / "engine" / "transfer-analyst-system-prompt.md"
-AGENT_NAME = os.environ.get("TM_AGENT_NAME", "The TM Analyst")
+AGENT_NAME = os.environ.get("TM_AGENT_NAME", "Verity")
 
 NIM_BASE = os.environ.get("NIM_BASE_URL", "https://integrate.api.nvidia.com/v1")
 NIM_MODEL = os.environ.get("NIM_MODEL", "meta/llama-3.3-70b-instruct")
