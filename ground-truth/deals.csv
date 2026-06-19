@@ -55,7 +55,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 55,Mary Earps,Paris Saint-Germain,London City Lionesses,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 56,Mateus Fernandes,West Ham United,Real Madrid,2026-summer,collapsed,,2026-06-17,https://en.wikipedia.org/wiki/Mateus_Fernandes,auto,"[auto] player joined West Ham United, not Real Madrid - rumour did not happen | On 29 August 2025, Fernandes joined Premier League club West Ham United on a five-year contract, for a transfer fee reported to be 'more than £40m'."
 57,Michael Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-58,Niamh Charles,Chelsea,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+58,Niamh Charles,Chelsea,Manchester City,2026-summer,completed,,2026-06-19,https://en.wikipedia.org/wiki/Niamh_Charles,auto,"[auto] player joined Manchester City - the rumoured destination | In June 2026, newly-crowned champions Manchester City moved to sign Charles for a reported £500,000"
 59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 60,Nicolas Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 61,Barney Stewart,Falkirk,West Bromwich Albion,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Barney_Stewart,auto,"[auto] player joined West Bromwich Albion - the rumoured destination | On 17 June 2026, Stewart signed for EFL Championship club West Bromwich Albion, signing a four-year contract for an undisclosed fee."
@@ -65,3 +65,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 65,Munoz,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 66,Victor Munoz,Osasuna,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 67,Feldt,St Helens,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+68,Jeremy Monga,Leicester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+69,Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
