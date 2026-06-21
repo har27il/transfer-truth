@@ -71,5 +71,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 71,Ellie Kildunne,Harlequins,Bristol Bears,2026-summer,completed,,2026-06-20,https://en.wikipedia.org/wiki/Ellie_Kildunne,auto,"[auto] player joined Bristol Bears - the rumoured destination | On June 19, it was announced that Kildunne would be joining Bristol Bears for the 2026-27 PWR season."
 72,Adam Wharton,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 73,Diomande,RB Leipzig,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-74,Florian Wirtz,,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+74,Florian Wirtz,,Chelsea,2026-summer,collapsed,,2026-06-21,https://en.wikipedia.org/wiki/Florian_Wirtz,auto,"[auto] player joined Liverpool, not Chelsea - rumour did not happen | On 20 June 2025, Wirtz joined Premier League club Liverpool on a long-term contract"
 75,Ghuendouz,,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
