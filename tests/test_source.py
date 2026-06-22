@@ -186,6 +186,10 @@ def test_live_wikipedia_fetch():
 @pytest.mark.skipif(os.environ.get("TM_NET_TESTS") != "1",
                     reason="set TM_NET_TESTS=1 to run live Wikipedia fetch")
 def test_live_ederson_disambiguation():
-    # the real collision, end to end against live Wikipedia.
-    text = source.fetch_player_text("Éderson", prefer_club="Atalanta")
-    assert "Atalanta" in text and "Manchester City" not in text[:200]
+    # the real collision, end to end against live Wikipedia. Assert the IDENTITY of the
+    # returned article, not just that 'Atalanta' appears somewhere -- the original weak
+    # assertion ('Atalanta' in text) also passed for the WRONG Éderson (a retired winger
+    # whose page happens to mention Atalanta), giving false confidence.
+    head = source.fetch_player_text("Éderson", prefer_club="Atalanta")[:400].lower()
+    assert "atalanta" in head and "midfielder" in head   # the born-1999 Atalanta player
+    assert "goalkeeper" not in head                       # NOT the Manchester City keeper

@@ -33,6 +33,11 @@ LEADERBOARD = ROOT / "scoring" / "leaderboard.json"
 HALFLIFE_DAYS = 14          # a claim's weight halves every two weeks
 MAX_CORRO_BOOST = 0.15      # cap on the independent-corroboration nudge
 DEFAULT_POP_WEIGHT = 0.75   # fallback prior if no leaderboard exists yet
+FRESH_DAYS = 3              # a deal with no NEW claim in this many days has gone "quiet":
+                            # it drops out of the prominent feed (hero/agreed/more) and
+                            # into the cooling tail, and pops back the moment a new claim
+                            # lands. "Motion" = a newer claim_date; true re-syndication is
+                            # already dedup'd by URL upstream, so it can't fake freshness.
 
 # "Agreed (here we go)" tier: a deal the reporting all but confirms (agreed terms /
 # medical / reported official) but that our positive-evidence ledger (deals.csv) hasn't
@@ -108,6 +113,14 @@ def deal_probability(claims, reliability, pop_weight, today=None):
     spread = (max(ps) - min(ps)) if ps else 0.0
     text, color = _label(prob, spread)
     latest = max(claims, key=lambda c: (c.get("claim_date") or ""))
+    # Freshness / "motion": age of the newest claim, and how much fresh reporting the
+    # deal is getting right now (buzz). Undated claims can't prove freshness, so a deal
+    # with no dated claim reads as maximally quiet rather than silently fresh.
+    cdates = [d for d in (_parse_date(c.get("claim_date")) for c in claims) if d]
+    days_quiet = (today - max(cdates)).days if cdates else None
+    recent_sources = {c.get("source_name") for c in claims
+                      if (cd := _parse_date(c.get("claim_date"))) and (today - cd).days <= FRESH_DAYS}
+    recent_claims = sum(1 for d in cdates if (today - d).days <= FRESH_DAYS)
     return {
         "probability": round(prob, 3),
         "percent": round(prob * 100),
@@ -117,6 +130,12 @@ def deal_probability(claims, reliability, pop_weight, today=None):
         # sources are (spread), and how close the verdict sits to a coin-flip (uncertainty).
         "spread": round(spread, 3),
         "uncertainty": round(1 - 2 * abs(prob - 0.5), 3),
+        # Freshness signals for the feed's daily refresh: days since the last new claim
+        # (None = no dated claim), and "buzz" = how many sources are reporting it RIGHT
+        # NOW (distinct recent sources, then recent claim volume as the tiebreak).
+        "days_quiet": days_quiet,
+        "recent_claims": recent_claims,
+        "buzz": (len(recent_sources), recent_claims),
         "n_claims": len(claims),
         "n_sources": len({c.get("source_name") for c in claims}),
         "latest_stage": latest.get("stage"),
@@ -143,6 +162,16 @@ def classify_tier(m):
                          and m.get("probability", 0.0) >= AGREED_MIN_PROB
                          and m.get("spread", 1.0) <= AGREED_MAX_SPREAD)
             else "live")
+
+
+def is_quiet(m):
+    """A deal has gone quiet when its newest claim is older than FRESH_DAYS (or it has
+    no dated claim at all). Quiet deals demote out of the prominent feed (hero / Agreed /
+    More) into the cooling tail; any new claim shrinks days_quiet and re-promotes them.
+    This is the staleness gate -- distinct from classify_tier, which is about commitment
+    strength, not recency (a stuck 'agreement' is high-strength but can still be quiet)."""
+    dq = m.get("days_quiet")
+    return dq is None or dq > FRESH_DAYS
 
 
 def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None):

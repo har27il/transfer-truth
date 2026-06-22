@@ -128,3 +128,39 @@ def test_meters_max_age_drops_stale_deals():
     assert [m["player"] for m in fresh_only] == ["Fresh Deal"]
     both = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)  # no filter
     assert sorted(m["player"] for m in both) == ["Fresh Deal", "Stale Deal"]
+
+
+# ---- freshness / "motion" (WS2b) ----------------------------------------------
+
+def test_freshness_fields_track_newest_claim():
+    fresh = meter.deal_probability([_claim(0.6, "Sky Sports", date_="2025-09-01")], REL, POP, TODAY)
+    assert fresh["days_quiet"] == 0 and fresh["recent_claims"] == 1
+    stale = meter.deal_probability([_claim(0.6, "Sky Sports", date_="2025-08-22")], REL, POP, TODAY)
+    assert stale["days_quiet"] == 10 and stale["recent_claims"] == 0   # 10 days > FRESH_DAYS
+    undated = meter.deal_probability([_claim(0.6, "Sky Sports", date_=None)], REL, POP, TODAY)
+    assert undated["days_quiet"] is None                                # no date -> can't prove fresh
+
+
+def test_is_quiet_gate():
+    assert meter.is_quiet({"days_quiet": 4}) is True       # past FRESH_DAYS (3)
+    assert meter.is_quiet({"days_quiet": 3}) is False      # boundary = still fresh
+    assert meter.is_quiet({"days_quiet": 0}) is False
+    assert meter.is_quiet({"days_quiet": None}) is True    # undated can't prove freshness
+    stale = meter.deal_probability([_claim(0.6, "Sky Sports", date_="2025-08-20")], REL, POP, TODAY)
+    assert meter.is_quiet(stale) is True                   # end to end through real meter output
+
+
+def test_buzz_ranks_busier_deals_higher():
+    # "Most talked about": more distinct sources reporting NOW = higher buzz, so the feed
+    # leads with the deals getting fresh attention today.
+    one = meter.deal_probability([_claim(0.6, "Sky Sports", date_="2025-09-01")], REL, POP, TODAY)
+    three = meter.deal_probability(
+        [_claim(0.6, "Sky Sports", date_="2025-09-01"),
+         _claim(0.6, "BBC Sport", date_="2025-09-01"),
+         _claim(0.6, "Fabrizio Romano", date_="2025-08-31")], REL, POP, TODAY)
+    assert three["buzz"] > one["buzz"]                      # (3 recent src, 3) > (1, 1)
+    # an old claim adds NO buzz even though it's still a claim
+    stale_extra = meter.deal_probability(
+        [_claim(0.6, "Sky Sports", date_="2025-09-01"),
+         _claim(0.6, "BBC Sport", date_="2025-07-01")], REL, POP, TODAY)
+    assert stale_extra["buzz"] == (1, 1)                    # only the fresh claim counts

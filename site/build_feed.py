@@ -271,6 +271,29 @@ def _section(title, count, rows, tier):
     return f'<div class="sec"><h2>{title}</h2><span class="count">{count}</span></div>{cards}'
 
 
+def _cooling_section(rows):
+    """Deals that have gone QUIET (no new claim in FRESH_DAYS) but haven't aged out of the
+    window yet: demoted below the live feed, rendered muted, tagged with how long they've
+    been silent. Kept (not dropped) so a deal that goes quiet for a few days isn't lost --
+    a single new claim re-promotes it into the live feed on the next build."""
+    items = ""
+    for m in rows[:8]:
+        player = html.escape(m.get("player") or "Unknown")
+        to_club = html.escape(m.get("to_club") or "?")
+        dq = m.get("days_quiet")
+        ago = f"quiet {dq}d" if dq is not None else "undated"
+        stage = html.escape((m.get("latest_stage") or "").replace("_", " "))
+        pct = m["percent"]
+        items += (f'<div class="row cold"><div class="deal">{player} '
+                  f'<span class="arr">&rarr;</span> {to_club}'
+                  f'<span class="stage">{stage} &middot; {ago}</span></div>'
+                  f'<div class="minimeter"><div class="fill" style="width:{max(3, pct)}%;'
+                  f'background:var(--muted)"></div></div>'
+                  f'<div class="num" style="color:var(--muted)">{pct}%</div></div>')
+    return (f'<div class="sec"><h2>Cooling off</h2>'
+            f'<span class="count">no movement in {meter.FRESH_DAYS}+ days</span></div>{items}')
+
+
 def _standings_html(rows):
     if not rows:
         return ""
@@ -319,18 +342,36 @@ def main():
     if resolved_keys:
         rows = [m for m in rows if m.get("deal_key") not in resolved_keys]
 
+    # Freshness gate: build the prominent feed from deals with MOTION in the last
+    # FRESH_DAYS only. A deal that's gone quiet (no new claim 3-21 days) demotes into the
+    # cooling tail and pops back the moment a source files again -- so a stuck 'agreement'
+    # like Éderson can't hold the lede forever. If a quiet spell leaves nothing fresh,
+    # fall back to the quiet deals so the page never goes blank.
+    fresh = [m for m in rows if not meter.is_quiet(m)]
+    quiet = [m for m in rows if meter.is_quiet(m)]
+    if not fresh:
+        fresh, quiet = quiet, []
+
     # Split near-certainties (Agreed) from everything still in play (live), then pick the
     # hero from LIVE only so a 99%-everyone-agrees deal can't win "most contested".
     agreed_rows, live_rows = [], []
-    for m in rows:
+    for m in fresh:
         (agreed_rows if meter.classify_tier(m) == "agreed" else live_rows).append(m)
+    # "Most talked about" ordering: buzz (distinct sources reporting it now, then recent
+    # claim volume), probability as the final tiebreak -- so a busy news day reshuffles
+    # the feed and it feels fresh daily. The hero stays the most CONTESTED fresh deal
+    # (the site's editorial hook), just drawn from the active set.
+    _buzz = lambda m: (m.get("buzz", (0, 0)), m.get("probability", 0.0))
     hero = max(live_rows, key=lambda m: (m.get("spread", 0.0), m.get("uncertainty", 0.0))) if live_rows else None
-    more_rows = [m for m in live_rows if m is not hero]
+    more_rows = sorted((m for m in live_rows if m is not hero), key=_buzz, reverse=True)
+    agreed_rows.sort(key=_buzz, reverse=True)
+    quiet.sort(key=lambda m: m.get("days_quiet") or 0)   # least-stale first
 
     lead_html = _lead(hero, reliability) if hero else _empty_lead()
     agreed_html = _section("Agreed &mdash; here we go", f"{len(agreed_rows)} pending official",
                            agreed_rows, "agreed") if agreed_rows else ""
-    more_html = _section("More deals", "Probability", more_rows, "live") if more_rows else ""
+    more_html = _section("More deals", "Most talked about", more_rows, "live") if more_rows else ""
+    cooling_html = _cooling_section(quiet) if quiet else ""
     standings_html = _standings_html(load_standings())
     done_html = _done_rail(done_rows)
 
@@ -343,7 +384,8 @@ def main():
                  f'<div class="np-line"><span><span class="livedot"></span>Live edition</span>'
                  f'<span class="sep">&middot;</span><span>{datestr}</span>'
                  f'<span class="sep">&middot;</span><span>Summer window</span>'
-                 f'<span class="sep">&middot;</span><span>{len(live_rows)} contested &middot; {len(agreed_rows)} agreed</span>'
+                 f'<span class="sep">&middot;</span><span>{len(live_rows)} contested &middot; {len(agreed_rows)} agreed'
+                 f'{f" &middot; {len(quiet)} cooling" if quiet else ""}</span>'
                  f'</div><div class="rule"></div></div>')
 
     banner = ('<div class="banner">Showing <b>demo data</b> &mdash; live ingestion isn&rsquo;t running yet '
@@ -370,6 +412,7 @@ def main():
         {lead_html}
         {agreed_html}
         {more_html}
+        {cooling_html}
       </main>
       <aside class="rail">
         {standings_html}
