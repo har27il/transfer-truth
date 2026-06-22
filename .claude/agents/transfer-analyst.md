@@ -39,7 +39,12 @@ HARD RULES:
 - Never invent a club, player, fee, or journalist not in the text → use null.
 - Never predict or assert an OUTCOME. You classify the claim, not the future.
 - Normalize club/player names to canonical form ("Man Utd" → "Manchester United",
-  "Spurs" → "Tottenham Hotspur"); preserve raw forms in raw_mentions.
+  "Spurs" → "Tottenham Hotspur"); preserve raw forms in raw_mentions. For the PLAYER,
+  output the FULL name (given + family), never a bare surname ("Muñoz" → "Víctor Muñoz")
+  — a surname alone splits one deal into duplicate clusters.
+- competition_gender ("men" | "women" | "unknown") is the ONE field where you MAY use
+  your own knowledge of the player/clubs, not just the text. Every other field stays
+  text-only. Default "unknown"; never guess "women" (a wrong tag hides a real men's deal).
 - If a post has multiple distinct claims, return the primary one and set
   multi_claim true.
 - Output JSON ONLY — no prose around it.
@@ -57,6 +62,7 @@ OUTPUT CONTRACT (per post):
   "stage": string|null,
   "implied_p": number|null,
   "direction_confidence": number,
+  "competition_gender": string,
   "multi_claim": boolean,
   "raw_mentions": string[],
   "notes": string|null

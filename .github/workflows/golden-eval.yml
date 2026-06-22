@@ -1,0 +1,56 @@
+name: Golden eval (model / prompt quality gate)
+
+# Runs the REAL NIM engine over the 15-case golden set and asserts the critical
+# pass-rate clears the floor (>=80% pass, >=90% field accuracy -- see
+# tests/test_golden.py::test_live_engine_eval_clears_floor). This is the gate that
+# makes a prompt change or a model swap SAFE: a 70B model can silently regress
+# player/club/stage extraction, and offline tests (fake responses) can't catch that.
+#
+# Manual only. Dispatch it on a feature branch BEFORE merging a prompt/model change,
+# so nothing unverified reaches main or the live cron. Pass a `model` to A/B a
+# candidate against the current default without touching code.
+#
+# Security: workflow_dispatch only (no pull_request -> no untrusted code runs in the
+# keyed job), the NIM key is scoped to the eval step ONLY, and permissions are
+# read-only -- this job reports, it never writes. Same posture as update-site.yml.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'NIM model id to eval (blank = engine default, meta/llama-3.3-70b-instruct)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15      # 15 NIM calls + retries; caps a hung call well under the default
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      # Offline gate first: corpus well-formed + grader catches regressions. Cheap, no key.
+      - name: Offline golden checks
+        run: pytest -q tests/test_golden.py -k "not live"
+
+      # The real gate: run the live engine over all 15 cases and assert the floor.
+      # -s streams the per-case PASS/FAIL table + pass_rate/field_accuracy to the log.
+      # NIM_MODEL is set only when an input model was given, so blank = engine default.
+      - name: Live golden eval
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          TM_LLM_TESTS: '1'
+          NIM_MODEL: ${{ inputs.model }}
+        run: |
+          if [ -n "$NIM_MODEL" ]; then echo "Evaluating model: $NIM_MODEL"; else
+            unset NIM_MODEL; echo "Evaluating engine default model"; fi
+          pytest -q -s tests/test_golden.py::test_live_engine_eval_clears_floor

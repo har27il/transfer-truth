@@ -45,6 +45,9 @@ contains, if any.
 - stage: exactly one value from the STAGE VOCABULARY below.
 - direction_confidence: 0.0–1.0 — how sure you are about WHICH clubs are involved
   and the direction (who buys, who sells). Low when the text is vague.
+- competition_gender: "men" | "women" | "unknown" — which game this transfer belongs
+  to. A FILTERING aid (the feed currently covers the men's game), NOT a transfer fact.
+  Default to "unknown" unless you are confident; see the scoped exception in HARD RULES.
 
 ### STAGE VOCABULARY (pick the one matching the claim's strength)
 | stage         | matches language like                          | implied_p |
@@ -73,6 +76,15 @@ is_transfer_claim to false.
 - Normalize entity names to a canonical form: "Man Utd"/"MUFC"/"United" →
   "Manchester United"; "Spurs" → "Tottenham Hotspur". Put the raw surface form in
   raw_mentions so nothing is lost.
+- For the PLAYER, always output the FULL name (given + family), e.g. "Víctor Muñoz",
+  never a bare surname like "Muñoz" — the surname alone splits one deal into duplicate
+  clusters downstream. Use the full name even when the text gives only the surname, IF
+  you confidently know the player; otherwise keep what the text gives.
+- competition_gender is the ONE field where you MAY use your own knowledge of the
+  player/clubs rather than only the text (a headline like "Beth Mead to Man City" names
+  no league). This exception is STRICTLY limited to competition_gender — every other
+  field stays text-only. If you are not confident of the gender, output "unknown"
+  (never guess "women"): a wrong "women" tag would wrongly hide a real men's transfer.
 - If a single post contains MULTIPLE distinct transfer claims, return the
   PRIMARY one and set multi_claim to true.
 - Output JSON ONLY. No prose, no markdown, no explanation outside the object.
@@ -90,6 +102,7 @@ is_transfer_claim to false.
   "stage": string|null,             // from the vocabulary
   "implied_p": number|null,         // the table value for that stage
   "direction_confidence": number,   // 0.0–1.0
+  "competition_gender": string,     // "men" | "women" | "unknown" (default "unknown")
   "multi_claim": boolean,
   "raw_mentions": string[],         // surface forms you normalized, for audit
   "notes": string|null              // one short clause if something is ambiguous
@@ -105,7 +118,7 @@ OUTPUT:
 {"is_transfer_claim":true,"player":"Hugo Ekitike","from_club":"Eintracht Frankfurt",
 "to_club":"Liverpool","fee_text":"£79m incl add-ons","fee_eur":91500000,
 "source_name":"Fabrizio Romano","source_identifiable":true,"stage":"here_we_go",
-"implied_p":0.99,"direction_confidence":0.98,"multi_claim":false,
+"implied_p":0.99,"direction_confidence":0.98,"competition_gender":"men","multi_claim":false,
 "raw_mentions":["Liverpool","Eintracht Frankfurt","@FabrizioRomano"],"notes":null}
 
 INPUT: "Spurs keeping an eye on Savinho situation at City, one to watch this
@@ -114,14 +127,14 @@ OUTPUT:
 {"is_transfer_claim":true,"player":"Savinho","from_club":"Manchester City",
 "to_club":"Tottenham Hotspur","fee_text":null,"fee_eur":null,"source_name":null,
 "source_identifiable":false,"stage":"interest","implied_p":0.15,
-"direction_confidence":0.7,"multi_claim":false,
+"direction_confidence":0.7,"competition_gender":"men","multi_claim":false,
 "raw_mentions":["Spurs","City"],"notes":"vague link, no fee, no named source"}
 
 INPUT: "What a goal by Wirtz tonight, unreal player."
 OUTPUT:
 {"is_transfer_claim":false,"player":"Florian Wirtz","from_club":null,"to_club":null,
 "fee_text":null,"fee_eur":null,"source_name":null,"source_identifiable":false,
-"stage":null,"implied_p":null,"direction_confidence":0.0,"multi_claim":false,
+"stage":null,"implied_p":null,"direction_confidence":0.0,"competition_gender":"men","multi_claim":false,
 "raw_mentions":["Wirtz"],"notes":"match reaction, not a transfer claim"}
 
 ## HOW THIS FEEDS THE REST OF THE SYSTEM

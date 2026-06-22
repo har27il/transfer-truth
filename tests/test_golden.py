@@ -106,3 +106,21 @@ def test_live_engine_eval_clears_floor():
     print(f"\npass_rate={summary['pass_rate']:.0%} field_accuracy={summary['field_accuracy']:.0%}")
     assert summary["pass_rate"] >= 0.80
     assert summary["field_accuracy"] >= 0.90
+
+
+def test_prompt_contract_carries_ws3_additions():
+    """Offline guard for the WS3 prompt change: the production prompt must carry the
+    competition_gender field and the full-name normalization rule, and every few-shot
+    example must stay VALID JSON (a malformed example would teach the model to break the
+    JSON contract). This can't prove the live model still extracts correctly -- that's the
+    golden-eval CI gate -- but it stops an obviously-broken prompt from ever being pushed."""
+    import json as _json
+    import re as _re
+    p = engine_run.load_system_prompt()
+    assert "competition_gender" in p
+    assert "bare surname" in p                      # the full-name rule (dup-cluster fix)
+    objs = _re.findall(r'\{"is_transfer_claim".*?\}', p, _re.S)
+    assert len(objs) >= 3, "few-shot examples missing from prompt"
+    for o in objs:
+        d = _json.loads(o)                          # raises if an example is broken JSON
+        assert d.get("competition_gender") in ("men", "women", "unknown")
