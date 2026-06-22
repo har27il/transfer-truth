@@ -149,3 +149,15 @@ def test_pipeline_concurrency_isolates_a_failing_extraction():
                          window="2025-summer", concurrency=4)
     assert stats.get("extract_err") == 1
     assert stats["claims"] == 2          # the Isak deal still lands despite the failure
+
+
+# ---- source-feed config regression --------------------------------------------
+
+def test_sky_feed_is_football_only_not_mixed_multisport():
+    """REGRESSION (2026-summer): Sky feed 12040 is a MIXED multi-sport feed that leaked
+    rugby/cricket/golf/F1/darts into the football pipeline (a rugby-league player showed
+    at 99% on the live site). It must stay the football/transfer feed (12691). Guarding
+    the exact ID here so a future edit can't silently revert the leak."""
+    sky = sources.DEFAULT_FEEDS["Sky Sports"]
+    assert "skysports.com/rss/12691" in sky, f"Sky feed regressed to a mixed feed: {sky}"
+    assert "/12040" not in sky

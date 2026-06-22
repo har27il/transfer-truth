@@ -17,10 +17,15 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 USER_AGENT = "TransferTruth/0.1 (ingestion; research; contact via repo)"
 
-# (outlet name -> RSS url). Football-wide feeds; the engine filters non-transfer posts.
+# (outlet name -> RSS url). Football/transfer feeds; the engine filters non-transfer posts.
+# Sky uses 12691 (Transfer Centre), NOT 12040: 12040 is a MIXED multi-sport feed that
+# leaks rugby/cricket/golf/F1/darts/boxing into the football pipeline (a rugby-league
+# player surfaced at 99% on the live site). 12691 is football-transfer-scoped, so it
+# both removes the leak at source AND carries denser transfer signal. If this ever
+# reverts to 12040 the sport filter in ingest.exclude is the backstop -- see test_sources.
 DEFAULT_FEEDS = {
     "BBC Sport": "https://feeds.bbci.co.uk/sport/football/rss.xml",
-    "Sky Sports": "https://www.skysports.com/rss/12040",
+    "Sky Sports": "https://www.skysports.com/rss/12691",
     "The Guardian": "https://www.theguardian.com/football/transfer-window/rss",
 }
 
