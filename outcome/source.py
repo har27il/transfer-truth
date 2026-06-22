@@ -102,47 +102,73 @@ def _raw_fetch(title, timeout=20, retries=3):
     return ""  # all retries exhausted
 
 
+# Opening phrases of a Wikipedia disambiguation / name-list page. We must NOT feed
+# these people-lists to the LLM: they name several players' clubs, so the LLM can't
+# tell which one moved AND the selling-club sanity guard passes (every club, including
+# the right one, appears on the list). "may refer to" is the classic disambig opener;
+# the "given name"/"surname"/"notable people" variants are name-list pages that DON'T
+# say "may refer to" -- the Éderson case (two Brazilian Édersons) slipped through on
+# exactly this gap and never resolved. Keep this list broad: a false "disambig" just
+# triggers the (safe) footballer-candidate search below.
+_DISAMBIG_MARKERS = (
+    "may refer to", "can refer to",
+    "is a given name", "is a masculine given name", "is a feminine given name",
+    "is a unisex given name", "is a surname", "is a brazilian given name",
+    "notable people with the name", "notable people with this name",
+)
+
+
 def _looks_like_disambig(text):
-    """A bare name (e.g. 'Anthony Gordon') often resolves to a disambiguation page
-    listing several people. Its extract opens with '... may refer to:'. We must NOT
-    feed that people-list to the LLM -- it names clubs and could fabricate an outcome
-    for the wrong person, and the selling-club guard can't catch it (the right club
-    appears on the disambig line)."""
-    return bool(text) and "may refer to" in text[:400].lower()
+    """True if the extract is a disambiguation / name-list page rather than one
+    person's article (see _DISAMBIG_MARKERS). Checked on the opening, where the
+    signature phrase always appears."""
+    head = (text or "")[:400].lower()
+    return bool(text) and any(m in head for m in _DISAMBIG_MARKERS)
 
 
 def _footballer_titles(player, disambig_text):
-    """Candidate article titles for the FOOTBALLER from a disambiguation extract.
-
-    A disambig line reads e.g. 'Anthony Gordon (footballer) (born 2001), English
-    footballer ...' -> we want the 'Anthony Gordon (footballer)' title. Returns the
-    parsed candidates first, then a generic '<player> (footballer)' fallback."""
+    """Candidate article titles for the FOOTBALLER(s) on a disambiguation / name-list
+    extract. A name-list reads e.g. 'Ederson (footballer, born January 1986), Brazilian
+    midfielder ... Ederson (footballer, born August 1993), goalkeeper ...' -- often
+    several on ONE line (the API collapses the bullet list), so we scan the WHOLE text,
+    not line-by-line, and return EVERY '<name> (footballer...)' title. Order preserved;
+    a generic '<player> (footballer)' fallback is appended last."""
     titles = []
-    for line in disambig_text.splitlines():
-        if "footballer" in line.lower():
-            m = re.match(r"\s*(.+?\(footballer[^)]*\))", line, re.IGNORECASE)
-            if m and m.group(1).strip() not in titles:
-                titles.append(m.group(1).strip())
+    for m in re.finditer(r"([A-ZÀ-Þ][\w.'\- ]+?\s*\(footballer[^)]*\))", disambig_text):
+        t = re.sub(r"\s+", " ", m.group(1)).strip()
+        if t not in titles:
+            titles.append(t)
     fallback = f"{player} (footballer)"
     if fallback not in titles:
         titles.append(fallback)
     return titles
 
 
-def fetch_player_text(player, timeout=20, retries=3):
+def fetch_player_text(player, timeout=20, retries=3, prefer_club=None):
     """Plain-text Wikipedia extract for a player, or '' on miss/error/disambiguation.
 
-    If the bare name lands on a disambiguation page, follow it to the footballer's
-    article. If no real article is found, return '' (treated as 'unclear') rather than
-    the people-list -- never let a name collision fabricate an outcome."""
+    If the bare name lands on a disambiguation / name-list page, follow it to the
+    footballer's article. When `prefer_club` is given (the player's selling club),
+    PREFER the candidate article that mentions it -- this is what tells two same-name
+    players apart (e.g. Éderson at Atalanta vs Éderson the Man City goalkeeper). A
+    direct hit that does NOT mention prefer_club also triggers the candidate search,
+    since the bare name can redirect to the wrong same-name player. Falls back to the
+    first valid footballer article when no candidate names the club, and to '' (treated
+    as 'unclear') when none is found -- never let a name collision fabricate an outcome."""
+    from outcome.detect import club_token_in_text
     text = _raw_fetch(player, timeout, retries)
     if not _looks_like_disambig(text):
-        return text
+        if not prefer_club or club_token_in_text(prefer_club, text):
+            return text  # unambiguous, or the one article already names the club
+    fallback = ""
     for title in _footballer_titles(player, text):
         alt = _raw_fetch(title, timeout, retries)
-        if alt and not _looks_like_disambig(alt):
-            return alt
-    return ""  # disambiguation we couldn't resolve -> safer than guessing
+        if not alt or _looks_like_disambig(alt):
+            continue
+        if not prefer_club or club_token_in_text(prefer_club, alt):
+            return alt                 # the right same-name player
+        fallback = fallback or alt     # a valid footballer page, but not the club we want
+    return fallback  # best-effort; resolve()'s own from_club guard still gates the write
 
 
 _SYS = ("You verify football (soccer) transfers from an encyclopedia extract. "
@@ -210,16 +236,18 @@ def extract_resolution(text, player, window, model=None):
     return _parse_json_object(resp.choices[0].message.content or "")
 
 
-def resolve(player, window, from_club=None, fetch=fetch_player_text, extract=extract_resolution):
+def resolve(player, window, from_club=None, fetch=None, extract=extract_resolution):
     """Resolve a player's real outcome for a window. Returns a detect.py resolution.
 
-    If `from_club` is given, the fetched page must mention it (the player's own page
-    names their selling club) before we trust any extraction — this catches same-name
-    collisions and disambiguation pages, which would otherwise auto-write a confident
-    but wrong outcome into the ground truth."""
+    `from_club` does double duty: (1) it steers disambiguation -- the default fetch
+    prefers the same-name article that mentions the selling club (Éderson@Atalanta, not
+    the Man City keeper); (2) the fetched page must still mention it before we trust any
+    extraction, catching collisions and name-list pages that would otherwise auto-write
+    a confident but wrong outcome. An injected `fetch` (tests) is called as fetch(player)
+    and bypasses the prefer_club steering -- fixtures already return the right page."""
     from outcome.detect import club_token_in_text
     closed = window_is_closed(window)
-    text = fetch(player)
+    text = fetch(player) if fetch is not None else fetch_player_text(player, prefer_club=from_club)
     if not text:
         return {"status": "unclear", "joined_club": None,
                 "evidence": "no Wikipedia text found", "window_closed": closed}

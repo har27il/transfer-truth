@@ -116,8 +116,76 @@ def test_fetch_returns_empty_when_disambiguation_unresolvable(monkeypatch):
     assert source.fetch_player_text("Ambiguous Name") == ""
 
 
+# --- given-name disambiguation: the Éderson collision (two Brazilian Édersons) ------
+
+# A real Wikipedia "given name" extract: a name-list that does NOT say "may refer to",
+# packs several footballers on one blob, and names every one's club (so the selling-club
+# guard passes on the WRONG page). This is what left Éderson @ Atalanta unresolved.
+_GIVEN_NAME = (
+    "Ederson is a given name. Notable people with the name include the following "
+    "footballers: Ederson (footballer, born January 1986), Brazilian midfielder "
+    "(Lyon, Lazio). Ederson (footballer, born August 1993), Brazilian goalkeeper "
+    "(Manchester City). Ederson (footballer, born July 1999), Brazilian midfielder "
+    "(Atalanta, Manchester United)."
+)
+_EDERSON_GK = "Ederson is a Brazilian goalkeeper who plays for Manchester City."
+_EDERSON_MID = ("Ederson is a Brazilian midfielder. In June 2026 he joined Manchester "
+                "United from Atalanta for a reported 35 million euros.")
+
+
+def test_given_name_page_detected_as_disambig():
+    # the bug: this format slipped the old '"may refer to"' check and was fed to the LLM.
+    assert source._looks_like_disambig(_GIVEN_NAME) is True
+    assert source._looks_like_disambig("Ederson is a Brazilian goalkeeper.") is False
+
+
+def test_footballer_titles_extracts_all_candidates_from_one_blob():
+    titles = source._footballer_titles("Ederson", _GIVEN_NAME)
+    assert "Ederson (footballer, born August 1993)" in titles
+    assert "Ederson (footballer, born July 1999)" in titles
+    assert len([t for t in titles if "footballer" in t]) >= 3   # all three + fallback
+
+
+def test_fetch_prefers_candidate_that_names_the_selling_club(monkeypatch):
+    # prefer_club='Atalanta' must pick the midfielder, NOT the Man City keeper, even
+    # though the keeper's page is a valid footballer article that lists first.
+    pages = {
+        "Ederson": _GIVEN_NAME,
+        "Ederson (footballer, born August 1993)": _EDERSON_GK,
+        "Ederson (footballer, born July 1999)": _EDERSON_MID,
+    }
+    monkeypatch.setattr(source, "_raw_fetch", lambda title, *a, **k: pages.get(title, ""))
+    got = source.fetch_player_text("Ederson", prefer_club="Atalanta")
+    assert "Atalanta" in got and "midfielder" in got
+    assert got == _EDERSON_MID
+
+
+def test_resolve_disambiguates_via_from_club_end_to_end(monkeypatch):
+    # Full path: bare-name -> given-name list -> from_club steers to the right Éderson
+    # -> COMPLETED. This is the regression for the 'stuck unknown' deal.
+    pages = {
+        "Ederson": _GIVEN_NAME,
+        "Ederson (footballer, born August 1993)": _EDERSON_GK,
+        "Ederson (footballer, born July 1999)": _EDERSON_MID,
+    }
+    monkeypatch.setattr(source, "_raw_fetch", lambda title, *a, **k: pages.get(title, ""))
+    res = source.resolve("Ederson", "2026-summer", from_club="Atalanta",
+                         extract=lambda t, p, w: {"status": "moved",
+                                                  "joined_club": "Manchester United", "evidence": t})
+    assert res["status"] == "moved" and res["joined_club"] == "Manchester United"
+    assert classify({"to_club": "Manchester United", "from_club": "Atalanta"}, res)[0] == COMPLETED
+
+
 @pytest.mark.skipif(os.environ.get("TM_NET_TESTS") != "1",
                     reason="set TM_NET_TESTS=1 to run live Wikipedia fetch")
 def test_live_wikipedia_fetch():
     text = source.fetch_player_text("Nick Woltemade")
     assert "Newcastle" in text and len(text) > 500
+
+
+@pytest.mark.skipif(os.environ.get("TM_NET_TESTS") != "1",
+                    reason="set TM_NET_TESTS=1 to run live Wikipedia fetch")
+def test_live_ederson_disambiguation():
+    # the real collision, end to end against live Wikipedia.
+    text = source.fetch_player_text("Éderson", prefer_club="Atalanta")
+    assert "Atalanta" in text and "Manchester City" not in text[:200]
