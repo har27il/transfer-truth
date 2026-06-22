@@ -63,7 +63,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 63,Kirsty Hanson,Aston Villa,Tottenham Hotspur,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Kirsty_Hanson,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | Upon her departure from Aston Villa, Tottenham Hotspur announced that Hanson had put pen to paper on a long-term contract with the North London club."
 64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 65,Munoz,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-66,Victor Munoz,Osasuna,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+66,Victor Munoz,Osasuna,Liverpool,2026-summer,completed,,2026-06-22,https://en.wikipedia.org/wiki/Victor_Munoz,auto,"[auto] player joined Liverpool - the rumoured destination | On 18 June 2026, Premier League club Liverpool bought out Muñoz from Osasuna"
 67,Feldt,St Helens,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 68,Jeremy Monga,Leicester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 69,Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
