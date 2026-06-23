@@ -80,3 +80,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 80,Khiara Keating,Manchester City,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 81,Nadine Riesen,Eintracht Frankfurt,West Ham United,2026-summer,completed,,2026-06-22,https://en.wikipedia.org/wiki/Nadine_Riesen,auto,"[auto] player joined West Ham United - the rumoured destination | On 22nd June 2026, it was announced that Riesen would join West Ham United in the WSL on a 3 year deal"
 82,Svoboda,,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+83,Aggie Beever-Jones,Chelsea,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
