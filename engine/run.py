@@ -21,7 +21,7 @@ PROMPT_FILE = ROOT / "engine" / "transfer-analyst-system-prompt.md"
 AGENT_NAME = os.environ.get("TM_AGENT_NAME", "Verity")
 
 NIM_BASE = os.environ.get("NIM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-NIM_MODEL = os.environ.get("NIM_MODEL", "mistralai/mistral-medium-3.5-128b")
+NIM_MODEL = os.environ.get("NIM_MODEL", "nvidia/nemotron-3-super-120b-a12b")
 
 _DASHES = re.compile(r"^-{20,}\s*$", re.M)
 
