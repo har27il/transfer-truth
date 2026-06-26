@@ -83,7 +83,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 83,Aggie Beever-Jones,Chelsea,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 84,Marco Palestra,Atalanta,Chelsea,2026-summer,completed,,2026-06-24,https://en.wikipedia.org/wiki/Marco_Palestra,auto,"[auto] player joined Chelsea - the rumoured destination | On 24 June 2026, Palestra joined Chelsea"
 85,Gusto,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-86,Ross McCrorie,Bristol City,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+86,Ross McCrorie,Bristol City,Rangers,2026-summer,completed,,2026-06-26,https://en.wikipedia.org/wiki/Ross_McCrorie,auto,"[auto] player joined Rangers - the rumoured destination | On 25 June 2026, McCrorie returned to Rangers on a three-year contract with the option of a further year."
 87,Malo Gusto,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 88,Martin Dubravka,Burnley,Tottenham Hotspur,2026-summer,completed,,2026-06-25,https://en.wikipedia.org/wiki/Martin_Dubravka,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 24 June 2026, Dúbravka joined Premier League club Tottenham Hotspur"
 89,Lia Walti,Juventus,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+90,Andre Onana,Manchester United,Trabzonspor,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
