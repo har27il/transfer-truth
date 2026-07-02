@@ -1,9 +1,11 @@
 """Backfill tests — recovering posts a broken model burned as 'seen, no claim'.
 
 Covers: claim-less posts since the cutoff are found; posts WITH claims are left
-alone; dry-run changes nothing; a real run releases the posts (clearing any
-retry-cap history) and re-runs them through the normal pipeline so the claims
-finally land.
+alone; dry-run changes nothing; batches are capped by --limit (rate-limit
+posture: the first live recovery 429-stormed the free tier at full volume);
+posts rows are NEVER deleted (they can be the only copy of an old headline);
+a real run queues the batch via mark_for_retry — even past the retry cap —
+and the claims finally land.
 """
 from ingest import store, backfill
 
@@ -39,30 +41,59 @@ def _seed_burned_week(conn):
 def test_dry_run_lists_claimless_posts_and_changes_nothing():
     conn = _conn()
     _seed_burned_week(conn)
-    posts, stats = backfill.backfill(conn, "2020-01-01", dry_run=True)
-    assert {p["url"] for p in posts} == {"http://x/t1", "http://x/t2"}
-    assert stats is None
-    assert store.counts(conn)["posts"] == 3          # nothing deleted
+    batch, stats, remaining = backfill.backfill(conn, "2020-01-01", dry_run=True)
+    assert {p["url"] for p in batch} == {"http://x/t1", "http://x/t2"}
+    assert stats is None and remaining == 0
+    assert store.counts(conn)["posts"] == 3          # nothing touched
 
 
-def test_backfill_reextracts_and_lands_the_lost_claims():
+def test_backfill_reextracts_and_lands_the_lost_claims_even_past_retry_cap():
     conn = _conn()
     _seed_burned_week(conn)
     # simulate the retry cap having given up on one of the burned posts
     for _ in range(store.MAX_EXTRACT_ATTEMPTS + 1):
         store.release_failed_post(conn, "http://x/t1")
-        store.add_post(conn, _post("http://x/t1", "Tonali to Spurs here we go"))
+    assert store.should_retry(conn, "http://x/t1") is False
 
-    posts, stats = backfill.backfill(conn, "2020-01-01",
-                                     analyze_fn=lambda t: dict(GOOD))
-    assert len(posts) == 2
+    batch, stats, remaining = backfill.backfill(conn, "2020-01-01",
+                                                analyze_fn=lambda t: dict(GOOD))
+    assert len(batch) == 2 and remaining == 0
     assert stats["claims"] == 2                       # the lost week is recovered
-    assert store.counts(conn)["posts"] == 3           # released posts re-admitted
+    assert store.counts(conn)["posts"] == 3           # rows preserved throughout
     assert store.counts(conn)["deals"] == 2           # Tonali deal now exists
+
+
+def test_failed_batch_is_never_deleted_and_stays_queued():
+    """A rate-limit storm must be a retriable non-event: rows intact, batch
+    still claim-less, so the next dispatch picks it up again."""
+    conn = _conn()
+    _seed_burned_week(conn)
+
+    def _always_429(text):
+        raise RuntimeError("429 Too Many Requests")
+
+    batch, stats, remaining = backfill.backfill(conn, "2020-01-01",
+                                                analyze_fn=_always_429)
+    assert stats["extract_err"] == 2
+    assert store.counts(conn)["posts"] == 3           # NOTHING deleted
+    again, _, _ = backfill.backfill(conn, "2020-01-01", dry_run=True)
+    assert {p["url"] for p in again} == {"http://x/t1", "http://x/t2"}  # still queued
+
+
+def test_limit_caps_the_batch_and_reports_remaining():
+    conn = _conn()
+    _seed_burned_week(conn)
+    batch, stats, remaining = backfill.backfill(conn, "2020-01-01", limit=1,
+                                                analyze_fn=lambda t: dict(GOOD))
+    assert len(batch) == 1 and remaining == 1
+    assert batch[0]["url"] == "http://x/t1"           # oldest first
+    batch2, _, remaining2 = backfill.backfill(conn, "2020-01-01", limit=1,
+                                              analyze_fn=lambda t: dict(GOOD))
+    assert len(batch2) == 1 and remaining2 == 0       # second dispatch finishes
 
 
 def test_backfill_respects_the_since_cutoff():
     conn = _conn()
     _seed_burned_week(conn)
-    posts, stats = backfill.backfill(conn, "2999-01-01", dry_run=False)
-    assert posts == [] and stats is None              # nothing that recent
+    batch, stats, remaining = backfill.backfill(conn, "2999-01-01")
+    assert batch == [] and stats is None and remaining == 0

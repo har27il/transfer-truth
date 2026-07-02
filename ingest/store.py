@@ -108,10 +108,13 @@ def add_claim(conn, claim):
 
 
 def release_failed_post(conn, url):
-    """Extraction failed for this post: count the attempt and, below the cap,
-    delete its posts row so the next run retries it (self-healing instead of
-    alert-and-lose — the June 25 outage burned a week of posts as 'seen').
-    Returns True if the post was released for retry, False if the cap is hit."""
+    """Extraction failed for this post: count the attempt. Below the cap the
+    post stays RETRYABLE — the pipeline's dedup re-admits it next run via
+    should_retry (self-healing instead of alert-and-lose, June 25 post-mortem).
+    The posts row is deliberately PRESERVED: for anything no longer in the RSS
+    feeds it is the only copy of the headline, so deleting it would turn a
+    transient failure (e.g. a 429 storm) into permanent data loss.
+    Returns True if the post remains retryable, False once the cap is hit."""
     row = conn.execute("SELECT attempts FROM extract_failures WHERE url = ?",
                        (url,)).fetchone()
     attempts = (row["attempts"] if row else 0) + 1
@@ -119,11 +122,27 @@ def release_failed_post(conn, url):
         "INSERT INTO extract_failures(url, attempts, last_at) VALUES (?, ?, ?) "
         "ON CONFLICT(url) DO UPDATE SET attempts = ?, last_at = ?",
         (url, attempts, _now(), attempts, _now()))
-    released = attempts < MAX_EXTRACT_ATTEMPTS
-    if released:
-        conn.execute("DELETE FROM posts WHERE url = ?", (url,))
     conn.commit()
-    return released
+    return attempts < MAX_EXTRACT_ATTEMPTS
+
+
+def should_retry(conn, url):
+    """True when this already-seen post has a pending failure below the retry
+    cap — the pipeline treats it as new again instead of a dedup skip."""
+    row = conn.execute("SELECT attempts FROM extract_failures WHERE url = ?",
+                       (url,)).fetchone()
+    return row is not None and row["attempts"] < MAX_EXTRACT_ATTEMPTS
+
+
+def mark_for_retry(conn, urls):
+    """Explicitly queue already-seen posts for re-extraction (backfill). Resets
+    any failure history so the retry cap can't block a deliberate recovery."""
+    for url in urls:
+        conn.execute(
+            "INSERT INTO extract_failures(url, attempts, last_at) VALUES (?, 0, ?) "
+            "ON CONFLICT(url) DO UPDATE SET attempts = 0, last_at = ?",
+            (url, _now(), _now()))
+    conn.commit()
 
 
 def clear_failure(conn, url):

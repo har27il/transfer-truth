@@ -82,11 +82,15 @@ jobs:
 
       # 1b. Optional recovery: re-run claim-less posts (e.g. a broken-model week)
       # through the normal pipeline. Only runs when the dispatch input is set.
+      # Throttled hard (batch of 60, one call at a time): the first recovery
+      # attempt 429-stormed the NIM free tier at full volume + concurrency.
+      # Dispatch repeatedly until the log says "0 remaining".
       - name: Backfill claim-less posts
         if: ${{ github.event.inputs.backfill_since != '' }}
         run: python ingest/backfill.py --since "${{ github.event.inputs.backfill_since }}"
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NIM_CONCURRENCY: '1'
 
       # 2. Turn new player clusters into proposed deals.csv rows (verified=auto).
       - name: Bridge clusters to deals

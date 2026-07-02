@@ -86,8 +86,11 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
     for post in sources_fn():
         stats["fetched"] += 1
         if not store.add_post(conn, post):
-            stats["dup"] += 1
-            continue
+            # Seen before — but a post whose extraction FAILED (below the retry
+            # cap) or was queued by backfill is re-admitted instead of skipped.
+            if not store.should_retry(conn, post["url"]):
+                stats["dup"] += 1
+                continue
         # Drop manager appointments + women's-football items BEFORE the NIM call, so
         # they never cost a token and never become a deal. The post stays marked seen
         # (add_post above), so a later run won't re-extract it.
