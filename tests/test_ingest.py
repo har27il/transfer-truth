@@ -99,7 +99,8 @@ def test_pipeline_dedups_filters_and_clusters():
     stats = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
                          window="2025-summer")
     assert stats == {"fetched": 6, "dup": 1, "new": 5, "excluded": 0, "non_transfer": 1,
-                     "low_conf": 1, "no_player": 1, "claims": 2}
+                     "low_conf": 1, "no_player": 1, "claims": 2,
+                     "parse_err": 0, "extract_err": 0}
 
     c = store.counts(conn)
     assert c == {"posts": 5, "claims": 2, "deals": 1}   # both Isak posts -> ONE deal
@@ -149,6 +150,79 @@ def test_pipeline_concurrency_isolates_a_failing_extraction():
                          window="2025-summer", concurrency=4)
     assert stats.get("extract_err") == 1
     assert stats["claims"] == 2          # the Isak deal still lands despite the failure
+
+
+# ---- parse-failure semantics (June 25 regression suite) -----------------------
+
+def _none_for_isak(text):
+    """Simulates a broken model: contract-breaking output for the Isak posts."""
+    if "Isak" in text:
+        return None
+    return _fake_analyze(text)
+
+
+def test_parse_failure_counts_as_parse_err_not_non_transfer():
+    """REGRESSION (June 25): a None extraction (model broke the JSON contract)
+    was counted as 'non-transfer', so a broken model looked like a quiet news
+    day for a week. The two must never be conflated again."""
+    conn = _conn()
+    stats = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_none_for_isak,
+                         window="2025-summer")
+    assert stats["parse_err"] == 2           # both Isak posts failed to parse
+    assert stats["non_transfer"] == 1        # only the genuine match report
+    assert stats["claims"] == 0
+
+
+def test_failed_posts_are_released_and_retry_next_run():
+    """A parse-failed post must NOT be burned as 'seen': the next run retries it
+    and, once the model is fixed, the claim lands (self-healing, not alert-and-lose)."""
+    conn = _conn()
+    pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_none_for_isak,
+                 window="2025-summer")
+    assert store.counts(conn)["claims"] == 0
+    # model "fixed" on the second run
+    stats2 = pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
+                          window="2025-summer")
+    assert stats2["claims"] == 2             # the released Isak posts came back
+    assert store.counts(conn)["deals"] == 1
+
+
+def test_retry_cap_stops_a_poison_post():
+    """After MAX_EXTRACT_ATTEMPTS failures a post stays seen — one poison post
+    can't burn NIM calls forever."""
+    conn = _conn()
+    feed = lambda: [{"url": "poison", "source": "BBC Sport",
+                     "title": "Isak to Liverpool here we go", "summary": "", "published": ""}]
+    for _ in range(store.MAX_EXTRACT_ATTEMPTS):
+        pipeline.run(conn, sources_fn=feed, analyze_fn=lambda t: None, window="2025-summer")
+    stats = pipeline.run(conn, sources_fn=feed, analyze_fn=lambda t: None, window="2025-summer")
+    assert stats["dup"] == 1 and stats["parse_err"] == 0   # capped: not retried again
+
+
+def test_failure_rate_circuit_breaker():
+    """>50% failures over >=5 attempts = broken model -> the run must go loud.
+    A tiny run (below the floor) or a healthy run must NOT trip it."""
+    broken = {"parse_err": 4, "extract_err": 1, "non_transfer": 2, "low_conf": 0,
+              "no_player": 0, "claims": 1}
+    assert pipeline.failure_rate_exceeded(broken) is True
+    healthy = {"parse_err": 1, "extract_err": 0, "non_transfer": 40, "low_conf": 2,
+               "no_player": 1, "claims": 20}
+    assert pipeline.failure_rate_exceeded(healthy) is False
+    tiny = {"parse_err": 3, "extract_err": 0, "non_transfer": 1, "low_conf": 0,
+            "no_player": 0, "claims": 0}                      # 4 attempts < floor of 5
+    assert pipeline.failure_rate_exceeded(tiny) is False
+
+
+def test_healthy_run_stamps_last_ingest_success_and_broken_run_does_not():
+    conn = _conn()
+    pipeline.run(conn, sources_fn=_fake_feed, analyze_fn=_fake_analyze,
+                 window="2025-summer")
+    stamp = store.get_meta(conn, store.LAST_INGEST_KEY)
+    assert stamp                                             # healthy -> stamped
+    conn2 = _conn()
+    pipeline.run(conn2, sources_fn=_fake_feed, analyze_fn=lambda t: None,
+                 window="2025-summer")
+    assert store.get_meta(conn2, store.LAST_INGEST_KEY) is None   # broken -> no stamp
 
 
 # ---- source-feed config regression --------------------------------------------

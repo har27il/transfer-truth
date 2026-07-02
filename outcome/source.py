@@ -22,26 +22,24 @@ and endpoint are env-overridable, so swapping providers never touches detect.py.
 import json
 import os
 import re
+import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 WIKI_API = "https://en.wikipedia.org/w/api.php"
 NIM_BASE = os.environ.get("NIM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-NIM_MODEL = os.environ.get("NIM_MODEL", "meta/llama-3.3-70b-instruct")
-# Fallbacks if the default is deprecated / rate-limited / 5xx-ing. All are
-# OpenAI-compatible chat models on build.nvidia.com — swap with NIM_MODEL=...,
-# no code change. Ranked best-for-this-task first (strong JSON instruction-following):
-#   meta/llama-3.3-70b-instruct           <- default
-#   nvidia/llama-3.1-nemotron-70b-instruct  alt 70B, often better at following format
-#   meta/llama-3.1-70b-instruct           previous-gen, very stable
-#   qwen/qwen2.5-72b-instruct             strong reasoning + JSON
-#   mistralai/mixtral-8x22b-instruct-v0.1 different family (provider-diversity hedge)
-#   meta/llama-3.1-8b-instruct            small + FAST: use if speed/throughput matters
-# NOTE: a model swap is for resilience, not speed. Speed comes from concurrency,
-# not a smaller model. Verify availability/exact id at build.nvidia.com before relying on one.
+# Model default lives in nim_models.py (shared with the engine so the two can
+# never silently drift apart again — June 25 post-mortem). Resolver-only
+# override: NIM_RESOLVER_MODEL. The model lists previously kept here as
+# fallback suggestions were STALE (a listed model 404'd on this account) —
+# verify availability at build.nvidia.com before relying on any candidate.
+from nim_models import RESOLVER_MODEL as NIM_MODEL
 USER_AGENT = "TransferMarket/0.1 (outcome-detection; research; contact via repo)"
 
 # When a window's deadline has passed, "player stayed" becomes positive evidence

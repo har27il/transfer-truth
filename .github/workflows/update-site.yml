@@ -5,6 +5,11 @@ name: Update site (ingest -> bridge -> resolve -> rebuild)
 # Safe to run unattended: test gate + secret guard + job timeout all precede any push.
 on:
   workflow_dispatch:
+    inputs:
+      backfill_since:
+        description: 'Re-extract claim-less posts since this date (YYYY-MM-DD, blank = skip). Recovery tool: the ingest DB only exists in the Actions cache.'
+        required: false
+        default: ''
   schedule:
     # GitHub's schedule trigger is BEST-EFFORT: under load it delays runs by up to a
     # few hours and sometimes DROPS them entirely. A single daily cron therefore can't
@@ -75,6 +80,14 @@ jobs:
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
 
+      # 1b. Optional recovery: re-run claim-less posts (e.g. a broken-model week)
+      # through the normal pipeline. Only runs when the dispatch input is set.
+      - name: Backfill claim-less posts
+        if: ${{ github.event.inputs.backfill_since != '' }}
+        run: python ingest/backfill.py --since "${{ github.event.inputs.backfill_since }}"
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+
       # 2. Turn new player clusters into proposed deals.csv rows (verified=auto).
       - name: Bridge clusters to deals
         run: python ingest/bridge.py
@@ -105,7 +118,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name  "transfer-bot"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add ground-truth/deals.csv docs/ scoring/leaderboard.json
+            git add ground-truth/deals.csv ground-truth/journalist_claims.csv docs/ scoring/leaderboard.json
             git commit -m "chore: live update (ingest+resolve+rebuild) [skip ci]"
             git push
           else

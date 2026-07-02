@@ -45,7 +45,27 @@ CREATE TABLE IF NOT EXISTS claims (
     UNIQUE(post_url, deal_key)
 );
 CREATE INDEX IF NOT EXISTS idx_claims_deal ON claims(deal_key);
+CREATE TABLE IF NOT EXISTS extract_failures (
+    url      TEXT PRIMARY KEY,
+    attempts INTEGER NOT NULL DEFAULT 0,
+    last_at  TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS meta (
+    key   TEXT PRIMARY KEY,
+    value TEXT NOT NULL
+);
 """
+
+# A post whose extraction failed (parse error / API exception) is RELEASED for
+# retry up to this many times: its posts row is deleted so the next run's URL
+# dedup re-admits it. After the cap it stays "seen" (a poison post can't loop
+# forever). Separate table so the cached DB migrates via CREATE IF NOT EXISTS —
+# no ALTER on the posts schema.
+MAX_EXTRACT_ATTEMPTS = 3
+
+# meta key: ISO timestamp of the last HEALTHY ingest run (set by pipeline.run,
+# read by site/build_feed.py to show visitors "data as of ..." + a stale badge).
+LAST_INGEST_KEY = "last_ingest_success"
 
 
 def _now():
@@ -85,6 +105,42 @@ def add_claim(conn, claim):
     )
     conn.commit()
     return cur.lastrowid if cur.rowcount == 1 else None
+
+
+def release_failed_post(conn, url):
+    """Extraction failed for this post: count the attempt and, below the cap,
+    delete its posts row so the next run retries it (self-healing instead of
+    alert-and-lose — the June 25 outage burned a week of posts as 'seen').
+    Returns True if the post was released for retry, False if the cap is hit."""
+    row = conn.execute("SELECT attempts FROM extract_failures WHERE url = ?",
+                       (url,)).fetchone()
+    attempts = (row["attempts"] if row else 0) + 1
+    conn.execute(
+        "INSERT INTO extract_failures(url, attempts, last_at) VALUES (?, ?, ?) "
+        "ON CONFLICT(url) DO UPDATE SET attempts = ?, last_at = ?",
+        (url, attempts, _now(), attempts, _now()))
+    released = attempts < MAX_EXTRACT_ATTEMPTS
+    if released:
+        conn.execute("DELETE FROM posts WHERE url = ?", (url,))
+    conn.commit()
+    return released
+
+
+def clear_failure(conn, url):
+    """Extraction finally succeeded: forget the failure history."""
+    conn.execute("DELETE FROM extract_failures WHERE url = ?", (url,))
+    conn.commit()
+
+
+def set_meta(conn, key, value):
+    conn.execute("INSERT INTO meta(key, value) VALUES (?, ?) "
+                 "ON CONFLICT(key) DO UPDATE SET value = ?", (key, value, value))
+    conn.commit()
+
+
+def get_meta(conn, key):
+    row = conn.execute("SELECT value FROM meta WHERE key = ?", (key,)).fetchone()
+    return row["value"] if row else None
 
 
 def claims_for_deal(conn, deal_key):

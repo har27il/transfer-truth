@@ -52,6 +52,12 @@ def load_claims(deals):
             stage = (r.get("stage") or "").strip().lower()
             if not did or not src or stage not in STAGE_P:
                 continue                # skip blanks / example rows / bad stages
+            if (r.get("verified") or "").strip().lower() == "auto" and not INCLUDE_AUTO:
+                # Claim-level gate, mirroring the deal-level one: bridge-appended
+                # claims are unreviewed LLM stage-extractions and must not move a
+                # journalist's public Brier score until a human promotes them
+                # (outcome/promote.py flips deal AND claims to YES together).
+                continue
             if did not in deals:
                 continue                # claim about an unresolved/unknown deal
             claims.append({

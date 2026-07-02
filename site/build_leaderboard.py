@@ -209,7 +209,10 @@ def main():
             f'&ldquo;here we go&rdquo; on a deal that <b>collapsed</b> is punished hard; a hedged '
             f'&ldquo;in talks&rdquo; on the same deal barely dents you. Scores are shrunk toward the '
             f'field average by sample size (K={d.get("k","?")}) so a few lucky calls can&rsquo;t top the '
-            f'table, and breaking a deal genuinely early earns a small bonus.</div></div>')
+            f'table, and breaking a deal genuinely early earns a small bonus. One honest caveat: '
+            f'mid-window, completed deals resolve faster than collapses (a collapse often needs the '
+            f'window to close), so standings can tilt toward confident callers until deadline day '
+            f'grades the misses.</div></div>')
 
     toggle = ('<button class="toggle" type="button" onclick="ttTheme()" '
               'aria-label="Toggle dark mode">&#9681;</button>')

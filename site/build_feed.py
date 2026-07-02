@@ -53,6 +53,10 @@ PAGE_CSS = """
   .feed .np-line{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
                  font-size:11.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);padding:9px 0}
   .feed .np-line .sep{opacity:.4}
+  /* staleness badge: ink-on-paper only (colour stays reserved for the meter). Shown
+     when the last successful ingest is >24h old, so a dead pipeline can never
+     present week-old rumours as live again (June 25 post-mortem). */
+  .feed .np-line .stale{color:var(--ink);border:1.5px solid var(--ink);padding:2px 8px;font-weight:700}
   /* broadsheet grid */
   .feed .grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0;margin-top:8px}
   .feed .rail{border-left:1px solid var(--hair);margin-left:40px;padding-left:40px}
@@ -324,6 +328,30 @@ def _done_rail(done_rows):
             f'<p class="railsub">Settled this window.</p>{items}</div>')
 
 
+STALE_AFTER_HOURS = 24
+
+
+def data_freshness(conn, now=None):
+    """(as_of_label, stale_hours) from the pipeline's last healthy-run stamp.
+
+    Returns (None, None) when no stamp exists (pre-upgrade DB / demo). Visitors
+    see the truth either way: a fresh 'data as of' line, or a stale badge when
+    the pipeline hasn't succeeded for over STALE_AFTER_HOURS."""
+    raw = store.get_meta(conn, store.LAST_INGEST_KEY)
+    if not raw:
+        return None, None
+    try:
+        as_of = datetime.fromisoformat(raw)
+    except ValueError:
+        return None, None
+    if as_of.tzinfo is None:
+        as_of = as_of.replace(tzinfo=timezone.utc)
+    as_of = as_of.astimezone(timezone.utc)
+    now = now or datetime.now(timezone.utc)
+    age_h = (now - as_of).total_seconds() / 3600
+    return as_of.strftime("%d %b %H:%M") + " UTC", age_h
+
+
 def main():
     reliability, _ = meter.load_reliability()
     conn = store.connect()
@@ -377,12 +405,23 @@ def main():
 
     today = date.today()
     datestr = f"{today.strftime('%a')} {today.day} {today.strftime('%B %Y')}"
+    # Edition marker tells the truth: the green live-dot only when the pipeline
+    # actually succeeded recently; otherwise a plain ink STALE badge (never let a
+    # dead cron present old rumours as live — that's how June 25 hurt trust).
+    as_of, age_h = (None, None) if is_demo else data_freshness(conn)
+    if age_h is not None and age_h > STALE_AFTER_HOURS:
+        edition = f'<span class="stale">Stale &mdash; data {int(age_h // 24)}d {int(age_h % 24)}h old</span>'
+    else:
+        edition = '<span><span class="livedot"></span>Live edition</span>'
+    asof_html = (f'<span class="sep">&middot;</span><span>data as of {as_of}</span>'
+                 if as_of else "")
     nameplate = (f'<div class="nameplate"><div class="rule"></div>'
                  f'<h1 class="np-name">Transfer&nbsp;Truth</h1>'
                  f'<p class="np-slogan">The credibility desk for football transfers</p>'
                  f'<div class="rule thin"></div>'
-                 f'<div class="np-line"><span><span class="livedot"></span>Live edition</span>'
+                 f'<div class="np-line">{edition}'
                  f'<span class="sep">&middot;</span><span>{datestr}</span>'
+                 f'{asof_html}'
                  f'<span class="sep">&middot;</span><span>Summer window</span>'
                  f'<span class="sep">&middot;</span><span>{len(live_rows)} contested &middot; {len(agreed_rows)} agreed'
                  f'{f" &middot; {len(quiet)} cooling" if quiet else ""}</span>'
