@@ -27,6 +27,9 @@ sys.path.insert(0, str(ROOT))
 from ingest import store, cluster
 from ingest.exclude import is_non_player, is_known_non_player
 from outcome.apply import DEALS, load_deals, write_atomic
+from stagemap import STAGE_P
+
+CLAIMS_CSV = ROOT / "ground-truth" / "journalist_claims.csv"
 
 
 def _provisional(claims, field):
@@ -119,6 +122,71 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
     return {"created": created, "attached": attached, "excluded": excluded}
 
 
+def _load_claims_csv(path):
+    import csv
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        return reader.fieldnames, list(reader)
+
+
+def bridge_claims(conn, deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False):
+    """Append ingested claims for KNOWN deals to journalist_claims.csv as
+    verified=auto rows — the feed that keeps the leaderboard alive (the seed
+    file was hand-made once and nothing ever added to it, so standings froze).
+
+    Trust posture: appended rows are PROPOSED. score.py skips verified=auto
+    claims until outcome/promote.py flips them to YES together with their deal,
+    so an unreviewed LLM stage-extraction can never move a public Brier score.
+
+    Dedup is per (deal_id, source, stage) as well as per URL: the same outlet
+    re-reporting one deal daily is correlated evidence on one outcome, not many
+    independent samples (the curated file was one claim per milestone)."""
+    fieldnames, rows = _load_claims_csv(claims_path)
+    _, deal_rows = load_deals(deals_path)
+    key_to_deal = _existing_keys(deal_rows)
+
+    seen_triple = {(r.get("deal_id", "").strip(),
+                    (r.get("source_name") or "").strip().lower(),
+                    (r.get("stage") or "").strip().lower()) for r in rows}
+    seen_url = {(r.get("source_url") or "").strip() for r in rows if r.get("source_url")}
+    next_id = max((int(r["claim_id"]) for r in rows
+                   if str(r.get("claim_id", "")).isdigit()), default=0)
+
+    added = []
+    for key, deal in key_to_deal.items():
+        for c in store.claims_for_deal(conn, key):
+            src = (c.get("source_name") or "").strip()
+            stage = (c.get("stage") or "").strip().lower()
+            url = (c.get("post_url") or "").strip()
+            if not src or stage not in STAGE_P or not url:
+                continue                      # unattributable / unscoreable claim
+            triple = (deal["deal_id"], src.lower(), stage)
+            if triple in seen_triple or url in seen_url:
+                continue
+            post = conn.execute("SELECT title FROM posts WHERE url = ?", (url,)).fetchone()
+            next_id += 1
+            row = {fn: "" for fn in fieldnames}
+            row.update({
+                "claim_id": str(next_id),
+                "deal_id": deal["deal_id"],
+                "source_name": src,
+                "platform": "rss",
+                "claim_date": (c.get("claim_date") or "").strip(),
+                "stage": stage,
+                "source_url": url,
+                "raw_quote": ((post["title"] if post else "") or "")[:200],
+                "verified": "auto",
+            })
+            rows.append(row)
+            seen_triple.add(triple)
+            seen_url.add(url)
+            added.append(row)
+
+    if added and not dry_run:
+        write_atomic(claims_path, fieldnames, rows)
+    return added
+
+
 def _print(stats, dry_run):
     excluded = len(stats.get("excluded", []))
     excl_note = f" {excluded} non-player cluster(s) filtered (manager/women)." if excluded else ""
@@ -138,3 +206,6 @@ if __name__ == "__main__":
     dry = "--dry-run" in sys.argv
     conn = store.connect()
     _print(bridge(conn, dry_run=dry), dry)
+    added = bridge_claims(conn, dry_run=dry)
+    print(f"{'Would append' if dry else 'Appended'} {len(added)} claim(s) to "
+          f"journalist_claims.csv (verified=auto; score only after promotion).")

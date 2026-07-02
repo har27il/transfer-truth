@@ -17,13 +17,17 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 PROMPT_FILE = ROOT / "engine" / "transfer-analyst-system-prompt.md"
 AGENT_NAME = os.environ.get("TM_AGENT_NAME", "Verity")
 
 NIM_BASE = os.environ.get("NIM_BASE_URL", "https://integrate.api.nvidia.com/v1")
-NIM_MODEL = os.environ.get("NIM_MODEL", "nvidia/nemotron-3-super-120b-a12b")
+# Model default lives in nim_models.py (shared, allowlist-guarded) — see the
+# June 25 post-mortem there before changing anything about model selection.
+from nim_models import ENGINE_MODEL as NIM_MODEL
 
 _DASHES = re.compile(r"^-{20,}\s*$", re.M)
+_THINK = re.compile(r"<think>.*?(?:</think>|\Z)", re.S)
 
 
 def load_system_prompt(path=PROMPT_FILE, agent_name=AGENT_NAME):
@@ -42,13 +46,30 @@ def load_system_prompt(path=PROMPT_FILE, agent_name=AGENT_NAME):
 
 
 def parse_engine_json(raw):
-    """Pull the first {...} block and parse. Returns None on failure (the engine
-    contract is JSON-only; a non-JSON answer is a hard failure, not a guess)."""
+    """Pull the JSON object out of a model answer. Returns None on failure (the
+    engine contract is JSON-only; a non-JSON answer is a hard failure, not a guess).
+
+    Reasoning models wrap the answer in <think>...</think> prose whose stray
+    braces poison a naive first-{/last-} slice (the June 25 outage) — so think
+    blocks are stripped first, and if the slice still fails, each remaining "{"
+    is tried as the start of a balanced object."""
+    raw = _THINK.sub("", raw or "")
     try:
         i, j = raw.index("{"), raw.rindex("}")
         return json.loads(raw[i:j + 1])
     except (ValueError, json.JSONDecodeError):
-        return None
+        pass
+    decoder = json.JSONDecoder()
+    i = raw.find("{")
+    while i != -1:
+        try:
+            obj, _end = decoder.raw_decode(raw, i)
+            if isinstance(obj, dict):
+                return obj
+        except json.JSONDecodeError:
+            pass
+        i = raw.find("{", i + 1)
+    return None
 
 
 def _nim_complete(system, user, model=None):

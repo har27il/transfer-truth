@@ -20,6 +20,16 @@ on:
         description: 'NIM model id to eval (blank = engine default, meta/llama-3.3-70b-instruct)'
         required: false
         default: ''
+  # June 25 post-mortem: a model default was edited and pushed straight to main
+  # without anyone pressing the eval button, and the cron ran broken for a week.
+  # Any push touching model selection or the prompt now generates its own eval
+  # evidence (red X on the commit). Push events run only trusted repo code, so
+  # the step-scoped key posture is unchanged.
+  push:
+    paths:
+      - 'engine/**'
+      - 'nim_models.py'
+      - 'tests/golden/**'
 
 permissions:
   contents: read

@@ -22,6 +22,14 @@ from ingest.exclude import is_non_player
 
 DEFAULT_WINDOW = "2026-summer"
 MIN_CONFIDENCE = 0.5   # drop vague extractions before they pollute a deal
+# Circuit breaker: when most extractions fail, the model/provider is broken —
+# that must fail the run (red X, GitHub email) instead of committing a "quiet
+# news day". June 25: a bad model swap classified 67/68 posts as noise for a
+# week because parse failures were silently counted as non-transfer. The floor
+# keeps a genuinely tiny run (a few flaky calls) from false-alarming.
+FAIL_RATE_LIMIT = 0.5
+FAIL_MIN_ATTEMPTS = 5
+LAST_SUCCESS_KEY = store.LAST_INGEST_KEY
 # How many NIM extractions to run at once. The slow part of ingest is network-bound
 # LLM calls, so parallelism is the real speedup (not a smaller model). Capped to stay
 # polite to the free-tier rate limit; the SDK's backoff (engine.run) absorbs the rest.
@@ -68,7 +76,8 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
     if concurrency is None:
         concurrency = DEFAULT_CONCURRENCY
     stats = {"fetched": 0, "dup": 0, "new": 0, "excluded": 0, "non_transfer": 0,
-             "low_conf": 0, "no_player": 0, "claims": 0}
+             "low_conf": 0, "no_player": 0, "claims": 0,
+             "parse_err": 0, "extract_err": 0}
 
     # Phase 1 - dedup (sequential SQLite). Already-seen URLs are skipped HERE, before
     # the expensive extraction, so when ingest.db is persisted between runs a re-run
@@ -106,19 +115,30 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
                 try:
                     results.append((post, fut.result()))
                 except Exception as e:  # one bad NIM call != lose the whole run
-                    stats["extract_err"] = stats.get("extract_err", 0) + 1
+                    stats["extract_err"] += 1
+                    store.release_failed_post(conn, post["url"])
                     print(f"  ! extract failed for {post.get('url')}: {e}")
     else:
         for post in new_posts:
             try:
                 results.append((post, _extract(post)))
             except Exception as e:
-                stats["extract_err"] = stats.get("extract_err", 0) + 1
+                stats["extract_err"] += 1
+                store.release_failed_post(conn, post["url"])
                 print(f"  ! extract failed for {post.get('url')}: {e}")
 
     # Phase 3 - filter + store (sequential SQLite).
+    # A None result is a PARSE FAILURE (model broke the JSON contract), not a
+    # "no transfer here" answer — conflating the two hid the June 25 outage.
+    # Failed posts are released for retry (store.release_failed_post) so a bad
+    # model day self-heals instead of permanently burning the headlines.
     for post, result in results:
-        if not result or not result.get("is_transfer_claim"):
+        if result is None:
+            stats["parse_err"] += 1
+            store.release_failed_post(conn, post["url"])
+            continue
+        store.clear_failure(conn, post["url"])
+        if not result.get("is_transfer_claim"):
             stats["non_transfer"] += 1
             continue
         if (result.get("direction_confidence") or 0) < min_confidence:
@@ -130,7 +150,22 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
             continue
         if store.add_claim(conn, _to_claim(post, result, key, window)) is not None:
             stats["claims"] += 1
+
+    if not failure_rate_exceeded(stats):
+        # Healthy run: stamp it so the feed can show "data as of ..." and flag
+        # staleness to VISITORS, not just the developer's inbox.
+        store.set_meta(conn, LAST_SUCCESS_KEY, datetime.now().astimezone().isoformat(timespec="seconds"))
     return stats
+
+
+def failure_rate_exceeded(stats):
+    """True when extraction failures (parse + API) dominate the run — the
+    broken-model signature. Successes already stored are kept; the caller
+    should exit non-zero so the cron goes red instead of committing silence."""
+    attempts = stats["parse_err"] + stats["extract_err"] + stats["non_transfer"] \
+        + stats["low_conf"] + stats["no_player"] + stats["claims"]
+    failures = stats["parse_err"] + stats["extract_err"]
+    return attempts >= FAIL_MIN_ATTEMPTS and failures / attempts > FAIL_RATE_LIMIT
 
 
 if __name__ == "__main__":
@@ -139,5 +174,10 @@ if __name__ == "__main__":
     s = run(conn)
     print(f"  fetched={s['fetched']} new={s['new']} dup={s['dup']} "
           f"claims={s['claims']} (excluded={s['excluded']}, "
-          f"non-transfer={s['non_transfer']}, low-conf={s['low_conf']})")
+          f"non-transfer={s['non_transfer']}, low-conf={s['low_conf']}, "
+          f"parse-err={s['parse_err']}, extract-err={s['extract_err']})")
     print("  store:", store.counts(conn))
+    if failure_rate_exceeded(s):
+        print(f"::error::Extraction failure rate over {FAIL_RATE_LIMIT:.0%} — "
+              f"model or provider is broken; failed posts were released for retry.")
+        sys.exit(1)

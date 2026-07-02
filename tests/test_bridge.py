@@ -2,7 +2,9 @@
 
 Covers: new cluster creates a row; an ingested player already in deals.csv attaches
 instead of duplicating; re-running is idempotent; a crash mid-write leaves deals.csv
-intact; to_club is the most-common provisional value.
+intact; to_club is the most-common provisional value. Plus bridge_claims: ingested
+claims flow into journalist_claims.csv as verified=auto rows (deduped, legacy rows
+preserved) so the leaderboard's input file stops being a frozen hand-made seed.
 """
 import csv
 
@@ -167,3 +169,94 @@ def test_atomic_write_leaves_deals_intact_on_crash(tmp_path, monkeypatch):
     assert p.read_text("utf-8") == before                       # ground truth intact
     leftovers = [f for f in p.parent.iterdir() if f.name.startswith(".deals.")]
     assert leftovers == [], f"temp files leaked: {leftovers}"
+
+
+# ---- bridge_claims: ingested claims -> journalist_claims.csv ------------------
+
+CLAIMS_HEADER = ["claim_id", "deal_id", "source_name", "platform", "claim_date",
+                 "stage", "source_url", "raw_quote", "verified"]
+
+
+def _write_claims(path, rows):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=CLAIMS_HEADER)
+        w.writeheader()
+        for r in rows:
+            w.writerow({k: r.get(k, "") for k in CLAIMS_HEADER})
+
+
+def _read_claims(path):
+    with open(path, newline="", encoding="utf-8") as f:
+        return list(csv.DictReader(f))
+
+
+LEGACY = {"claim_id": "1", "deal_id": "5", "source_name": "Fabrizio Romano",
+          "platform": "twitter", "claim_date": "2025-08-01", "stage": "here_we_go",
+          "source_url": "http://x/legacy", "raw_quote": "here we go", "verified": "YES"}
+
+
+def _paths(tmp_path, deals, claims):
+    dp, cp = tmp_path / "deals.csv", tmp_path / "claims.csv"
+    _write_deals(dp, deals)
+    _write_claims(cp, claims)
+    return dp, cp
+
+
+def test_claims_append_as_auto_for_known_deals(tmp_path):
+    dp, cp = _paths(tmp_path, [{"deal_id": "5", "player": "Alexander Isak",
+                                "window": WIN, "outcome": "unknown", "verified": "auto"}],
+                    [LEGACY])
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Alexander Isak", [{"to_club": "Liverpool", "source": "Sky Sports"}])
+
+    added = bridge.bridge_claims(conn, deals_path=dp, claims_path=cp)
+    assert len(added) == 1
+    rows = _read_claims(cp)
+    assert rows[0] == LEGACY                       # hand-seeded row byte-preserved
+    new = rows[1]
+    assert new["deal_id"] == "5" and new["source_name"] == "Sky Sports"
+    assert new["verified"] == "auto"               # PROPOSED: does not score yet
+    assert new["claim_id"] == "2"                  # ids continue after the legacy max
+
+
+def test_claims_append_is_idempotent_and_dedupes_source_stage(tmp_path):
+    """The same outlet re-reporting one deal daily is correlated evidence on one
+    outcome — dedup per (deal, source, stage) keeps claim spam from stacking
+    Brier samples. Re-running adds nothing."""
+    dp, cp = _paths(tmp_path, [{"deal_id": "5", "player": "Alexander Isak",
+                                "window": WIN, "outcome": "unknown", "verified": "auto"}], [])
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Alexander Isak", [
+        {"to_club": "Liverpool", "source": "Sky Sports", "date": "2025-08-01"},
+        {"to_club": "Liverpool", "source": "Sky Sports", "date": "2025-08-02"},  # same source+stage
+        {"to_club": "Liverpool", "source": "BBC Sport", "date": "2025-08-02"},
+    ])
+    added = bridge.bridge_claims(conn, deals_path=dp, claims_path=cp)
+    assert {a["source_name"] for a in added} == {"Sky Sports", "BBC Sport"}
+    assert len(added) == 2
+    again = bridge.bridge_claims(conn, deals_path=dp, claims_path=cp)
+    assert again == []                             # idempotent rerun
+    assert len(_read_claims(cp)) == 2
+
+
+def test_claims_for_clusters_without_a_deal_are_skipped(tmp_path):
+    dp, cp = _paths(tmp_path, [], [])              # no deals at all
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Marc Cucurella", [{"to_club": "Chelsea"}])
+    assert bridge.bridge_claims(conn, deals_path=dp, claims_path=cp) == []
+    assert _read_claims(cp) == []
+
+
+def test_claims_without_a_source_never_reach_ground_truth(tmp_path):
+    dp, cp = _paths(tmp_path, [{"deal_id": "9", "player": "Marc Cucurella",
+                                "window": WIN, "outcome": "unknown", "verified": "auto"}], [])
+    conn = store.connect(":memory:")
+    key = cluster.deal_key("Marc Cucurella", WIN)
+    store.add_post(conn, {"url": "http://p/nosrc", "source": "", "title": "t", "summary": ""})
+    store.add_claim(conn, {"post_url": "http://p/nosrc", "deal_key": key,
+                           "player": "Marc Cucurella", "from_club": "", "to_club": "Chelsea",
+                           "stage": "talks", "implied_p": 0.35, "source_name": "",
+                           "source_identifiable": 0, "direction_confidence": 0.8,
+                           "fee_eur": None, "claim_date": "2025-08-01"})
+    assert bridge.bridge_claims(conn, deals_path=dp, claims_path=cp) == []
+    assert _read_claims(cp) == []
