@@ -102,9 +102,17 @@ def _nim_complete(system, user, model=None):
 
 
 def analyze(post, complete=_nim_complete, system=None):
-    """Return the parsed engine JSON for one post (or None if the model broke contract)."""
+    """Return the parsed engine JSON for one post (or None if the model broke contract).
+
+    One same-call retry on a contract break: the reasoning default emits
+    unparseable output intermittently (~1 in 10 on the 27-case eval), and a
+    second identical call usually parses. Persistent breaks still return None
+    and flow into the pipeline's parse_err/retry machinery."""
     system = system if system is not None else load_system_prompt()
-    return parse_engine_json(complete(system, post))
+    result = parse_engine_json(complete(system, post))
+    if result is None:
+        result = parse_engine_json(complete(system, post))
+    return result
 
 
 if __name__ == "__main__":

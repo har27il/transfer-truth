@@ -93,3 +93,25 @@ def test_parse_returns_none_when_no_json():
     assert parse_engine_json("I cannot analyze this post.") is None
     assert parse_engine_json("") is None
     assert parse_engine_json(None) is None
+
+
+def test_analyze_retries_once_on_contract_break():
+    """Intermittent reasoning-model JSON breaks (~1/10 calls) must not cost a
+    claim: analyze retries the identical call once, and only once."""
+    from engine.run import analyze
+    calls = []
+
+    def flaky_then_good(system, user):
+        calls.append(1)
+        return "no json, sorry" if len(calls) == 1 else '{"is_transfer_claim": false}'
+
+    assert analyze("post", complete=flaky_then_good, system="s") == {"is_transfer_claim": False}
+    assert len(calls) == 2
+
+    def always_broken(system, user):
+        calls.append(1)
+        return "still no json"
+
+    calls.clear()
+    assert analyze("post", complete=always_broken, system="s") is None
+    assert len(calls) == 2                      # exactly one retry, no loop
