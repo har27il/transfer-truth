@@ -45,7 +45,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 47,Hayden Hackney,Middlesbrough,Everton,2026-summer,completed,,2026-06-29,https://en.wikipedia.org/wiki/Hayden_Hackney,YES,[auto] player joined Everton - the rumoured destination | plays as a midfielder for Premier League club Everton
 48,Ibrahima Konaté,Liverpool,Real Madrid,2026-summer,completed,,2026-06-18,https://en.wikipedia.org/wiki/Ibrahima_Konaté,YES,"[auto] player left Liverpool, joined Real Madrid (no destination was rumoured) | On 18 June 2026, Konate signed for La Liga club Real Madrid on a four-year contract."
 49,Jan Paul van Hecke,Brighton,Tottenham Hotspur,2026-summer,completed,,2026-06-18,https://en.wikipedia.org/wiki/Jan_Paul_van_Hecke,YES,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 18 June 2026, Van Hecke moved to fellow Premier League side Tottenham Hotspur on a long-term contract"
-50,João Palhinha,Bayern Munich,Tottenham Hotspur,2026-summer,unknown,,,https://en.wikipedia.org/wiki/João_Palhinha,auto,[reverted 2026-07-05] Spurs refused purchase option; player back at Bayern; could still move before Sept 1
+50,João Palhinha,Bayern Munich,Tottenham Hotspur,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/João_Palhinha,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 3 August 2025, Palhinha moved to Tottenham Hotspur on a season-long loan with an option to make the deal permanent for €30 million."
 51,Julián Alvarez,Atlético Madrid,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 53,Marc Cucurella,Chelsea,Real Madrid,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Marc_Cucurella,YES,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
 54,Marcus Rashford,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -55,7 +55,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 60,Nicolas Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 61,Barney Stewart,Falkirk,West Bromwich Albion,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Barney_Stewart,YES,"[auto] player joined West Bromwich Albion - the rumoured destination | On 17 June 2026, Stewart signed for EFL Championship club West Bromwich Albion, signing a four-year contract for an undisclosed fee."
 62,Bernardo Silva,Manchester City,Real Madrid,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Bernardo_Silva,YES,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
-64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,unknown,,,https://en.wikipedia.org/wiki/Luka_Vuskovic,auto,[reverted 2026-07-05] GBP46m Brighton move agreed but paperwork after World Cup; not official yet
+64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Luka_Vuskovic,auto,"[auto] player joined Hamburger SV, not Brighton - rumour did not happen | On 29 August 2025, Vušković moved on loan to Bundesliga club Hamburger SV in Germany, joining his brother Mario."
 65,Munoz,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 66,Victor Munoz,Osasuna,Liverpool,2026-summer,completed,,2026-06-22,https://en.wikipedia.org/wiki/Victor_Munoz,YES,"[auto] player joined Liverpool - the rumoured destination | On 18 June 2026, Premier League club Liverpool bought out Muñoz from Osasuna"
 68,Jeremy Monga,Leicester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -63,7 +63,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 70,Harry Wilson,Fulham,Leeds,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 72,Adam Wharton,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 73,Diomande,RB Leipzig,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-74,Florian Wirtz,,Chelsea,2026-summer,unknown,,,https://en.wikipedia.org/wiki/Florian_Wirtz,auto,[reverted 2026-07-05] no 2026 Chelsea talks; still Liverpool player; window open
+74,Florian Wirtz,,Chelsea,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Florian_Wirtz,auto,"[auto] player joined Liverpool, not Chelsea - rumour did not happen | On 20 June 2025, Wirtz joined Premier League club Liverpool on a long-term contract."
 75,Ghuendouz,,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 76,Broja,Burnley,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 77,Lucas Bergvall,Tottenham Hotspur,,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
