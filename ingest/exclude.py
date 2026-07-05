@@ -66,7 +66,9 @@ _WOMEN_PLAYER_NAMES = {
     "leah williamson", "lucy bronze", "alessia russo", "lauren james",
     "lauren hemp", "ella toone", "georgia stanway", "chloe kelly",
     "millie bright", "fran kirby", "keira walsh", "alex greenwood",
-    "hannah hampton", "jess carter", "niamh charles",
+    "hannah hampton", "jess carter", "niamh charles", "kirsty hanson",
+    "nadine riesen", "manaka matsukubo", "victoria pelova", "lia walti",
+    "amalie vangsgaard",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",
@@ -81,6 +83,7 @@ _WOMEN_PLAYER_NAMES = {
 # The feed swap (sources.py: 12040 -> 12691) stops NEW ones; these clear the residue.
 _OTHER_SPORT_NAMES = {
     "feldt",   # rugby league (St Helens) -- surfaced at 99% on the live football feed
+    "ellie kildunne",   # rugby union (Harlequins/PWR) -- leaked via BBC/Sky mixed sport copy
 }
 _KNOWN_NON_PLAYERS = {
     **{n: REASON_MANAGER for n in _MANAGER_NAMES},

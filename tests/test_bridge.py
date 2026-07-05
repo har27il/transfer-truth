@@ -260,3 +260,40 @@ def test_claims_without_a_source_never_reach_ground_truth(tmp_path):
                            "fee_eur": None, "claim_date": "2025-08-01"})
     assert bridge.bridge_claims(conn, deals_path=dp, claims_path=cp) == []
     assert _read_claims(cp) == []
+
+
+def test_denylisted_auto_rows_are_scrubbed_from_the_ledger(tmp_path):
+    """REGRESSION (2026-07-05): women's deals created BEFORE their names hit the
+    denylist survived in deals.csv forever and got resolved/promotable. The
+    bridge now scrubs machine-created (verified=auto) denylisted rows on every
+    run; hand-curated rows are never auto-deleted."""
+    p = tmp_path / "deals.csv"
+    _write_deals(p, [
+        {"deal_id": "1", "player": "Mary Earps", "window": WIN,
+         "outcome": "completed", "verified": "auto"},
+        {"deal_id": "2", "player": "Alexander Isak", "window": WIN,
+         "outcome": "completed", "verified": "YES"},
+        {"deal_id": "3", "player": "Mary Earps", "window": "2024-summer",
+         "outcome": "completed", "verified": "YES"},   # curated -> untouchable
+    ])
+    conn = store.connect(":memory:")
+    stats = bridge.bridge(conn, deals_path=p)
+    assert [r["player"] for r in stats["scrubbed"]] == ["Mary Earps"]
+    remaining = _read_deals(p)
+    assert [r["deal_id"] for r in remaining] == ["2", "3"]
+
+
+def test_orphaned_auto_claims_are_pruned_with_their_deal(tmp_path):
+    dp, cp = _paths(tmp_path, [{"deal_id": "2", "player": "Alexander Isak",
+                                "window": WIN, "outcome": "unknown", "verified": "auto"}],
+                    [{"claim_id": "1", "deal_id": "99", "source_name": "BBC Sport",
+                      "stage": "official", "claim_date": "2026-06-01",
+                      "source_url": "http://x/orphan", "verified": "auto"},
+                     LEGACY])  # LEGACY is deal 5 (gone) but verified=YES -> kept
+    conn = store.connect(":memory:")
+    bridge.bridge_claims(conn, deals_path=dp, claims_path=cp)
+    rows = _read_claims(cp)
+    assert [r["claim_id"] for r in rows] == ["1"] or [r["claim_id"] for r in rows] == [LEGACY["claim_id"]]
+    # precise: the auto orphan (deal 99) is gone; the YES legacy row survives
+    assert all(not (r["deal_id"] == "99" and r["verified"] == "auto") for r in rows)
+    assert any(r["verified"] == "YES" for r in rows)

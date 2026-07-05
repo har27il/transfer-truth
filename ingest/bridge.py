@@ -82,6 +82,17 @@ def _next_id(rows):
 def bridge(conn, deals_path=DEALS, dry_run=False):
     """Create deals.csv rows for ingested clusters not yet represented. Returns stats."""
     fieldnames, rows = load_deals(deals_path)
+
+    # Retroactive denylist enforcement (2026-07-05): rows created BEFORE a name
+    # landed on the denylist survived forever — the filter gated creation and
+    # the feed, never the ledger. Scrub MACHINE-created rows (verified=auto)
+    # whose player is now denylisted; hand-curated rows are never auto-deleted.
+    scrubbed = [r for r in rows
+                if (r.get("verified") or "").strip().lower() == "auto"
+                and is_known_non_player(r.get("player", ""))]
+    if scrubbed:
+        rows = [r for r in rows if r not in scrubbed]
+
     existing = _existing_keys(rows)
     next_id = _next_id(rows)
 
@@ -117,9 +128,10 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
         existing[key] = row                 # guard against dup keys within one run
         created.append(row)
 
-    if created and not dry_run:
+    if (created or scrubbed) and not dry_run:
         write_atomic(deals_path, fieldnames, rows)
-    return {"created": created, "attached": attached, "excluded": excluded}
+    return {"created": created, "attached": attached, "excluded": excluded,
+            "scrubbed": scrubbed}
 
 
 def _load_claims_csv(path):
@@ -144,6 +156,17 @@ def bridge_claims(conn, deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False)
     fieldnames, rows = _load_claims_csv(claims_path)
     _, deal_rows = load_deals(deals_path)
     key_to_deal = _existing_keys(deal_rows)
+
+    # Companion to the deals scrub: machine-appended claims whose deal no longer
+    # exists (e.g. a denylisted player's row was scrubbed) must not linger.
+    live_ids = {r.get("deal_id", "").strip() for r in deal_rows}
+    pruned = [r for r in rows
+              if (r.get("verified") or "").strip().lower() == "auto"
+              and (r.get("deal_id") or "").strip() not in live_ids]
+    if pruned:
+        rows = [r for r in rows if r not in pruned]
+        if not dry_run:
+            write_atomic(claims_path, fieldnames, rows)
 
     seen_triple = {(r.get("deal_id", "").strip(),
                     (r.get("source_name") or "").strip().lower(),
