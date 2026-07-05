@@ -95,7 +95,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 105,78,The Guardian,rss,2026-06-22,interest,https://www.theguardian.com/football/2026/jun/22/arsenal-make-morgan-rogers-top-target-in-transfer-window,Arsenal make Villa’s Morgan Rogers their No 1 target in transfer window,auto
 106,78,BBC Sport,rss,2026-06-23,interest,https://www.bbc.co.uk/sport/football/articles/ckg84mz08d8o?at_medium=RSS&at_campaign=rss,Rogers keen on Arsenal move - Tuesday's gossip,auto
 107,79,Sky Sports,rss,2026-06-20,denied,https://www.skysports.com/football/live-blog/12691/12507208/football-latest-news-gossip,Real Madrid deny interest in Bayern Munich winger Olise,auto
-108,80,BBC Sport,rss,2026-06-22,rumour_link,https://www.bbc.com/sport/football/articles/c75y4v4kl2yo?at_medium=RSS&at_campaign=rss,Goalkeeper Keating turns down new Man City deal,auto
 110,82,Sky Sports,rss,2026-06-22,advanced,https://www.skysports.com/football/live-blog/12691/13279295/brighton-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights,Brighton latest: Seagulls closing in on Svoboda signing,YES
 111,83,BBC Sport,rss,2026-06-18,agreement,https://www.bbc.co.uk/sport/football/articles/czrx8vd2yvdo?at_medium=RSS&at_campaign=rss,Beever-Jones set to sign new deal at Chelsea,auto
 112,84,BBC Sport,rss,2026-06-23,advanced,https://www.bbc.co.uk/sport/football/articles/c3ey7vp051yo?at_medium=RSS&at_campaign=rss,Chelsea close in on Palestra as Alonso's first signing,YES
@@ -129,7 +128,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 143,98,BBC Sport,rss,2026-07-05,interest,https://www.bbc.co.uk/sport/football/articles/cp9llnxk45jo?at_medium=RSS&at_campaign=rss,Chelsea's Santos considered as Man Utd look to solve midfield issues,auto
 144,110,Sky Sports,rss,2026-06-26,interest,https://www.skysports.com/football/live-blog/12691/13025486/arsenal-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts,Arsenal latest: Gunners explore Guimaraes move,auto
 145,110,BBC Sport,rss,2026-06-26,talks,https://www.bbc.co.uk/sport/football/articles/cly71eqgej8o?at_medium=RSS&at_campaign=rss,Arsenal explore moves for Newcastle's Guimaraes & Tonali,auto
-146,111,BBC Sport,rss,2026-06-26,denied,https://www.bbc.co.uk/sport/football/articles/c4gywygqlgdo?at_medium=RSS&at_campaign=rss,Wales boss Bellamy has 'burned bridges' - Roberts,auto
 147,112,Sky Sport News,rss,2026-06-26,interest,https://www.skysports.com/football/news/12691/13558047/newcastle-interested-in-germany-midfielder-felix-nmecha-as-arsenal-explore-bruno-guimaraes-transfer,Newcastle interested in Nmecha as Arsenal explore Guimaraes deal,auto
 148,113,Sky Sports,rss,2026-06-26,medical,https://www.skysports.com/football/live-blog/12691/13025497/chelsea-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts,Chelsea latest: Palestra to have Blues medical on Friday,auto
 149,47,BBC Sport,rss,2026-06-29,advanced,https://www.bbc.co.uk/sport/football/articles/cgmd4ld079po?at_medium=RSS&at_campaign=rss,Middlesbrough's Hackney set for Everton move,YES
@@ -142,7 +140,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 156,116,Sky Sports,rss,2026-06-26,interest,https://www.skysports.com/football/news/12691/13558113/bruno-guimaraes-transfer-news-arsenal-preparing-second-approach-for-newcastle-captain-paper-talk,Papers: Arsenal preparing second approach for Guimaraes,auto
 157,117,Sky Sports,rss,2026-06-29,interest,https://www.skysports.com/football/news/12691/13558939/harry-kane-transfer-news-barcelona-interested-in-signing-bayern-munich-forward-and-england-captain,Barcelona interested in England captain Kane,auto
 158,118,BBC Sport,rss,2026-06-30,advanced,https://www.bbc.co.uk/sport/football/articles/cdjknm14r4lo?at_medium=RSS&at_campaign=rss,'Pandur poised for Rangers as Butland heads for Hull' - gossip,YES
-159,119,BBC Sport,rss,2026-06-30,rumour_link,https://www.bbc.co.uk/news/articles/c4gy529xwdro?at_medium=RSS&at_campaign=rss,"Coach played mind games with Cusack before death, inquest told",auto
 160,120,BBC Sport,rss,2026-06-26,advanced,https://www.bbc.co.uk/sport/football/articles/c6210jyj0n6o?at_medium=RSS&at_campaign=rss,Chelsea close in on Lacroix - Saturday's gossip,auto
 161,121,Sky Sports,rss,2026-06-28,agreement,https://www.skysports.com/football/live-blog/12691/13353569/leeds-united-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts,Leeds latest: Brighton agree deal to sign Struijk,YES
 162,122,BBC Sport,rss,2026-06-29,advanced,https://www.bbc.co.uk/sport/football/articles/cn4d2xp017vo?at_medium=RSS&at_campaign=rss,'Ferguson to assess Bologna future' - gossip,auto
@@ -173,3 +170,4 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 188,127,Sky Sports,rss,2026-07-02,interest,https://www.skysports.com/football/news/12691/13559716/eli-junior-kroupi-heads-a-list-of-tottenham-targets-with-spending-spree-set-to-continue-paper-talk,Papers: Spurs target Kroupi with spending spree set to continue,auto
 189,128,BBC Scotland,rss,2026-07-01,interest,https://www.bbc.co.uk/sport/football/articles/c3vy70r52wko?at_medium=RSS&at_campaign=rss,Could Rangers make Ferguson marquee signing?,auto
 190,129,Ciaran Kelly,rss,2026-07-05,official,https://www.bbc.co.uk/sport/football/articles/cgqjkq3kwdgo?at_medium=RSS&at_campaign=rss,Newcastle sign Toure for £43m - what will he bring to club?,auto
+191,129,Sky Sports,rss,2026-07-05,here_we_go,https://www.skysports.com/football/news/12691/13560722/bazoumana-toure-newcastle-sign-ivory-coast-winger-for-42m,Newcastle sign winger Toure for £42m,auto

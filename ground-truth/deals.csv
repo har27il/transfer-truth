@@ -69,7 +69,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 77,Lucas Bergvall,Tottenham Hotspur,,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 78,Morgan Rogers,Aston Villa,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 79,Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-80,Khiara Keating,Manchester City,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 82,Svoboda,Venezia,Brighton & Hove Albion,2026-summer,completed,,2026-07-02,,YES,"[verified 2026-07-05] Svoboda joined Brighton from Venezia, ~EUR5m clause | beinsports.com veltman-leaves-brighton-as-svoboda-arrives"
 83,Aggie Beever-Jones,Chelsea,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 84,Marco Palestra,Atalanta,Chelsea,2026-summer,completed,,2026-06-24,https://en.wikipedia.org/wiki/Marco_Palestra,YES,"[auto] player joined Chelsea - the rumoured destination | On 24 June 2026, Palestra joined Chelsea"
@@ -86,7 +85,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 96,Dan Neil,Sunderland,Rangers,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Dan_Neil,YES,"[auto] player joined Rangers - the rumoured destination | On 1 July 2026, Neil signed for Rangers on a three-year contract."
 97,Alex Oxlade-Chamberlain,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 98,Andrey Santos,Chelsea,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-99,Angus Gunn,,Manchester United,2026-summer,unknown,,,https://en.wikipedia.org/wiki/Angus_Gunn,auto,[reverted 2026-07-05] free agent; Man Utd interest only; nothing completed
+99,Angus Gunn,,Manchester United,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Angus_Gunn,auto,"[auto] player joined Nottingham Forest, not Manchester United - rumour did not happen | On 6 August 2025, Gunn joined Nottingham Forest on a one-year deal."
 100,Aurelien Tchouameni,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 101,Crysencio Summerville,West Ham,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 102,Denzel Dumfries,Inter Milan,Real Madrid,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Denzel_Dumfries,YES,[auto] player joined Real Madrid - the rumoured destination | He eventually joined La Liga club Real Madrid in July 2026.
@@ -96,7 +95,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 107,Piero Hincapie,Bayer Leverkusen,Arsenal,2026-summer,completed,,2026-06-25,https://en.wikipedia.org/wiki/Piero_Hincapie,YES,"[verified 2026-07-05] permanent GBP34.5m transfer from Leverkusen, summer 2026 window | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
 108,Tyrique George,Chelsea,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 110,Bruno Guimaraes,Newcastle United,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-111,Craig Bellamy,,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 112,Felix Nmecha,Borussia Dortmund,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 113,Palestra,,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 114,Ben Godfrey,Atalanta,Rangers,2026-summer,completed,,2026-06-29,https://en.wikipedia.org/wiki/Ben_Godfrey,YES,"[verified 2026-07-05] season-long loan with buy option, announced by Rangers (auto collapse via stale 2025 evidence was WRONG) | rangers.co.uk/article/rangers-sign-ben-godfrey-on-loan-from-atalanta"
@@ -104,7 +102,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 116,Guimaraes,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 117,Harry Kane,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 118,Ivor Pandur,Hull City,Rangers,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Ivor_Pandur,YES,"[auto] player joined Rangers - the rumoured destination | On 30 June 2026, Rangers announced the signing of Pandur on a four-year deal."
-119,Jonathan Morgan,,Sheffield United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 120,Maxence Lacroix,Crystal Palace,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 121,Pascal Struijk,Leeds United,Brighton & Hove Albion,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Pascal_Struijk,YES,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
 122,Tjark Ernst,Celtic,Wolfsburg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
