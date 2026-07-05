@@ -20,6 +20,10 @@ on:
         description: 'NIM model id to eval (blank = engine default, meta/llama-3.3-70b-instruct)'
         required: false
         default: ''
+      list_models:
+        description: 'Set to "true" to just print the live NIM model catalog (no eval). The catalog rotates — never trust a hardcoded list.'
+        required: false
+        default: ''
   # June 25 post-mortem: a model default was edited and pushed straight to main
   # without anyone pressing the eval button, and the cron ran broken for a week.
   # Any push touching model selection or the prompt now generates its own eval
@@ -48,16 +52,38 @@ jobs:
       - name: Install deps
         run: pip install -r requirements.txt
 
+      # Catalog discovery: the serverless catalog rotates (models get retired and
+      # their endpoints degrade into pure timeouts), so candidates must come from
+      # the LIVE list, never from code comments. Prints ids and exits.
+      - name: List live NIM models
+        if: ${{ github.event.inputs.list_models == 'true' }}
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        run: |
+          python - <<'EOF'
+          import os
+          from openai import OpenAI
+          client = OpenAI(base_url="https://integrate.api.nvidia.com/v1",
+                          api_key=os.environ["NVIDIA_API_KEY"])
+          ids = sorted(m.id for m in client.models.list())
+          print(f"{len(ids)} models available:")
+          for i in ids:
+              print(" ", i)
+          EOF
+
       # Offline gate first: corpus well-formed + grader catches regressions. Cheap, no key.
       - name: Offline golden checks
+        if: ${{ github.event.inputs.list_models != 'true' }}
         run: pytest -q tests/test_golden.py -k "not live"
 
       # The real gate: run the live engine over all 15 cases and assert the floor.
       # -s streams the per-case PASS/FAIL table + pass_rate/field_accuracy to the log.
       # NIM_MODEL is set only when an input model was given, so blank = engine default.
       - name: Live golden eval
+        if: ${{ github.event.inputs.list_models != 'true' }}
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NIM_TIMEOUT: '90'
           TM_LLM_TESTS: '1'
           NIM_MODEL: ${{ inputs.model }}
         run: |
