@@ -87,11 +87,16 @@ def _nim_complete(system, user, model=None):
     client = OpenAI(base_url=NIM_BASE, api_key=key,
                     max_retries=int(os.environ.get("NIM_MAX_RETRIES", "5")),
                     timeout=float(os.environ.get("NIM_TIMEOUT", "30")))
+    # max_tokens must leave room for a reasoning model's <think> preamble BEFORE
+    # the JSON: at 600 the thinking ate the whole budget and the answer was
+    # truncated into a parse failure (nemotron eval scored 33% purely on
+    # truncation). Instruct models stop early anyway, so headroom costs nothing.
     resp = client.chat.completions.create(
         model=model or NIM_MODEL,
         messages=[{"role": "system", "content": system},
                   {"role": "user", "content": user}],
-        temperature=0, max_tokens=600,
+        temperature=0,
+        max_tokens=int(os.environ.get("NIM_MAX_TOKENS", "2048")),
     )
     return resp.choices[0].message.content or ""
 
