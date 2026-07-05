@@ -114,7 +114,12 @@ jobs:
         run: python ingest/bridge.py
 
       # 3. Resolve any 'unknown' deals whose window has closed (positive-evidence only).
+      # Skipped on backfill dispatches: resolve re-examines the WHOLE unknown backlog
+      # (~13 min mid-recovery) and backfill keeps growing it — together they blew the
+      # 30-min cap and the cancellation threw away the batch's work (cache post-step
+      # doesn't run on cancel). The daily scheduled runs keep resolving as usual.
       - name: Resolve outcomes
+        if: ${{ github.event.inputs.backfill_since == '' }}
         run: python outcome/apply.py
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
