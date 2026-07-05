@@ -73,8 +73,41 @@ def _describe(deal, deal_claims):
     return "\n".join(lines)
 
 
-def promote(deal_ids, deals_path=DEALS, claims_path=CLAIMS_CSV, rebuild=True):
-    """Flip the given deals AND their auto claims to verified=YES. Atomic."""
+FIXTURES = ROOT / "tests" / "fixtures" / "resolutions.json"
+
+
+def _write_fixtures(rows, deal_ids, fixtures_path):
+    """Every newly-trusted COMPLETED deal gets a reproducibility fixture so the
+    test gate (tests/test_detect.py) can re-derive its outcome forever — without
+    this, a promotion would correctly block the next cron at the test gate.
+    Collapsed promotions are rare (positive evidence mid-window) and still need
+    a hand-written fixture; we flag them instead of guessing."""
+    import json
+    res = json.loads(fixtures_path.read_text("utf-8"))
+    added, manual = 0, []
+    for r in rows:
+        if r.get("deal_id") not in deal_ids:
+            continue
+        if (r.get("outcome") or "").lower() != "completed":
+            manual.append(f"deal {r['deal_id']} {r.get('player')} ({r.get('outcome')})")
+            continue
+        if r.get("player") in res:
+            continue
+        notes = r.get("notes") or ""
+        evidence = notes.split("|", 1)[1].strip() if "|" in notes else notes
+        res[r["player"]] = {"status": "moved", "joined_club": r.get("to_club"),
+                            "evidence": evidence}
+        added += 1
+    if added:
+        fixtures_path.write_text(json.dumps(res, indent=2, ensure_ascii=False) + "\n",
+                                 encoding="utf-8")
+    return added, manual
+
+
+def promote(deal_ids, deals_path=DEALS, claims_path=CLAIMS_CSV, rebuild=True,
+            fixtures_path=FIXTURES):
+    """Flip the given deals AND their auto claims to verified=YES, and write the
+    reproducibility fixtures the test gate requires. Atomic."""
     deal_ids = {str(d) for d in deal_ids}
     fieldnames, rows = load_deals(deals_path)
     cf, claim_rows = _load_claims(claims_path)
@@ -92,6 +125,14 @@ def promote(deal_ids, deals_path=DEALS, claims_path=CLAIMS_CSV, rebuild=True):
     if promoted:
         write_atomic(deals_path, fieldnames, rows)
         write_atomic(claims_path, cf, claim_rows)
+        n_fx, manual = _write_fixtures(rows, set(promoted), fixtures_path)
+        print(f"(wrote {n_fx} test fixture(s) to {fixtures_path.name})")
+        for m in manual:
+            print(f"NOTE: add a fixture by hand for {m} — collapsed outcomes "
+                  f"need the actual destination, see tests/fixtures/resolutions.json")
+        print("REMINDER: bump the expected count in tests/test_detect.py by "
+              f"{len(promoted)}, run 'python -m pytest -q', then commit "
+              "ground-truth/, scoring/leaderboard.json and tests/ together.")
         if rebuild:
             rescore_and_rebuild()
     return promoted, n_claims

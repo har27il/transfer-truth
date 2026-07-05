@@ -78,3 +78,27 @@ def test_promote_ignores_ids_that_are_not_pending(tmp_path):
                                          rebuild=False)
     assert promoted == [] and n_claims == 0
     assert _read(dp) == before_d and _read(cp) == before_c   # nothing rewritten
+
+
+def test_promote_writes_fixtures_for_completed_deals(tmp_path):
+    """A promotion must leave the repo test-gate-clean: completed deals get a
+    reproducibility fixture automatically; collapsed ones are flagged for hand
+    fixtures (they need the actual destination, not the rumoured one)."""
+    import json
+    dp, cp, fp = tmp_path / "deals.csv", tmp_path / "claims.csv", tmp_path / "res.json"
+    _write(dp, DEALS_HEADER, [
+        {"deal_id": "1", "player": "A Player", "to_club": "Arsenal",
+         "outcome": "completed", "verified": "auto",
+         "notes": "[auto] joined the rumoured club | joined Arsenal on 1 July 2026"},
+        {"deal_id": "3", "player": "C Player", "outcome": "collapsed", "verified": "auto"},
+    ])
+    _write(cp, CLAIMS_HEADER, [])
+    fp.write_text("{}", encoding="utf-8")
+
+    promoted, _ = promote.promote(["1", "3"], deals_path=dp, claims_path=cp,
+                                  rebuild=False, fixtures_path=fp)
+    assert sorted(promoted) == ["1", "3"]
+    res = json.loads(fp.read_text("utf-8"))
+    assert res["A Player"] == {"status": "moved", "joined_club": "Arsenal",
+                               "evidence": "joined Arsenal on 1 July 2026"}
+    assert "C Player" not in res          # collapsed -> flagged, never guessed
