@@ -21,9 +21,11 @@ adding a model you haven't evaluated.
 import os
 
 # The known-good default: passed the golden eval (>=80% pass / >=90% field
-# accuracy). Reasoning models (nemotron-super, deepseek-r1, ...) are NOT safe
-# here even with <think>-stripping in the parser — evaluate first.
-DEFAULT_NIM_MODEL = "meta/llama-3.3-70b-instruct"
+# accuracy). 2026-07-05: switched to nemotron-3-super after meta/llama-3.3-70b's
+# serverless endpoint degraded into 100% timeouts. Eval run 28741893878:
+# 87% pass / 98% field with NIM_MAX_TOKENS>=2048 (reasoning models need <think>
+# headroom or they truncate into parse failures — never lower it below that).
+DEFAULT_NIM_MODEL = "nvidia/nemotron-3-super-120b-a12b"
 
 ENGINE_MODEL = os.environ.get("NIM_MODEL", DEFAULT_NIM_MODEL)
 RESOLVER_MODEL = os.environ.get("NIM_RESOLVER_MODEL", DEFAULT_NIM_MODEL)

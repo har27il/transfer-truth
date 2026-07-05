@@ -193,3 +193,15 @@ def test_live_ederson_disambiguation():
     head = source.fetch_player_text("Éderson", prefer_club="Atalanta")[:400].lower()
     assert "atalanta" in head and "midfielder" in head   # the born-1999 Atalanta player
     assert "goalkeeper" not in head                       # NOT the Manchester City keeper
+
+
+def test_parse_json_object_survives_reasoning_transcript():
+    """REGRESSION (2026-07-05 model switch): the resolver's parser must survive a
+    reasoning model's <think> preamble (stray braces included) instead of
+    degrading every resolution to 'unclear' — it now reuses the engine parser."""
+    from outcome.source import _parse_json_object
+    raw = ('<think>Career section says {joined: Spurs} in 2026...</think>\n'
+           '{"status": "moved", "joined_club": "Tottenham Hotspur", "evidence": "signed 2 July 2026"}')
+    res = _parse_json_object(raw)
+    assert res["status"] == "moved" and res["joined_club"] == "Tottenham Hotspur"
+    assert _parse_json_object("no json here")["status"] == "unclear"

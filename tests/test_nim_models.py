@@ -22,7 +22,10 @@ from engine.run import parse_engine_json
 # accuracy — dispatch .github/workflows/golden-eval.yml for the evidence).
 # Add a model here ONLY with a green eval run to point at.
 EVALUATED_MODELS = {
-    "meta/llama-3.3-70b-instruct",   # evaluated 2026-06-22: 80% pass / 97% field
+    "meta/llama-3.3-70b-instruct",          # evaluated 2026-06-22: 80% pass / 97% field
+                                            # (endpoint degraded to timeouts 2026-07-05)
+    "nvidia/nemotron-3-super-120b-a12b",    # evaluated 2026-07-05 run 28741893878:
+                                            # 87% pass / 98% field @ NIM_MAX_TOKENS=2048
 }
 
 

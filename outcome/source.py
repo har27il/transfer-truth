@@ -193,12 +193,13 @@ def _build_prompt(text, player, window):
 
 
 def _parse_json_object(raw):
-    """Lenient: pull the first {...} block and parse it. On any failure return an
+    """Lenient: reuse the engine's hardened parser (strips <think> blocks,
+    balanced-brace fallback) so a reasoning model's transcript parses instead of
+    degrading every resolution to 'unclear'. On any failure still return an
     'unclear' resolution so a bad LLM response can never fabricate an outcome."""
-    try:
-        i, j = raw.index("{"), raw.rindex("}")
-        obj = json.loads(raw[i:j + 1])
-    except (ValueError, json.JSONDecodeError):
+    from engine.run import parse_engine_json
+    obj = parse_engine_json(raw or "")
+    if not isinstance(obj, dict):
         return {"status": "unclear", "joined_club": None,
                 "evidence": "could not parse model output"}
     status = str(obj.get("status", "unclear")).strip().lower()
@@ -229,7 +230,9 @@ def extract_resolution(text, player, window, model=None):
         messages=[{"role": "system", "content": _SYS},
                   {"role": "user", "content": _build_prompt(text, player, window)}],
         temperature=0,
-        max_tokens=400,
+        # Same reasoning-headroom rule as engine/run.py: a <think> preamble must
+        # not eat the budget before the JSON is emitted.
+        max_tokens=int(os.environ.get("NIM_MAX_TOKENS", "2048")),
     )
     return _parse_json_object(resp.choices[0].message.content or "")
 
