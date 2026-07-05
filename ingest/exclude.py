@@ -56,6 +56,9 @@ REASON_SPORT = "not football (other sport leaked from a mixed feed)"
 # delete the women's entries once that ships. Keys are pre-normalized (_norm_name).
 _MANAGER_NAMES = {
     "derek mcinnes",   # Rangers manager, not a player (surfaced 2026-summer)
+    "craig bellamy",   # Wales/Burnley manager rumours leaked as a "deal" (2026-07)
+    "jonathan morgan", # women's-football manager (Sheffield United) — appointment, not transfer
+    "wouter vrancken", # Hearts head coach appointment (2026-06)
 }
 # Top WSL / NWSL / international names whose transfers read like men's. Seeded broad
 # on purpose: an exact-name match is FP-safe, so a longer list just catches more.
@@ -68,7 +71,7 @@ _WOMEN_PLAYER_NAMES = {
     "millie bright", "fran kirby", "keira walsh", "alex greenwood",
     "hannah hampton", "jess carter", "niamh charles", "kirsty hanson",
     "nadine riesen", "manaka matsukubo", "victoria pelova", "lia walti",
-    "amalie vangsgaard",
+    "amalie vangsgaard", "khiara keating", "aggie beever-jones",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",

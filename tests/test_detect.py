@@ -44,7 +44,8 @@ def test_reproduces_all_ground_truth_outcomes():
                               f"want {want}, got {got} ({reason})")
     assert not mismatches, "Classifier disagreed with ground truth:\n" + "\n".join(mismatches)
     # 38 hand-labelled originals + 20 promoted 2026-07-05 (first promotion wave)
-    assert n == 58, f"expected 58 resolved deals, scored {n}"
+    # + 16 from the 2026-07-05 web census (6 corrected/promoted + 10 coverage gaps)
+    assert n == 74, f"expected 74 resolved deals, scored {n}"
 
 
 def test_classifier_never_invents_an_outcome_without_evidence():

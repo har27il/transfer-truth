@@ -235,5 +235,85 @@
     "status": "moved",
     "joined_club": "Brighton & Hove Albion",
     "evidence": "On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
+  },
+  "Mateus Fernandes": {
+    "status": "moved",
+    "joined_club": "Tottenham Hotspur",
+    "evidence": "joined Tottenham for club-record GBP85m, officially announced | skysports.com/football/news/11095/13559479"
+  },
+  "Svoboda": {
+    "status": "moved",
+    "joined_club": "Brighton & Hove Albion",
+    "evidence": "Svoboda joined Brighton from Venezia, ~EUR5m clause | beinsports.com veltman-leaves-brighton-as-svoboda-arrives"
+  },
+  "Andre Onana": {
+    "status": "moved",
+    "joined_club": "Trabzonspor",
+    "evidence": "season-long loan to Trabzonspor officially announced by Man Utd (2026-27, distinct from 2025 loan) | manutd.com/en/news/andre-onana-rejoins-trabzonspor-on-loan-2026"
+  },
+  "Piero Hincapie": {
+    "status": "moved",
+    "joined_club": "Arsenal",
+    "evidence": "permanent GBP34.5m transfer from Leverkusen, summer 2026 window | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Ben Godfrey": {
+    "status": "moved",
+    "joined_club": "Rangers",
+    "evidence": "season-long loan with buy option, announced by Rangers (auto collapse via stale 2025 evidence was WRONG) | rangers.co.uk/article/rangers-sign-ben-godfrey-on-loan-from-atalanta"
+  },
+  "Jérémy Jacquet": {
+    "status": "moved",
+    "joined_club": "Liverpool",
+    "evidence": "joined Liverpool for GBP55m from Rennes | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Rasmus Hojlund": {
+    "status": "moved",
+    "joined_club": "Napoli",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Geovany Quenda": {
+    "status": "moved",
+    "joined_club": "Chelsea",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Donyell Malen": {
+    "status": "moved",
+    "joined_club": "Roma",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Ewen Jaouen": {
+    "status": "moved",
+    "joined_club": "Newcastle United",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Florentino Luis": {
+    "status": "moved",
+    "joined_club": "Burnley",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Costinha": {
+    "status": "moved",
+    "joined_club": "Brighton & Hove Albion",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Jannik Schuster": {
+    "status": "moved",
+    "joined_club": "Brentford",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Modou Keba Cisse": {
+    "status": "moved",
+    "joined_club": "Aston Villa",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Jimmy-Jay Morgan": {
+    "status": "moved",
+    "joined_club": "West Bromwich Albion",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
+  },
+  "Jeremy Sarmiento": {
+    "status": "moved",
+    "joined_club": "Middlesbrough",
+    "evidence": "outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
   }
 }

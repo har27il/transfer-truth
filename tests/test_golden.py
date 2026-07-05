@@ -5,7 +5,7 @@ actually catches regressions — wrong club, wrong claim strength, hallucinated
 player, broken JSON contract. This is the real guard: edit the prompt, run the live
 eval, and the grader tells you if extraction quality dropped.
 
-Live (gated on NVIDIA_API_KEY + TM_LLM_TESTS=1): run the real engine over all 15
+Live (gated on NVIDIA_API_KEY + TM_LLM_TESTS=1): run the real engine over all 27
 posts via NVIDIA NIM and assert the critical pass-rate clears a floor.
 """
 import copy
@@ -21,7 +21,7 @@ CASES = golden.load_cases()
 
 
 def test_corpus_is_well_formed():
-    assert len(CASES) == 15
+    assert len(CASES) == 27
     ids = [c["id"] for c in CASES]
     assert len(set(ids)) == len(ids), "duplicate case ids"
     for c in CASES:
