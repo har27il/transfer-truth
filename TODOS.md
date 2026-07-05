@@ -3,6 +3,33 @@
 Deferred work with full context. Each entry: what, why, and where to start —
 so a future session (or a future you) doesn't have to re-derive the reasoning.
 
+## 0a. Resolver window-awareness (stale-evidence class) — HIGH
+
+- **What:** `outcome/source.py` / `outcome/detect.py` must check that the
+  career line used as evidence falls INSIDE the deal's window before resolving.
+- **Why:** 8 of 34 proposals in the July 2026 promotion review cited 2024/25
+  Wikipedia lines to settle 2026-summer rumours. Worst case: Ben Godfrey
+  resolved COLLAPSED via an Aug-2025 loan while BBC/Sky reported him actually
+  joining Rangers on 2026-06-29 — a factually wrong outcome that only the
+  human gate caught.
+- **Pros:** removes the largest observed source of wrong auto-outcomes.
+- **Cons:** date parsing of Wikipedia prose is fiddly; needs golden cases.
+- **Start at:** the evidence sentences in `res["evidence"]`; extraction prompt
+  in `outcome/source.py` `_SYS` could demand the join DATE and `detect.classify`
+  compare it to the window bounds (`WINDOW_CLOSE` map).
+- **Unpromoted examples to retest after the fix:** deals 50, 56, 64, 74, 90,
+  99, 107, 114 in `ground-truth/deals.csv`.
+
+## 0b. Club-alias normalization in outcome matching — MEDIUM
+
+- **What:** `same_club("Brighton", "Brighton & Hove Albion")` must be True.
+- **Why:** deal 89 resolved COLLAPSED with evidence "joined Brighton & Hove
+  Albion, not Brighton" — the rumoured and actual club were the same club.
+  Any short-form/long-form pair (Spurs/Tottenham Hotspur, Wolves/Wolverhampton
+  Wanderers) can produce a false collapse, which unfairly punishes journalists.
+- **Start at:** `outcome/detect.py` same_club; consider reusing the engine
+  prompt's canonicalization table or a small alias map shared via a module.
+
 ## 1. Live canary against provider model drift
 
 - **What:** At the top of each cron ingest run, send 1–2 golden cases

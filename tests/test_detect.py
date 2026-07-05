@@ -1,9 +1,11 @@
 """Decision-logic tests — the part that, if wrong, corrupts ground truth.
 
-The headline test re-derives ALL 38 hand-labelled outcomes in deals.csv from each
-player's real-world resolution, proving the classifier (and club-name
+The headline test re-derives ALL trusted (verified=YES) outcomes in deals.csv from
+each player's real-world resolution, proving the classifier (and club-name
 normalization) reproduces the human labels with zero disagreements — including the
-four hijack players who appear in both a completed and a collapsed rumour.
+four hijack players who appear in both a completed and a collapsed rumour. Every
+promotion wave must add its fixtures here (outcome/promote.py review evidence →
+tests/fixtures/resolutions.json), keeping ground truth reproducible forever.
 """
 import csv
 import json
@@ -41,7 +43,8 @@ def test_reproduces_all_ground_truth_outcomes():
             mismatches.append(f"deal {d['deal_id']} {d['player']}->{d['to_club']}: "
                               f"want {want}, got {got} ({reason})")
     assert not mismatches, "Classifier disagreed with ground truth:\n" + "\n".join(mismatches)
-    assert n == 38, f"expected 38 resolved deals, scored {n}"
+    # 38 hand-labelled originals + 20 promoted 2026-07-05 (first promotion wave)
+    assert n == 58, f"expected 58 resolved deals, scored {n}"
 
 
 def test_classifier_never_invents_an_outcome_without_evidence():

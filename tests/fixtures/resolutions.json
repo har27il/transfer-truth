@@ -1,39 +1,239 @@
 {
   "_comment": "What each player ACTUALLY did in the 2025 summer window. Keyed by the exact deals.csv player name. Club names are deliberately written in messy, LLM-style forms (nicknames, FC suffixes) to exercise detect.same_club normalization. Players in two deals (Eze, Woltemade, Wirtz, Ekitike) have ONE real outcome that must resolve a completed rumour and a collapsed rumour in opposite directions.",
-
-  "Alexander Isak":      {"status": "moved",  "joined_club": "Liverpool FC"},
-  "Florian Wirtz":       {"status": "moved",  "joined_club": "Liverpool"},
-  "Hugo Ekitike":        {"status": "moved",  "joined_club": "Liverpool FC"},
-  "Benjamin Sesko":      {"status": "moved",  "joined_club": "Manchester United"},
-  "Bryan Mbeumo":        {"status": "moved",  "joined_club": "Man Utd"},
-  "Matheus Cunha":       {"status": "moved",  "joined_club": "Manchester United"},
-  "Viktor Gyokeres":     {"status": "moved",  "joined_club": "Arsenal"},
-  "Eberechi Eze":        {"status": "moved",  "joined_club": "Arsenal"},
-  "Martin Zubimendi":    {"status": "moved",  "joined_club": "Arsenal"},
-  "Noni Madueke":        {"status": "moved",  "joined_club": "Arsenal"},
-  "Tijjani Reijnders":   {"status": "moved",  "joined_club": "Manchester City"},
-  "Joao Pedro":          {"status": "moved",  "joined_club": "Chelsea"},
-  "Jamie Gittens":       {"status": "moved",  "joined_club": "Chelsea"},
-  "Liam Delap":          {"status": "moved",  "joined_club": "Chelsea"},
-  "Mohammed Kudus":      {"status": "moved",  "joined_club": "Spurs"},
-  "Anthony Elanga":      {"status": "moved",  "joined_club": "Newcastle"},
-  "Nick Woltemade":      {"status": "moved",  "joined_club": "Newcastle United"},
-  "Dean Huijsen":        {"status": "moved",  "joined_club": "Real Madrid"},
-  "Kevin De Bruyne":     {"status": "moved",  "joined_club": "Napoli"},
-  "Luis Diaz":           {"status": "moved",  "joined_club": "Bayern"},
-  "Jonathan Tah":        {"status": "moved",  "joined_club": "Bayern Munich"},
-  "Jobe Bellingham":     {"status": "moved",  "joined_club": "Borussia Dortmund"},
-  "Granit Xhaka":        {"status": "moved",  "joined_club": "Sunderland"},
-  "Ardon Jashari":       {"status": "moved",  "joined_club": "AC Milan"},
-  "Kingsley Coman":      {"status": "moved",  "joined_club": "Al-Nassr"},
-
-  "Marc Guehi":          {"status": "stayed", "joined_club": null},
-  "Morgan Gibbs-White":  {"status": "stayed", "joined_club": null},
-  "Nico Williams":       {"status": "stayed", "joined_club": null},
-  "Ademola Lookman":     {"status": "stayed", "joined_club": null},
-  "Savinho":             {"status": "stayed", "joined_club": null},
-  "Dusan Vlahovic":      {"status": "stayed", "joined_club": null},
-  "Rodrygo":             {"status": "stayed", "joined_club": null},
-  "Antoine Semenyo":     {"status": "stayed", "joined_club": null},
-  "Carlos Baleba":       {"status": "stayed", "joined_club": null}
+  "Alexander Isak": {
+    "status": "moved",
+    "joined_club": "Liverpool FC"
+  },
+  "Florian Wirtz": {
+    "status": "moved",
+    "joined_club": "Liverpool"
+  },
+  "Hugo Ekitike": {
+    "status": "moved",
+    "joined_club": "Liverpool FC"
+  },
+  "Benjamin Sesko": {
+    "status": "moved",
+    "joined_club": "Manchester United"
+  },
+  "Bryan Mbeumo": {
+    "status": "moved",
+    "joined_club": "Man Utd"
+  },
+  "Matheus Cunha": {
+    "status": "moved",
+    "joined_club": "Manchester United"
+  },
+  "Viktor Gyokeres": {
+    "status": "moved",
+    "joined_club": "Arsenal"
+  },
+  "Eberechi Eze": {
+    "status": "moved",
+    "joined_club": "Arsenal"
+  },
+  "Martin Zubimendi": {
+    "status": "moved",
+    "joined_club": "Arsenal"
+  },
+  "Noni Madueke": {
+    "status": "moved",
+    "joined_club": "Arsenal"
+  },
+  "Tijjani Reijnders": {
+    "status": "moved",
+    "joined_club": "Manchester City"
+  },
+  "Joao Pedro": {
+    "status": "moved",
+    "joined_club": "Chelsea"
+  },
+  "Jamie Gittens": {
+    "status": "moved",
+    "joined_club": "Chelsea"
+  },
+  "Liam Delap": {
+    "status": "moved",
+    "joined_club": "Chelsea"
+  },
+  "Mohammed Kudus": {
+    "status": "moved",
+    "joined_club": "Spurs"
+  },
+  "Anthony Elanga": {
+    "status": "moved",
+    "joined_club": "Newcastle"
+  },
+  "Nick Woltemade": {
+    "status": "moved",
+    "joined_club": "Newcastle United"
+  },
+  "Dean Huijsen": {
+    "status": "moved",
+    "joined_club": "Real Madrid"
+  },
+  "Kevin De Bruyne": {
+    "status": "moved",
+    "joined_club": "Napoli"
+  },
+  "Luis Diaz": {
+    "status": "moved",
+    "joined_club": "Bayern"
+  },
+  "Jonathan Tah": {
+    "status": "moved",
+    "joined_club": "Bayern Munich"
+  },
+  "Jobe Bellingham": {
+    "status": "moved",
+    "joined_club": "Borussia Dortmund"
+  },
+  "Granit Xhaka": {
+    "status": "moved",
+    "joined_club": "Sunderland"
+  },
+  "Ardon Jashari": {
+    "status": "moved",
+    "joined_club": "AC Milan"
+  },
+  "Kingsley Coman": {
+    "status": "moved",
+    "joined_club": "Al-Nassr"
+  },
+  "Marc Guehi": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Morgan Gibbs-White": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Nico Williams": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Ademola Lookman": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Savinho": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Dusan Vlahovic": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Rodrygo": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Antoine Semenyo": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Carlos Baleba": {
+    "status": "stayed",
+    "joined_club": null
+  },
+  "Andy Robertson": {
+    "status": "moved",
+    "joined_club": "Tottenham Hotspur",
+    "evidence": "He will leave Liverpool on 30 June 2026, upon the expiry of his contract, and will join Tottenham Hotspur."
+  },
+  "Anthony Gordon": {
+    "status": "moved",
+    "joined_club": "Barcelona",
+    "evidence": "He will join La Liga club Barcelona on 1 July 2026."
+  },
+  "Éderson": {
+    "status": "moved",
+    "joined_club": "Manchester United",
+    "evidence": "On 2nd June 2026 it was announced that Manchester United had agreed a £35m deal with Atalanta to sign Ederson."
+  },
+  "Elliot Anderson": {
+    "status": "moved",
+    "joined_club": "Manchester City",
+    "evidence": "On 2 July 2026, Anderson joined Manchester City; the fee of £116 million was a record for an English footballer."
+  },
+  "Hayden Hackney": {
+    "status": "moved",
+    "joined_club": "Everton",
+    "evidence": "plays as a midfielder for Premier League club Everton"
+  },
+  "Ibrahima Konaté": {
+    "status": "moved",
+    "joined_club": "Real Madrid",
+    "evidence": "On 18 June 2026, Konate signed for La Liga club Real Madrid on a four-year contract."
+  },
+  "Jan Paul van Hecke": {
+    "status": "moved",
+    "joined_club": "Tottenham Hotspur",
+    "evidence": "On 18 June 2026, Van Hecke moved to fellow Premier League side Tottenham Hotspur on a long-term contract"
+  },
+  "Marc Cucurella": {
+    "status": "moved",
+    "joined_club": "Real Madrid",
+    "evidence": "He will join La Liga club Real Madrid on 1 July 2026."
+  },
+  "Barney Stewart": {
+    "status": "moved",
+    "joined_club": "West Bromwich Albion",
+    "evidence": "On 17 June 2026, Stewart signed for EFL Championship club West Bromwich Albion, signing a four-year contract for an undisclosed fee."
+  },
+  "Bernardo Silva": {
+    "status": "moved",
+    "joined_club": "Real Madrid",
+    "evidence": "He will join La Liga club Real Madrid on 1 July 2026."
+  },
+  "Victor Munoz": {
+    "status": "moved",
+    "joined_club": "Liverpool",
+    "evidence": "On 18 June 2026, Premier League club Liverpool bought out Muñoz from Osasuna"
+  },
+  "Marco Palestra": {
+    "status": "moved",
+    "joined_club": "Chelsea",
+    "evidence": "On 24 June 2026, Palestra joined Chelsea"
+  },
+  "Ross McCrorie": {
+    "status": "moved",
+    "joined_club": "Rangers",
+    "evidence": "On 25 June 2026, McCrorie returned to Rangers on a three-year contract with the option of a further year."
+  },
+  "Martin Dubravka": {
+    "status": "moved",
+    "joined_club": "Tottenham Hotspur",
+    "evidence": "On 24 June 2026, Dúbravka joined Premier League club Tottenham Hotspur"
+  },
+  "Robert Lewandowski": {
+    "status": "moved",
+    "joined_club": "Chicago Fire",
+    "evidence": "Following his departure from Barcelona at the end of the 2025–26 season, Lewandowski joined Major League Soccer club Chicago Fire in June 2026."
+  },
+  "Dan Neil": {
+    "status": "moved",
+    "joined_club": "Rangers",
+    "evidence": "On 1 July 2026, Neil signed for Rangers on a three-year contract."
+  },
+  "Denzel Dumfries": {
+    "status": "moved",
+    "joined_club": "Real Madrid",
+    "evidence": "He eventually joined La Liga club Real Madrid in July 2026."
+  },
+  "Nathan Ake": {
+    "status": "moved",
+    "joined_club": "Fenerbahce",
+    "evidence": "On 3 July 2026, Turkish side Fenerbahçe announced the signing of Aké."
+  },
+  "Ivor Pandur": {
+    "status": "moved",
+    "joined_club": "Rangers",
+    "evidence": "On 30 June 2026, Rangers announced the signing of Pandur on a four-year deal."
+  },
+  "Pascal Struijk": {
+    "status": "moved",
+    "joined_club": "Brighton & Hove Albion",
+    "evidence": "On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
+  }
 }
