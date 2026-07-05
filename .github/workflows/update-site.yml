@@ -75,10 +75,14 @@ jobs:
             ingest-db-v1-
 
       # 1. Pull live RSS, extract structured claims (NIM, concurrent), cluster by player.
+      # NIM_TIMEOUT: free-tier serverless endpoints queue under load; the 30s
+      # client default timed out 60/60 calls on 2026-07-05. 90s rides out the
+      # queue while ceil(60 posts / 6 workers) x 90s stays under the job cap.
       - name: Ingest live feeds
         run: python ingest/pipeline.py
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NIM_TIMEOUT: '90'
 
       # 1b. Optional recovery: re-run claim-less posts (e.g. a broken-model week)
       # through the normal pipeline. Only runs when the dispatch input is set.
@@ -91,6 +95,7 @@ jobs:
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_CONCURRENCY: '1'
+          NIM_TIMEOUT: '90'
 
       # 2. Turn new player clusters into proposed deals.csv rows (verified=auto).
       - name: Bridge clusters to deals
@@ -101,6 +106,7 @@ jobs:
         run: python outcome/apply.py
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NIM_TIMEOUT: '90'
 
       # 4. Rebuild both static pages: leaderboard (scored) + live feed (current snapshot).
       - name: Rebuild site
