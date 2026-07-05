@@ -54,6 +54,11 @@ CREATE TABLE IF NOT EXISTS meta (
     key   TEXT PRIMARY KEY,
     value TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS dispositions (
+    url     TEXT PRIMARY KEY,
+    verdict TEXT NOT NULL,
+    at      TEXT NOT NULL
+);
 """
 
 # A post whose extraction failed (parse error / API exception) is RELEASED for
@@ -148,6 +153,19 @@ def mark_for_retry(conn, urls):
 def clear_failure(conn, url):
     """Extraction finally succeeded: forget the failure history."""
     conn.execute("DELETE FROM extract_failures WHERE url = ?", (url,))
+    conn.commit()
+
+
+def record_disposition(conn, url, verdict):
+    """Record the extraction VERDICT for a processed post (claim / non_transfer /
+    low_conf / no_player). Without this, 'examined and found non-transfer' is
+    indistinguishable from 'never examined' — which made the backfill re-chew
+    the same claim-less batch forever (2026-07-05). Parse failures deliberately
+    get NO disposition: they must stay eligible for retry/backfill."""
+    conn.execute(
+        "INSERT INTO dispositions(url, verdict, at) VALUES (?, ?, ?) "
+        "ON CONFLICT(url) DO UPDATE SET verdict = ?, at = ?",
+        (url, verdict, _now(), verdict, _now()))
     conn.commit()
 
 

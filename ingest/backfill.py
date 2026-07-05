@@ -32,11 +32,17 @@ DEFAULT_LIMIT = 60   # posts per dispatch: bounded NIM spend, kind to the free t
 
 
 def claimless_posts(conn, since):
-    """Posts fetched on/after `since` (YYYY-MM-DD) that never yielded a claim,
-    oldest first (the oldest are closest to falling out of every RSS feed)."""
+    """Posts fetched on/after `since` (YYYY-MM-DD) with no claim AND no recorded
+    verdict, oldest first (the oldest are closest to falling out of every feed).
+
+    The dispositions exclusion is what makes repeated dispatches ADVANCE: a
+    post re-examined and judged non-transfer gets a verdict and leaves this
+    set. Without it the backfill re-chewed the same oldest batch forever
+    (2026-07-05: 'remaining' pinned at 325 across three green runs)."""
     rows = conn.execute(
         "SELECT url, source, title, summary, published FROM posts "
         "WHERE fetched_at >= ? AND url NOT IN (SELECT post_url FROM claims) "
+        "AND url NOT IN (SELECT url FROM dispositions) "
         "ORDER BY fetched_at", (since,)).fetchall()
     return [dict(r) for r in rows]
 

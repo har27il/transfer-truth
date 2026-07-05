@@ -97,3 +97,22 @@ def test_backfill_respects_the_since_cutoff():
     _seed_burned_week(conn)
     batch, stats, remaining = backfill.backfill(conn, "2999-01-01")
     assert batch == [] and stats is None and remaining == 0
+
+
+def test_examined_non_transfer_posts_leave_the_backfill_queue():
+    """REGRESSION (2026-07-05): posts judged non-transfer stayed 'claim-less'
+    and the backfill re-chewed the same batch forever. A verdict disposition
+    must remove them from the queue; parse failures must stay queued."""
+    conn = _conn()
+    _seed_burned_week(conn)
+
+    def _non_transfer(text):
+        return {"is_transfer_claim": False, "player": None, "from_club": None,
+                "to_club": None, "stage": None, "implied_p": None, "source_name": None,
+                "source_identifiable": False, "direction_confidence": 0.0, "fee_eur": None}
+
+    batch, stats, remaining = backfill.backfill(conn, "2020-01-01",
+                                                analyze_fn=_non_transfer)
+    assert len(batch) == 2 and stats["non_transfer"] == 2
+    again, _, remaining2 = backfill.backfill(conn, "2020-01-01", dry_run=True)
+    assert again == [] and remaining2 == 0            # queue actually advanced

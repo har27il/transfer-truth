@@ -143,16 +143,20 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
         store.clear_failure(conn, post["url"])
         if not result.get("is_transfer_claim"):
             stats["non_transfer"] += 1
+            store.record_disposition(conn, post["url"], "non_transfer")
             continue
         if (result.get("direction_confidence") or 0) < min_confidence:
             stats["low_conf"] += 1
+            store.record_disposition(conn, post["url"], "low_conf")
             continue
         key = cluster.deal_key(result.get("player"), window)
         if not key:
             stats["no_player"] += 1
+            store.record_disposition(conn, post["url"], "no_player")
             continue
         if store.add_claim(conn, _to_claim(post, result, key, window)) is not None:
             stats["claims"] += 1
+        store.record_disposition(conn, post["url"], "claim")
 
     if not failure_rate_exceeded(stats):
         # Healthy run: stamp it so the feed can show "data as of ..." and flag
