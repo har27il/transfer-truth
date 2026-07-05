@@ -56,7 +56,8 @@ def test_promote_flips_deal_and_its_auto_claims_together(tmp_path):
     _write(cp, CLAIMS_HEADER, CLAIMS)
 
     promoted, n_claims = promote.promote(["1"], deals_path=dp, claims_path=cp,
-                                         rebuild=False)
+                                         rebuild=False,
+                                         fixtures_path=tmp_path / "res.json")
     assert promoted == ["1"] and n_claims == 2
     deals = {r["deal_id"]: r for r in _read(dp)}
     assert deals["1"]["verified"] == "YES"
@@ -75,7 +76,8 @@ def test_promote_ignores_ids_that_are_not_pending(tmp_path):
     before_d, before_c = _read(dp), _read(cp)
 
     promoted, n_claims = promote.promote(["4", "99"], deals_path=dp, claims_path=cp,
-                                         rebuild=False)
+                                         rebuild=False,
+                                         fixtures_path=tmp_path / "res.json")
     assert promoted == [] and n_claims == 0
     assert _read(dp) == before_d and _read(cp) == before_c   # nothing rewritten
 

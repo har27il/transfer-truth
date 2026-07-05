@@ -83,7 +83,7 @@ def _write_fixtures(rows, deal_ids, fixtures_path):
     Collapsed promotions are rare (positive evidence mid-window) and still need
     a hand-written fixture; we flag them instead of guessing."""
     import json
-    res = json.loads(fixtures_path.read_text("utf-8"))
+    res = json.loads(fixtures_path.read_text("utf-8")) if fixtures_path.exists() else {}
     added, manual = 0, []
     for r in rows:
         if r.get("deal_id") not in deal_ids:
