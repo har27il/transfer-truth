@@ -111,18 +111,18 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 111,Craig Bellamy,,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 112,Felix Nmecha,Borussia Dortmund,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 113,Palestra,,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-114,Ben Godfrey,Atalanta,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+114,Ben Godfrey,Atalanta,Rangers,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Ben_Godfrey,auto,"[auto] player joined Sheffield United, not Rangers - rumour did not happen | On 22 August 2025, Godfrey joined EFL Championship club Sheffield United on loan for the 2025–26 season."
 115,Bradley Barcola,Paris Saint-Germain,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 116,Guimaraes,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 117,Harry Kane,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-118,Ivor Pandur,Hull City,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+118,Ivor Pandur,Hull City,Rangers,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Ivor_Pandur,auto,"[auto] player joined Rangers - the rumoured destination | On 30 June 2026, Rangers announced the signing of Pandur on a four-year deal."
 119,Jonathan Morgan,,Sheffield United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 120,Maxence Lacroix,Crystal Palace,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-121,Pascal Struijk,Leeds United,Brighton & Hove Albion,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+121,Pascal Struijk,Leeds United,Brighton & Hove Albion,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Pascal_Struijk,auto,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
 122,Tjark Ernst,Celtic,Wolfsburg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 123,Trevoh Chalobah,Chelsea,Como,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 124,Yan Diomande,RB Leipzig,Paris Saint-Germain,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
-125,Amalie Vangsgaard,Juventus,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+125,Amalie Vangsgaard,Juventus,Aston Villa,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Amalie_Vangsgaard,auto,"[auto] player joined Aston Villa - the rumoured destination | On 1 July 2026, she joined Women's Super League club Aston Villa."
 126,Jérémy Jacquet,Rennes,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 127,Kroupi,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 128,Lewis Ferguson,Bologna,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
