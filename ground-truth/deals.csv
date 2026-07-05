@@ -113,3 +113,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 126,Jérémy Jacquet,Rennes,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 127,Kroupi,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 128,Lewis Ferguson,Bologna,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+129,Bazoumana Toure,Hoffenheim,Newcastle United,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Bazoumana_Toure,auto,"[auto] player joined Newcastle United - the rumoured destination | On 5 July 2026, Touré signed for Premier League club Newcastle United on a £42 million transfer fee."
