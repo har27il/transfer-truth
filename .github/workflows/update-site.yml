@@ -10,6 +10,10 @@ on:
         description: 'Re-extract claim-less posts since this date (YYYY-MM-DD, blank = skip). Recovery tool: the ingest DB only exists in the Actions cache.'
         required: false
         default: ''
+      backfill_limit:
+        description: 'Posts per backfill batch (blank = 60). Sized so backfill time + ~15 min pipeline stays inside the 30-min job cap: ~170 max on a healthy endpoint.'
+        required: false
+        default: ''
   schedule:
     # GitHub's schedule trigger is BEST-EFFORT: under load it delays runs by up to a
     # few hours and sometimes DROPS them entirely. A single daily cron therefore can't
@@ -94,7 +98,7 @@ jobs:
       # cancelled pre-commit). Dispatch repeatedly until the log says "0 remaining".
       - name: Backfill claim-less posts
         if: ${{ github.event.inputs.backfill_since != '' }}
-        run: python ingest/backfill.py --since "${{ github.event.inputs.backfill_since }}"
+        run: python ingest/backfill.py --since "${{ github.event.inputs.backfill_since }}" --limit "${{ github.event.inputs.backfill_limit || '60' }}"
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_CONCURRENCY: '4'
