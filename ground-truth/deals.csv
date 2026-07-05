@@ -108,3 +108,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 108,Tyrique George,Chelsea,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 109,Victoria Pelova,Arsenal,Tottenham Hotspur,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Victoria_Pelova,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 25 June 2026, it was announced that Pelova had signed with WSL club Tottenham Hotspur."
 110,Bruno Guimaraes,Newcastle United,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+111,Craig Bellamy,,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+112,Felix Nmecha,Borussia Dortmund,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+113,Palestra,,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
