@@ -87,7 +87,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 87,Malo Gusto,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 88,Martin Dubravka,Burnley,Tottenham Hotspur,2026-summer,completed,,2026-06-25,https://en.wikipedia.org/wiki/Martin_Dubravka,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 24 June 2026, Dúbravka joined Premier League club Tottenham Hotspur"
 89,Lia Walti,Juventus,Brighton,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Lia_Walti,auto,"[auto] player joined Brighton & Hove Albion, not Brighton - rumour did not happen | On 4 July 2026, Wälti returned to the Women's Super League by joining Brighton & Hove Albion for undisclosed terms."
-90,Andre Onana,Manchester United,Trabzonspor,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+90,Andre Onana,Manchester United,Trabzonspor,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Andre_Onana,auto,[auto] player joined Trabzonspor - the rumoured destination | The move was completed on 11 September.
 91,Anthony Jaidon,Burnley,Brentford,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 92,Granit Xhaka,Sunderland,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 93,Alexsandro,Lille,Ipswich,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
