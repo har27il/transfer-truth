@@ -96,10 +96,15 @@ jobs:
       # 429-stormed the free tier at ~200 posts x 6 workers; concurrency 1 then
       # proved too slow for a reasoning model inside the job timeout (a run was
       # cancelled pre-commit). Dispatch repeatedly until the log says "0 remaining".
+      # Inputs flow through env, never inline ${{ }} in run: — inline
+      # interpolation of a dispatch input is a shell-injection primitive inside
+      # a step that carries the NIM key (GitHub Actions hardening guidance).
       - name: Backfill claim-less posts
         if: ${{ github.event.inputs.backfill_since != '' }}
-        run: python ingest/backfill.py --since "${{ github.event.inputs.backfill_since }}" --limit "${{ github.event.inputs.backfill_limit || '60' }}"
+        run: python ingest/backfill.py --since "$BF_SINCE" --limit "${BF_LIMIT:-60}"
         env:
+          BF_SINCE: ${{ github.event.inputs.backfill_since }}
+          BF_LIMIT: ${{ github.event.inputs.backfill_limit }}
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_CONCURRENCY: '4'
           NIM_TIMEOUT: '90'
