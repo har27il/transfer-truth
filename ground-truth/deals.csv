@@ -51,7 +51,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 54,Marcus Rashford,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 56,Mateus Fernandes,West Ham United,Tottenham Hotspur,2026-summer,completed,,2026-07-02,https://en.wikipedia.org/wiki/Mateus_Fernandes,YES,"[verified 2026-07-05] joined Tottenham for club-record GBP85m, officially announced | skysports.com/football/news/11095/13559479"
 57,Michael Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,completed,,2026-07-06,https://en.wikipedia.org/wiki/Sandro_Tonali,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 6 July 2026, Tonali signed for Tottenham Hotspur for a transfer fee of £100 million."
 60,Nicolas Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 61,Barney Stewart,Falkirk,West Bromwich Albion,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Barney_Stewart,YES,"[auto] player joined West Bromwich Albion - the rumoured destination | On 17 June 2026, Stewart signed for EFL Championship club West Bromwich Albion, signing a four-year contract for an undisclosed fee."
 62,Bernardo Silva,Manchester City,Real Madrid,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Bernardo_Silva,YES,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
