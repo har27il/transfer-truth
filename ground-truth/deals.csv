@@ -93,7 +93,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 104,Kieron Bowie,Hellas Verona,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 106,Nathan Ake,Manchester City,Fenerbahce,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Nathan_Ake,YES,"[auto] player joined Fenerbahçe - the rumoured destination | On 3 July 2026, Turkish side Fenerbahçe announced the signing of Aké."
 107,Piero Hincapie,Bayer Leverkusen,Arsenal,2026-summer,completed,,2026-06-25,https://en.wikipedia.org/wiki/Piero_Hincapie,YES,"[verified 2026-07-05] permanent GBP34.5m transfer from Leverkusen, summer 2026 window | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
-108,Tyrique George,Chelsea,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+108,Tyrique George,Chelsea,Everton,2026-summer,completed,,2026-07-06,https://en.wikipedia.org/wiki/Tyrique_George,auto,"[auto] player joined Everton - the rumoured destination | On 6 July 2026, he joined Everton on a permanent deal, signing a four-year contract with the club."
 110,Bruno Guimaraes,Newcastle United,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 112,Felix Nmecha,Borussia Dortmund,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 113,Palestra,,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
