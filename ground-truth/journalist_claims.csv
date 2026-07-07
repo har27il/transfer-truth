@@ -181,3 +181,8 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 199,141,BBC Sport,rss,2026-07-06,agreement,https://www.bbc.co.uk/sport/football/articles/ckg00p0vwgro?at_medium=RSS&at_campaign=rss,Brentford set to sign Wilson after West Ham exit,auto
 200,142,BBC Sport,rss,2026-07-07,advanced,https://www.bbc.co.uk/sport/football/articles/crkv506gxyro?at_medium=RSS&at_campaign=rss,Newcastle closing in on signing of Ajax's Steur,auto
 201,142,The Guardian,rss,2026-07-07,advanced,https://www.theguardian.com/football/2026/jul/07/newcastle-sean-steur-transfers-round-up-football,Newcastle close in on signing Ajax generational talent Steur for £23m,auto
+202,143,Martin O'Neill,rss,2026-07-07,medical,https://www.bbc.co.uk/sport/football/articles/c5yzzxv8yw0o?at_medium=RSS&at_campaign=rss,Qarabag's Duran poised for Celtic medical,auto
+203,144,BBC Sport,rss,2026-07-07,agreement,https://www.bbc.co.uk/sport/football/articles/cvge7wen5g9o?at_medium=RSS&at_campaign=rss,Arsenal set to sign Meslier on free transfer after Leeds exit,auto
+204,144,Sky Sports,rss,2026-07-07,agreement,https://www.skysports.com/football/news/12691/13561360/illan-meslier-to-arsenal-gunners-set-to-sign-former-leeds-goalkeeper-on-free-transfer,Arsenal set to sign former Leeds goalkeeper Meslier,auto
+205,145,BBC Sport,rss,2026-07-07,agreement,https://www.bbc.co.uk/sport/football/articles/c15y1q01g92o?at_medium=RSS&at_campaign=rss,Partick's Clarke moves to Doncaster immediately after Celtic switch,auto
+206,146,BBC Sport,rss,2026-07-07,advanced,https://www.bbc.co.uk/sport/football/articles/c8d2n6mmn6jo?at_medium=RSS&at_campaign=rss,Chelsea's Bartel closing in on move to Juventus,auto
