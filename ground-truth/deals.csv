@@ -60,7 +60,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 66,Victor Munoz,Osasuna,Liverpool,2026-summer,completed,,2026-06-22,https://en.wikipedia.org/wiki/Victor_Munoz,YES,"[auto] player joined Liverpool - the rumoured destination | On 18 June 2026, Premier League club Liverpool bought out Muñoz from Osasuna"
 68,Jeremy Monga,Leicester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 69,Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-70,Harry Wilson,Fulham,Leeds,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+70,Harry Wilson,Fulham,Leeds,2026-summer,collapsed,,2026-07-08,https://en.wikipedia.org/wiki/Harry_Wilson,auto,"[auto] player joined Leeds United, not Leeds - rumour did not happen | On 8 July 2026, Wilson joined Leeds United on a free transfer."
 72,Adam Wharton,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 73,Diomande,RB Leipzig,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 74,Florian Wirtz,,Chelsea,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Florian_Wirtz,auto,"[auto] player joined Liverpool, not Chelsea - rumour did not happen | On 20 June 2025, Wirtz joined Premier League club Liverpool on a long-term contract."
