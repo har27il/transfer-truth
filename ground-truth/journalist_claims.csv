@@ -192,3 +192,8 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 210,70,Sky Sports,rss,2026-07-08,here_we_go,https://www.skysports.com/football/news/12691/13561731/harry-wilson-to-leeds-united-wales-international-makes-elland-road-switch-after-leaving-fulham,Leeds sign free agent Wilson after Fulham exit,auto
 211,98,BBC Sport,rss,2026-07-08,agreement,https://www.bbc.co.uk/sport/football/articles/cr7xkgd8vdko?at_medium=RSS&at_campaign=rss,Man Utd agree deal for Chelsea's Santos,auto
 212,98,Sky Sports,rss,2026-07-08,agreement,https://www.skysports.com/football/news/12691/13561742/andrey-santos-manchester-united-agree-50m-deal-for-chelsea-and-brazil-midfielder,Man Utd agree £50m deal for Chelsea midfielder Santos,auto
+213,70,BBC Sport,rss,2026-07-08,official,https://www.bbc.co.uk/sport/football/articles/c0rydrz49e0o?at_medium=RSS&at_campaign=rss,Leeds confirm Wilson arrival on free transfer,auto
+214,99,BBC Sport,rss,2026-07-08,official,https://www.bbc.co.uk/sport/football/articles/c982080yd7ro?at_medium=RSS&at_campaign=rss,Scotland goalkeeper Gunn signs for San Jose Earthquakes,auto
+215,110,Sky Sports News,rss,2026-07-08,interest,https://www.skysports.com/football/news/12691/13561780/bruno-guimaraes-transfer-news-newcastle-captain-tells-club-he-wants-to-join-arsenal-after-world-cup-exit-with-brazil,Newcastle captain Guimaraes tells club he wants to join Arsenal,auto
+216,131,BBC Sport,rss,2026-07-08,official,https://www.bbc.co.uk/sport/football/articles/c3vy0v39qkko?at_medium=RSS&at_campaign=rss,Chelsea announce £40m Quenda signing,auto
+217,149,BBC Sport,rss,2026-07-08,interest,https://www.bbc.co.uk/sport/football/articles/c24yjpggq13o?at_medium=RSS&at_campaign=rss,Fenerbahce confident of Greenwood deal,auto
