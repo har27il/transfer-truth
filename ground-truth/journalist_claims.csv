@@ -204,3 +204,9 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 222,142,Sky Sports,rss,2026-07-09,official,https://www.skysports.com/football/news/12691/13561944/sean-steur-newcastle-sign-midfielder-from-ajax-for-23m-on-five-year-deal-after-sandro-tonali-exit,Newcastle sign Ajax teenager Steur,auto
 223,144,Sky Sports,rss,2026-07-07,here_we_go,https://www.skysports.com/football/news/12691/13561962/illan-meslier-to-arsenal-gunners-sign-former-leeds-goalkeeper-on-free-transfer,Arsenal sign former Leeds goalkeeper Meslier,auto
 224,148,The Guardian,rss,2026-07-09,agreement,https://www.theguardian.com/football/2026/jul/09/newcastle-agree-johan-manzambi-deal-and-insist-bruno-guimaraes-not-for-sale-transfer-window,Newcastle agree £51.5m Johan Manzambi deal and insist Bruno Guimarães not for sale,auto
+225,110,BBC Sport,rss,2026-07-09,rumour_link,https://www.bbc.co.uk/sport/football/articles/c0qyx8y5pdpo?at_medium=RSS&at_campaign=rss,What's going on at Newcastle with Bruno's future in doubt?,auto
+226,141,BBC Sport,rss,2026-07-09,official,https://www.bbc.co.uk/sport/football/articles/c1wyxlzqvrqo?at_medium=RSS&at_campaign=rss,Brentford sign Wilson after West Ham exit,auto
+227,143,BBC Sport,rss,2026-07-09,agreement,https://www.bbc.co.uk/sport/football/articles/ckg8x3yep3po?at_medium=RSS&at_campaign=rss,'A bit of a rebel' - what will Celtic get from forward Duran?,auto
+228,144,BBC Sport,rss,2026-07-09,official,https://www.bbc.co.uk/sport/football/articles/cq51xj4pjwwo?at_medium=RSS&at_campaign=rss,Meslier joins Arsenal on free transfer after Leeds exit,auto
+229,151,BBC Sport,rss,2026-07-09,advanced,https://www.bbc.co.uk/sport/football/articles/cj0g61gedz7o?at_medium=RSS&at_campaign=rss,Ex-Leeds keeper Darlow set for Man Utd move,auto
+230,152,BBC Sport,rss,2026-07-09,agreement,https://www.bbc.co.uk/sport/football/articles/cdxd5rd7kqwo?at_medium=RSS&at_campaign=rss,Palace sign Spain defender Mingueza on free transfer,auto
