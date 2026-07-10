@@ -215,3 +215,5 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 233,143,Sky Sports,rss,2026-07-10,official,https://www.skysports.com/football/news/12691/13561241/camilo-duran-celtic-make-first-new-summer-signing-as-striker-joins-from-qarabag-on-five-year-deal,Celtic make first new summer signing as Duran joins from Qarabag,auto
 234,153,BBC Sport,rss,2026-07-10,rumour_link,https://www.bbc.co.uk/sport/football/articles/c9v29j8ee3yo?at_medium=RSS&at_campaign=rss,Rangers pursue midfielder Fosso - gossip,auto
 235,154,BBC Sport,rss,2026-07-10,interest,https://www.bbc.co.uk/sport/football/articles/cz6vz91n7e5o?at_medium=RSS&at_campaign=rss,Spurs make offer for Kolo Muani - Friday gossip,auto
+236,155,BBC Sport,rss,2026-07-10,here_we_go,https://www.bbc.co.uk/sport/football/articles/cqx1v5d12gjo?at_medium=RSS&at_campaign=rss,Arsenal sign Spain defender Batlle on free transfer,auto
+237,155,Sky Sports,rss,2026-07-10,official,https://www.skysports.com/football/news/12691/13562080/arsenal-former-man-utd-defender-ona-batlle-joins-gunners-on-a-permanent-deal-from-barcelona,Arsenal sign Batlle from Barcelona,auto
