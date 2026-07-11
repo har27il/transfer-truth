@@ -225,3 +225,7 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 243,158,BBC Sport,rss,2026-07-11,official,https://www.bbc.co.uk/sport/football/articles/c4gy145l43qo?at_medium=RSS&at_campaign=rss,Devlin joins Rangers after Hearts exit - what will he bring to club?,auto
 244,158,Sky Sports,rss,2026-07-11,official,https://www.skysports.com/football/news/12691/13562497/rangers-transfer-news-cammy-devlin-leaves-hearts-and-links-up-with-former-boss-derek-mcinnes-at-ibrox,Devlin joins Rangers after Hearts exit,auto
 245,159,BBC Sport,rss,2026-07-11,agreement,https://www.bbc.co.uk/sport/football/articles/c78yp36pg4do?at_medium=RSS&at_campaign=rss,Wales defender Lockyer signs for Melbourne Victory,auto
+246,160,BBC Sport,rss,2026-07-11,rumour_link,https://www.bbc.co.uk/sport/football/articles/cr47ykwr7zgo?at_medium=RSS&at_campaign=rss,Garnacho absent from Chelsea pre-season training,auto
+247,160,Sky Sports,rss,2026-07-11,rumour_link,https://www.skysports.com/football/news/12691/13562540/chelsea-transfers-alejandro-garnacho-up-for-sale-a-year-after-joining-from-joining-from-manchester-united,Chelsea want permanent Garnacho sale this summer,auto
+248,161,BBC Sport,rss,2026-07-11,agreement,https://www.bbc.co.uk/sport/football/articles/cvgd7z5xjvno?at_medium=RSS&at_campaign=rss,Bournemouth's Jimenez set for Fiorentina loan amid investigation,auto
+249,162,BBC Sport,rss,2026-07-11,official,https://www.bbc.co.uk/sport/football/articles/cpv3gxer241o?at_medium=RSS&at_campaign=rss,Coventry City sign winger Tchaouna from Burnley,auto

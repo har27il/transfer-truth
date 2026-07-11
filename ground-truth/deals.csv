@@ -58,7 +58,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Luka_Vuskovic,auto,"[auto] player joined Hamburger SV, not Brighton - rumour did not happen | On 29 August 2025, Vušković moved on loan to Bundesliga club Hamburger SV in Germany, joining his brother Mario."
 65,Munoz,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 66,Victor Munoz,Osasuna,Liverpool,2026-summer,completed,,2026-06-22,https://en.wikipedia.org/wiki/Victor_Munoz,YES,"[auto] player joined Liverpool - the rumoured destination | On 18 June 2026, Premier League club Liverpool bought out Muñoz from Osasuna"
-68,Jeremy Monga,Leicester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+68,Jeremy Monga,Leicester City,Arsenal,2026-summer,collapsed,,2026-07-11,https://en.wikipedia.org/wiki/Jeremy_Monga,auto,"[auto] player joined Manchester City, not Arsenal - rumour did not happen | On 11 July 2026, Monga signed for fellow Premier League club Manchester City on a five-year deal."
 69,Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 70,Harry Wilson,Fulham,Leeds,2026-summer,collapsed,,2026-07-08,https://en.wikipedia.org/wiki/Harry_Wilson,auto,"[auto] player joined Leeds United, not Leeds - rumour did not happen | On 8 July 2026, Wilson joined Leeds United on a free transfer."
 72,Adam Wharton,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -141,3 +141,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 157,Topi Keskinen,Aberdeen,Odense,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 158,Cammy Devlin,Heart of Midlothian,Rangers,2026-summer,completed,,2026-07-11,https://en.wikipedia.org/wiki/Cammy_Devlin,auto,"[auto] player joined Rangers - the rumoured destination | On 11 July 2026, Devlin signed for Rangers on a two-year deal, with the option of a further year."
 159,Tom Lockyer,,Melbourne Victory,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+160,Alejandro Garnacho,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+161,Alex Jimenez,Bournemouth,Fiorentina,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+162,Loum Tchaouna,Burnley,Coventry City,2026-summer,completed,,2026-07-11,https://en.wikipedia.org/wiki/Loum_Tchaouna,auto,"[auto] player joined Coventry City - the rumoured destination | On 11th July 2026, Tchaouna signed a five-year deal with newly-promoted Coventry City for an undisclosed fee."
