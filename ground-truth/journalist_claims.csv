@@ -220,3 +220,8 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 238,156,BBC Sport,rss,2026-07-10,official,https://www.bbc.co.uk/sport/football/articles/cy04elxeyvqo?at_medium=RSS&at_campaign=rss,West Ham sign forward Salmon on two-year deal,auto
 239,157,BBC Sport,rss,2026-07-10,here_we_go,https://www.bbc.co.uk/sport/football/articles/cdr480l5yd3o?at_medium=RSS&at_campaign=rss,Aberdeen sell Keskinen to Odense after 'very good offer',auto
 240,45,BBC Sport,rss,2026-07-10,denied,https://www.bbc.co.uk/sport/football/articles/c9d2z59596eo?at_medium=RSS&at_campaign=rss,Man Utd's Ederson move in doubt,auto
+241,68,Sky Sports,rss,2026-07-11,here_we_go,https://www.skysports.com/football/news/12691/13562077/jeremy-monga-transfer-man-city-complete-signing-of-17-year-old-leicester-city-winger,Man City sign teenager Monga from Leicester for £10m,auto
+242,68,The Guardian,rss,2026-07-11,agreement,https://www.theguardian.com/football/2026/jul/11/manchester-city-beat-arsenal-to-signing-of-17-year-old-jeremy-monga-from-leicester,Manchester City beat Arsenal to signing of 17-year-old Jeremy Monga from Leicester,auto
+243,158,BBC Sport,rss,2026-07-11,official,https://www.bbc.co.uk/sport/football/articles/c4gy145l43qo?at_medium=RSS&at_campaign=rss,Devlin joins Rangers after Hearts exit - what will he bring to club?,auto
+244,158,Sky Sports,rss,2026-07-11,official,https://www.skysports.com/football/news/12691/13562497/rangers-transfer-news-cammy-devlin-leaves-hearts-and-links-up-with-former-boss-derek-mcinnes-at-ibrox,Devlin joins Rangers after Hearts exit,auto
+245,159,BBC Sport,rss,2026-07-11,agreement,https://www.bbc.co.uk/sport/football/articles/c78yp36pg4do?at_medium=RSS&at_campaign=rss,Wales defender Lockyer signs for Melbourne Victory,auto
