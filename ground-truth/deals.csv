@@ -146,3 +146,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 162,Loum Tchaouna,Burnley,Coventry City,2026-summer,completed,,2026-07-11,https://en.wikipedia.org/wiki/Loum_Tchaouna,auto,"[auto] player joined Coventry City - the rumoured destination | On 11th July 2026, Tchaouna signed a five-year deal with newly-promoted Coventry City for an undisclosed fee."
 163,Denise O'Sullivan,Liverpool,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 164,Rafiki Said,Standard Liege,Wolves,2026-summer,completed,,2026-07-12,https://en.wikipedia.org/wiki/Rafiki_Said,auto,"[auto] player joined Wolverhampton Wanderers - the rumoured destination | On 11 July 2026, Saïd joined EFL Championship Club Wolverhampton Wanderers on a 3 year contract with the option for an extra 12 month extension."
+165,Youri Tielemans,Aston Villa,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
