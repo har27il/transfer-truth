@@ -235,3 +235,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 253,148,The Guardian,rss,2026-07-13,advanced,https://www.theguardian.com/football/2026/jul/13/aston-villa-hijack-newcastle-pursuit-of-johan-manzambi-from-freiburg-transfer-window,Aston Villa hijack Newcastle’s pursuit of £49m Johan Manzambi from Freiburg,auto
 254,165,BBC Sport,rss,2026-07-13,advanced,https://www.bbc.co.uk/sport/football/articles/cn07dpgkj4eo?at_medium=RSS&at_campaign=rss,Man Utd close to completing Tielemans deal,auto
 255,165,Sky Sports,rss,2026-07-13,advanced,https://www.skysports.com/football/news/12691/13562972/youri-tielemans-manchester-united-in-talks-to-sign-aston-villa-and-belgium-midfielder,Man Utd closing in on Villa's Tielemans for £36m,auto
+256,148,BBC Sport,rss,2026-07-13,talks,https://www.bbc.co.uk/sport/football/articles/c39ym7e788wo?at_medium=RSS&at_campaign=rss,Villa working on deal for Switzerland's Manzambi,auto
+257,148,Sky Sports,rss,2026-07-13,agreement,https://www.skysports.com/football/news/12691/13562928/johan-manzambi-newcastle-set-to-lose-switzerland-world-cup-hero-to-aston-villa,Manzambi set for Villa despite Newcastle agreeing £49m deal,auto
+258,166,BBC Sport,rss,2026-07-13,here_we_go,https://www.bbc.co.uk/sport/articles/cx23x14n2z5o?at_medium=RSS&at_campaign=rss,Aberdeen buy winger Smith from Livingston,auto
