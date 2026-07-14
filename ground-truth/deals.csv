@@ -84,7 +84,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 95,Alex Scott,Bournemouth,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 96,Dan Neil,Sunderland,Rangers,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Dan_Neil,YES,"[auto] player joined Rangers - the rumoured destination | On 1 July 2026, Neil signed for Rangers on a three-year contract."
 97,Alex Oxlade-Chamberlain,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-98,Andrey Santos,Chelsea,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+98,Andrey Santos,Chelsea,Manchester United,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Andrey_Santos,auto,"[auto] player joined Manchester United - the rumoured destination | On 13 July 2026, Santos joined Manchester United on a five-year contract."
 99,Angus Gunn,,Manchester United,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Angus_Gunn,auto,"[auto] player joined Nottingham Forest, not Manchester United - rumour did not happen | On 6 August 2025, Gunn joined Nottingham Forest on a one-year deal."
 100,Aurelien Tchouameni,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 101,Crysencio Summerville,West Ham,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -147,4 +147,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 163,Denise O'Sullivan,Liverpool,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 164,Rafiki Said,Standard Liege,Wolves,2026-summer,completed,,2026-07-12,https://en.wikipedia.org/wiki/Rafiki_Said,auto,"[auto] player joined Wolverhampton Wanderers - the rumoured destination | On 11 July 2026, Saïd joined EFL Championship Club Wolverhampton Wanderers on a 3 year contract with the option for an extra 12 month extension."
 165,Youri Tielemans,Aston Villa,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
-166,Lewis Smith,Livingston,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+166,Lewis Smith,Livingston,Aberdeen,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Lewis_Smith,auto,[auto] player joined Aberdeen - the rumoured destination | In July 2026 he transferred to Aberdeen.
+167,Pervis Estupinan,,Aston Villa,2026-summer,collapsed,,2026-07-14,https://en.wikipedia.org/wiki/Pervis_Estupinan,auto,"[auto] player joined AC Milan, not Aston Villa - rumour did not happen | On 24 July 2025, Estupiñán signed a five-year contract with Italian Serie A side AC Milan for an undisclosed fee, reported to be at least £17 million."
+168,Youssef Chermiti,Rangers,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
