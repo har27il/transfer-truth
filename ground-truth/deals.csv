@@ -132,7 +132,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 148,Johan Manzambi,Sport-Club Freiburg,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 149,Mason Greenwood,Marseille,Fenerbahce,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 150,Bowie,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-151,Karl Darlow,Leeds United,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+151,Karl Darlow,Leeds United,Manchester United,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Karl_Darlow,auto,"[auto] player joined Manchester United - the rumoured destination | On 14 July 2026, Darlow signed for Manchester United on a free transfer, signing a two-year contract."
 152,Oscar Mingueza,Celta Vigo,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 153,Fosso,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 154,Randal Kolo Muani,,Tottenham Hotspur,2026-summer,completed,,2026-07-10,https://en.wikipedia.org/wiki/Randal_Kolo_Muani,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 1 September 2025, Kolo Muani joined Tottenham Hotspur on loan for the rest of the season."
@@ -150,3 +150,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 166,Lewis Smith,Livingston,Aberdeen,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Lewis_Smith,auto,[auto] player joined Aberdeen - the rumoured destination | In July 2026 he transferred to Aberdeen.
 167,Pervis Estupinan,,Aston Villa,2026-summer,collapsed,,2026-07-14,https://en.wikipedia.org/wiki/Pervis_Estupinan,auto,"[auto] player joined AC Milan, not Aston Villa - rumour did not happen | On 24 July 2025, Estupiñán signed a five-year contract with Italian Serie A side AC Milan for an undisclosed fee, reported to be at least £17 million."
 168,Youssef Chermiti,Rangers,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+169,Ayyoub Bouaddi,Lille,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+170,Hannah Blundell,,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+171,Lisa Baum,RB Leipzig,Arsenal,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Lisa_Baum,auto,"[auto] player joined Arsenal - the rumoured destination | On 14 July 2026, Baum was announced at Arsenal on a permanent transfer."

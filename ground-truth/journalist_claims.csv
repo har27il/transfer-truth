@@ -240,3 +240,11 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 258,166,BBC Sport,rss,2026-07-13,here_we_go,https://www.bbc.co.uk/sport/articles/cx23x14n2z5o?at_medium=RSS&at_campaign=rss,Aberdeen buy winger Smith from Livingston,auto
 259,167,BBC Sport,rss,2026-07-13,interest,https://www.bbc.co.uk/sport/football/articles/cm2jlg3el4no?at_medium=RSS&at_campaign=rss,Villa assess Estupinan move - Tuesday's gossip,auto
 260,168,BBC Sport,rss,2026-07-14,denied,https://www.bbc.co.uk/sport/football/articles/cd0m1pjdk4vo?at_medium=RSS&at_campaign=rss,Chermiti claims no plans to leave Rangers - gossip,auto
+261,64,BBC Sport,rss,2026-07-14,here_we_go,https://www.bbc.co.uk/sport/football/articles/cy7370x2yp7o?at_medium=RSS&at_campaign=rss,Brighton sign Vuskovic from Spurs for club record £46m,auto
+262,64,Sky Sports,rss,2026-07-14,official,https://www.skysports.com/football/news/12691/13563294/luka-vuskovic-brighton-complete-50m-deal-to-sign-tottenham-defender,Brighton complete club-record deal for Spurs' Vuskovic,auto
+263,64,The Guardian,rss,2026-07-14,official,https://www.theguardian.com/football/2026/jul/14/brighton-seal-signing-of-luka-vuskovic-from-tottenham-for-club-record-46m,Brighton seal signing of Luka Vuskovic from Tottenham for club record £46m,auto
+264,151,BBC Sport,rss,2026-07-14,here_we_go,https://www.bbc.co.uk/sport/football/articles/ckg4gqj5kk5o?at_medium=RSS&at_campaign=rss,Darlow joins Man Utd after Leeds exit,auto
+265,169,Sky Sports,rss,2026-07-14,interest,https://www.skysports.com/football/news/12691/13563315/ayyoub-bouaddi-manchester-city-interested-in-morocco-and-lille-wonderkid-after-impressive-world-cup,Man City interested in Morocco wonderkid Bouaddi,auto
+266,169,The Guardian,rss,2026-07-14,interest,https://www.theguardian.com/football/2026/jul/14/manchester-city-set-sights-on-signing-morocco-ayyoub-bouaddi-85m-transfer-window,Manchester City set sights on signing Morocco’s Ayyoub Bouaddi for £85m,auto
+267,170,BBC Sport,rss,2026-07-14,advanced,https://www.bbc.co.uk/sport/football/articles/c0qyxqw901wo?at_medium=RSS&at_campaign=rss,Everton close in on permament deal for Blundell,auto
+268,171,BBC Sport,rss,2026-07-14,official,https://www.bbc.co.uk/sport/football/articles/c5yzymzln5no?at_medium=RSS&at_campaign=rss,Arsenal sign Germany forward Baum from RB Leipzig,auto
