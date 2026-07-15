@@ -177,7 +177,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 195,59,Sky Sports,rss,2026-07-06,agreement,https://www.skysports.com/football/news/12691/13559175/inside-newcastles-transfer-plans-as-sandro-tonali-leaves-for-tottenham-and-magpies-eye-transformational-summer,Tonali out but Bruno to stay? Inside Newcastle's transfer plans,YES
 196,129,The Guardian,rss,2026-07-05,official,https://www.theguardian.com/football/2026/jul/05/newcastle-confirm-43m-signing-of-hoffenheim-winger-toure,‘A high ceiling’: Newcastle confirm £43m signing of Hoffenheim winger Touré,auto
 197,59,The Guardian,rss,2026-07-06,here_we_go,https://www.theguardian.com/football/2026/jul/06/sandro-tonali-seals-move-to-tottenham-newcastle-transfer-window,Sandro Tonali seals £92.5m move to Tottenham on back of ‘magic’ sales pitch,YES
-198,140,BBC Sport,rss,2026-07-06,official,https://www.bbc.co.uk/sport/football/articles/cvg553rzprpo?at_medium=RSS&at_campaign=rss,Arsenal sign Germany striker Cerci on free,auto
 199,141,BBC Sport,rss,2026-07-06,agreement,https://www.bbc.co.uk/sport/football/articles/ckg00p0vwgro?at_medium=RSS&at_campaign=rss,Brentford set to sign Wilson after West Ham exit,auto
 200,142,BBC Sport,rss,2026-07-07,advanced,https://www.bbc.co.uk/sport/football/articles/crkv506gxyro?at_medium=RSS&at_campaign=rss,Newcastle closing in on signing of Ajax's Steur,YES
 201,142,The Guardian,rss,2026-07-07,advanced,https://www.theguardian.com/football/2026/jul/07/newcastle-sean-steur-transfers-round-up-football,Newcastle close in on signing Ajax generational talent Steur for £23m,YES
@@ -185,9 +184,7 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 203,144,BBC Sport,rss,2026-07-07,agreement,https://www.bbc.co.uk/sport/football/articles/cvge7wen5g9o?at_medium=RSS&at_campaign=rss,Arsenal set to sign Meslier on free transfer after Leeds exit,YES
 204,144,Sky Sports,rss,2026-07-07,agreement,https://www.skysports.com/football/news/12691/13561360/illan-meslier-to-arsenal-gunners-set-to-sign-former-leeds-goalkeeper-on-free-transfer,Arsenal set to sign former Leeds goalkeeper Meslier,YES
 205,145,BBC Sport,rss,2026-07-07,agreement,https://www.bbc.co.uk/sport/football/articles/c15y1q01g92o?at_medium=RSS&at_campaign=rss,Partick's Clarke moves to Doncaster immediately after Celtic switch,YES
-206,146,BBC Sport,rss,2026-07-07,advanced,https://www.bbc.co.uk/sport/football/articles/c8d2n6mmn6jo?at_medium=RSS&at_campaign=rss,Chelsea's Bartel closing in on move to Juventus,auto
 207,143,Sky Sports,rss,2026-07-08,advanced,https://www.skysports.com/football/news/12691/13561591/celtic-transfer-news-martin-oneill-confident-camilo-duran-deal-will-only-be-start-of-summer-signings,O'Neill confident Duran deal will only be start of Celtic summer signings,YES
-208,147,BBC Sport,rss,2026-07-08,here_we_go,https://www.bbc.co.uk/sport/football/articles/cp8lel2nmx5o?at_medium=RSS&at_campaign=rss,Arsenal sign Switzerland midfielder Reuteler,auto
 209,148,BBC Sport,rss,2026-07-08,interest,https://www.bbc.co.uk/sport/football/articles/cwyllrxveklo?at_medium=RSS&at_campaign=rss,Why Newcastle target Manzambi is in demand,auto
 210,70,Sky Sports,rss,2026-07-08,here_we_go,https://www.skysports.com/football/news/12691/13561731/harry-wilson-to-leeds-united-wales-international-makes-elland-road-switch-after-leaving-fulham,Leeds sign free agent Wilson after Fulham exit,auto
 211,98,BBC Sport,rss,2026-07-08,agreement,https://www.bbc.co.uk/sport/football/articles/cr7xkgd8vdko?at_medium=RSS&at_campaign=rss,Man Utd agree deal for Chelsea's Santos,YES
@@ -215,9 +212,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 233,143,Sky Sports,rss,2026-07-10,official,https://www.skysports.com/football/news/12691/13561241/camilo-duran-celtic-make-first-new-summer-signing-as-striker-joins-from-qarabag-on-five-year-deal,Celtic make first new summer signing as Duran joins from Qarabag,YES
 234,153,BBC Sport,rss,2026-07-10,rumour_link,https://www.bbc.co.uk/sport/football/articles/c9v29j8ee3yo?at_medium=RSS&at_campaign=rss,Rangers pursue midfielder Fosso - gossip,auto
 235,154,BBC Sport,rss,2026-07-10,interest,https://www.bbc.co.uk/sport/football/articles/cz6vz91n7e5o?at_medium=RSS&at_campaign=rss,Spurs make offer for Kolo Muani - Friday gossip,auto
-236,155,BBC Sport,rss,2026-07-10,here_we_go,https://www.bbc.co.uk/sport/football/articles/cqx1v5d12gjo?at_medium=RSS&at_campaign=rss,Arsenal sign Spain defender Batlle on free transfer,auto
-237,155,Sky Sports,rss,2026-07-10,official,https://www.skysports.com/football/news/12691/13562080/arsenal-former-man-utd-defender-ona-batlle-joins-gunners-on-a-permanent-deal-from-barcelona,Arsenal sign Batlle from Barcelona,auto
-238,156,BBC Sport,rss,2026-07-10,official,https://www.bbc.co.uk/sport/football/articles/cy04elxeyvqo?at_medium=RSS&at_campaign=rss,West Ham sign forward Salmon on two-year deal,auto
 239,157,BBC Sport,rss,2026-07-10,here_we_go,https://www.bbc.co.uk/sport/football/articles/cdr480l5yd3o?at_medium=RSS&at_campaign=rss,Aberdeen sell Keskinen to Odense after 'very good offer',auto
 240,45,BBC Sport,rss,2026-07-10,denied,https://www.bbc.co.uk/sport/football/articles/c9d2z59596eo?at_medium=RSS&at_campaign=rss,Man Utd's Ederson move in doubt,auto
 241,68,Sky Sports,rss,2026-07-11,here_we_go,https://www.skysports.com/football/news/12691/13562077/jeremy-monga-transfer-man-city-complete-signing-of-17-year-old-leicester-city-winger,Man City sign teenager Monga from Leicester for £10m,auto
@@ -247,7 +241,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 265,169,Sky Sports,rss,2026-07-14,interest,https://www.skysports.com/football/news/12691/13563315/ayyoub-bouaddi-manchester-city-interested-in-morocco-and-lille-wonderkid-after-impressive-world-cup,Man City interested in Morocco wonderkid Bouaddi,auto
 266,169,The Guardian,rss,2026-07-14,interest,https://www.theguardian.com/football/2026/jul/14/manchester-city-set-sights-on-signing-morocco-ayyoub-bouaddi-85m-transfer-window,Manchester City set sights on signing Morocco’s Ayyoub Bouaddi for £85m,auto
 267,170,BBC Sport,rss,2026-07-14,advanced,https://www.bbc.co.uk/sport/football/articles/c0qyxqw901wo?at_medium=RSS&at_campaign=rss,Everton close in on permament deal for Blundell,auto
-268,171,BBC Sport,rss,2026-07-14,official,https://www.bbc.co.uk/sport/football/articles/c5yzymzln5no?at_medium=RSS&at_campaign=rss,Arsenal sign Germany forward Baum from RB Leipzig,auto
 269,172,BBC Sport,rss,2026-07-14,official,https://www.bbc.co.uk/sport/football/articles/c93239v347qo?at_medium=RSS&at_campaign=rss,Bournemouth sign £25.7m striker Rodriguez,YES
 270,173,BBC Sport,rss,2026-07-14,agreement,https://www.bbc.co.uk/sport/football/articles/cddldzme6g1o?at_medium=RSS&at_campaign=rss,Arsenal agree fee for Trossard move to Besiktas,auto
 271,173,Sky Sports,rss,2026-07-14,official,https://www.skysports.com/football/news/12691/13563271/leandro-trossard-arsenal-confirm-winger-joining-besiktas-in-17m-deal,Arsenal confirm Trossard is moving to Besiktas,auto
@@ -264,6 +257,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 282,177,BBC Sport,rss,2026-07-14,agreement,https://www.bbc.co.uk/sport/football/articles/cpd3d6vx803o?at_medium=RSS&at_campaign=rss,Leeds agree £34.1m fee for defender Muharemovic,auto
 283,178,BBC Sport,rss,2026-07-15,talks,https://www.bbc.co.uk/sport/football/articles/crr8r4zvj5jo?at_medium=RSS&at_campaign=rss,Bournemouth in talks for Benfica defender Silva,auto
 284,179,BBC Sport,rss,2026-07-15,advanced,https://www.bbc.co.uk/sport/football/articles/czx5xyd2k1no?at_medium=RSS&at_campaign=rss,Coventry close on £17m Switzerland defender Amenda,auto
-285,180,BBC Sport,rss,2026-07-15,here_we_go,https://www.bbc.co.uk/sport/football/articles/c2dyd63e13xo?at_medium=RSS&at_campaign=rss,Promoted Birmingham City sign Man Utd's Turner,auto
 286,181,BBC Sport,rss,2026-07-15,agreement,https://www.bbc.co.uk/sport/football/articles/cgjxjqpgq4xo?at_medium=RSS&at_campaign=rss,Sunderland sign Belgium World Cup defender Meunier,auto
 287,181,The Guardian,rss,2026-07-15,official,https://www.theguardian.com/football/2026/jul/15/thomas-meunier-sunderland-transfer-window,Thomas Meunier ‘hugely excited’ about joining Sunderland on a free transfer,auto
+288,182,BBC Sport,rss,2026-07-15,official,https://www.bbc.co.uk/sport/football/articles/cgrkrr5gxkvo?at_medium=RSS&at_campaign=rss,Aston Villa sign keeper Ramsey on free transfer,auto
