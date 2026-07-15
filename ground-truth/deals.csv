@@ -110,7 +110,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 126,Jérémy Jacquet,Rennes,Liverpool,2026-summer,completed,,2026-07-01,,YES,[verified 2026-07-05] joined Liverpool for GBP55m from Rennes | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026
 127,Kroupi,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 128,Lewis Ferguson,Bologna,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-129,Bazoumana Toure,Hoffenheim,Newcastle United,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Bazoumana_Toure,auto,"[auto] player joined Newcastle United - the rumoured destination | On 5 July 2026, Touré signed for Premier League club Newcastle United on a £42 million transfer fee."
+129,Bazoumana Toure,Hoffenheim,Newcastle United,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Bazoumana_Toure,YES,"[auto] player joined Newcastle United - the rumoured destination | On 5 July 2026, Touré signed for Premier League club Newcastle United on a £42 million transfer fee."
 130,Rasmus Hojlund,Manchester United,Napoli,2026-summer,completed,,2026-06-29,,YES,"[verified 2026-07-05] outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
 131,Geovany Quenda,Sporting CP,Chelsea,2026-summer,completed,,2026-07-01,,YES,"[verified 2026-07-05] outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
 132,Donyell Malen,Aston Villa,Roma,2026-summer,completed,,2026-06-29,,YES,"[verified 2026-07-05] outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
