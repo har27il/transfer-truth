@@ -30,6 +30,21 @@ so a future session (or a future you) doesn't have to re-derive the reasoning.
 - **Start at:** `outcome/detect.py` same_club; consider reusing the engine
   prompt's canonicalization table or a small alias map shared via a module.
 
+## 0c. Destination-aware claim clustering (hijack conflation) — MEDIUM
+
+- **What:** claims about DIFFERENT destination clubs for the same player+window
+  land on one deal row, so a collapse verdict for destination A punishes
+  journalists who correctly reported the move to destination B.
+- **Why:** 2026-07-15 review, deal 68 (Monga, Leicester→Arsenal, collapsed):
+  Sky's here_we_go "Man City sign Monga" and Guardian's agreement were attached
+  to the Arsenal deal and would have scored as failures despite being right.
+  Same shape as deal 148 (Manzambi: Newcastle agreement then Villa hijack).
+  Promotion of 68 was skipped to avoid the mis-scoring.
+- **Start at:** `cluster.deal_key(player, window)` — either add destination to
+  the key (splits deals, matches the hand-labelled hijack pairs already in
+  ground truth) or make the bridge assign claims to a per-destination deal.
+- **Retest after fix:** deals 68 and 148.
+
 ## 1. Live canary against provider model drift
 
 - **What:** At the top of each cron ingest run, send 1–2 golden cases

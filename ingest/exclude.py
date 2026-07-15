@@ -72,6 +72,9 @@ _WOMEN_PLAYER_NAMES = {
     "hannah hampton", "jess carter", "niamh charles", "kirsty hanson",
     "nadine riesen", "manaka matsukubo", "victoria pelova", "lia walti",
     "amalie vangsgaard", "khiara keating", "aggie beever-jones",
+    # 2026-07-15 promotion review: WSL deals proposed by the resolver
+    "selina cerci", "geraldine reuteler", "ona batlle", "lisa baum",
+    "millie turner", "julia bartel", "ebony salmon",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",

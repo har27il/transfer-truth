@@ -1,103 +1,111 @@
 {
-  "population_mean_accuracy": 84.7,
+  "population_mean_accuracy": 84.1,
   "k": 20,
-  "n_claims": 88,
+  "n_claims": 135,
   "leaderboard": [
     {
       "source": "Sky Sports",
-      "n_claims": 22,
-      "raw_accuracy": 97.1,
-      "shrunk": 91.2,
-      "earliness_bonus": 0.0,
-      "score": 91.2
+      "n_claims": 37,
+      "raw_accuracy": 90.5,
+      "shrunk": 88.3,
+      "earliness_bonus": 3.0,
+      "score": 91.3
     },
     {
       "source": "BBC Sport",
-      "n_claims": 27,
-      "raw_accuracy": 88.1,
-      "shrunk": 86.7,
+      "n_claims": 52,
+      "raw_accuracy": 87.5,
+      "shrunk": 86.6,
       "earliness_bonus": 3.0,
-      "score": 89.7
+      "score": 89.6
     },
     {
       "source": "David Ornstein",
       "n_claims": 5,
       "raw_accuracy": 86.7,
-      "shrunk": 85.1,
+      "shrunk": 84.6,
       "earliness_bonus": 3.0,
-      "score": 88.1
+      "score": 87.6
     },
     {
       "source": "Football Espana",
       "n_claims": 1,
       "raw_accuracy": 100.0,
-      "shrunk": 85.4,
+      "shrunk": 84.9,
       "earliness_bonus": 0.0,
-      "score": 85.4
+      "score": 84.9
     },
     {
       "source": "Ciaran Kelly",
       "n_claims": 1,
       "raw_accuracy": 100.0,
-      "shrunk": 85.4,
+      "shrunk": 84.9,
       "earliness_bonus": 0.0,
-      "score": 85.4
+      "score": 84.9
+    },
+    {
+      "source": "The Guardian",
+      "n_claims": 22,
+      "raw_accuracy": 79.6,
+      "shrunk": 81.8,
+      "earliness_bonus": 3.0,
+      "score": 84.8
     },
     {
       "source": "Mark McAdam",
       "n_claims": 1,
       "raw_accuracy": 96.0,
-      "shrunk": 85.2,
+      "shrunk": 84.7,
       "earliness_bonus": 0.0,
-      "score": 85.2
-    },
-    {
-      "source": "The Guardian",
-      "n_claims": 16,
-      "raw_accuracy": 78.7,
-      "shrunk": 82.0,
-      "earliness_bonus": 3.0,
-      "score": 85.0
+      "score": 84.7
     },
     {
       "source": "Fabrizio Romano",
       "n_claims": 9,
       "raw_accuracy": 74.6,
-      "shrunk": 81.6,
+      "shrunk": 81.2,
       "earliness_bonus": 3.0,
-      "score": 84.6
-    },
-    {
-      "source": "Goal",
-      "n_claims": 1,
-      "raw_accuracy": 36.0,
-      "shrunk": 82.4,
-      "earliness_bonus": 0.0,
-      "score": 82.4
+      "score": 84.2
     },
     {
       "source": "Florian Plettenberg",
       "n_claims": 3,
       "raw_accuracy": 65.9,
-      "shrunk": 82.2,
+      "shrunk": 81.8,
       "earliness_bonus": 0.0,
-      "score": 82.2
+      "score": 81.8
+    },
+    {
+      "source": "Goal",
+      "n_claims": 1,
+      "raw_accuracy": 36.0,
+      "shrunk": 81.8,
+      "earliness_bonus": 0.0,
+      "score": 81.8
     },
     {
       "source": "Sky Sports News",
       "n_claims": 1,
       "raw_accuracy": 27.8,
-      "shrunk": 82.0,
+      "shrunk": 81.4,
       "earliness_bonus": 0.0,
-      "score": 82.0
+      "score": 81.4
+    },
+    {
+      "source": "Michael Bridge",
+      "n_claims": 1,
+      "raw_accuracy": 27.8,
+      "shrunk": 81.4,
+      "earliness_bonus": 0.0,
+      "score": 81.4
     },
     {
       "source": "Julien Laurens",
       "n_claims": 1,
       "raw_accuracy": 15.4,
-      "shrunk": 81.4,
+      "shrunk": 80.9,
       "earliness_bonus": 0.0,
-      "score": 81.4
+      "score": 80.9
     }
   ]
 }

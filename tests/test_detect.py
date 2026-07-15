@@ -45,8 +45,10 @@ def test_reproduces_all_ground_truth_outcomes():
     assert not mismatches, "Classifier disagreed with ground truth:\n" + "\n".join(mismatches)
     # 38 hand-labelled originals + 20 promoted 2026-07-05 (first promotion wave)
     # + 16 from the 2026-07-05 web census (6 corrected/promoted + 10 coverage gaps)
-    # + 1 promoted 2026-07-15 (Touré -> Newcastle)
-    assert n == 75, f"expected 75 resolved deals, scored {n}"
+    # + 16 promoted 2026-07-15 (Touré wave + 15-deal review: Tonali, Santos,
+    #   George, Steur, Duran, Meslier, Clarke, Darlow, Devlin, Lockyer,
+    #   Tchaouna, Said, Tielemans, Smith, Rodriguez)
+    assert n == 90, f"expected 90 resolved deals, scored {n}"
 
 
 def test_classifier_never_invents_an_outcome_without_evidence():
