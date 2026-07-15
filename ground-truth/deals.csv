@@ -154,8 +154,12 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 170,Hannah Blundell,,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 171,Lisa Baum,RB Leipzig,Arsenal,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Lisa_Baum,auto,"[auto] player joined Arsenal - the rumoured destination | On 14 July 2026, Baum was announced at Arsenal on a permanent transfer."
 172,Alvaro Rodriguez,Elche,Bournemouth,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Alvaro_Rodriguez,auto,"[auto] player joined AFC Bournemouth - the rumoured destination | On 14 July 2026, he signed for Premier League club AFC Bournemouth on a long term deal."
-173,Leandro Trossard,Arsenal,Besiktas,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
+173,Leandro Trossard,Arsenal,Besiktas,2026-summer,completed,,2026-07-15,https://en.wikipedia.org/wiki/Leandro_Trossard,auto,"[auto] player joined Beşiktaş - the rumoured destination | On 14 July 2026, Arsenal announced that they had reached an agreement with Turkish Super Lig side Beşiktaş for Trossard."
 174,Melvine Malard,Manchester United,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 175,Noemie Mouchon,Leicester City,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 176,Stephy Mavididi,Leicester City,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 177,Tarik Muharemovic,Sassuolo,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+178,Antonio Silva,Benfica,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+179,Aurele Amenda,Eintracht Frankfurt,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+180,Millie Turner,Manchester United,Birmingham City,2026-summer,completed,,2026-07-15,https://en.wikipedia.org/wiki/Millie_Turner,auto,"[auto] player joined Birmingham City - the rumoured destination | On 15 July 2026, it was announced that Turner had signed for Birmingham City."
+181,Thomas Meunier,Lille,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
