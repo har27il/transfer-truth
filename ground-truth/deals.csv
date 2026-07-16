@@ -161,3 +161,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 184,Joao Gomes,Wolverhampton Wanderers,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 185,Marius Muller,Wolfsburg,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 186,Matias Moreno,,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+187,Christos Tzolis,Club Brugge,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
+188,Hannah Cain,Leicester City,Everton,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Hannah_Cain,auto,"[auto] player joined Everton - the rumoured destination | On 16 July 2026, Cain was announced at Everton after her contract with Leicester expired."
+189,Jade Rastocle,Montpellier,Birmingham City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+190,Lexi Lloyd-Smith,,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
