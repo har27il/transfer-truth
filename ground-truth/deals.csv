@@ -158,3 +158,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 181,Thomas Meunier,Lille,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 182,Emily Ramsey,Everton,Aston Villa,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Emily_Ramsey,auto,"[auto] player joined Aston Villa - the rumoured destination | On 15 July 2026, Ramsey signed for Aston Villa on a free transfer."
 183,Rues,,Heart of Midlothian,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+184,Joao Gomes,Wolverhampton Wanderers,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+185,Marius Muller,Wolfsburg,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+186,Matias Moreno,,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional

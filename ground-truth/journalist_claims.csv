@@ -262,3 +262,7 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 288,182,BBC Sport,rss,2026-07-15,official,https://www.bbc.co.uk/sport/football/articles/cgrkrr5gxkvo?at_medium=RSS&at_campaign=rss,Aston Villa sign keeper Ramsey on free transfer,auto
 289,101,BBC Sport,rss,2026-07-15,rumour_link,https://www.bbc.co.uk/sport/football/articles/c1mymdm2rp8o?at_medium=RSS&at_campaign=rss,Man Utd target Summerville - Thursday's gossip,auto
 290,183,BBC Sport,rss,2026-07-16,medical,https://www.bbc.co.uk/sport/football/articles/cnv9vnv4z4go?at_medium=RSS&at_campaign=rss,Celtic listen to Kenny offers as Rues flies in for Hearts medical - gossip,auto
+291,98,Opta Analyst,rss,2026-07-16,agreement,https://www.theguardian.com/football/2026/jul/16/andrey-santos-manchester-united-chelsea-michael-carrick-brazil-midfielder-casemiro,Why did Manchester United pay Chelsea £48m for Andrey Santos?,auto
+292,184,BBC Sport,rss,2026-07-16,advanced,https://www.bbc.co.uk/sport/football/articles/cre4dvgp717o?at_medium=RSS&at_campaign=rss,Midfielder Gomes close to £38m Villa move,auto
+293,185,BBC Sport,rss,2026-07-16,official,https://www.bbc.co.uk/sport/articles/clyen3j34j4o?at_medium=RSS&at_campaign=rss,Goalkeeper Muller joins Aberdeen on two-year deal,auto
+294,186,BBC Sport,rss,2026-07-16,rumour_link,https://www.bbc.co.uk/sport/football/articles/cvgx4kk7xk1o?at_medium=RSS&at_campaign=rss,Parkinson refuses to confirm Moreno Wrexham link,auto
