@@ -155,7 +155,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 177,Tarik Muharemovic,Sassuolo,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 178,Antonio Silva,Benfica,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 179,Aurele Amenda,Eintracht Frankfurt,Coventry City,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Aurele_Amenda,auto,"[auto] player joined Coventry City - the rumoured destination | On 16 July 2026, Amenda signed with Premier League club Coventry City on a 'long-term contract' for an undisclosed fee."
-181,Thomas Meunier,Lille,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+181,Thomas Meunier,Lille,Sunderland,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Thomas_Meunier,auto,[auto] player joined Sunderland - the rumoured destination | He later played for Trabzonspor and Lille before signing for Sunderland in 2026.
 182,Emily Ramsey,Everton,Aston Villa,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Emily_Ramsey,auto,"[auto] player joined Aston Villa - the rumoured destination | On 15 July 2026, Ramsey signed for Aston Villa on a free transfer."
 183,Rues,,Heart of Midlothian,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 184,Joao Gomes,Wolverhampton Wanderers,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
