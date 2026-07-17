@@ -154,7 +154,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 176,Stephy Mavididi,Leicester City,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 177,Tarik Muharemovic,Sassuolo,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 178,Antonio Silva,Benfica,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-179,Aurele Amenda,Eintracht Frankfurt,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+179,Aurele Amenda,Eintracht Frankfurt,Coventry City,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Aurele_Amenda,auto,"[auto] player joined Coventry City - the rumoured destination | On 16 July 2026, Amenda signed with Premier League club Coventry City on a 'long-term contract' for an undisclosed fee."
 181,Thomas Meunier,Lille,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 182,Emily Ramsey,Everton,Aston Villa,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Emily_Ramsey,auto,"[auto] player joined Aston Villa - the rumoured destination | On 15 July 2026, Ramsey signed for Aston Villa on a free transfer."
 183,Rues,,Heart of Midlothian,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -164,4 +164,9 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 187,Christos Tzolis,Club Brugge,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 188,Hannah Cain,Leicester City,Everton,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Hannah_Cain,auto,"[auto] player joined Everton - the rumoured destination | On 16 July 2026, Cain was announced at Everton after her contract with Leicester expired."
 189,Jade Rastocle,Montpellier,Birmingham City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-190,Lexi Lloyd-Smith,,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+190,Lexi Lloyd-Smith,,Crystal Palace,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Lexi_Lloyd-Smith,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 16 July 2026, it was announced that Lloyd-Smith had signed for newly-promoted Women's Super League club Crystal Palace."
+191,Djed Spence,,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+192,Estelle Cascarino,,West Ham,2026-summer,collapsed,,2026-07-17,https://en.wikipedia.org/wiki/Estelle_Cascarino,auto,"[auto] player joined West Ham United, not West Ham - rumour did not happen | Cascarino ... was announced as a permanent West Ham signing on 17 July 2026, signing a three year deal with the club."
+193,Isabella Damm,Brondby IF,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+194,Mathilde Harviken,Juventus,Aston Villa,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Mathilde_Harviken,auto,"[auto] player joined Aston Villa - the rumoured destination | In July 2026, Harviken joined WSL club Aston Villa."
+195,Maxime Esteve,Burnley,RB Leipzig,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Maxime_Esteve,auto,"[auto] player joined RB Leipzig - the rumoured destination | On 17 July 2026, Estève signed for RB Leipzig on a five-year deal."
