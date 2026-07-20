@@ -293,3 +293,7 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 319,78,The Guardian,rss,2026-07-18,medical,https://www.theguardian.com/football/2026/jul/18/chelsea-morgan-rogers-aston-villa-117m,Chelsea poised to sign Morgan Rogers from Aston Villa in record-breaking £117m deal,auto
 320,200,BBC Sport,rss,2026-07-18,here_we_go,https://www.bbc.co.uk/sport/football/articles/cp8em0ndd18o?at_medium=RSS&at_campaign=rss,Motherwell midfielder Watt joins Samsunspor,auto
 321,201,BBC Sport,rss,2026-07-18,interest,https://www.bbc.co.uk/sport/football/articles/cn8nypvz22no?at_medium=RSS&at_campaign=rss,Tottenham confident of Savinho signing - Sunday's gossip,auto
+322,202,BBC Sport,rss,2026-07-19,advanced,https://www.bbc.co.uk/sport/football/articles/cqlxreqep15o?at_medium=RSS&at_campaign=rss,Swansea close in on deal for Motherwell's Just,auto
+323,203,BBC Sport,rss,2026-07-20,interest,https://www.bbc.co.uk/sport/football/articles/ceqexpndrnro?at_medium=RSS&at_campaign=rss,Celtic revive chase for striker Hogh - gossip,auto
+324,204,Sky Sports,rss,2026-07-19,interest,https://www.skysports.com/football/news/12691/13565019/arsenal-planning-short-term-move-for-free-agent-john-stones-following-william-salibas-world-cup-injury-paper-talk,Papers: Arsenal planning short-term swoop for Stones,auto
+325,204,BBC Sport,rss,2026-07-20,interest,https://www.bbc.co.uk/sport/football/articles/cwy41vd9ewxo?at_medium=RSS&at_campaign=rss,Arsenal line up Stones free transfer - Monday's gossip,auto
