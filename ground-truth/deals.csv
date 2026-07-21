@@ -158,7 +158,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 181,Thomas Meunier,Lille,Sunderland,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Thomas_Meunier,auto,[auto] player joined Sunderland - the rumoured destination | He later played for Trabzonspor and Lille before signing for Sunderland in 2026.
 182,Emily Ramsey,Everton,Aston Villa,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Emily_Ramsey,auto,"[auto] player joined Aston Villa - the rumoured destination | On 15 July 2026, Ramsey signed for Aston Villa on a free transfer."
 183,Rues,,Heart of Midlothian,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-184,Joao Gomes,Wolverhampton Wanderers,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+184,Joao Gomes,Wolverhampton Wanderers,Aston Villa,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Joao_Gomes,auto,"[auto] player joined Aston Villa - the rumoured destination | On 20 July 2026, Gomes signed for Premier League club Aston Villa."
 185,Marius Muller,Wolfsburg,Aberdeen,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Marius_Muller,auto,"[auto] player joined Aberdeen - the rumoured destination | On 15 July 2026, Müller signed a two-year contract with Aberdeen in Scotland."
 186,Matias Moreno,,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 187,Christos Tzolis,Club Brugge,Arsenal,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Christos_Tzolis,auto,"[auto] player joined Arsenal - the rumoured destination | On 17 July 2026, Club Brugge manager Ivan Leko announced that Tzolis would be leaving the club for Arsenal, for a reported transfer fee of €34 million."
@@ -184,3 +184,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 207,Alice Sombath,Lyon,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 208,Daizen Maeda,Celtic,Ipswich Town,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 209,Jhon Duran,Al-Nassr,Benfica,2026-summer,collapsed,,2026-07-21,https://en.wikipedia.org/wiki/Jhon_Duran,auto,"[auto] player joined Fenerbahçe, not Benfica - rumour did not happen | On 6 July 2025, Durán was loaned to Turkish Süper Lig side Fenerbahçe for the 2025–26 season."
+210,Akane Okuma,,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+211,Jutta Rantala,Leicester City,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
