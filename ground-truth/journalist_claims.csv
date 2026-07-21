@@ -313,3 +313,9 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 339,209,BBC Sport,rss,2026-07-20,agreement,https://www.bbc.co.uk/sport/football/articles/c75gwl3n50qo?at_medium=RSS&at_campaign=rss,Ex-Villa striker Duran joins seventh club aged 22,auto
 340,210,BBC Sport,rss,2026-07-21,official,https://www.bbc.co.uk/sport/football/articles/cx25wj22003o?at_medium=RSS&at_campaign=rss,Japan goalkeeper Okuma signs for Aston Villa,auto
 341,211,BBC Sport,rss,2026-07-21,agreement,https://www.bbc.co.uk/sport/football/articles/cj360rjljkdo?at_medium=RSS&at_campaign=rss,Everton agree deal to sign Leicester’s Rantala,auto
+342,101,Sky Sports,rss,2026-07-21,agreement,https://www.skysports.com/football/news/12691/13565724/crysencio-summerville-al-hilal-reach-agreement-with-west-ham-to-sign-netherlands-international,West Ham agree big-money deal with Al Hilal for Summerville,auto
+343,160,BBC Sport,rss,2026-07-21,talks,https://www.bbc.co.uk/sport/football/articles/cn9ng770v8po?at_medium=RSS&at_campaign=rss,Villa in talks to sign Chelsea's Garnacho,auto
+344,160,Sky Sports,rss,2026-07-21,talks,https://www.skysports.com/football/news/12691/13565713/alejandro-garnacho-transfer-news-aston-villa-begin-talks-to-sign-forward-from-chelsea,Aston Villa in talks to sign Garnacho,auto
+345,212,BBC Sport,rss,2026-07-21,here_we_go,https://www.bbc.co.uk/sport/football/articles/cr49r3w9734o?at_medium=RSS&at_campaign=rss,Ipswich complete £20m deal for Ghana winger Fatawu,auto
+346,213,BBC Sport,rss,2026-07-21,official,https://www.bbc.co.uk/sport/football/articles/c89nxdpyl2eo?at_medium=RSS&at_campaign=rss,Australia striker McNamara joins Everton,auto
+347,214,BBC Sport,rss,2026-07-21,agreement,https://www.bbc.co.uk/sport/football/articles/c8rnjvpm0g4o?at_medium=RSS&at_campaign=rss,Middlesbrough agree fee for Spurs striker Lankshear,auto
