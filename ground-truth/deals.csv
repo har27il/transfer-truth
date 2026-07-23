@@ -176,7 +176,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 199,Hassan,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 200,Elliot Watt,Motherwell,Samsunspor,2026-summer,completed,,2026-07-20,https://en.wikipedia.org/wiki/Elliot_Watt,auto,"[auto] player joined Samsunspor - the rumoured destination | On 18 July 2026, Watt joined Süper Lig club Samsunspor on a four-year contract for an undisclosed fee."
 201,Savinho,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-202,Elijah Just,Motherwell,Swansea City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+202,Elijah Just,Motherwell,Swansea City,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Elijah_Just,auto,"[auto] player joined Swansea City - the rumoured destination | On 22 July 2026, Just signed a three-year contract with EFL Championship club Swansea City."
 203,Hogh,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 204,John Stones,Manchester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 205,Laurent Mendy,Forest Green Rovers,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -199,3 +199,9 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 222,Maghnes Akliouche,Monaco,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 223,Rodrigo Hernández,,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 224,Ryan Fosso,Sturm Graz,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+225,Aladji Bamba,Monaco,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+226,Andoni Iraola,,Liverpool,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Andoni_Iraola,auto,"[auto] player joined Liverpool - the rumoured destination | On 4 June 2026, Iraola signed as head coach of Liverpool on a two-year contract."
+227,Eduardo Camavinga,Real Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+228,James Trafford,Manchester City,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+229,Karim Adeyemi,Borussia Dortmund,Barcelona,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Karim_Adeyemi,auto,"[auto] player joined Barcelona - the rumoured destination | On 23 July 2026, Adeyemi joined Barcelona on a five-year deal."
+230,Manu Kone,AS Roma,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
