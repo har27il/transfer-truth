@@ -48,7 +48,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 50,João Palhinha,Bayern Munich,Tottenham Hotspur,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/João_Palhinha,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 3 August 2025, Palhinha moved to Tottenham Hotspur on a season-long loan with an option to make the deal permanent for €30 million."
 51,Julián Alvarez,Atlético Madrid,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 53,Marc Cucurella,Chelsea,Real Madrid,2026-summer,completed,,2026-06-16,https://en.wikipedia.org/wiki/Marc_Cucurella,YES,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
-54,Marcus Rashford,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+54,Marcus Rashford,,Barcelona,2026-summer,collapsed,,2026-07-23,https://en.wikipedia.org/wiki/Marcus_Rashford,auto,"[auto] player joined Aston Villa, not Barcelona - rumour did not happen | He was loaned to Aston Villa in 2025"
 56,Mateus Fernandes,West Ham United,Tottenham Hotspur,2026-summer,completed,,2026-07-02,https://en.wikipedia.org/wiki/Mateus_Fernandes,YES,"[verified 2026-07-05] joined Tottenham for club-record GBP85m, officially announced | skysports.com/football/news/11095/13559479"
 57,Michael Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 59,Sandro Tonali,Newcastle,Tottenham Hotspur,2026-summer,completed,,2026-07-06,https://en.wikipedia.org/wiki/Sandro_Tonali,YES,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 6 July 2026, Tonali signed for Tottenham Hotspur for a transfer fee of £100 million."
@@ -197,3 +197,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 220,Issa Diop,Fulham,Ipswich Town,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Issa_Diop,auto,"[auto] player joined Ipswich Town - the rumoured destination | On 22 July 2026, Diop signed a four-year contract with Ipswich Town."
 221,Kerolin,Manchester City,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 222,Maghnes Akliouche,Monaco,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+223,Rodrigo Hernández,,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+224,Ryan Fosso,Sturm Graz,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
