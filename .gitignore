@@ -16,8 +16,20 @@ nvapi-*
 # OS / editor
 .DS_Store
 Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.vscode/
+.idea/
+
+# Generated / local-only outputs
 ml/deal_predictions.json
 
 # Ingestion machine state (SQLite)
 ingest/*.db
 .gstack/
+
+# Marketing/presentation assets — personal deliverables, not project source
+Transfer_Truth_Presentation.pptx
+Transfer_Truth_Teaser.mp4
+transfer-truth-credibility-v1.png
+video/
