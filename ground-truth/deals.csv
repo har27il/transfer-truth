@@ -199,7 +199,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 222,Maghnes Akliouche,Monaco,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 223,Rodrigo Hernández,,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 224,Ryan Fosso,Sturm Graz,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-225,Aladji Bamba,Monaco,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+225,Aladji Bamba,Monaco,Newcastle United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Aladji_Bamba,auto,"[auto] player joined Newcastle United - the rumoured destination | On 24 July 2026, Bamba signed for Premier League club Newcastle United on a five year deal."
 226,Andoni Iraola,,Liverpool,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Andoni_Iraola,auto,"[auto] player joined Liverpool - the rumoured destination | On 4 June 2026, Iraola signed as head coach of Liverpool on a two-year contract."
 227,Eduardo Camavinga,Real Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 228,James Trafford,Manchester City,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
