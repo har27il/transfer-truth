@@ -207,3 +207,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 230,Manu Kone,AS Roma,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 231,Laia Codina,Arsenal,West Ham,2026-summer,collapsed,,2026-07-23,https://en.wikipedia.org/wiki/Laia_Codina,auto,"[auto] player joined West Ham United, not West Ham - rumour did not happen | On 19 June 2026, it was announced that Codina had signed for West Ham United on a three year deal."
 232,Vanja Dragojevic,Partizan,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+233,Janina Leitzig,Leicester City,Manchester United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Janina_Leitzig,auto,"[auto] player joined Manchester United - the rumoured destination | In July 2026, Leitzig joined Manchester United for an undisclosed fee."
+234,Kasper Hogh,Bodo/Glimt,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
