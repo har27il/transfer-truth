@@ -87,7 +87,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 98,Andrey Santos,Chelsea,Manchester United,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Andrey_Santos,YES,"[auto] player joined Manchester United - the rumoured destination | On 13 July 2026, Santos joined Manchester United on a five-year contract."
 99,Angus Gunn,,Manchester United,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Angus_Gunn,auto,"[auto] player joined Nottingham Forest, not Manchester United - rumour did not happen | On 6 August 2025, Gunn joined Nottingham Forest on a one-year deal."
 100,Aurelien Tchouameni,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-101,Crysencio Summerville,West Ham,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+101,Crysencio Summerville,West Ham,Fulham,2026-summer,collapsed,,2026-07-25,https://en.wikipedia.org/wiki/Crysencio_Summerville,auto,"[auto] player joined Al Hilal, not Fulham - rumour did not happen | On 24 July 2026, Summerville moved to Saudi Pro League club Al Hilal on a four-year contract in a deal reportedly worth an initial £55 million (€64.4 million), plus £5 million (€5.9 million) in add-ons."
 102,Denzel Dumfries,Inter Milan,Real Madrid,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Denzel_Dumfries,YES,[auto] player joined Real Madrid - the rumoured destination | He eventually joined La Liga club Real Madrid in July 2026.
 103,Echeverri,,Monza,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 104,Kieron Bowie,Hellas Verona,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -215,3 +215,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 239,Cristian Romero,Tottenham Hotspur,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 240,Mason Mount,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+241,Vinicius Junior,Real Madrid,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
