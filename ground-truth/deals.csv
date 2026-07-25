@@ -182,7 +182,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 205,Laurent Mendy,Forest Green Rovers,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 206,Mao Itamura,Feyenoord,Liverpool,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Mao_Itamura,auto,"[auto] player joined Liverpool - the rumoured destination | On 20 July 2026, Itamura signed with Women's Super League side Liverpool."
 207,Alice Sombath,Lyon,Tottenham Hotspur,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Alice_Sombath,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | In July 2026, Sombath joined Women's Super League club Tottenham Hotspur for an undisclosed fee."
-208,Daizen Maeda,Celtic,Ipswich Town,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+208,Daizen Maeda,Celtic,Ipswich Town,2026-summer,completed,,2026-07-25,https://en.wikipedia.org/wiki/Daizen_Maeda,auto,"[auto] player joined Ipswich Town - the rumoured destination | On 25 July 2026, Daizen signed for Premier League side Ipswich Town."
 209,Jhon Duran,Al-Nassr,Benfica,2026-summer,collapsed,,2026-07-21,https://en.wikipedia.org/wiki/Jhon_Duran,auto,"[auto] player joined Fenerbahçe, not Benfica - rumour did not happen | On 6 July 2025, Durán was loaned to Turkish Süper Lig side Fenerbahçe for the 2025–26 season."
 210,Akane Okuma,,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 211,Jutta Rantala,Leicester City,Everton,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Jutta_Rantala,auto,"[auto] player joined Everton - the rumoured destination | On 22 July 2026, Rantala was announced at Everton."
@@ -212,3 +212,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 235,Sophie Baggaley,Brighton,Birmingham City,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Sophie_Baggaley,auto,"[auto] player joined Birmingham City - the rumoured destination | In July 2026, it was announced that Baggaley had rejoined her former academy team Birmingham City."
 236,Raphael le Guen,Stade Brest,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 237,Michele Cancellieri,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+239,Cristian Romero,Tottenham Hotspur,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+240,Mason Mount,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
