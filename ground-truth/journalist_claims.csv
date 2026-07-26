@@ -383,3 +383,5 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 409,234,BBC Sport,rss,2026-07-25,medical,https://www.bbc.co.uk/sport/football/articles/cwymjrm0xlwo?at_medium=RSS&at_campaign=rss,Bodo/Glimt's Hogh to have Celtic medical within 24 hours,auto
 410,241,The Guardian,rss,2026-07-25,interest,https://www.theguardian.com/football/2026/jul/25/arsenal-inquiry-transfer-vinicius-junior-real-madrid,Arsenal make shock approach to sign Vinícius Júnior from Real Madrid,auto
 411,242,BBC Sport,rss,2026-07-25,interest,https://www.bbc.co.uk/sport/football/articles/c5yw2wqxvjwo?at_medium=RSS&at_campaign=rss,Arsenal explore Vinicius Jr move - Sunday's gossip,auto
+412,92,Régis Le Bris,rss,2026-07-26,denied,https://www.theguardian.com/football/2026/jul/26/regis-le-bris-says-chelseas-pursuit-of-sunderland-captain-xhaka-is-closed,Régis Le Bris says Chelsea’s pursuit of Sunderland captain Xhaka is ‘closed’,auto
+413,243,BBC Sport,rss,2026-07-26,interest,https://www.bbc.co.uk/sport/football/articles/c5y3gg1083no?at_medium=RSS&at_campaign=rss,Gittens keen to impress 'world-class' Alonso,auto
