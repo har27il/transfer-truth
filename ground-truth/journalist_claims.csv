@@ -379,3 +379,7 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 405,240,BBC Sport,rss,2026-07-25,rumour_link,https://www.bbc.co.uk/sport/football/articles/cpd7e8jw9qqo?at_medium=RSS&at_campaign=rss,Could Mount be final piece in Man Utd midfield jigsaw?,auto
 406,208,BBC Sport,rss,2026-07-25,official,https://www.bbc.co.uk/sport/football/articles/cx2dgkg5rq0o?at_medium=RSS&at_campaign=rss,Ipswich sign Japan forward Maeda from Celtic,auto
 407,241,Sky Sports,rss,2026-07-25,interest,https://www.skysports.com/football/news/12691/13566893/vinicius-jr-transfer-news-arsenal-exploring-deal-for-real-madrid-and-brazil-forward,Arsenal exploring deal for Real Madrid's Vinicius Jr,auto
+408,124,Sky,rss,2026-07-24,interest,https://www.skysports.com/football/news/12691/13567039/yan-diomande-transfer-news-real-madrid-in-pole-position-for-rb-leipzig-winger-after-85m-bid-rejected,Real Madrid in pole position to sign RB Leipzig's Diomande,auto
+409,234,BBC Sport,rss,2026-07-25,medical,https://www.bbc.co.uk/sport/football/articles/cwymjrm0xlwo?at_medium=RSS&at_campaign=rss,Bodo/Glimt's Hogh to have Celtic medical within 24 hours,auto
+410,241,The Guardian,rss,2026-07-25,interest,https://www.theguardian.com/football/2026/jul/25/arsenal-inquiry-transfer-vinicius-junior-real-madrid,Arsenal make shock approach to sign Vinícius Júnior from Real Madrid,auto
+411,242,BBC Sport,rss,2026-07-25,interest,https://www.bbc.co.uk/sport/football/articles/c5yw2wqxvjwo?at_medium=RSS&at_campaign=rss,Arsenal explore Vinicius Jr move - Sunday's gossip,auto
