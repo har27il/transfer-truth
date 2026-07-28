@@ -189,7 +189,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 212,Abdul Fatawu,,Ipswich Town,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Abdul_Fatawu,auto,"[auto] player joined Ipswich Town - the rumoured destination | On 21 July 2026, Fatawu joined newly promoted Premier League club Ipswich Town for an undisclosed fee on a five year contract."
 213,Holly McNamara,Melbourne City,Everton,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Holly_McNamara,auto,"[auto] player joined Everton - the rumoured destination | In July 2026, McNamara signed for English club Everton"
 214,Will Lankshear,Tottenham Hotspur,Middlesbrough,2026-summer,collapsed,,2026-07-21,https://en.wikipedia.org/wiki/Will_Lankshear,auto,"[auto] player joined Oxford United, not Middlesbrough - rumour did not happen | On 5 August 2025, Lankshear joined Championship side Oxford United on a season-long loan."
-215,Leanne Kiernan,Liverpool,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+215,Leanne Kiernan,Liverpool,Newcastle United,2026-summer,completed,,2026-07-28,https://en.wikipedia.org/wiki/Leanne_Kiernan,auto,"[auto] player joined Newcastle United - the rumoured destination | On 28 July 2026, Kiernan was announced at Newcastle United."
 216,Mika Baur,SC Paderborn 07,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 217,Ousmane Diomande,Sporting CP,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 218,Warren Zaire-Emery,Paris Saint-Germain,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -208,7 +208,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 231,Laia Codina,Arsenal,West Ham,2026-summer,collapsed,,2026-07-23,https://en.wikipedia.org/wiki/Laia_Codina,auto,"[auto] player joined West Ham United, not West Ham - rumour did not happen | On 19 June 2026, it was announced that Codina had signed for West Ham United on a three year deal."
 232,Vanja Dragojevic,Partizan,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 233,Janina Leitzig,Leicester City,Manchester United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Janina_Leitzig,auto,"[auto] player joined Manchester United - the rumoured destination | In July 2026, Leitzig joined Manchester United for an undisclosed fee."
-234,Kasper Hogh,Bodo/Glimt,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+234,Kasper Hogh,Bodo/Glimt,Celtic,2026-summer,completed,,2026-07-28,https://en.wikipedia.org/wiki/Kasper_Hogh,auto,"[auto] player joined Celtic - the rumoured destination | On 28 July 2026, it was confirmed that Høgh had signed a contract to join Scottish Premiership side Celtic."
 235,Sophie Baggaley,Brighton,Birmingham City,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Sophie_Baggaley,auto,"[auto] player joined Birmingham City - the rumoured destination | In July 2026, it was announced that Baggaley had rejoined her former academy team Birmingham City."
 236,Raphael le Guen,Stade Brest,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 237,Michele Cancellieri,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -225,3 +225,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 248,Makhanya,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 249,Rodri,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 250,Dayann Methalie,Toulouse,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+251,Giulia Dragoni,Barcelona,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
