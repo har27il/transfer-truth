@@ -228,4 +228,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 251,Giulia Dragoni,Barcelona,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 252,Liam Cullen,Swansea City,Leicester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 253,Oliver Antman,Rangers,Anderlecht,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-254,Sebastian Berhalter,Vancouver Whitecaps,Middlesbrough,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+254,Sebastian Berhalter,Vancouver Whitecaps,Middlesbrough,2026-summer,completed,,2026-07-29,https://en.wikipedia.org/wiki/Sebastian_Berhalter,auto,"[auto] player joined Middlesbrough - the rumoured destination | On July 28, 2026, Berhalter joined EFL Championship club Middlesbrough for an undisclosed fee on a four-year deal."
+255,Eli Junior Kroupi,Bournemouth,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+256,Takehiro Tomiyasu,Arsenal,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
