@@ -163,7 +163,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 186,Matias Moreno,,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 187,Christos Tzolis,Club Brugge,Arsenal,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Christos_Tzolis,auto,"[auto] player joined Arsenal - the rumoured destination | On 17 July 2026, Club Brugge manager Ivan Leko announced that Tzolis would be leaving the club for Arsenal, for a reported transfer fee of €34 million."
 188,Hannah Cain,Leicester City,Everton,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Hannah_Cain,auto,"[auto] player joined Everton - the rumoured destination | On 16 July 2026, Cain was announced at Everton after her contract with Leicester expired."
-189,Jade Rastocle,Montpellier,Birmingham City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+189,Jade Rastocle,Montpellier,Birmingham City,2026-summer,completed,,2026-07-31,https://en.wikipedia.org/wiki/Jade_Rastocle,auto,"[auto] player joined Birmingham City - the rumoured destination | Women's Super League club Birmingham City announced, on 16 July 2026, that they had acquired Rastocle from Montpellier"
 190,Lexi Lloyd-Smith,,Crystal Palace,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Lexi_Lloyd-Smith,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 16 July 2026, it was announced that Lloyd-Smith had signed for newly-promoted Women's Super League club Crystal Palace."
 191,Djed Spence,,Inter Milan,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 192,Estelle Cascarino,,West Ham,2026-summer,collapsed,,2026-07-17,https://en.wikipedia.org/wiki/Estelle_Cascarino,auto,"[auto] player joined West Ham United, not West Ham - rumour did not happen | Cascarino ... was announced as a permanent West Ham signing on 17 July 2026, signing a three year deal with the club."
@@ -178,7 +178,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 201,Savinho,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 202,Elijah Just,Motherwell,Swansea City,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Elijah_Just,auto,"[auto] player joined Swansea City - the rumoured destination | On 22 July 2026, Just signed a three-year contract with EFL Championship club Swansea City."
 203,Hogh,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-204,John Stones,Manchester City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+204,John Stones,Manchester City,Arsenal,2026-summer,collapsed,,2026-07-31,https://en.wikipedia.org/wiki/John_Stones,auto,"[auto] player joined Inter Milan, not Arsenal - rumour did not happen | On 30 July 2026, Stones joined Serie A club Inter Milan on a free transfer, signing a two-year contract until 2028."
 205,Laurent Mendy,Forest Green Rovers,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 206,Mao Itamura,Feyenoord,Liverpool,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Mao_Itamura,auto,"[auto] player joined Liverpool - the rumoured destination | On 20 July 2026, Itamura signed with Women's Super League side Liverpool."
 207,Alice Sombath,Lyon,Tottenham Hotspur,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Alice_Sombath,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | In July 2026, Sombath joined Women's Super League club Tottenham Hotspur for an undisclosed fee."
@@ -238,3 +238,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 261,Jack Grealish,Manchester City,Al Hilal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 262,Kalvin Phillips,Manchester City,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 263,Olwethu Makhanya,Philadelphia Union,Rangers,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Olwethu_Makhanya,auto,"[auto] player joined Rangers - the rumoured destination | On 30 July 2026, Makhanya signed for Scottish Premiership club Rangers on a four-year deal with the option for an additional year."
+264,Arne Engels,Celtic,West Ham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+265,Liam Delap,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
