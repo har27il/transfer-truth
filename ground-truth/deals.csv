@@ -226,7 +226,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 249,Rodri,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 250,Dayann Methalie,Toulouse,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 251,Giulia Dragoni,Barcelona,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-252,Liam Cullen,Swansea City,Leicester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+252,Liam Cullen,Swansea City,Leicester City,2026-summer,completed,,2026-07-31,https://en.wikipedia.org/wiki/Liam_Cullen,auto,"[auto] player joined Leicester City - the rumoured destination | On 31 July 2026, Cullen signed for recently relegated EFL League One club Leicester City for an undisclosed fee."
 253,Oliver Antman,Rangers,Anderlecht,2026-summer,collapsed,,2026-07-30,https://en.wikipedia.org/wiki/Oliver_Antman,auto,"[auto] player joined RSC Anderlecht, not Anderlecht - rumour did not happen | On 29 July 2026, Antman left Rangers to join Belgian Pro League side RSC Anderlecht for a fee of around £4.5 million."
 254,Sebastian Berhalter,Vancouver Whitecaps,Middlesbrough,2026-summer,completed,,2026-07-29,https://en.wikipedia.org/wiki/Sebastian_Berhalter,auto,"[auto] player joined Middlesbrough - the rumoured destination | On July 28, 2026, Berhalter joined EFL Championship club Middlesbrough for an undisclosed fee on a four-year deal."
 255,Eli Junior Kroupi,Bournemouth,Barcelona,2026-summer,collapsed,,2026-07-30,https://en.wikipedia.org/wiki/Eli_Junior_Kroupi,auto,"[auto] player joined Premier League club Bournemouth, not Barcelona - rumour did not happen | He made his debut for the club on 15 August 2025, in a 4–2 defeat to Liverpool."
@@ -240,3 +240,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 263,Olwethu Makhanya,Philadelphia Union,Rangers,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Olwethu_Makhanya,auto,"[auto] player joined Rangers - the rumoured destination | On 30 July 2026, Makhanya signed for Scottish Premiership club Rangers on a four-year deal with the option for an additional year."
 264,Arne Engels,Celtic,West Ham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 265,Liam Delap,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+266,Chris Cadden,Hibernian,Aberdeen,2026-summer,completed,,2026-07-31,https://en.wikipedia.org/wiki/Chris_Cadden,auto,[auto] player joined Aberdeen - the rumoured destination | Cadden signed a two-year contract with Aberdeen on 31 July 2026.
