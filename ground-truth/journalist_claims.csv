@@ -454,3 +454,5 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 480,268,Sky Sports,rss,2026-08-01,interest,https://www.skysports.com/football/news/12691/13569111/myles-lewis-skelly-transfer-news-man-utd-considering-move-for-arsenal-player-paper-talk,Papers: Man Utd considering move for Arsenal's Lewis-Skelly,auto
 481,269,BBC Sport,rss,2026-08-01,advanced,https://www.bbc.co.uk/sport/football/articles/ckg9jlzwrnro?at_medium=RSS&at_campaign=rss,Salah close to Trabzonspor move - Sunday's gossip,auto
 482,270,BBC Sport,rss,2026-08-02,interest,https://www.bbc.co.uk/sport/football/articles/cvg9q171y8qo?at_medium=RSS&at_campaign=rss,Celtic to make new bid for Gineitis - gossip,auto
+483,271,BBC Sport,rss,2026-08-02,advanced,https://www.bbc.co.uk/sport/football/articles/cjwx77l1lg9o?at_medium=RSS&at_campaign=rss,Bournemouth close in on £11.1m Juanlu,auto
+484,272,BBC Sport,rss,2026-08-02,interest,https://www.bbc.co.uk/sport/football/articles/cz7d138ew59o?at_medium=RSS&at_campaign=rss,Alonso heals Real Madrid scars to lead Chelsea's senior revolution,auto
