@@ -451,3 +451,5 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 477,245,BBC Sport,rss,2026-08-01,official,https://www.bbc.co.uk/sport/football/articles/cly5g1vy3p3o?at_medium=RSS&at_campaign=rss,Chelsea confirm Welbeck signing from Brighton,auto
 478,245,The Guardian,rss,2026-08-01,agreement,https://www.theguardian.com/football/2026/aug/01/transfer-news-welbeck-joins-chelsea-brentford-complete-record-sangare-deal,"Transfer news: Welbeck joins Chelsea, Brentford complete record Sangaré deal",auto
 479,267,BBC Sport,rss,2026-08-01,official,https://www.bbc.co.uk/sport/football/articles/cn8n43nzyvmo?at_medium=RSS&at_campaign=rss,Brentford sign Sangare for club record fee,auto
+480,268,Sky Sports,rss,2026-08-01,interest,https://www.skysports.com/football/news/12691/13569111/myles-lewis-skelly-transfer-news-man-utd-considering-move-for-arsenal-player-paper-talk,Papers: Man Utd considering move for Arsenal's Lewis-Skelly,auto
+481,269,BBC Sport,rss,2026-08-01,advanced,https://www.bbc.co.uk/sport/football/articles/ckg9jlzwrnro?at_medium=RSS&at_campaign=rss,Salah close to Trabzonspor move - Sunday's gossip,auto
