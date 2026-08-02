@@ -453,3 +453,4 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 479,267,BBC Sport,rss,2026-08-01,official,https://www.bbc.co.uk/sport/football/articles/cn8n43nzyvmo?at_medium=RSS&at_campaign=rss,Brentford sign Sangare for club record fee,auto
 480,268,Sky Sports,rss,2026-08-01,interest,https://www.skysports.com/football/news/12691/13569111/myles-lewis-skelly-transfer-news-man-utd-considering-move-for-arsenal-player-paper-talk,Papers: Man Utd considering move for Arsenal's Lewis-Skelly,auto
 481,269,BBC Sport,rss,2026-08-01,advanced,https://www.bbc.co.uk/sport/football/articles/ckg9jlzwrnro?at_medium=RSS&at_campaign=rss,Salah close to Trabzonspor move - Sunday's gossip,auto
+482,270,BBC Sport,rss,2026-08-02,interest,https://www.bbc.co.uk/sport/football/articles/cvg9q171y8qo?at_medium=RSS&at_campaign=rss,Celtic to make new bid for Gineitis - gossip,auto
