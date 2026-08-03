@@ -248,6 +248,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 271,Juanlu,Sevilla,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 272,Xabi Alonso,Real Madrid,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 273,Cody Gakpo,Liverpool,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-274,Lukas Hornicek,Braga,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+274,Lukas Hornicek,Braga,Newcastle United,2026-summer,completed,,2026-08-03,https://en.wikipedia.org/wiki/Lukas_Hornicek,auto,"[auto] player joined Newcastle United - the rumoured destination | On 3 August 2026, Horníček signed for Premier League club Newcastle United."
 275,Valentín Barco,Strasbourg,Chelsea,2026-summer,completed,,2026-08-03,https://en.wikipedia.org/wiki/Valentín_Barco,auto,"[auto] player joined Chelsea - the rumoured destination | On 2 August 2026, Chelsea announced the signing of Barco on a seven-year contract until 2033 for a reported deal of £34 million."
 276,Victor Osimhen,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+277,Jadon Sancho,Manchester United,Flixton FC,2026-summer,collapsed,,2026-08-03,https://en.wikipedia.org/wiki/Jadon_Sancho,auto,"[auto] player joined Aston Villa, not Flixton FC - rumour did not happen | On 1 September, Sancho signed for fellow Premier League club Aston Villa on a season-long loan."
