@@ -179,7 +179,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 202,Elijah Just,Motherwell,Swansea City,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Elijah_Just,auto,"[auto] player joined Swansea City - the rumoured destination | On 22 July 2026, Just signed a three-year contract with EFL Championship club Swansea City."
 203,Hogh,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 204,John Stones,Manchester City,Arsenal,2026-summer,collapsed,,2026-07-31,https://en.wikipedia.org/wiki/John_Stones,auto,"[auto] player joined Inter Milan, not Arsenal - rumour did not happen | On 30 July 2026, Stones joined Serie A club Inter Milan on a free transfer, signing a two-year contract until 2028."
-205,Laurent Mendy,Forest Green Rovers,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+205,Laurent Mendy,Forest Green Rovers,Hearts,2026-summer,collapsed,,2026-08-03,https://en.wikipedia.org/wiki/Laurent_Mendy,auto,"[auto] player joined Heart of Midlothian, not Hearts - rumour did not happen | In July 2026, Forest Green accepted a bid of £500,000 from Hearts for Mendy, potentially rising to a club record fee of £1 million. The transfer was confirmed on 24 July, and Mendy signed a three-year contract with Hearts."
 206,Mao Itamura,Feyenoord,Liverpool,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Mao_Itamura,auto,"[auto] player joined Liverpool - the rumoured destination | On 20 July 2026, Itamura signed with Women's Super League side Liverpool."
 207,Alice Sombath,Lyon,Tottenham Hotspur,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Alice_Sombath,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | In July 2026, Sombath joined Women's Super League club Tottenham Hotspur for an undisclosed fee."
 208,Daizen Maeda,Celtic,Ipswich Town,2026-summer,completed,,2026-07-25,https://en.wikipedia.org/wiki/Daizen_Maeda,auto,"[auto] player joined Ipswich Town - the rumoured destination | On 25 July 2026, Daizen signed for Premier League side Ipswich Town."
@@ -247,3 +247,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 270,Gineitis,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 271,Juanlu,Sevilla,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 272,Xabi Alonso,Real Madrid,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+273,Cody Gakpo,Liverpool,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+274,Lukas Hornicek,Braga,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+275,Valentín Barco,Strasbourg,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+276,Victor Osimhen,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
