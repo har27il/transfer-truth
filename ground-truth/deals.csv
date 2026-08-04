@@ -255,3 +255,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 278,Daisuke Yokota,Hannover,Rangers,2026-summer,collapsed,,2026-08-04,https://en.wikipedia.org/wiki/Daisuke_Yokota,auto,"[auto] player joined Hannover 96, not Rangers - rumour did not happen | The move to Hannover was made permanent for the following season."
 279,Gonzalo Garcia,Real Madrid,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 280,Carl Rushworth,Brighton and Hove Albion,Coventry City,2026-summer,completed,,2026-08-04,https://en.wikipedia.org/wiki/Carl_Rushworth,auto,"[auto] player joined Coventry City - the rumoured destination | Despite an initial transfer bid being rejected by Brighton in June 2026, Rushworth joined Coventry permanently on 4 August 2026."
+281,Filip Jorgensen,Chelsea,Strasbourg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional

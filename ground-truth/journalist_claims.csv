@@ -475,3 +475,4 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 501,273,The Guardian,rss,2026-08-04,interest,https://www.theguardian.com/football/2026/aug/04/football-transfer-rumour-mill-chelsea-mykhailo-mudryk-lampard-coventry,Football transfer rumours: Chelsea’s Mudryk to reunite with Lampard at Coventry?,auto
 502,280,BBC Sport,rss,2026-08-04,official,https://www.bbc.co.uk/sport/football/articles/c98v6nz6v2eo?at_medium=RSS&at_campaign=rss,Coventry sign Brighton goalkeeper Rushworth after loan,auto
 503,280,The Guardian,rss,2026-08-04,official,https://www.theguardian.com/football/2026/aug/04/frank-lampard-coventry-brighton-carl-rushworth-transfer-roundup,Frank Lampard hails ‘huge’ signing as Coventry seal record £22.5m Rushworth deal,auto
+504,281,BBC Sport,rss,2026-08-04,agreement,https://www.bbc.co.uk/sport/football/articles/cwyepgxz93yo?at_medium=RSS&at_campaign=rss,Keeper Jorgensen set for loan move to Strasbourg,auto
