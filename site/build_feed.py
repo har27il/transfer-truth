@@ -228,9 +228,13 @@ def _lead(m, reliability):
     pct = m["percent"]
     verdict = html.escape(m.get("label") or "")
     kicker = "Today&rsquo;s most contested" if m.get("spread", 0.0) > 0.4 else "Leading the feed"
+    # A source can be in the live feed's claims before it has any resolved claims in
+    # scoring/leaderboard.json (e.g. a journalist named on their very first rumour this
+    # window). Bare name with nothing after it reads as broken; say plainly it's unscored
+    # rather than silently omitting the number.
     chips = "".join(
         f'<span><b>{html.escape(s)}</b>'
-        + (f' {round(reliability[s]*100)}%' if s in reliability else "")
+        + (f' {round(reliability[s]*100)}%' if s in reliability else " &middot; not yet scored")
         + "</span>" for s in m.get("sources", []))
     return f"""<section class="lede">
         <p class="kicker">{kicker}</p>
@@ -275,13 +279,22 @@ def _section(title, count, rows, tier):
     return f'<div class="sec"><h2>{title}</h2><span class="count">{count}</span></div>{cards}'
 
 
-def _cooling_section(rows):
+COOLING_CAP = 8   # page-weight cap on how many cooling-off rows render
+
+
+def _cooling_section(rows, cap=COOLING_CAP):
     """Deals that have gone QUIET (no new claim in FRESH_DAYS) but haven't aged out of the
     window yet: demoted below the live feed, rendered muted, tagged with how long they've
     been silent. Kept (not dropped) so a deal that goes quiet for a few days isn't lost --
-    a single new claim re-promotes it into the live feed on the next build."""
+    a single new claim re-promotes it into the live feed on the next build.
+
+    Only the first `cap` (busiest/least-stale, per the caller's sort) render -- the
+    nameplate's own "N cooling" stat counts the FULL list, so when the two would
+    otherwise disagree the section label says so explicitly ("8 of 48 shown") instead
+    of silently truncating and leaving the header stat looking wrong."""
+    shown = rows[:cap]
     items = ""
-    for m in rows[:8]:
+    for m in shown:
         player = html.escape(m.get("player") or "Unknown")
         to_club = html.escape(m.get("to_club") or "?")
         dq = m.get("days_quiet")
@@ -294,8 +307,10 @@ def _cooling_section(rows):
                   f'<div class="minimeter"><div class="fill" style="width:{max(3, pct)}%;'
                   f'background:var(--muted)"></div></div>'
                   f'<div class="num" style="color:var(--muted)">{pct}%</div></div>')
+    base = f"no movement in {meter.FRESH_DAYS}+ days"
+    count_label = f"{len(shown)} of {len(rows)} shown &middot; {base}" if len(rows) > len(shown) else base
     return (f'<div class="sec"><h2>Cooling off</h2>'
-            f'<span class="count">no movement in {meter.FRESH_DAYS}+ days</span></div>{items}')
+            f'<span class="count">{count_label}</span></div>{items}')
 
 
 def _standings_html(rows):
