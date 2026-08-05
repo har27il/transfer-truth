@@ -59,6 +59,13 @@ _MANAGER_NAMES = {
     "craig bellamy",   # Wales/Burnley manager rumours leaked as a "deal" (2026-07)
     "jonathan morgan", # women's-football manager (Sheffield United) — appointment, not transfer
     "wouter vrancken", # Hearts head coach appointment (2026-06)
+    # Chelsea head coach. Surfaced on the LIVE feed as "Xabi Alonso -> Chelsea,
+    # interest, 15%" (deals.csv id 272) off the headline "Alonso heals Real Madrid
+    # scars to lead Chelsea's senior revolution" -- a manager-tenure story with no
+    # appointment VERB, so _MANAGER's regex could not reach it and only the name
+    # backstop catches it. He retired as a player in 2017; no active player shares
+    # the name, so the exact-name match is false-positive safe.
+    "xabi alonso",
 }
 # Top WSL / NWSL / international names whose transfers read like men's. Seeded broad
 # on purpose: an exact-name match is FP-safe, so a longer list just catches more.
@@ -93,6 +100,26 @@ _OTHER_SPORT_NAMES = {
 }
 _KNOWN_NON_PLAYERS = {
     **{n: REASON_MANAGER for n in _MANAGER_NAMES},
+    **{n: REASON_WOMEN for n in _WOMEN_PLAYER_NAMES},
+    **{n: REASON_SPORT for n in _OTHER_SPORT_NAMES},
+}
+
+# Names SAFE to substring-scan in raw post text (is_non_player). A headline naming a
+# women's player or a non-football athlete is, in practice, ABOUT that person.
+#
+# MANAGERS ARE DELIBERATELY EXCLUDED FROM THE TEXT SCAN. A current manager's name is
+# everywhere in genuine transfer copy about OTHER players -- "Chelsea interested in
+# signing Xhaka to reunite midfielder with Xabi Alonso", "Gittens keen to impress
+# 'world-class' Alonso" are both real claims in ground-truth/journalist_claims.csv
+# about Xhaka and Gittens. Substring-scanning "xabi alonso" would drop those genuine
+# deals PERMANENTLY (the pipeline marks posts seen, so a dropped post is never
+# re-examined). This is the same trap the _MANAGER regex documents for the bare word
+# "manager" -- role words and manager names alike appear in real player transfer copy.
+#
+# Managers are therefore matched ONLY by is_known_non_player(extracted_player_name),
+# an exact match on the player the extractor actually pulled out -- which fires on
+# "Xabi Alonso -> Chelsea" and leaves "Xhaka -> Chelsea" untouched.
+_TEXT_SCAN_NAMES = {
     **{n: REASON_WOMEN for n in _WOMEN_PLAYER_NAMES},
     **{n: REASON_SPORT for n in _OTHER_SPORT_NAMES},
 }
@@ -167,11 +194,13 @@ def is_non_player(text):
         return True, REASON_WOMEN
     if _NON_FOOTBALL.search(text):
         return True, REASON_SPORT
-    # Name backstop: a denylisted manager/women's player named in the text but carrying
-    # no keyword token (the Beth Mead case). Word-boundary match on normalized text so a
-    # multi-word name can't partial-match a longer token.
+    # Name backstop: a denylisted women's player / non-football athlete named in the text
+    # but carrying no keyword token (the Beth Mead case). Word-boundary match on normalized
+    # text so a multi-word name can't partial-match a longer token. Managers are NOT scanned
+    # here on purpose -- see _TEXT_SCAN_NAMES for why (their names appear in genuine copy
+    # about other players).
     norm = f" {_norm_name(text)} "
-    for name, reason in _KNOWN_NON_PLAYERS.items():
+    for name, reason in _TEXT_SCAN_NAMES.items():
         if f" {name} " in norm:
             return True, reason
     return False, ""

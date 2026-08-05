@@ -77,6 +77,43 @@ def _recency(claim_date, today):
     return 0.5 ** (age / HALFLIFE_DAYS)
 
 
+def _live_claims(claims):
+    """Drop claims a STRICTLY LATER, STRICTLY STRONGER claim has overtaken.
+
+    Transfer reporting is monotonic: a deal walks interest -> talks -> agreement ->
+    official. When Sky says "interest" on Jul 27 and both Sky and BBC say "official"
+    on Aug 3, the July claim is not a DISAGREEMENT to be averaged in -- it is a
+    SUPERSEDED snapshot of an earlier stage. Blending it dragged Jordan Henderson's
+    club-confirmed signing down to 78% on the live feed (2026-08-05), and Danny
+    Welbeck's to 76%, because three stale `talks` claims outvoted a BBC `official`.
+
+    The gate is deliberately narrow so genuine conflict always survives:
+      - STRICTLY later date only. Same-day claims are contemporaneous disagreement,
+        never supersession (this is what keeps a Romano "here we go" and an Ornstein
+        "denied" filed the same day BOTH live, and the deal correctly Contested).
+      - STRICTLY higher implied_p only. A later WEAKER claim (a denial after an
+        agreement, a de-escalation) never supersedes -- it is real new information
+        and must keep its full weight.
+      - Undated claims neither supersede nor are superseded: with no date there is
+        no ordering to reason about, so they stay in as-is.
+
+    Returns the surviving claims. Callers keep using the FULL claim list for display
+    and freshness (source chips, buzz, n_claims) -- a source whose earlier claim was
+    superseded still reported on the deal and must still be credited on the page."""
+    dated = [(c, _parse_date(c.get("claim_date"))) for c in claims]
+    live = []
+    for c, d in dated:
+        p = c.get("implied_p")
+        if p is None:
+            continue
+        if d is not None and any(
+                d2 is not None and d2 > d and (c2.get("implied_p") or 0.0) > p
+                for c2, d2 in dated):
+            continue                      # a later, stronger claim overtook this one
+        live.append(c)
+    return live
+
+
 def _label(p, spread):
     """(text, color). 'Contested' when sources strongly disagree (wide implied_p spread)."""
     if p >= 0.70:
@@ -92,7 +129,10 @@ def deal_probability(claims, reliability, pop_weight, today=None):
     num = den = 0.0
     committed = set()           # distinct sources asserting the deal (implied_p >= .5)
     ps = []
-    for c in claims:
+    # Score on the CURRENT state of the deal: claims a later, stronger report has
+    # already overtaken are stage history, not dissent (see _live_claims). Display
+    # and freshness below still read the full `claims` list.
+    for c in _live_claims(claims):
         p = c.get("implied_p")
         if p is None:
             continue

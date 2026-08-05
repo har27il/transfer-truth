@@ -18,9 +18,40 @@ def test_known_non_player_denylist():
     assert is_known_non_player("Beth Mead")         # women's player, no token in name
     assert is_known_non_player("Mapi León")         # accent-insensitive
     assert is_known_non_player("Feldt")             # rugby-league residue from old feed
+    assert is_known_non_player("Xabi Alonso")       # Chelsea head coach, leaked to the live feed
     assert not is_known_non_player("Alexander Isak")
     assert not is_known_non_player("Éderson")        # legit men's deal must survive
     assert not is_known_non_player("")
+
+
+def test_manager_name_matches_extracted_player_not_raw_text():
+    """The live leak (deals.csv id 272): a manager-TENURE headline carries no appointment
+    verb, so only the name backstop can catch it -- but it must catch it on the EXTRACTED
+    PLAYER, never by scanning raw text.
+
+    Both headlines below are verbatim from ground-truth/journalist_claims.csv. The second
+    is a genuine XHAKA transfer claim that merely names the Chelsea manager; substring-
+    scanning manager names in raw text would drop it permanently (posts are marked seen,
+    so the drop is unrecoverable). Same trap the _MANAGER regex documents for the bare
+    word 'manager'."""
+    # Caught: the extractor pulled Alonso out as the "player" of deal 272.
+    assert is_known_non_player("Xabi Alonso")
+
+    # NOT caught by the raw-text scan -- these are real claims about OTHER players.
+    for h in [
+        "Chelsea interested in signing Xhaka to reunite midfielder with Xabi Alonso",
+        "Gittens keen to impress 'world-class' Alonso",
+        "Chelsea paid Aston Villa £117m for Morgan Rogers. Is he the right fit?",
+    ]:
+        excluded, reason = is_non_player(h)
+        assert not excluded, f"FALSE POSITIVE — real transfer dropped: {h!r} ({reason})"
+
+
+def test_womens_and_other_sport_names_still_text_scanned():
+    """Splitting managers out of the text scan must NOT weaken the women's/other-sport
+    backstop, where a headline naming the person really is about that person."""
+    assert is_non_player("Beth Mead describes moving to Manchester City as a no-brainer")[0]
+    assert is_non_player("Feldt stars again for St Helens")[0]
 
 
 # --- managers / coaching staff: MUST be excluded ---------------------------------

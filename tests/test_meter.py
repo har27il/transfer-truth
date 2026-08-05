@@ -130,6 +130,73 @@ def test_meters_max_age_drops_stale_deals():
     assert sorted(m["player"] for m in both) == ["Fresh Deal", "Stale Deal"]
 
 
+# ---- stage supersession -------------------------------------------------------
+# Live-feed defect (2026-08-05): Jordan Henderson's club-confirmed signing showed 78%
+# and Danny Welbeck's showed 76%, because stale early-stage claims were averaged in as
+# if they were dissent. Claim sets below are VERBATIM from ground-truth/journalist_claims.csv.
+
+def test_superseded_early_claim_does_not_drag_down_confirmed_deal():
+    """deal_id 247: Sky 'interest' (Jul 27) then Sky + BBC 'official' (Aug 3).
+    The July snapshot is stage history, not disagreement."""
+    henderson = [
+        _claim(0.15, "Sky Sports", date_="2026-07-27", stage="interest"),
+        _claim(0.99, "BBC Sport", date_="2026-08-03", stage="official"),
+        _claim(0.99, "Sky Sports", date_="2026-08-03", stage="official"),
+    ]
+    m = meter.deal_probability(henderson, REL, POP, date(2026, 8, 5))
+    assert m["percent"] == 99            # was 78 before supersession
+    assert m["spread"] == 0.0            # two officials do not "disagree"
+    assert meter.classify_tier(m) == "agreed"
+
+
+def test_supersession_keeps_full_source_credit_on_the_page():
+    """deal_id 245: every Sky claim (talks, medical) is superseded by BBC's Aug 1
+    'official' -- but Sky DID report the deal and must still appear in the source list."""
+    welbeck = [
+        _claim(0.35, "BBC Sport", date_="2026-07-27", stage="talks"),
+        _claim(0.35, "Sky Sports", date_="2026-07-27", stage="talks"),
+        _claim(0.92, "Sky Sports", date_="2026-07-29", stage="medical"),
+        _claim(0.99, "BBC Sport", date_="2026-08-01", stage="official"),
+    ]
+    m = meter.deal_probability(welbeck, REL, POP, date(2026, 8, 5))
+    assert m["percent"] >= 90
+    assert "Sky Sports" in m["sources"]   # display credit survives supersession
+    assert m["n_claims"] == 4             # counts are over the FULL claim list
+
+
+def test_same_day_conflict_is_never_supersession():
+    """The gate that protects genuine dispute: a here-we-go and a denial filed the SAME
+    day are contemporaneous disagreement. Neither may swallow the other."""
+    guehi = [
+        _claim(0.99, "Fabrizio Romano", date_="2026-08-05", stage="here_we_go"),
+        _claim(0.02, "BBC Sport", date_="2026-08-05", stage="denied"),
+        _claim(0.35, "Sky Sports", date_="2026-08-03", stage="talks"),
+    ]
+    m = meter.deal_probability(guehi, REL, POP, date(2026, 8, 5))
+    assert m["label"] == "Contested" and m["spread"] > 0.9
+    assert meter.classify_tier(m) == "live"
+
+
+def test_later_weaker_claim_never_superseded_so_collapses_still_register():
+    """A denial AFTER an agreement is new information, not stale history. Supersession
+    is strictly-stronger-only, so a collapsing deal still drops."""
+    collapse = [
+        _claim(0.80, "Sky Sports", date_="2026-08-01", stage="agreement"),
+        _claim(0.02, "BBC Sport", date_="2026-08-04", stage="denied"),
+    ]
+    m = meter.deal_probability(collapse, REL, POP, date(2026, 8, 5))
+    assert len(meter._live_claims(collapse)) == 2      # nothing dropped
+    assert m["percent"] < 50 and m["label"] == "Denied"
+
+
+def test_undated_claims_neither_supersede_nor_are_superseded():
+    mixed = [
+        _claim(0.15, "Sky Sports", date_=None, stage="interest"),
+        _claim(0.99, "BBC Sport", date_="2026-08-03", stage="official"),
+    ]
+    assert len(meter._live_claims(mixed)) == 2   # no ordering -> no supersession
+
+
 # ---- freshness / "motion" (WS2b) ----------------------------------------------
 
 def test_freshness_fields_track_newest_claim():
