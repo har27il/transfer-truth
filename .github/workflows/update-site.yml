@@ -89,6 +89,9 @@ jobs:
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_TIMEOUT: '90'
+          LANGSMITH_TRACING: 'true'
+          LANGSMITH_PROJECT: 'transfer-truth'
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
 
       # 1b. Optional recovery: re-run claim-less posts (e.g. a broken-model week)
       # through the normal pipeline. Only runs when the dispatch input is set.
@@ -108,6 +111,9 @@ jobs:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_CONCURRENCY: '4'
           NIM_TIMEOUT: '90'
+          LANGSMITH_TRACING: 'true'
+          LANGSMITH_PROJECT: 'transfer-truth'
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
 
       # 2. Turn new player clusters into proposed deals.csv rows (verified=auto).
       - name: Bridge clusters to deals
@@ -124,6 +130,9 @@ jobs:
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_TIMEOUT: '90'
+          LANGSMITH_TRACING: 'true'
+          LANGSMITH_PROJECT: 'transfer-truth'
+          LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
 
       # 4. Rebuild both static pages: leaderboard (scored) + live feed (current snapshot).
       - name: Rebuild site
@@ -132,11 +141,12 @@ jobs:
           python site/build_leaderboard.py
           python site/build_feed.py
 
-      # Defense in depth: fail loudly if anything resembling a NIM key ever lands
-      # in a tracked file. (.github excluded so this guard can't match itself.)
+      # Defense in depth: fail loudly if anything resembling a NIM or LangSmith
+      # key ever lands in a tracked file. (.github excluded so this guard can't
+      # match itself.)
       - name: Guard - no leaked secrets in tracked files
         run: |
-          if git grep -nI -E 'nvapi-[A-Za-z0-9_-]{10,}' -- . ':!.github'; then
+          if git grep -nI -E '(nvapi-[A-Za-z0-9_-]{10,}|lsv2_pt_[A-Za-z0-9_-]{10,})' -- . ':!.github'; then
             echo "::error::Possible API key found in a tracked file"; exit 1
           fi
 

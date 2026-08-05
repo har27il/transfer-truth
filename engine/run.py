@@ -16,6 +16,8 @@ import re
 import sys
 from pathlib import Path
 
+from langsmith import traceable
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 PROMPT_FILE = ROOT / "engine" / "transfer-analyst-system-prompt.md"
@@ -72,6 +74,7 @@ def parse_engine_json(raw):
     return None
 
 
+@traceable(name="nim_extraction", run_type="llm")
 def _nim_complete(system, user, model=None):
     from openai import OpenAI
     key = os.environ.get("NVIDIA_API_KEY")

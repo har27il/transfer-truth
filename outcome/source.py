@@ -30,6 +30,8 @@ import urllib.request
 from datetime import date
 from pathlib import Path
 
+from langsmith import traceable
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 WIKI_API = "https://en.wikipedia.org/w/api.php"
@@ -216,6 +218,7 @@ def _parse_json_object(raw):
             "evidence": str(obj.get("evidence", ""))[:300]}
 
 
+@traceable(name="nim_resolution", run_type="llm")
 def extract_resolution(text, player, window, model=None):
     """LLM extraction via NVIDIA NIM (OpenAI-compatible). Requires NVIDIA_API_KEY."""
     from openai import OpenAI  # local import: not needed for offline/fixture tests
