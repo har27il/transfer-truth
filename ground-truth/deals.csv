@@ -260,4 +260,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 283,Folarin Balogun,AS Monaco,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 284,Ghedjemis,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 285,Pep Chavarria,Rayo Vallecano,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-286,Tijjani Reijnders,,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+286,Tijjani Reijnders,,Nottingham Forest,2026-summer,collapsed,,2026-08-05,https://en.wikipedia.org/wiki/Tijjani_Reijnders,auto,"[auto] player joined Manchester City, not Nottingham Forest - rumour did not happen | On 11 June 2025, Premier League club Manchester City announced the signing of Reijnders on a five-year deal reportedly worth £46.5m."
+287,Ibrahim Mbaye,Paris Saint-Germain,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+288,Jack Moylan,Lincoln City,Cardiff City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+289,Konstantinos Tzolakis,Olympiacos,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+290,Zavier Gozo,Real Salt Lake,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
