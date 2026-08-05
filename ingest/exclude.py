@@ -59,12 +59,14 @@ _MANAGER_NAMES = {
     "craig bellamy",   # Wales/Burnley manager rumours leaked as a "deal" (2026-07)
     "jonathan morgan", # women's-football manager (Sheffield United) — appointment, not transfer
     "wouter vrancken", # Hearts head coach appointment (2026-06)
-    # Chelsea head coach. Surfaced on the LIVE feed as "Xabi Alonso -> Chelsea,
-    # interest, 15%" (deals.csv id 272) off the headline "Alonso heals Real Madrid
-    # scars to lead Chelsea's senior revolution" -- a manager-tenure story with no
-    # appointment VERB, so _MANAGER's regex could not reach it and only the name
-    # backstop catches it. He retired as a player in 2017; no active player shares
-    # the name, so the exact-name match is false-positive safe.
+    # Manager, not a player: retired from playing in 2017. Surfaced on the LIVE feed
+    # as "Xabi Alonso -> Chelsea, interest, 15%" (deals.csv id 272) off the headline
+    # "Alonso heals Real Madrid scars to lead Chelsea's senior revolution" -- a
+    # manager-tenure story with no appointment VERB, so _MANAGER's regex could not
+    # reach it and only the name backstop catches it. The entry rests solely on him
+    # being a retired player now in management (which club he manages is irrelevant
+    # here and deliberately not asserted); no active player shares the name, so the
+    # exact-name match is false-positive safe.
     "xabi alonso",
 }
 # Top WSL / NWSL / international names whose transfers read like men's. Seeded broad
