@@ -195,7 +195,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 218,Warren Zaire-Emery,Paris Saint-Germain,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 219,Casemiro,Manchester United,Inter Miami,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Casemiro,auto,"[auto] player joined Inter Miami CF - the rumoured destination | On 22 July 2026, Major League Soccer side Inter Miami CF announced that they had signed Casemiro to a contract through the end of the 2027 season."
 220,Issa Diop,Fulham,Ipswich Town,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Issa_Diop,auto,"[auto] player joined Ipswich Town - the rumoured destination | On 22 July 2026, Diop signed a four-year contract with Ipswich Town."
-221,Kerolin,Manchester City,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+221,Kerolin,Manchester City,Barcelona,2026-summer,completed,,2026-08-05,https://en.wikipedia.org/wiki/Kerolin,auto,"[auto] player joined Barcelona - the rumoured destination | On 4 August 2026, Kerolin joined Liga F side Barcelona on a contact until 2030 for a reported fee of around £1.3m"
 222,Maghnes Akliouche,Monaco,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 223,Rodrigo Hernández,,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 224,Ryan Fosso,Sturm Graz,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -256,3 +256,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 279,Gonzalo Garcia,Real Madrid,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 280,Carl Rushworth,Brighton and Hove Albion,Coventry City,2026-summer,completed,,2026-08-04,https://en.wikipedia.org/wiki/Carl_Rushworth,auto,"[auto] player joined Coventry City - the rumoured destination | Despite an initial transfer bid being rejected by Brighton in June 2026, Rushworth joined Coventry permanently on 4 August 2026."
 281,Filip Jorgensen,Chelsea,Strasbourg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+282,Costa,Porto,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+283,Folarin Balogun,AS Monaco,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+284,Ghedjemis,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+285,Pep Chavarria,Rayo Vallecano,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+286,Tijjani Reijnders,,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
