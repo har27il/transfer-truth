@@ -3,6 +3,39 @@
 Deferred work with full context. Each entry: what, why, and where to start —
 so a future session (or a future you) doesn't have to re-derive the reasoning.
 
+## 0. Split players: bare surname vs full name are separate deals — HIGH
+
+- **What:** `cluster.deal_key(player, window)` keys on `normalize_name`
+  (`ingest/cluster.py:15`), which handles case/accents but NOT the full-name vs
+  surname case. `"Olise"` and `"Michael Olise"` hash to different deals, so one
+  transfer becomes two rows with the claims split between them.
+- **Why it matters (measured 2026-08-06, 13 players affected):**
+  - `Bruno Guimaraes -> Arsenal` carries **14** claims (incl. "Arsenal agree £75m
+    fee with Newcastle"); `Guimaraes -> Arsenal` carries **2**. Same deal.
+  - Worse, the split separates DISSENT from ASSENT. `Olise -> Real Madrid`
+    (deal 79) holds a single claim — "Real Madrid deny interest" — while the 3
+    interest claims sit on `Michael Olise` (deal 57). Deal 57's meter therefore
+    never sees the denial and reads too HIGH, and deal 79 looks like a dead
+    rumour. The corroboration boost in `meter.py` also needs 2+ sources on ONE
+    deal, so splitting suppresses it on both halves.
+  - The feed renders the same transfer twice, which reads as broken to anyone
+    who follows football.
+- **Do NOT "just match on surname".** `Diomande` is genuinely ambiguous in the
+  live data — both `Ousmane Diomande` and `Yan Diomande` exist as real, separate
+  deals. A blind surname merge attributes one player's claims to another, which
+  is a ground-truth corruption, not a display bug.
+- **Rule that was validated against the real data:** merge only when
+  **surname + destination club + window** all match. Result: 9 safe merges
+  (Guimaraes, Olise, Munoz, Raskin, Palestra, Makhanya, Hogh, Fosso, Baur),
+  4 correctly refused — `Diomande` (ambiguous), `Bowie` and `Kroupi` (different
+  destinations, possibly a hijack), `Gusto` (both destinations null, unconfirmable).
+- **Start at:** `ingest/cluster.py` `deal_key` — note it currently receives only
+  `(player, window)`, so destination-aware merging changes the key signature.
+  **This is the same change as 0c below** (destination-aware clustering for the
+  hijack case); do them together, once, rather than twice.
+- **Gate:** touches clustering, which feeds scoring — use plan mode per CLAUDE.md.
+  Needs a backfill decision for the 13 already-split rows in `deals.csv`.
+
 ## 0a. Resolver window-awareness (stale-evidence class) — HIGH
 
 - **What:** `outcome/source.py` / `outcome/detect.py` must check that the
