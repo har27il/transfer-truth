@@ -41,10 +41,14 @@ jobs:
     # Unattended safety: a hung run (stuck NIM call / hanging feed) must die fast.
     # With concurrency cancel-in-progress:false, a hang would otherwise sit in the
     # queue and block every following day's run -- silently killing the cron.
-    # 30 min: the reasoning default (nemotron) is slower per call than the old
-    # instruct model and a backfill batch adds ~5 min; 2026-07-05 a productive
-    # recovery run was cancelled at 20 right before its commit step. Still caps
-    # a true hang well under GitHub's 6h default.
+    #
+    # THIS IS A BACKSTOP, NOT THE WORKING BOUND. Hitting it is always destructive:
+    # a job-level timeout skips every remaining step, so the site never rebuilds,
+    # nothing is committed, and the actions/cache post-step never saves ingest.db
+    # (that's the 2026-08-06 outage -- see the Resolve outcomes step). The step that
+    # actually needs bounding carries its own timeout-minutes + continue-on-error.
+    # Raising this number is NOT the fix for a slow step; it was tried on
+    # 2026-07-05 (20 -> 30) and bought the same trap a month later. Bound the step.
     timeout-minutes: 30
     # Least privilege: the NIM key is scoped per-step (only Ingest + Resolve call NIM),
     # NOT job-level -- so checkout / setup-python / pip install / pytest / cache never
@@ -124,8 +128,26 @@ jobs:
       # (~13 min mid-recovery) and backfill keeps growing it — together they blew the
       # 30-min cap and the cancellation threw away the batch's work (cache post-step
       # doesn't run on cancel). The daily scheduled runs keep resolving as usual.
+      #
+      # BOUNDED AT THE STEP, NOT THE JOB (2026-08-06). This step is the slowest thing
+      # here and has no margin: on a FIXED ~95-deal backlog it ran 18m36s / 24m11s /
+      # 24m17s / 21m25s / 29m21s on consecutive runs — pure per-call NIM latency
+      # variance — then blew the 30-min JOB cap three runs straight. A job-level
+      # timeout kills EVERYTHING after it: Rebuild site, the secret guard, Commit on
+      # change, and the cache post-step all showed `skipped`, so the site froze at
+      # 2026-08-05 18:51 UTC for 20 hours while each run still paid NIM tokens and
+      # discarded the result. Raising the job cap was the 2026-07-05 fix and it just
+      # bought the same trap again — so bound the step instead and let the job finish.
+      #
+      # NOT `if: always()` on the steps below: always() also runs when pytest fails,
+      # which would break "tests gate every auto-write" (CLAUDE.md). continue-on-error
+      # here keeps the job's success state true, so the steps below run under their
+      # default if: success() — a red test still blocks the commit.
       - name: Resolve outcomes
+        id: resolve
         if: ${{ github.event.inputs.backfill_since == '' }}
+        timeout-minutes: 20
+        continue-on-error: true
         run: python outcome/apply.py
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
@@ -133,6 +155,27 @@ jobs:
           LANGSMITH_TRACING: 'true'
           LANGSMITH_PROJECT: 'transfer-truth'
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+
+      # A degraded resolve must be LOUD. continue-on-error above makes the job green,
+      # which is exactly how the 2026-08-06 outage hid for 20 hours — nobody opens the
+      # logs of a passing run. So write to the job summary too: that renders on the run
+      # page itself. `!= 'success'` deliberately, not `== 'failure'` — continue-on-error
+      # splits the fields (conclusion becomes success, outcome keeps the real result),
+      # but whether a timeout-minutes kill reports `failure` or `cancelled` isn't
+      # something we can confirm without a live degraded run. Guess wrong with
+      # `== 'failure'` and the warning never fires, rebuilding the silent-degradation
+      # trap this step exists to close. `!= 'success'` covers both and stays quiet on
+      # the happy path.
+      - name: Flag degraded resolve
+        if: ${{ steps.resolve.outcome != 'success' }}
+        run: |
+          MSG="Resolve step failed or timed out - deals.csv NOT updated this run. Site rebuilt from existing data."
+          echo "::warning::$MSG"
+          {
+            echo "### Degraded run"
+            echo ""
+            echo "$MSG"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # 4. Rebuild both static pages: leaderboard (scored) + live feed (current snapshot).
       - name: Rebuild site
