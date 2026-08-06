@@ -4,6 +4,7 @@ All offline: a fake resolver stands in for the network/LLM source, so we control
 exactly what each deal resolves to.
 """
 import csv
+import time
 from pathlib import Path
 
 from outcome import apply as apply_mod
@@ -91,6 +92,105 @@ def test_dry_run_writes_nothing(tmp_path):
                               dry_run=True, rebuild=False)
     assert len(changes) == 1
     assert p.read_text("utf-8") == before  # untouched
+
+
+# --- concurrency: the fan-out must not change a single observable ------------------
+#
+# resolve_unknowns fans the resolver call across workers but gathers in SUBMISSION
+# order. These tests are the ONLY guard on that ordering: if a future refactor
+# gathered by COMPLETION order instead, deals.csv rows would still all be written --
+# just with `changes` in a nondeterministic order -- and nothing else would notice.
+
+def _slow_ordered_resolver(players, base=0.02):
+    """Resolver whose delay is INVERTED against submission order.
+
+    The first-submitted deal sleeps longest, the last sleeps least, so completion
+    order is guaranteed to be the REVERSE of submission order. Without this a fake
+    resolver returns instantly, every future completes in submission order by
+    accident, and the determinism test below passes even against an implementation
+    that gathers by completion order -- i.e. it would prove nothing.
+    """
+    delays = {p: base * (len(players) - i) for i, p in enumerate(players)}
+
+    def resolver(row):
+        time.sleep(delays[row["player"]])
+        return {"status": "moved", "joined_club": "Arsenal", "window_closed": True}
+    return resolver
+
+
+def test_concurrent_matches_sequential_exactly(tmp_path):
+    """4 workers must produce byte-identical output to 1 worker: same `changes`
+    order, same file contents. The resolver completes in reverse submission order."""
+    players = [f"Player {i}" for i in range(6)]
+    rows = [_row(str(i), p, "A", "Arsenal") for i, p in enumerate(players)]
+
+    seq_path, con_path = tmp_path / "seq.csv", tmp_path / "con.csv"
+    _write(seq_path, rows)
+    _write(con_path, rows)
+
+    seq = apply_mod.apply(seq_path, resolver=_slow_ordered_resolver(players),
+                          dry_run=False, rebuild=False, concurrency=1)
+    con = apply_mod.apply(con_path, resolver=_slow_ordered_resolver(players),
+                          dry_run=False, rebuild=False, concurrency=4)
+
+    assert seq == con, "changes order diverged between sequential and concurrent"
+    assert [c[1] for c in con] == players, "changes not in submission order"
+    assert seq_path.read_text("utf-8") == con_path.read_text("utf-8")
+
+
+def test_one_failing_resolver_does_not_abort_the_batch(tmp_path):
+    """A single deal's network/API blow-up must not lose the other 3. The failed
+    deal stays `unknown` so the next run retries it."""
+    p = tmp_path / "deals.csv"
+    _write(p, [_row(str(i), f"P{i}", "A", "Arsenal") for i in range(4)])
+
+    def resolver(row):
+        if row["player"] == "P2":
+            raise RuntimeError("NIM 500")
+        return {"status": "moved", "joined_club": "Arsenal", "window_closed": True}
+
+    changes = apply_mod.apply(p, resolver=resolver, dry_run=False, rebuild=False,
+                              concurrency=4)
+    assert [c[1] for c in changes] == ["P0", "P1", "P3"]   # order preserved around the hole
+    rows = {r["player"]: r for r in _read(p)}
+    assert rows["P2"]["outcome"] == ""                     # untouched, retried next run
+    assert all(rows[f"P{i}"]["outcome"] == "completed" for i in (0, 1, 3))
+
+
+def test_concurrency_one_takes_the_sequential_path(tmp_path):
+    p = tmp_path / "deals.csv"
+    _write(p, [_row("1", "Solo", "A", "Arsenal")])
+    resolver = lambda row: {"status": "moved", "joined_club": "Arsenal", "window_closed": True}
+    changes = apply_mod.apply(p, resolver=resolver, dry_run=False, rebuild=False,
+                              concurrency=1)
+    assert len(changes) == 1
+    assert _read(p)[0]["outcome"] == "completed"
+
+
+def test_no_pending_deals_does_not_crash_worker_math(tmp_path):
+    """max(1, min(n, len(pending))) would raise on an empty pending list if the
+    early return were ever removed. Every row here is already resolved."""
+    p = tmp_path / "deals.csv"
+    _write(p, [_row("1", "Done", "A", "Arsenal", outcome="completed")])
+
+    def resolver(row):
+        raise AssertionError("resolver must not be called when nothing is pending")
+
+    changes = apply_mod.apply(p, resolver=resolver, dry_run=False, rebuild=False,
+                              concurrency=4)
+    assert changes == []
+
+
+def test_progress_line_printed_per_deal(capsys, tmp_path):
+    """The step must stream progress, not go silent for 20+ minutes -- the silence is
+    why the 2026-08-06 timeout was invisible while it was happening."""
+    p = tmp_path / "deals.csv"
+    _write(p, [_row(str(i), f"P{i}", "A", "Arsenal") for i in range(3)])
+    resolver = lambda row: {"status": "moved", "joined_club": "Arsenal", "window_closed": True}
+    apply_mod.apply(p, resolver=resolver, dry_run=False, rebuild=False, concurrency=2)
+    out = capsys.readouterr().out
+    for i in range(1, 4):
+        assert f"[{i}/3]" in out, f"missing progress line {i}/3 in:\n{out}"
 
 
 def test_atomic_write_leaves_original_intact_on_crash(tmp_path, monkeypatch):

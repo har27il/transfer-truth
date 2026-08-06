@@ -152,6 +152,11 @@ jobs:
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           NIM_TIMEOUT: '90'
+          # Resolve fan-out width. Same free-tier reasoning endpoint the backfill step
+          # hits at NIM_CONCURRENCY 4; 6 workers 429-stormed it (see that step's note).
+          # If the resolve log starts showing 429s, DIAL THIS DOWN to 2 -- it needs no
+          # code change, the default lives in outcome/apply.py RESOLVE_CONCURRENCY.
+          RESOLVE_CONCURRENCY: '4'
           LANGSMITH_TRACING: 'true'
           LANGSMITH_PROJECT: 'transfer-truth'
           LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}

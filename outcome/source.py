@@ -23,6 +23,7 @@ import json
 import os
 import re
 import sys
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -60,8 +61,31 @@ def window_is_closed(window, today=None):
 
 # Politeness throttle: a batch resolve hits Wikipedia from a shared CI IP, which
 # gets rate-limited (HTTP 429) fast. Space requests out so we stay a good citizen.
+#
+# THREAD-SAFE ON PURPOSE. apply.resolve_unknowns fans the resolve loop out across
+# workers, so several threads reach this gate at once. Without the lock they would
+# each read the same stale `_last_fetch`, all decide no wait was needed, and burst
+# N requests simultaneously -- straight into the 429s this exists to prevent, whose
+# retries would make the concurrent path SLOWER than the sequential one it replaced.
 _MIN_INTERVAL = float(os.environ.get("WIKI_MIN_INTERVAL", "0.6"))
 _last_fetch = [0.0]
+_throttle_lock = threading.Lock()
+
+
+def _pace():
+    """Block until it is this caller's turn to hit Wikipedia, then stamp the clock.
+
+    Callers serialise here, each waking >= _MIN_INTERVAL after the previous one
+    STARTED its request, so the global Wikipedia request rate is identical no matter
+    how many workers run. The lock is released before the actual urlopen, so only the
+    pacing is serialised -- the slow part (network + the LLM call further up the
+    stack) still overlaps, which is the entire point of the fan-out.
+    """
+    with _throttle_lock:
+        wait = _MIN_INTERVAL - (time.monotonic() - _last_fetch[0])
+        if wait > 0:
+            time.sleep(wait)
+        _last_fetch[0] = time.monotonic()
 
 
 def _raw_fetch(title, timeout=20, retries=3):
@@ -77,10 +101,7 @@ def _raw_fetch(title, timeout=20, retries=3):
     })
     req = urllib.request.Request(WIKI_API + "?" + q, headers={"User-Agent": USER_AGENT})
     for attempt in range(retries):
-        wait = _MIN_INTERVAL - (time.monotonic() - _last_fetch[0])
-        if wait > 0:
-            time.sleep(wait)
-        _last_fetch[0] = time.monotonic()
+        _pace()
         try:
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 data = json.load(r)

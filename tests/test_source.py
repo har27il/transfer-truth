@@ -5,11 +5,68 @@ malformed model response can never silently fabricate an outcome. A live Wikiped
 fetch test is included but skipped unless TM_NET_TESTS=1.
 """
 import os
+import threading
+import time
 
 import pytest
 
 from outcome import source
 from outcome.detect import classify, COMPLETED, COLLAPSED
+
+
+# --- the Wikipedia politeness throttle --------------------------------------------
+#
+# NOTE: every other test in this file monkeypatches `_raw_fetch` away, so its
+# internals (throttle, retry, backoff) had ZERO coverage until these. The lock lives
+# inside that blind spot and is what stops the concurrent resolver from bursting
+# straight into HTTP 429s.
+
+def test_pace_serialises_concurrent_callers(monkeypatch):
+    """N threads through _pace() must leave >= _MIN_INTERVAL between request starts.
+
+    Asserts on RECORDED timestamps, not on wall-clock duration -- a loaded CI runner
+    makes duration assertions flaky, but the ordering invariant holds regardless.
+    Without the lock all threads read the same stale _last_fetch, every gap is ~0,
+    and this fails.
+    """
+    interval = 0.05
+    monkeypatch.setattr(source, "_MIN_INTERVAL", interval)
+    monkeypatch.setattr(source, "_last_fetch", [0.0])
+    monkeypatch.setattr(source, "_throttle_lock", threading.Lock())
+
+    stamps, lock = [], threading.Lock()
+
+    def call():
+        source._pace()
+        with lock:
+            stamps.append(time.monotonic())
+
+    threads = [threading.Thread(target=call) for _ in range(6)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+
+    assert len(stamps) == 6
+    stamps.sort()
+    gaps = [b - a for a, b in zip(stamps, stamps[1:])]
+    # 20% tolerance: sleep() may wake marginally early, and the append happens just
+    # after the lock is released so a gap can read slightly under the interval.
+    assert all(g >= interval * 0.8 for g in gaps), f"throttle burst detected: {gaps}"
+
+
+def test_raw_fetch_paces_every_attempt(monkeypatch):
+    """_raw_fetch must call _pace() before EACH attempt, not just the first --
+    otherwise a retry storm after a 429 ignores the throttle entirely."""
+    calls = []
+    monkeypatch.setattr(source, "_pace", lambda: calls.append(1))
+
+    def boom(*a, **k):
+        raise TimeoutError("network down")
+    monkeypatch.setattr(source.urllib.request, "urlopen", boom)
+
+    assert source._raw_fetch("Someone", retries=3) == ""   # exhausted -> '' = "unclear"
+    assert len(calls) == 3, f"expected one pace per attempt, got {len(calls)}"
 
 
 def test_parse_clean_json():
