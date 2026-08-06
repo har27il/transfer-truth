@@ -55,6 +55,39 @@ def test_pace_serialises_concurrent_callers(monkeypatch):
     assert all(g >= interval * 0.8 for g in gaps), f"throttle burst detected: {gaps}"
 
 
+def test_retry_delay_is_jittered_not_lockstep():
+    """Bare 2**attempt makes N concurrent workers retry in the SAME instant after a
+    shared 429 -- they re-trip the limit together and the storm feeds itself. The
+    delay must be spread, and must still sit in the exponential band."""
+    for attempt in (0, 1, 2):
+        lo, hi = 2 ** attempt, 2 ** attempt + 1
+        vals = {source._retry_delay(attempt) for _ in range(50)}
+        assert all(lo <= v <= hi for v in vals), f"attempt {attempt} out of band: {vals}"
+        assert len(vals) > 40, f"attempt {attempt} not jittered, got {len(vals)} distinct"
+
+
+def test_retry_delay_honours_retry_after_header():
+    """A 429 usually names the exact wait. Guessing an exponential value when the
+    server already answered is a slower, ruder way to get rate-limited again."""
+    class _Err:
+        def __init__(self, v): self.headers = {"Retry-After": v}
+
+    assert source._retry_delay(0, _Err("7")) == 7.0
+    assert source._retry_delay(2, _Err("3")) == 3.0        # header beats the exponent
+    # A hostile / absurd value must not stall the batch past the step's time budget.
+    assert source._retry_delay(0, _Err("99999")) == 30.0
+    # Junk or absent header falls back to jittered exponential.
+    assert 1.0 <= source._retry_delay(0, _Err("soon")) <= 2.0
+
+
+def test_retry_delay_survives_error_without_headers():
+    """Not every exception carries .headers -- URLError/TimeoutError don't. The delay
+    helper must never raise inside a retry path whose whole job is not crashing."""
+    class _Bare: pass
+    assert 1.0 <= source._retry_delay(0, _Bare()) <= 2.0
+    assert 1.0 <= source._retry_delay(0, None) <= 2.0
+
+
 def test_raw_fetch_paces_every_attempt(monkeypatch):
     """_raw_fetch must call _pace() before EACH attempt, not just the first --
     otherwise a retry storm after a 429 ignores the throttle entirely."""

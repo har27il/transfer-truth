@@ -21,6 +21,7 @@ and endpoint are env-overridable, so swapping providers never touches detect.py.
 
 import json
 import os
+import random
 import re
 import sys
 import threading
@@ -88,13 +89,41 @@ def _pace():
         _last_fetch[0] = time.monotonic()
 
 
+def _retry_delay(attempt, err=None):
+    """Seconds to wait before the next attempt.
+
+    Two rules, both of which matter more now that _raw_fetch runs concurrently:
+
+    RETRY-AFTER WINS. A 429/503 usually carries a Retry-After header naming the exact
+    wait the server wants. Guessing an exponential value when the server already told
+    us the answer is just a slower, ruder way to get rate-limited again.
+
+    JITTER, ALWAYS. Bare `2 ** attempt` is lockstep: when N concurrent workers get
+    429'd together -- which is precisely how a rate-limit event presents -- they all
+    sleep the identical 1s, then all retry in the same instant, re-trip the limit, and
+    sleep the identical 2s. That thundering herd is a self-inflicted outage. A random
+    offset decorrelates them. This was harmless while the resolver was sequential and
+    is not harmless now.
+    """
+    if err is not None:
+        try:                       # HTTPError exposes the response headers
+            ra = err.headers.get("Retry-After") if err.headers else None
+            if ra and ra.strip().isdigit():
+                # Honour the server, but never let a hostile/absurd value stall the
+                # whole batch past the step's time budget.
+                return min(float(ra.strip()), 30.0)
+        except AttributeError:
+            pass
+    return (2 ** attempt) + random.uniform(0, 1)
+
+
 def _raw_fetch(title, timeout=20, retries=3):
     """One Wikipedia extract fetch for an exact title, or '' on miss/error.
 
     Resilient by design: a network blip or rate-limit (HTTP 429) must never crash a
-    batch resolve. We throttle, retry transient errors with backoff, and on persistent
-    failure return '' -- which resolve() treats as 'unclear', so a fetch failure can
-    never fabricate an outcome."""
+    batch resolve. We throttle, retry transient errors with jittered backoff (see
+    _retry_delay), and on persistent failure return '' -- which resolve() treats as
+    'unclear', so a fetch failure can never fabricate an outcome."""
     q = urllib.parse.urlencode({
         "action": "query", "prop": "extracts", "explaintext": 1,
         "redirects": 1, "format": "json", "titles": title,
@@ -107,12 +136,12 @@ def _raw_fetch(title, timeout=20, retries=3):
                 data = json.load(r)
         except urllib.error.HTTPError as e:
             if e.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
-                time.sleep(2 ** attempt)  # back off 1s, 2s, ... on transient errors
+                time.sleep(_retry_delay(attempt, e))   # Retry-After if given, else jittered
                 continue
             return ""
         except (urllib.error.URLError, TimeoutError, OSError):
             if attempt < retries - 1:
-                time.sleep(2 ** attempt)
+                time.sleep(_retry_delay(attempt))
                 continue
             return ""
         pages = data.get("query", {}).get("pages", {})
