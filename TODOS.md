@@ -3,38 +3,27 @@
 Deferred work with full context. Each entry: what, why, and where to start —
 so a future session (or a future you) doesn't have to re-derive the reasoning.
 
-## 0. Split players: bare surname vs full name are separate deals — HIGH
+## 0. Split players: bare surname vs full name are separate deals — DONE 2026-08-07
 
-- **What:** `cluster.deal_key(player, window)` keys on `normalize_name`
-  (`ingest/cluster.py:15`), which handles case/accents but NOT the full-name vs
-  surname case. `"Olise"` and `"Michael Olise"` hash to different deals, so one
-  transfer becomes two rows with the claims split between them.
-- **Why it matters (measured 2026-08-06, 13 players affected):**
-  - `Bruno Guimaraes -> Arsenal` carries **14** claims (incl. "Arsenal agree £75m
-    fee with Newcastle"); `Guimaraes -> Arsenal` carries **2**. Same deal.
-  - Worse, the split separates DISSENT from ASSENT. `Olise -> Real Madrid`
-    (deal 79) holds a single claim — "Real Madrid deny interest" — while the 3
-    interest claims sit on `Michael Olise` (deal 57). Deal 57's meter therefore
-    never sees the denial and reads too HIGH, and deal 79 looks like a dead
-    rumour. The corroboration boost in `meter.py` also needs 2+ sources on ONE
-    deal, so splitting suppresses it on both halves.
-  - The feed renders the same transfer twice, which reads as broken to anyone
-    who follows football.
-- **Do NOT "just match on surname".** `Diomande` is genuinely ambiguous in the
-  live data — both `Ousmane Diomande` and `Yan Diomande` exist as real, separate
-  deals. A blind surname merge attributes one player's claims to another, which
-  is a ground-truth corruption, not a display bug.
-- **Rule that was validated against the real data:** merge only when
-  **surname + destination club + window** all match. Result: 9 safe merges
-  (Guimaraes, Olise, Munoz, Raskin, Palestra, Makhanya, Hogh, Fosso, Baur),
-  4 correctly refused — `Diomande` (ambiguous), `Bowie` and `Kroupi` (different
-  destinations, possibly a hijack), `Gusto` (both destinations null, unconfirmable).
-- **Start at:** `ingest/cluster.py` `deal_key` — note it currently receives only
-  `(player, window)`, so destination-aware merging changes the key signature.
-  **This is the same change as 0c below** (destination-aware clustering for the
-  hijack case); do them together, once, rather than twice.
-- **Gate:** touches clustering, which feeds scoring — use plan mode per CLAUDE.md.
-  Needs a backfill decision for the 13 already-split rows in `deals.csv`.
+Shipped in `786c5d6` (alias layer + feed grouping) and `fe4dd91` (ledger merge).
+
+- **Rule that shipped is BROADER than the one specified here.** This entry said
+  merge on surname + destination + window (9 merges). That rule cannot fix the
+  case that prompted the work: deal 73 `Diomande / RB Leipzig / Liverpool` and
+  deal 124 `Yan Diomande / RB Leipzig / PSG` are the same player, and their
+  destinations disagree only because one was stale. Requiring surname + window +
+  (**destination OR origin** match) gives **11 merges, 2 refusals** — it adds
+  Diomande and Gusto (both destinations blank, both origins Chelsea), and still
+  correctly refuses Ousmane Diomande, Bowie and Kroupi. `from_club` is the stable
+  side: a hijack moves the destination, never the origin.
+- **Implemented as an ALIAS MAP, not a `deal_key` format change.** The key is
+  stored in `ingest.db`, which is cached across CI runs — changing the format
+  would leave old claims on old keys and new claims on new ones, re-splitting the
+  same deal by epoch. The map is recomputed from the live claim population each
+  run, so warm and cold caches group identically. See `ingest/cluster.py`.
+- Backfill was `bridge.merge_split_deals()` — permanent and idempotent, reads
+  profiles from `deals.csv` itself so it needs no store and can be dry-run
+  offline. 271 → 260 rows, 14 claims reattached, zero orphaned.
 
 ## 0a. Resolver window-awareness (stale-evidence class) — HIGH
 
@@ -53,15 +42,28 @@ so a future session (or a future you) doesn't have to re-derive the reasoning.
 - **Unpromoted examples to retest after the fix:** deals 50, 56, 64, 74, 90,
   99, 107, 114 in `ground-truth/deals.csv`.
 
-## 0b. Club-alias normalization in outcome matching — MEDIUM
+## 0b. Club-alias normalization in outcome matching — DONE 2026-08-07
 
-- **What:** `same_club("Brighton", "Brighton & Hove Albion")` must be True.
-- **Why:** deal 89 resolved COLLAPSED with evidence "joined Brighton & Hove
-  Albion, not Brighton" — the rumoured and actual club were the same club.
-  Any short-form/long-form pair (Spurs/Tottenham Hotspur, Wolves/Wolverhampton
-  Wanderers) can produce a false collapse, which unfairly punishes journalists.
-- **Start at:** `outcome/detect.py` same_club; consider reusing the engine
-  prompt's canonicalization table or a small alias map shared via a module.
+Shipped in `eb4a996`. Was scoped MEDIUM on one known victim (deal 89); measuring
+the re-open candidates showed **7 of 15 qualifying collapses were this bug**, each
+one scoring a journalist wrong for a call they got right:
+
+| deal | rumoured | resolver found |
+|---|---|---|
+| 70 Harry Wilson | Leeds | Leeds United |
+| 192 / 231 | West Ham | West Ham United |
+| 205 Laurent Mendy | Hearts | Heart of Midlothian |
+| 271 Juanlu | Bournemouth | "Premier League side Bournemouth" |
+| 174 / 251 | Chelsea | "Women's Super League club Chelsea" |
+
+`_ALIASES` gained the short/long pairs the data shows, and `_canon` now strips a
+leading competition qualifier — conservatively: a competition word must precede
+the club|side|team connector, so "Athletic Club" and "Club Brugge" are untouched
+and bare "Milan" still refuses to resolve. `outcome/detect.py`.
+
+**Still open:** `same_club("SC Paderborn 07", "Paderborn")` is False (the numeric
+suffix survives `_STRIPPABLE`). It did not block the Baur merge, which matched on
+`to_club`. Fix it if a false collapse ever traces to it.
 
 ## 0c. Destination-aware claim clustering (hijack conflation) — MEDIUM
 
@@ -77,6 +79,17 @@ so a future session (or a future you) doesn't have to re-derive the reasoning.
   the key (splits deals, matches the hand-labelled hijack pairs already in
   ground truth) or make the bridge assign claims to a per-destination deal.
 - **Retest after fix:** deals 68 and 148.
+- **DEFERRED 2026-08-07, deliberately, against item 0's "do them together".**
+  `to_club` was proven volatile that day: deal 124 carried a destination nine
+  claims out of date because the ledger froze it at row creation, and that stale
+  value is what produced a factually wrong `collapsed`. Making a field with that
+  failure mode part of a deal's IDENTITY would build on sand, and it contradicts
+  `cluster.py`'s own rationale ("to_club is the volatile field; the player is the
+  stable identity"). Item 0's merge rule is different in kind: it needs only ONE
+  of the two clubs to match, and its 2+-candidate guard bounds any `to_club`
+  error to over-refusal, never mis-attribution.
+  **Revisit once the refresh in `bridge.refresh_and_reopen` has been running long
+  enough that destinations can be trusted.**
 
 ## 1. Live canary against provider model drift
 
