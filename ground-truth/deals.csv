@@ -150,7 +150,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 185,Marius Muller,Wolfsburg,Aberdeen,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Marius_Muller,auto,"[auto] player joined Aberdeen - the rumoured destination | On 15 July 2026, Müller signed a two-year contract with Aberdeen in Scotland."
 186,Matias Moreno,,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 187,Christos Tzolis,Club Brugge,Arsenal,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Christos_Tzolis,auto,"[auto] player joined Arsenal - the rumoured destination | On 17 July 2026, Club Brugge manager Ivan Leko announced that Tzolis would be leaving the club for Arsenal, for a reported transfer fee of €34 million."
-188,Hannah Cain,Leicester City,Everton,2026-summer,completed,,2026-07-16,https://en.wikipedia.org/wiki/Hannah_Cain,auto,"[auto] player joined Everton - the rumoured destination | On 16 July 2026, Cain was announced at Everton after her contract with Leicester expired."
 191,Djed Spence,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 193,Isabella Damm,Brondby IF,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 195,Maxime Esteve,Burnley,RB Leipzig,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Maxime_Esteve,auto,"[auto] player joined RB Leipzig - the rumoured destination | On 17 July 2026, Estève signed for RB Leipzig on a five-year deal."
@@ -176,12 +175,10 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 218,Warren Zaire-Emery,Paris Saint-Germain,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 219,Casemiro,Manchester United,Inter Miami,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Casemiro,auto,"[auto] player joined Inter Miami CF - the rumoured destination | On 22 July 2026, Major League Soccer side Inter Miami CF announced that they had signed Casemiro to a contract through the end of the 2027 season."
 220,Issa Diop,Fulham,Ipswich Town,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Issa_Diop,auto,"[auto] player joined Ipswich Town - the rumoured destination | On 22 July 2026, Diop signed a four-year contract with Ipswich Town."
-221,Kerolin,Manchester City,Barcelona,2026-summer,completed,,2026-08-05,https://en.wikipedia.org/wiki/Kerolin,auto,"[auto] player joined Barcelona - the rumoured destination | On 4 August 2026, Kerolin joined Liga F side Barcelona on a contact until 2030 for a reported fee of around £1.3m"
 222,Maghnes Akliouche,Monaco,Liverpool,2026-summer,collapsed,,2026-08-06,https://en.wikipedia.org/wiki/Maghnes_Akliouche,auto,"[auto] player joined Paris Saint-Germain, not Liverpool - rumour did not happen | On 6 August 2026 Akliouche signed with the french giants PSG for 50M€."
 223,Rodrigo Hernández,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 224,Ryan Fosso,Sturm Graz,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 225,Aladji Bamba,Monaco,Newcastle United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Aladji_Bamba,auto,"[auto] player joined Newcastle United - the rumoured destination | On 24 July 2026, Bamba signed for Premier League club Newcastle United on a five year deal."
-226,Andoni Iraola,,Liverpool,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Andoni_Iraola,auto,"[auto] player joined Liverpool - the rumoured destination | On 4 June 2026, Iraola signed as head coach of Liverpool on a two-year contract."
 227,Eduardo Camavinga,Real Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 228,James Trafford,Manchester City,Leeds United,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/James_Trafford,auto,"[auto] player joined Leeds United - the rumoured destination | The transfer was completed on 6 August 2026, for £45 million."
 229,Karim Adeyemi,Borussia Dortmund,Barcelona,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Karim_Adeyemi,auto,"[auto] player joined Barcelona - the rumoured destination | On 23 July 2026, Adeyemi joined Barcelona on a five-year deal."
@@ -189,7 +186,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 232,Vanja Dragojevic,Partizan,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 233,Janina Leitzig,Leicester City,Manchester United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Janina_Leitzig,auto,"[auto] player joined Manchester United - the rumoured destination | In July 2026, Leitzig joined Manchester United for an undisclosed fee."
 234,Kasper Hogh,Bodo/Glimt,Celtic,2026-summer,completed,,2026-07-28,https://en.wikipedia.org/wiki/Kasper_Hogh,auto,"[auto] player joined Celtic - the rumoured destination | On 28 July 2026, it was confirmed that Høgh had signed a contract to join Scottish Premiership side Celtic."
-235,Sophie Baggaley,Brighton,Birmingham City,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Sophie_Baggaley,auto,"[auto] player joined Birmingham City - the rumoured destination | In July 2026, it was announced that Baggaley had rejoined her former academy team Birmingham City."
 236,Raphael le Guen,Stade Brest,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 237,Michele Cancellieri,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional

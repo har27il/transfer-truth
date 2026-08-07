@@ -68,6 +68,9 @@ _MANAGER_NAMES = {
     # here and deliberately not asserted); no active player shares the name, so the
     # exact-name match is false-positive safe.
     "xabi alonso",
+    # deal 226: the evidence says it outright -- "Iraola signed as HEAD COACH of
+    # Liverpool on a two-year contract". Extracted as a player transfer to Liverpool.
+    "andoni iraola",
 }
 # Top WSL / NWSL / international names whose transfers read like men's. Seeded broad
 # on purpose: an exact-name match is FP-safe, so a longer list just catches more.
@@ -102,6 +105,11 @@ _WOMEN_PLAYER_NAMES = {
     # deal 170: no WSL token in the evidence, only the pronoun ("She signed for
     # the club"). England international, Chelsea/Man Utd/Everton women.
     "hannah blundell",
+    # 2026-08-07, second sweep of the promotion queue. Each provable from the
+    # resolver's OWN evidence, not from outside knowledge: "her contract with
+    # Leicester expired" (188), "Liga F side Barcelona" (221), "her former academy
+    # team" (235).
+    "hannah cain", "kerolin", "sophie baggaley",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",
