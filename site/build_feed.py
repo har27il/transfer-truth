@@ -113,9 +113,10 @@ PAGE_CSS = """
   .feed .stand .sc{font-weight:600;font-variant-numeric:tabular-nums;color:var(--likely)}
   .feed .doneitem{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;
                   flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--hair);font-size:14.5px}
-  /* "joined Brighton & Hove Albion instead" is ~3x the old "stayed put", and the rail
-     is 340px on desktop and full-width under 900px. Let the badge drop to its own line
-     rather than squeezing the name; min-width:0 stops the flex item refusing to shrink. */
+  /* The done-rail sub-line can now run to "joined Brighton & Hove Albion instead",
+     ~3x the label it replaced, and the rail is 340px on desktop / full-width under
+     900px. Let the badge drop to its own line rather than squeezing the name;
+     min-width:0 stops the flex item refusing to shrink. */
   .feed .doneitem .dn{min-width:0;flex:1 1 auto}
   .feed .tick{color:var(--likely);font-weight:600}
   .feed .stayed{color:var(--denied);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
