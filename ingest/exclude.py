@@ -80,7 +80,7 @@ _WOMEN_PLAYER_NAMES = {
     "millie bright", "fran kirby", "keira walsh", "alex greenwood",
     "hannah hampton", "jess carter", "niamh charles", "kirsty hanson",
     "nadine riesen", "manaka matsukubo", "victoria pelova", "lia walti",
-    "amalie vangsgaard", "khiara keating", "aggie beever-jones",
+    "amalie vangsgaard", "khiara keating", "aggie beever jones",
     # 2026-07-15 promotion review: WSL deals proposed by the resolver
     "selina cerci", "geraldine reuteler", "ona batlle", "lisa baum",
     "millie turner", "julia bartel", "ebony salmon",
@@ -91,6 +91,14 @@ _WOMEN_PLAYER_NAMES = {
     # onto a leaderboard the project deliberately keeps to men's football. Denylisting
     # is the mechanism that makes the row deletion stick (bridge scrubs auto rows).
     "melvine malard", "estelle cascarino", "laia codina", "giulia dragoni",
+    # 2026-08-07 promotion review: seven more sitting in the promotion queue, each
+    # identified by the resolver's OWN evidence ("Women's Super League club X",
+    # "WSL side X", Gotham FC/NWSL). Promoting them would have put women's deals on
+    # a men's-football leaderboard. Eleven leaks in one day means the name denylist
+    # is a bridge, not the fix -- the durable answer is the `competition_gender`
+    # field in TODOS' WS3, which retires this list entirely.
+    "denise o sullivan", "jade rastocle", "lexi lloyd smith", "mathilde harviken",
+    "mao itamura", "alice sombath", "ashleigh neville",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",

@@ -157,3 +157,21 @@ def test_known_recall_gap_is_documented():
     Earps IS now caught — see test_womens_player_name_excluded_pre_extraction.)"""
     excluded, _ = is_non_player("Bompastor's uncapped teenager joins on a free")
     assert excluded is False  # documents the miss, not an endorsement of it
+
+
+def test_every_denylist_key_is_stored_in_normalized_form():
+    """A key that is not already normalized can NEVER match, because lookups go
+    through _norm_name first. Two entries were silently dead this way
+    ("aggie beever-jones", "lexi lloyd-smith" -- the hyphen normalizes to a space),
+    so the names they were added to catch were never actually filtered."""
+    from ingest.exclude import _KNOWN_NON_PLAYERS, _norm_name
+    bad = sorted(k for k in _KNOWN_NON_PLAYERS if _norm_name(k) != k)
+    assert not bad, f"denylist keys that can never match: {bad}"
+
+
+def test_hyphenated_and_apostrophe_names_are_caught():
+    from ingest.exclude import is_known_non_player
+    assert is_known_non_player("Lexi Lloyd-Smith")
+    assert is_known_non_player("Aggie Beever-Jones")
+    assert is_known_non_player("Denise O'Sullivan")
+    assert not is_known_non_player("Yan Diomande")

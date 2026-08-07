@@ -95,7 +95,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 106,78,BBC Sport,rss,2026-06-23,interest,https://www.bbc.co.uk/sport/football/articles/ckg84mz08d8o?at_medium=RSS&at_campaign=rss,Rogers keen on Arsenal move - Tuesday's gossip,auto
 107,57,Sky Sports,rss,2026-06-20,denied,https://www.skysports.com/football/live-blog/12691/12507208/football-latest-news-gossip,Real Madrid deny interest in Bayern Munich winger Olise,auto
 110,82,Sky Sports,rss,2026-06-22,advanced,https://www.skysports.com/football/live-blog/12691/13279295/brighton-transfers-latest-news-rumours-and-gossip-live-updates-goals-and-highlights,Brighton latest: Seagulls closing in on Svoboda signing,YES
-111,83,BBC Sport,rss,2026-06-18,agreement,https://www.bbc.co.uk/sport/football/articles/czrx8vd2yvdo?at_medium=RSS&at_campaign=rss,Beever-Jones set to sign new deal at Chelsea,auto
 112,84,BBC Sport,rss,2026-06-23,advanced,https://www.bbc.co.uk/sport/football/articles/c3ey7vp051yo?at_medium=RSS&at_campaign=rss,Chelsea close in on Palestra as Alonso's first signing,YES
 113,87,Sky Sports,rss,2026-06-24,rumour_link,https://www.skysports.com/football/news/12691/13557278/paper-talk-x,Papers: Chelsea could sell Gusto to pave way for Palestra deal,auto
 114,86,BBC Sport,rss,2026-06-24,advanced,https://www.bbc.co.uk/sport/football/articles/c4gyv2z42glo?at_medium=RSS&at_campaign=rss,Rangers close to re-signing McCrorie - gossip,YES
@@ -221,7 +220,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 247,160,Sky Sports,rss,2026-07-11,rumour_link,https://www.skysports.com/football/news/12691/13562540/chelsea-transfers-alejandro-garnacho-up-for-sale-a-year-after-joining-from-joining-from-manchester-united,Chelsea want permanent Garnacho sale this summer,auto
 248,161,BBC Sport,rss,2026-07-11,agreement,https://www.bbc.co.uk/sport/football/articles/cvgd7z5xjvno?at_medium=RSS&at_campaign=rss,Bournemouth's Jimenez set for Fiorentina loan amid investigation,auto
 249,162,BBC Sport,rss,2026-07-11,official,https://www.bbc.co.uk/sport/football/articles/cpv3gxer241o?at_medium=RSS&at_campaign=rss,Coventry City sign winger Tchaouna from Burnley,YES
-250,163,BBC Sport,rss,2026-07-12,rumour_link,https://www.bbc.co.uk/sport/football/articles/cjdg7kdm9p4o?at_medium=RSS&at_campaign=rss,O'Sullivan set to leave Liverpool six months after joining,auto
 251,164,BBC Sport,rss,2026-07-11,here_we_go,https://www.bbc.co.uk/sport/football/articles/cwy09r3909xo?at_medium=RSS&at_campaign=rss,Comoros winger Said joins Wolves on three-year deal,YES
 252,148,Sky Sports,rss,2026-07-13,rumour_link,https://www.skysports.com/football/news/12691/13562928/johan-manzambi-newcastle-set-to-lose-switzerland-world-cup-hero-to-aston-villa-becoming-10th-player-to-turn-magpies-down-in-two-years,Manzambi picks Villa - becomes 10th player Newcastle have missed out on,auto
 253,148,The Guardian,rss,2026-07-13,advanced,https://www.theguardian.com/football/2026/jul/13/aston-villa-hijack-newcastle-pursuit-of-johan-manzambi-from-freiburg-transfer-window,Aston Villa hijack Newcastle’s pursuit of £49m Johan Manzambi from Freiburg,auto
@@ -267,14 +265,11 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 297,187,Sky Sports News,rss,2026-07-16,agreement,https://www.skysports.com/football/news/12691/13564048/christos-tzolis-arsenal-agree-fee-with-club-brugge-to-sign-greek-winger-as-replacement-for-leandro-trossard,Arsenal agree £34m deal to sign Greek winger Tzolis,auto
 298,187,Sky Sports,rss,2026-07-16,here_we_go,https://www.skysports.com/football/news/12691/13564054/christos-tzolis-arsenal-set-to-have-a-new-warrior-mode-winger-who-is-the-perfect-replacement-for-leandro-trossard,Tzolis: Arsenal's new 'warrior mode' winger - and perfect Trossard replacement,auto
 299,188,BBC Sport,rss,2026-07-16,agreement,https://www.bbc.co.uk/sport/football/articles/cy746mp43lno?at_medium=RSS&at_campaign=rss,Wales striker Cain rejoins Everton after Leicester exit,auto
-300,189,BBC Sport,rss,2026-07-16,official,https://www.bbc.co.uk/sport/football/articles/c5yrpq2q7z9o?at_medium=RSS&at_campaign=rss,French defender Rastocle signs for Birmingham,auto
-301,190,BBC Sport,rss,2026-07-16,official,https://www.bbc.co.uk/sport/football/articles/cz64xe19dy8o?at_medium=RSS&at_campaign=rss,Palace sign England Under-23 striker Lloyd-Smith,auto
 302,78,Sky Sports,rss,2026-07-17,interest,https://www.skysports.com/football/news/12691/13564260/morgan-rogers-transfer-news-arsenal-expected-to-make-approach-for-top-target-but-aston-villa-man-could-cost-more-than-100m,Arsenal expected to make approach for No 1 target Rogers,auto
 303,148,BBC Sport,rss,2026-07-17,denied,https://www.bbc.co.uk/sport/football/articles/c8626pzz96zo?at_medium=RSS&at_campaign=rss,How have missed targets affected Newcastle's summer rebuild?,auto
 304,187,The Guardian,rss,2026-07-16,agreement,https://www.theguardian.com/football/2026/jul/16/arsenal-34m-deal-club-brugge-forward-christos-tzolis-premier-league,Arsenal close in on £34m deal for Club Brugge forward Christos Tzolis,auto
 305,191,BBC Sport,rss,2026-07-16,interest,https://www.bbc.co.uk/sport/football/articles/cvgx4rvz57vo?at_medium=RSS&at_campaign=rss,Inter interested in Spence - Friday's gossip,auto
 307,193,BBC Sport,rss,2026-07-17,official,https://www.bbc.co.uk/sport/football/articles/cjwx3wjg1v5o?at_medium=RSS&at_campaign=rss,Arsenal sign teenage Danish goalkeeper Damm,auto
-308,194,BBC Sport,rss,2026-07-17,official,https://www.bbc.co.uk/sport/football/articles/c98v152z33ro?at_medium=RSS&at_campaign=rss,Aston Villa sign defender Harviken from Juventus,auto
 309,195,BBC Sport,rss,2026-07-17,agreement,https://www.bbc.co.uk/sport/football/articles/c1mymzpzv2ko?at_medium=RSS&at_campaign=rss,Defender Esteve leaves Burnley to join RB Leipzig,auto
 310,148,BBC Sport,rss,2026-07-17,here_we_go,https://www.bbc.co.uk/sport/football/articles/cj365336l52o?at_medium=RSS&at_campaign=rss,Villa complete club record Manzambi signing,auto
 311,177,BBC Sport,rss,2026-07-17,here_we_go,https://www.bbc.co.uk/sport/football/articles/c9w0kl9rjpno?at_medium=RSS&at_campaign=rss,Leeds sign £34.1m defender Muharemovic,auto
@@ -298,11 +293,9 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 329,184,The Guardian,rss,2026-07-20,official,https://www.theguardian.com/football/2026/jul/20/joao-gomes-signs-aston-villa-lewis-hall-antonee-robinson-manchester-united-transfer-latest,"João Gomes seals £38m Aston Villa move, Hall and Robinson on Manchester United list",auto
 330,120,BBC Sport,rss,2026-07-20,talks,https://www.bbc.co.uk/sport/football/articles/c8xnpxy5v8vo?at_medium=RSS&at_campaign=rss,Chelsea step up interest in Palace's Lacroix,auto
 332,205,BBC Sport,rss,2026-07-20,agreement,https://www.bbc.co.uk/sport/football/articles/ckg9r7v2vg3o?at_medium=RSS&at_campaign=rss,Hearts agree deal to sign Forest Green captain Mendy,auto
-333,206,BBC Sport,rss,2026-07-20,official,https://www.bbc.co.uk/sport/football/articles/cly520nn5r8o?at_medium=RSS&at_campaign=rss,Liverpool sign midfielder Itamura from Feyenoord,auto
 334,95,BBC Sport,rss,2026-07-21,interest,https://www.bbc.co.uk/sport/football/articles/c0rdn1p2z45o?at_medium=RSS&at_campaign=rss,Bournemouth midfielder Scott rejects new contract,auto
 335,95,Sky Sports News,rss,2026-07-21,interest,https://www.skysports.com/football/news/12691/13565480/alex-scott-bournemouth-midfielder-rejects-new-contract-amid-strong-interest-from-arsenal-chelsea-and-manchester-united,"Arsenal, Chelsea and Man Utd target Scott rejects new Bournemouth contract",auto
 336,120,Sky Sports,rss,2026-07-20,talks,https://www.skysports.com/football/news/12691/13565423/maxence-lacroix-transfer-news-chelsea,Palace seek £55m-plus for Lacroix as talks with Chelsea begin,auto
-337,207,BBC Sport,rss,2026-07-21,official,https://www.bbc.co.uk/sport/football/articles/cj03r94g62eo?at_medium=RSS&at_campaign=rss,Tottenham sign France defender Sombath from Lyon,auto
 338,208,BBC Sport,rss,2026-07-21,talks,https://www.bbc.co.uk/sport/football/articles/clyq2w24veko?at_medium=RSS&at_campaign=rss,Ipswich open talks for Celtic star Maeda - gossip,auto
 339,209,BBC Sport,rss,2026-07-20,agreement,https://www.bbc.co.uk/sport/football/articles/c75gwl3n50qo?at_medium=RSS&at_campaign=rss,Ex-Villa striker Duran joins seventh club aged 22,auto
 340,210,BBC Sport,rss,2026-07-21,official,https://www.bbc.co.uk/sport/football/articles/cx25wj22003o?at_medium=RSS&at_campaign=rss,Japan goalkeeper Okuma signs for Aston Villa,auto
@@ -413,7 +406,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 448,255,The Guardian,rss,2026-07-29,rumour_link,https://www.theguardian.com/football/2026/jul/29/football-transfer-rumours-eli-junior-kroupi-barcelona-alvarez-joao-pedro,Football transfer rumours: Eli Junior Kroupi to boost Barcelona attack?,auto
 449,256,BBC Sport,rss,2026-07-29,talks,https://www.bbc.co.uk/sport/football/articles/c0qv8e7e0l0o?at_medium=RSS&at_campaign=rss,Palace hold talks with ex-Arsenal defender Tomiyasu,auto
 450,115,The Guardian,rss,2026-07-29,talks,https://www.theguardian.com/football/2026/jul/29/liverpool-prepare-opening-offer-for-paris-saint-germains-bradley-barcola,Liverpool prepare opening offer for Paris Saint-Germain’s Bradley Barcola,auto
-451,257,BBC Sport,rss,2026-07-29,official,https://www.bbc.co.uk/sport/football/articles/clyjzxv990go?at_medium=RSS&at_campaign=rss,Neville joins Charlton as Leicester sign Irish duo,auto
 452,258,BBC Sport,rss,2026-07-29,here_we_go,https://www.bbc.co.uk/sport/football/articles/c5yvx3l03wno?at_medium=RSS&at_campaign=rss,Wolves striker Arokodare joins Ajax on loan,auto
 453,259,BBC Sport,rss,2026-07-30,rumour_link,https://www.bbc.co.uk/sport/football/articles/cgmkwnyyxlzo?at_medium=RSS&at_campaign=rss,'Everton eye Celtic's Johnston amid Patterson interest' - gossip,auto
 454,260,BBC Sport,rss,2026-07-29,official,https://www.bbc.co.uk/sport/football/articles/crl7d6n6kp5o?at_medium=RSS&at_campaign=rss,Wrexham complete signing of Palace defender Imray,auto

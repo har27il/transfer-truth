@@ -101,7 +101,16 @@ def display_club(name):
 # Generic tokens that don't distinguish a club; stripped only in the fallback match.
 _GENERIC = {"fc", "afc", "cf", "sc", "bc", "ssc", "ac"}
 # ...except "ac" stays meaningful for "AC Milan", so it is NOT stripped (see below).
-_STRIPPABLE = {"fc", "afc", "cf", "sc", "bc", "ssc"}
+# "rsc" added 2026-08-07: deal 253 collapsed on Anderlecht vs RSC Anderlecht, the
+# same club -- another journalist scored wrong for a call they got right.
+_STRIPPABLE = {"fc", "afc", "cf", "sc", "bc", "ssc", "rsc"}
+
+
+def _is_year_suffix(tok):
+    """German clubs carry a founding year in the name -- Paderborn 07, Hannover 96,
+    Schalke 04, 1899 Hoffenheim. No two clubs are distinguished ONLY by that number,
+    so it never carries identity and must not block a match."""
+    return tok.isdigit()
 
 
 def _norm(s):
@@ -125,9 +134,10 @@ def same_club(a, b):
     ca, cb = _canon(a), _canon(b)
     if ca == cb:
         return True
-    # Fallback: ignore purely generic suffix tokens (FC/AFC/CF...) and compare.
-    ta = [t for t in ca.split() if t not in _STRIPPABLE]
-    tb = [t for t in cb.split() if t not in _STRIPPABLE]
+    # Fallback: ignore purely generic suffix tokens (FC/AFC/CF...) and founding-year
+    # numbers, then compare.
+    ta = [t for t in ca.split() if t not in _STRIPPABLE and not _is_year_suffix(t)]
+    tb = [t for t in cb.split() if t not in _STRIPPABLE and not _is_year_suffix(t)]
     return bool(ta) and ta == tb
 
 
