@@ -297,3 +297,193 @@ def test_orphaned_auto_claims_are_pruned_with_their_deal(tmp_path):
     # precise: the auto orphan (deal 99) is gone; the YES legacy row survives
     assert all(not (r["deal_id"] == "99" and r["verified"] == "auto") for r in rows)
     assert any(r["verified"] == "YES" for r in rows)
+
+
+# --- refresh + re-open: the deal-124 class of bug --------------------------------
+#
+# to_club was written once at row creation and never revised, so a row could carry a
+# destination nine claims out of date. The resolver then read Wikipedia correctly,
+# compared it to the stale value, and collapsed a transfer that had completed.
+
+DIOMANDE_NOTES = ("[auto] player joined Real Madrid, not Paris Saint-Germain - rumour "
+                  "did not happen | On 6 August 2026, Diomande signed for Real Madrid.")
+
+
+def _deal(did, player, to, outcome="unknown", verified="auto", notes="", frm="RB Leipzig"):
+    return {"deal_id": did, "player": player, "from_club": frm, "to_club": to,
+            "window": WIN, "outcome": outcome, "verified": verified, "notes": notes,
+            "outcome_date": "2026-08-07" if outcome != "unknown" else "",
+            "outcome_source_url": "http://wiki" if outcome != "unknown" else ""}
+
+
+def _diomande_conn():
+    """Two early PSG claims, then the Real Madrid wave the ledger never saw."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Yan Diomande",
+                  [{"to_club": "Paris Saint-Germain", "from_club": "RB Leipzig",
+                    "source": "BBC Sport", "date": "2026-06-28"},
+                   {"to_club": "Paris Saint-Germain", "from_club": "RB Leipzig",
+                    "source": "Sky Sports", "date": "2026-06-29"}]
+                  + [{"to_club": "Real Madrid", "from_club": "RB Leipzig",
+                      "source": s, "date": d}
+                     for s, d in [("Sky Sports", "2026-07-24"), ("The Guardian", "2026-07-26"),
+                                  ("BBC Sport", "2026-07-27"), ("Sky Germany", "2026-07-29"),
+                                  ("The Guardian", "2026-08-05"), ("BBC Sport", "2026-08-06")]])
+    return conn
+
+
+def test_stale_to_club_is_refreshed_on_an_unresolved_row(tmp_path):
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("124", "Yan Diomande", "Paris Saint-Germain")])
+    bridge.bridge(_diomande_conn(), deals_path=dp)
+    assert _read_deals(dp)[0]["to_club"] == "Real Madrid"
+
+
+def test_wrong_collapse_is_reopened_and_its_verdict_cleared(tmp_path):
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("124", "Yan Diomande", "Paris Saint-Germain",
+                            outcome="collapsed", notes=DIOMANDE_NOTES)])
+    stats = bridge.bridge(_diomande_conn(), deals_path=dp)
+    row = _read_deals(dp)[0]
+    assert row["outcome"] == "unknown"          # handed back to the resolver
+    assert row["to_club"] == "Real Madrid"
+    assert row["outcome_date"] == "" and row["outcome_source_url"] == ""
+    assert row["verified"] == "auto"            # never silently promoted
+    assert [d for d, _why in stats["reopened"]] == ["124"]
+
+
+def test_reopen_uses_the_pre_refresh_to_club(tmp_path):
+    """Gate C compares the collapse reason against the OLD destination. If the
+    refresh ran first the reason would no longer match and the re-open would
+    silently stop firing -- the failure mode this pins."""
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("124", "Yan Diomande", "Paris Saint-Germain",
+                            outcome="collapsed", notes=DIOMANDE_NOTES)])
+    stats = bridge.bridge(_diomande_conn(), deals_path=dp)
+    assert stats["reopened"], "re-open did not fire: Gate B ran before Gate C"
+
+
+def test_collapse_is_not_reopened_when_the_reason_names_another_club(tmp_path):
+    """Precision gate: only collapses that provably rested on the stale destination.
+    Here the rumour was Arsenal, so the PSG/Real Madrid revision is irrelevant."""
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("124", "Yan Diomande", "Arsenal", outcome="collapsed",
+                            notes=DIOMANDE_NOTES)])
+    stats = bridge.bridge(_diomande_conn(), deals_path=dp)
+    assert stats["reopened"] == []
+    assert _read_deals(dp)[0]["outcome"] == "collapsed"
+
+
+def test_alias_miss_collapse_is_reopened(tmp_path):
+    """Deal 70 shape: rumour said Leeds, resolver said Leeds United, same club."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Harry Wilson", [{"to_club": "Leeds", "from_club": "Fulham",
+                                          "source": "BBC Sport", "date": "2026-07-01"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("70", "Harry Wilson", "Leeds", outcome="collapsed", frm="Fulham",
+                            notes="[auto] player joined Leeds United, not Leeds - "
+                                  "rumour did not happen | joined Leeds United in 2026.")])
+    stats = bridge.bridge(conn, deals_path=dp)
+    assert [d for d, _ in stats["reopened"]] == ["70"]
+    assert _read_deals(dp)[0]["outcome"] == "unknown"
+
+
+def test_completed_rows_are_never_reopened(tmp_path):
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("124", "Yan Diomande", "Paris Saint-Germain",
+                            outcome="completed", notes=DIOMANDE_NOTES)])
+    bridge.bridge(_diomande_conn(), deals_path=dp)
+    row = _read_deals(dp)[0]
+    assert row["outcome"] == "completed" and row["to_club"] == "Paris Saint-Germain"
+
+
+def test_curated_rows_are_never_refreshed_or_reopened(tmp_path):
+    """Ground-truth safety: a hand-verified row is never machine-edited, and the
+    check is on the trusted SET so 'y' and 'true' are protected too."""
+    for flag in ("YES", "y", "true"):
+        dp = tmp_path / ("deals-" + flag + ".csv")
+        _write_deals(dp, [_deal("124", "Yan Diomande", "Paris Saint-Germain",
+                                outcome="collapsed", verified=flag, notes=DIOMANDE_NOTES)])
+        original = dp.read_bytes()
+        bridge.bridge(_diomande_conn(), deals_path=dp)
+        assert dp.read_bytes() == original, "curated row with verified=" + flag + " was edited"
+
+
+def test_reopen_is_capped_and_defers_the_remainder(tmp_path, monkeypatch):
+    monkeypatch.setattr(bridge, "MAX_REOPENS", 2)
+    conn = store.connect(":memory:")
+    rows = []
+    for i in range(5):
+        player = "Player" + str(i)
+        _seed_cluster(conn, player, [{"to_club": "Real Madrid", "from_club": "RB Leipzig",
+                                      "source": "BBC Sport", "date": "2026-08-06"}])
+        rows.append(_deal(str(10 + i), player, "Paris Saint-Germain", outcome="collapsed",
+                          notes=DIOMANDE_NOTES))
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, rows)
+    stats = bridge.bridge(conn, deals_path=dp)
+    assert len(stats["reopened"]) == 2
+    assert [d for d, _ in stats["reopened"]] == ["10", "11"]     # deterministic prefix
+    assert stats["deferred"] == ["12", "13", "14"]
+
+
+def test_refresh_upgrades_a_bare_surname_to_the_full_name(tmp_path):
+    """apply.py feeds row['player'] straight to Wikipedia, and a bare 'Olise' lands
+    on a disambiguation page."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Olise", [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                                   "source": "Sky Sports", "date": "2026-07-01"}])
+    _seed_cluster(conn, "Michael Olise",
+                  [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                    "source": "BBC Sport", "date": "2026-07-02"},
+                   {"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                    "source": "The Guardian", "date": "2026-07-03"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("79", "Olise", "Real Madrid", frm="Bayern Munich")])
+    bridge.bridge(conn, deals_path=dp)
+    assert _read_deals(dp)[0]["player"] == "Michael Olise"
+
+
+def test_split_cluster_attaches_instead_of_creating_a_second_row(tmp_path):
+    """The alias map means a bare-surname cluster finds the existing full-name deal."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Olise", [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                                   "source": "Sky Sports", "date": "2026-07-01"}])
+    _seed_cluster(conn, "Michael Olise", [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                                           "source": "BBC Sport", "date": "2026-07-02"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich")])
+    stats = bridge.bridge(conn, deals_path=dp)
+    assert stats["created"] == []
+    assert len(_read_deals(dp)) == 1
+
+
+def test_bridge_claims_gathers_the_whole_group_not_just_the_canonical_key(tmp_path):
+    """The Olise denial lives on the BARE key. Querying only the canonical key would
+    drop it, and it is the claim that stops that meter reading too high."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Olise", [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                                   "source": "Sky Sports", "date": "2026-07-01"}])
+    _seed_cluster(conn, "Michael Olise", [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                                           "source": "BBC Sport", "date": "2026-07-02"}])
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich")], [])
+    bridge.bridge_claims(conn, deals_path=dp, claims_path=cp)
+    got = _read_claims(cp)
+    assert {c["source_name"] for c in got} == {"Sky Sports", "BBC Sport"}
+    assert {c["deal_id"] for c in got} == {"57"}
+
+
+def test_next_id_is_not_reused_after_a_scrub(tmp_path, monkeypatch):
+    """Computing the high-water mark after the scrub let a deleted max id be handed
+    to the next created deal, which then inherits the dead row's orphaned claims."""
+    monkeypatch.setattr(bridge, "is_known_non_player",
+                        lambda name: (name or "").strip() == "Derek McInnes")
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "New Player", [{"to_club": "Arsenal", "source": "BBC Sport"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("9", "Derek McInnes", "Rangers")])   # scrubbed: holds the max id
+    bridge.bridge(conn, deals_path=dp)
+    ids = [r["deal_id"] for r in _read_deals(dp)]
+    assert "9" not in ids, "the denylisted row should be gone"
+    assert ids == ["10"], "id 9 was reused: " + str(ids)
