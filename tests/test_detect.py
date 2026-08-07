@@ -43,12 +43,22 @@ def test_reproduces_all_ground_truth_outcomes():
             mismatches.append(f"deal {d['deal_id']} {d['player']}->{d['to_club']}: "
                               f"want {want}, got {got} ({reason})")
     assert not mismatches, "Classifier disagreed with ground truth:\n" + "\n".join(mismatches)
-    # 38 hand-labelled originals + 20 promoted 2026-07-05 (first promotion wave)
-    # + 16 from the 2026-07-05 web census (6 corrected/promoted + 10 coverage gaps)
-    # + 16 promoted 2026-07-15 (Touré wave + 15-deal review: Tonali, Santos,
-    #   George, Steur, Duran, Meslier, Clarke, Darlow, Devlin, Lockyer,
-    #   Tchaouna, Said, Tielemans, Smith, Rodriguez)
-    assert n == 90, f"expected 90 resolved deals, scored {n}"
+    # Count history: 38 hand-labelled originals + 20 promoted 2026-07-05 (first
+    # promotion wave) + 16 from the 2026-07-05 web census (6 corrected/promoted +
+    # 10 coverage gaps) + 16 promoted 2026-07-15 (Touré wave + 15-deal review) = 90.
+    #
+    # This was `assert n == 90`, which made every promotion wave a two-step change:
+    # promote, then hand-bump this line. Miss the bump and `pytest -q` goes red --
+    # and because it is a HARD gate in update-site.yml, that kills ingest, resolve,
+    # rebuild AND commit, freezing the whole site over a stale constant.
+    #
+    # A floor is the assertion that actually carries weight: the trusted set may only
+    # grow. Shrinking means a curated row lost verified=YES or was deleted, which is
+    # the real corruption this guards. Coverage is already enforced above -- every
+    # scored deal must have a hand fixture (see the assert in the loop), so a
+    # promotion still cannot land without its review evidence.
+    assert n >= 90, (f"verified-deal count went DOWN: scored {n}, floor is 90. "
+                     "A curated (verified=YES) row was deleted or demoted.")
 
 
 def test_classifier_never_invents_an_outcome_without_evidence():
