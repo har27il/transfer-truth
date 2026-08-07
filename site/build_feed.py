@@ -166,14 +166,20 @@ def _demo_meters():
     return meter.meters(conn, today=date(2025, 9, 1))
 
 
-def load_resolved(path=DEALS, window=ACTIVE_WINDOW):
+def load_resolved(path=DEALS, window=ACTIVE_WINDOW, alias=None):
     """Read settled deals for the active window from the outcome ledger (deals.csv).
 
     Returns (resolved_keys, done_rows): keys to PULL OUT of the live feed (a deal that
     already happened/collapsed stops showing as a live rumour), and the settled rows
     themselves (newest first) for the rail. deals.csv is authoritative and survives a
-    rumour aging out of the RSS, so a confirmed deal stays on the page."""
-    resolved_keys, done = set(), []
+    rumour aging out of the RSS, so a confirmed deal stays on the page.
+
+    alias: the SAME {raw_key: canonical_key} map passed to meter.meters. Both sides of
+    this join must canonicalize identically or a settled deal keeps rendering as a live
+    rumour. While a split pair still has two ledger rows, they collapse to one canonical
+    key here, so the rail shows the deal once instead of twice."""
+    alias = alias or {}
+    resolved_keys, by_key = set(), {}
     try:
         with open(path, newline="", encoding="utf-8") as f:
             for r in csv.DictReader(f):
@@ -181,12 +187,25 @@ def load_resolved(path=DEALS, window=ACTIVE_WINDOW):
                     continue
                 if (r.get("outcome") or "").strip().lower() not in _RESOLVED:
                     continue
-                resolved_keys.add(cluster.deal_key(r["player"], window))
-                done.append(r)
+                raw = cluster.deal_key(r["player"], window)
+                key = alias.get(raw, raw)
+                resolved_keys.add(key)
+                # Two ledger rows can map to one canonical key until the merge lands.
+                # Prefer the hand-curated row, then the most recently resolved one.
+                prev = by_key.get(key)
+                if prev is None or _done_rank(r) > _done_rank(prev):
+                    by_key[key] = r
     except FileNotFoundError:
         return set(), []
-    done.sort(key=lambda r: (r.get("outcome_date") or ""), reverse=True)
+    done = sorted(by_key.values(), key=lambda r: (r.get("outcome_date") or ""), reverse=True)
     return resolved_keys, done
+
+
+def _done_rank(row):
+    """Which of two ledger rows for the same deal to believe: curated beats auto,
+    then the newer resolution."""
+    curated = (row.get("verified") or "").strip().lower() in ("yes", "y", "true")
+    return (curated, (row.get("outcome_date") or ""))
 
 
 def load_standings(path=STANDINGS, top=5):
@@ -385,7 +404,10 @@ def data_freshness(conn, now=None):
 def main():
     reliability, _ = meter.load_reliability()
     conn = store.connect()
-    rows = meter.meters(conn, max_age_days=DISPLAY_MAX_AGE_DAYS)
+    # ONE alias map, shared by both sides of the resolved-deal join below. Building it
+    # twice would risk two different maps and a settled deal rendering as a live rumour.
+    alias = cluster.alias_map_for(conn)
+    rows = meter.meters(conn, max_age_days=DISPLAY_MAX_AGE_DAYS, alias=alias)
     # The live feed reads clusters straight from the store, so a confirmed non-player
     # cached before the ingest filter existed (e.g. Derek McInnes) would still surface
     # here even though bridge keeps him out of deals.csv. Drop denylisted names so the
@@ -396,7 +418,7 @@ def main():
         rows = _demo_meters()
 
     # Pull settled deals out of the live feed (they live in the rail's Done section instead).
-    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved()
+    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(alias=alias)
     if resolved_keys:
         rows = [m for m in rows if m.get("deal_key") not in resolved_keys]
 

@@ -32,18 +32,10 @@ from stagemap import STAGE_P
 CLAIMS_CSV = ROOT / "ground-truth" / "journalist_claims.csv"
 
 
-def _provisional(claims, field):
-    """Most common non-empty value of `field`; ties broken by the most recent claim."""
-    vals = [((c.get("claim_date") or ""), c[field]) for c in claims if c.get(field)]
-    if not vals:
-        return ""
-    counts = Counter(v for _, v in vals)
-    top = max(counts.values())
-    winners = {v for v, n in counts.items() if n == top}
-    for _, v in sorted(vals, reverse=True):   # most recent claim first
-        if v in winners:
-            return v
-    return next(iter(winners))
+# Moved to cluster.py so the alias layer and the ledger agree on what a cluster's
+# provisional player/clubs ARE -- two implementations would be two answers. Kept
+# under the old name because the bridge's tests pin majority semantics through it.
+_provisional = cluster.provisional
 
 
 def _cluster_excluded(conn, claims):

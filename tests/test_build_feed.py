@@ -109,3 +109,77 @@ def test_done_rail_escapes_a_club_name_from_the_notes():
     out = build_feed._done_rail([row])
     assert "<b>Evil</b>" not in out
     assert "&lt;b&gt;Evil&lt;/b&gt; &amp; Co" in out
+
+
+# --- load_resolved: the deals.csv <-> ingest.db join (previously untested) ---------
+
+import csv as _csv
+from ingest import cluster
+
+HEADER = ["deal_id", "player", "from_club", "to_club", "window", "outcome",
+          "fee_eur_actual", "outcome_date", "outcome_source_url", "verified", "notes"]
+WIN = "2026-summer"
+
+
+def _deals_csv(tmp_path, rows):
+    p = tmp_path / "deals.csv"
+    with open(p, "w", newline="", encoding="utf-8") as f:
+        w = _csv.DictWriter(f, fieldnames=HEADER)
+        w.writeheader()
+        for r in rows:
+            w.writerow({k: r.get(k, "") for k in HEADER})
+    return p
+
+
+def _row(did, player, outcome="completed", to="Liverpool", verified="auto", date="2026-08-01"):
+    return {"deal_id": did, "player": player, "to_club": to, "window": WIN,
+            "outcome": outcome, "verified": verified, "outcome_date": date}
+
+
+def test_load_resolved_canonicalizes_keys_through_the_alias_map(tmp_path):
+    """A settled deal must be pulled out of the live feed under the SAME key the
+    grouped meter carries, or it renders as a live rumour forever."""
+    path = _deals_csv(tmp_path, [_row("66", "Victor Munoz")])
+    bare = cluster.deal_key("Munoz", WIN)
+    canon = cluster.deal_key("Victor Munoz", WIN)
+    keys, _done = build_feed.load_resolved(path, alias={bare: canon})
+    assert keys == {canon}
+
+
+def test_load_resolved_dedupes_a_split_pair_and_prefers_the_curated_row(tmp_path):
+    """Until the ledger merge lands, both halves are resolved rows. The rail must
+    show the deal once, and believe the hand-verified side."""
+    path = _deals_csv(tmp_path, [
+        _row("65", "Munoz", to="Liverpool", verified="auto", date="2026-08-05"),
+        _row("66", "Victor Munoz", to="Liverpool", verified="YES", date="2026-07-01"),
+    ])
+    bare, canon = cluster.deal_key("Munoz", WIN), cluster.deal_key("Victor Munoz", WIN)
+    keys, done = build_feed.load_resolved(path, alias={bare: canon})
+    assert keys == {canon}
+    assert len(done) == 1
+    assert done[0]["deal_id"] == "66", "curated row must win over the newer auto row"
+
+
+def test_load_resolved_without_an_alias_is_unchanged(tmp_path):
+    path = _deals_csv(tmp_path, [_row("1", "Isak"), _row("2", "Eze")])
+    keys, done = build_feed.load_resolved(path)
+    assert keys == {cluster.deal_key("Isak", WIN), cluster.deal_key("Eze", WIN)}
+    assert len(done) == 2
+
+
+def test_load_resolved_ignores_other_windows_and_unresolved_rows(tmp_path):
+    path = _deals_csv(tmp_path, [
+        _row("1", "Isak", outcome="unknown"),
+        {"deal_id": "2", "player": "Eze", "window": "2025-summer", "outcome": "completed"},
+        _row("3", "Wirtz", outcome="collapsed"),
+    ])
+    keys, done = build_feed.load_resolved(path)
+    assert keys == {cluster.deal_key("Wirtz", WIN)}
+    assert [r["deal_id"] for r in done] == ["3"]
+
+
+def test_load_resolved_sorts_newest_first(tmp_path):
+    path = _deals_csv(tmp_path, [_row("1", "Isak", date="2026-06-01"),
+                                 _row("2", "Eze", date="2026-08-06")])
+    _keys, done = build_feed.load_resolved(path)
+    assert [r["deal_id"] for r in done] == ["2", "1"]

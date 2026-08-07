@@ -231,3 +231,104 @@ def test_buzz_ranks_busier_deals_higher():
         [_claim(0.6, "Sky Sports", date_="2025-09-01"),
          _claim(0.6, "BBC Sport", date_="2025-07-01")], REL, POP, TODAY)
     assert stale_extra["buzz"] == (1, 1)                    # only the fresh claim counts
+
+
+# ---- split-player grouping -------------------------------------------------
+#
+# The Olise shape, verbatim from the live data: deal 79 ("Olise") held ONE claim,
+# "Real Madrid deny interest"; deal 57 ("Michael Olise") held the interest claims.
+# Split, deal 57's meter never saw the denial and read too high, deal 79 looked dead,
+# and neither half could earn the corroboration boost (it needs 2+ sources on ONE
+# deal). Grouping -- not merely relabelling -- is what fixes all three.
+
+MWIN = "2026-summer"
+
+
+def _seed(conn, player, claims, window=MWIN):
+    key = cluster.deal_key(player, window)
+    for i, (p, src, stage) in enumerate(claims):
+        url = f"http://post/{player}/{i}"
+        store.add_post(conn, {"url": url, "source": src, "title": "t", "summary": ""})
+        store.add_claim(conn, {"post_url": url, "deal_key": key, "player": player,
+                               "from_club": "Bayern Munich", "to_club": "Real Madrid",
+                               "stage": stage, "implied_p": p, "source_name": src,
+                               "source_identifiable": 1, "direction_confidence": 0.9,
+                               "fee_eur": None, "claim_date": "2025-09-01"})
+    return key
+
+
+def _olise_store():
+    conn = store.connect(":memory:")
+    _seed(conn, "Olise", [(0.02, "Sky Sports", "denied")])
+    _seed(conn, "Michael Olise", [(0.90, "Fabrizio Romano", "advanced"),
+                                  (0.85, "BBC Sport", "talks")])
+    return conn
+
+
+def test_meters_groups_a_split_player_into_one_deal():
+    conn = _olise_store()
+    rows = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)
+    assert len(rows) == 1, [r["player"] for r in rows]
+    assert rows[0]["n_claims"] == 3
+    assert rows[0]["deal_key"] == cluster.deal_key("Michael Olise", MWIN)
+
+
+def test_grouping_shows_the_canonical_full_name_not_the_bare_surname():
+    """The join keys on the full-name cluster, so the page must say so too."""
+    rows = meter.meters(_olise_store(), today=TODAY, reliability=REL, pop_weight=POP)
+    assert rows[0]["player"] == "Michael Olise"
+
+
+def test_grouping_restores_the_contested_spread():
+    """The denial and the assent now sit on one deal, so the meter reads contested
+    instead of two confident halves pointing opposite ways."""
+    conn = _olise_store()
+    grouped = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)[0]
+    split = meter.deal_probability(
+        store.claims_for_deal(conn, cluster.deal_key("Michael Olise", MWIN)), REL, POP, TODAY)
+    assert grouped["spread"] > 0.5
+    assert grouped["spread"] > split["spread"]
+    assert grouped["percent"] < split["percent"], "denial must drag the assent-only reading down"
+
+
+def test_grouping_restores_the_corroboration_boost():
+    """A one-claim half can never earn the boost; the union of sources can."""
+    conn = store.connect(":memory:")
+    _seed(conn, "Raskin", [(0.80, "BBC Sport", "talks")])
+    _seed(conn, "Nicolas Raskin", [(0.80, "Fabrizio Romano", "talks")])
+    grouped = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)[0]
+    alone = meter.deal_probability(
+        store.claims_for_deal(conn, cluster.deal_key("Nicolas Raskin", MWIN)), REL, POP, TODAY)
+    assert grouped["n_sources"] == 2 and alone["n_sources"] == 1
+    assert grouped["probability"] > alone["probability"]
+
+
+def test_grouping_ages_out_on_the_union_of_claim_dates():
+    """A fresh claim on either half keeps the whole deal on the page."""
+    conn = store.connect(":memory:")
+    _seed(conn, "Olise", [(0.5, "Sky Sports", "talks")])          # 2025-09-01
+    key = cluster.deal_key("Michael Olise", MWIN)
+    store.add_post(conn, {"url": "http://old", "source": "BBC Sport", "title": "t", "summary": ""})
+    store.add_claim(conn, {"post_url": "http://old", "deal_key": key, "player": "Michael Olise",
+                           "from_club": "Bayern Munich", "to_club": "Real Madrid",
+                           "stage": "talks", "implied_p": 0.5, "source_name": "BBC Sport",
+                           "source_identifiable": 1, "direction_confidence": 0.9,
+                           "fee_eur": None, "claim_date": "2025-01-01"})
+    rows = meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP, max_age_days=21)
+    assert len(rows) == 1 and rows[0]["n_claims"] == 2
+
+
+def test_meters_leaves_unmergeable_clusters_alone():
+    """Ousmane vs Yan: two real players, two deals, no shared club -> stays two rows."""
+    conn = store.connect(":memory:")
+    # deals 73 and 217 exactly: no shared origin AND no shared destination.
+    for player, frm, to in [("Diomande", "RB Leipzig", "Liverpool"),
+                            ("Ousmane Diomande", "Sporting CP", "Nottingham Forest")]:
+        url = f"http://p/{player}"
+        store.add_post(conn, {"url": url, "source": "BBC Sport", "title": "t", "summary": ""})
+        store.add_claim(conn, {"post_url": url, "deal_key": cluster.deal_key(player, MWIN),
+                               "player": player, "from_club": frm, "to_club": to,
+                               "stage": "talks", "implied_p": 0.5, "source_name": "BBC Sport",
+                               "source_identifiable": 1, "direction_confidence": 0.9,
+                               "fee_eur": None, "claim_date": "2025-09-01"})
+    assert len(meter.meters(conn, today=TODAY, reliability=REL, pop_weight=POP)) == 2

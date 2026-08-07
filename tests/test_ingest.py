@@ -26,6 +26,119 @@ def test_deal_key_clusters_by_player_accent_insensitive():
     assert cluster.deal_key("", "2025-summer") == ""     # no player -> empty key
 
 
+# ---- split-player alias map ----------------------------------------------
+#
+# Every shape below is lifted from a real surname collision in ground-truth/deals.csv
+# (measured 2026-08-07: 13 groups, 11 merges, 2 refusals).
+
+WIN = "2026-summer"
+
+
+def _profiles(*rows):
+    """rows: (player, from_club, to_club[, window]) -> {deal_key: profile}."""
+    out = {}
+    for r in rows:
+        player, frm, to = r[0], r[1], r[2]
+        win = r[3] if len(r) > 3 else WIN
+        out[cluster.deal_key(player, win)] = {"player": player, "from_club": frm,
+                                              "to_club": to, "n_claims": 1}
+    return out
+
+
+def test_alias_map_merges_bare_surname_on_shared_destination():
+    """Olise: deal 79 holds the lone 'Real Madrid deny interest' claim, deal 57 the
+    three interest claims, so neither meter ever saw the other half."""
+    a = cluster.alias_map(_profiles(("Olise", "Bayern Munich", "Real Madrid"),
+                                    ("Michael Olise", "Bayern Munich", "Real Madrid")))
+    assert a == {cluster.deal_key("Olise", WIN): cluster.deal_key("Michael Olise", WIN)}
+
+
+def test_alias_map_merges_on_shared_origin_when_destinations_disagree():
+    """Diomande 73/124 -- the case a destination-only rule cannot fix. Both are Yan
+    (from RB Leipzig); the destinations differ only because deal 73's is stale."""
+    a = cluster.alias_map(_profiles(("Diomande", "RB Leipzig", "Liverpool"),
+                                    ("Yan Diomande", "RB Leipzig", "Paris Saint-Germain")))
+    assert a == {cluster.deal_key("Diomande", WIN): cluster.deal_key("Yan Diomande", WIN)}
+
+
+def test_alias_map_merges_when_both_destinations_are_blank():
+    """Gusto: TODOS refused this as 'unconfirmable' because both to_clubs are empty,
+    but both rows agree the player is leaving Chelsea."""
+    a = cluster.alias_map(_profiles(("Gusto", "Chelsea", ""), ("Malo Gusto", "Chelsea", "")))
+    assert a == {cluster.deal_key("Gusto", WIN): cluster.deal_key("Malo Gusto", WIN)}
+
+
+def test_alias_map_refuses_a_genuinely_different_player():
+    """Ousmane Diomande (Sporting CP) must never absorb Yan's claims: no shared club."""
+    a = cluster.alias_map(_profiles(("Diomande", "RB Leipzig", "Liverpool"),
+                                    ("Ousmane Diomande", "Sporting CP", "Nottingham Forest")))
+    assert a == {}
+
+
+def test_alias_map_refuses_when_two_full_names_both_match():
+    """Ambiguity is refused, not guessed -- attributing one player's claims to another
+    is ground-truth corruption, not a display bug."""
+    a = cluster.alias_map(_profiles(("Diomande", "RB Leipzig", "Liverpool"),
+                                    ("Yan Diomande", "RB Leipzig", "Paris Saint-Germain"),
+                                    ("Amara Diomande", "RB Leipzig", "Liverpool")))
+    assert a == {}
+
+
+def test_alias_map_refuses_without_any_club_overlap():
+    """Bowie and Kroupi: different destinations, no shared origin -- possibly a hijack,
+    possibly two players. Either way, not provable."""
+    assert cluster.alias_map(_profiles(("Bowie", "", "Celtic"),
+                                       ("Kieron Bowie", "Hellas Verona", "Sassuolo"))) == {}
+    assert cluster.alias_map(_profiles(("Kroupi", "", "Tottenham Hotspur"),
+                                       ("Eli Junior Kroupi", "Bournemouth", "Barcelona"))) == {}
+
+
+def test_alias_map_never_merges_across_windows():
+    a = cluster.alias_map(_profiles(("Olise", "Bayern Munich", "Real Madrid", "2025-summer"),
+                                    ("Michael Olise", "Bayern Munich", "Real Madrid", WIN)))
+    assert a == {}
+
+
+def test_alias_map_uses_club_aliases_not_string_equality():
+    """Baur: 'SC Paderborn 07' vs 'Paderborn' do NOT match, but both say Celtic."""
+    a = cluster.alias_map(_profiles(("Baur", "Paderborn", "Celtic"),
+                                    ("Mika Baur", "SC Paderborn 07", "Celtic")))
+    assert a == {cluster.deal_key("Baur", WIN): cluster.deal_key("Mika Baur", WIN)}
+
+
+def test_canonical_key_preserves_the_window_component():
+    """bridge recovers the window from the key by pipe index -- an alias that changed
+    the window would silently corrupt deals.csv and every window-closed check."""
+    a = cluster.alias_map(_profiles(("Olise", "Bayern Munich", "Real Madrid"),
+                                    ("Michael Olise", "Bayern Munich", "Real Madrid")))
+    for bare, canon in a.items():
+        assert cluster.key_window(canon) == cluster.key_window(bare) == WIN
+
+
+def test_canonical_keys_are_never_themselves_aliased():
+    """The no-chaining invariant: resolving an alias once is always enough."""
+    a = cluster.alias_map(_profiles(("Olise", "Bayern Munich", "Real Madrid"),
+                                    ("Michael Olise", "Bayern Munich", "Real Madrid"),
+                                    ("Raskin", "Rangers", "Atalanta"),
+                                    ("Nicolas Raskin", "Rangers", "Atalanta")))
+    assert len(a) == 2
+    assert not (set(a.values()) & set(a)), "a canonical key must not be an alias key"
+
+
+def test_alias_map_is_independent_of_key_insertion_order():
+    rows = [("Olise", "Bayern Munich", "Real Madrid"),
+            ("Michael Olise", "Bayern Munich", "Real Madrid"),
+            ("Munoz", "", "Liverpool"), ("Victor Munoz", "Osasuna", "Liverpool")]
+    assert cluster.alias_map(_profiles(*rows)) == cluster.alias_map(_profiles(*reversed(rows)))
+
+
+def test_group_keys_folds_aliases_and_passes_others_through():
+    bare, canon = cluster.deal_key("Olise", WIN), cluster.deal_key("Michael Olise", WIN)
+    other = cluster.deal_key("Isak", WIN)
+    groups = cluster.group_keys([bare, canon, other], {bare: canon})
+    assert groups == {canon: [bare, canon], other: [other]}
+
+
 def test_rss_parser_extracts_items():
     xml = b"""<rss><channel>
       <item><title>Isak to Liverpool</title><link>http://x/1</link>

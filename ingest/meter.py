@@ -27,7 +27,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from ingest import store
+from ingest import store, cluster
 
 LEADERBOARD = ROOT / "scoring" / "leaderboard.json"
 HALFLIFE_DAYS = 14          # a claim's weight halves every two weeks
@@ -214,26 +214,43 @@ def is_quiet(m):
     return dq is None or dq > FRESH_DAYS
 
 
-def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None):
+def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None, alias=None):
     """Compute a meter for every deal in the ingest store, hottest first.
 
     max_age_days: when set, drop deals whose NEWEST claim is older than this many days.
     Once ingest.db is persisted between runs it keeps accumulating claims, so without a
     display window the feed would slowly fill with dead weeks-old rumours. None = no
-    filter (keeps offline tests and the empty-store demo untouched)."""
+    filter (keeps offline tests and the empty-store demo untouched).
+
+    alias: {raw_key: canonical_key} from cluster.alias_map_for. Split-player clusters
+    are GROUPED (not merely relabelled) before the meter is computed -- the union of
+    their claims is what restores the corroboration boost and the contested spread,
+    both of which need 2+ sources on ONE deal. Pass the SAME map the feed's resolved-
+    deal join uses, or the two sides stop lining up. None = build it from `conn`."""
     if reliability is None or pop_weight is None:
         reliability, pop_weight = load_reliability()
     today = today or date.today()
+    if alias is None:
+        alias = cluster.alias_map_for(conn)
     out = []
-    for key in store.deal_keys(conn):
-        claims = store.claims_for_deal(conn, key)
+    for canon, raw_keys in cluster.group_keys(store.deal_keys(conn), alias).items():
+        claims = [c for rk in raw_keys for c in store.claims_for_deal(conn, rk)]
         if max_age_days is not None:
             dates = [d for d in (_parse_date(c.get("claim_date")) for c in claims) if d]
             if dates and (today - max(dates)).days > max_age_days:
                 continue  # stale deal: newest claim is past the display window
         m = deal_probability(claims, reliability, pop_weight, today)
         if m:
-            m["deal_key"] = key
+            m["deal_key"] = canon
+            if len(raw_keys) > 1:
+                # deal_probability names the deal from the NEWEST claim, which may sit
+                # on the bare-surname half -- that would render "Olise" under the
+                # canonical "michael olise" key. Take the name from the canonical
+                # cluster instead. Clubs are deliberately left alone: newest-claim IS
+                # the freshest truth for those, and it is why the feed kept showing
+                # the right destination even while deals.csv had frozen on a stale one.
+                canon_claims = [c for c in claims if c.get("deal_key") == canon]
+                m["player"] = cluster.provisional(canon_claims, "player") or m["player"]
             out.append(m)
     out.sort(key=lambda m: m["probability"], reverse=True)
     return out
