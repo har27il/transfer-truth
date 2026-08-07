@@ -84,6 +84,13 @@ _WOMEN_PLAYER_NAMES = {
     # 2026-07-15 promotion review: WSL deals proposed by the resolver
     "selina cerci", "geraldine reuteler", "ona batlle", "lisa baum",
     "millie turner", "julia bartel", "ebony salmon",
+    # 2026-08-07: these four sat in deals.csv as FALSE collapses -- the resolver had
+    # quoted Wikipedia's "Women's Super League club Chelsea" against a rumoured
+    # "Chelsea" and called it a different club. Fixing that alias would otherwise have
+    # re-opened them, resolved them completed, and made four women's deals promotable
+    # onto a leaderboard the project deliberately keeps to men's football. Denylisting
+    # is the mechanism that makes the row deletion stick (bridge scrubs auto rows).
+    "melvine malard", "estelle cascarino", "laia codina", "giulia dragoni",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",

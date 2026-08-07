@@ -243,14 +243,12 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 270,173,BBC Sport,rss,2026-07-14,agreement,https://www.bbc.co.uk/sport/football/articles/cddldzme6g1o?at_medium=RSS&at_campaign=rss,Arsenal agree fee for Trossard move to Besiktas,auto
 271,173,Sky Sports,rss,2026-07-14,official,https://www.skysports.com/football/news/12691/13563271/leandro-trossard-arsenal-confirm-winger-joining-besiktas-in-17m-deal,Arsenal confirm Trossard is moving to Besiktas,auto
 272,173,The Guardian,rss,2026-07-14,agreement,https://www.theguardian.com/football/2026/jul/14/leandro-trossard-set-for-besiktas-move-after-arsenal-agree-deal-with-turkish-side,Leandro Trossard set for Besiktas move after Arsenal agree deal with Turkish side,auto
-273,174,The Guardian,rss,2026-07-14,advanced,https://www.theguardian.com/football/2026/jul/14/manchester-united-close-to-agreeing-club-record-sale-of-melvine-malard-to-chelsea,Manchester United close to agreeing club-record sale of Melvine Malard to Chelsea,auto
 274,175,BBC Sport,rss,2026-07-14,here_we_go,https://www.bbc.co.uk/sport/football/articles/c8727e5d4ejo?at_medium=RSS&at_campaign=rss,Everton sign France forward Mouchon from Leicester,auto
 275,51,BBC Sport,rss,2026-07-14,rumour_link,https://www.bbc.co.uk/sport/football/articles/c0mym8xvedlo?at_medium=RSS&at_campaign=rss,Gyokeres part of Alvarez offer - Wednesday's gossip,auto
 276,149,BBC Sport,rss,2026-07-14,here_we_go,https://www.bbc.co.uk/sport/football/articles/cwy0yg15y90o?at_medium=RSS&at_campaign=rss,Fenerbahce sign Greenwood from Marseille,auto
 277,165,BBC Sport,rss,2026-07-14,official,https://www.bbc.co.uk/sport/football/articles/c9929gzdl2go?at_medium=RSS&at_campaign=rss,Man Utd sign Tielemans for £35m from Aston Villa,YES
 278,165,Sky Sports,rss,2026-07-14,here_we_go,https://www.skysports.com/football/news/12691/13563132/youri-tielemans-transfer-news-manchester-united-xxxx,Man Utd complete £35m Tielemans deal,YES
 279,165,The Guardian,rss,2026-07-14,official,https://www.theguardian.com/football/2026/jul/14/youri-tielemans-signs-manchester-united-aston-villa,Youri Tielemans targets ‘biggest trophies’ after joining Manchester United,YES
-280,174,BBC Sport,rss,2026-07-14,agreement,https://www.bbc.co.uk/sport/football/articles/c62120n7y8jo?at_medium=RSS&at_campaign=rss,Chelsea agree fee for Man Utd striker Malard,auto
 281,176,BBC Sport,rss,2026-07-15,talks,https://www.bbc.co.uk/sport/football/articles/ce8m80069v9o?at_medium=RSS&at_campaign=rss,Rangers in talks with Leicester over Mavididi - gossip,auto
 282,177,BBC Sport,rss,2026-07-14,agreement,https://www.bbc.co.uk/sport/football/articles/cpd3d6vx803o?at_medium=RSS&at_campaign=rss,Leeds agree £34.1m fee for defender Muharemovic,auto
 283,178,BBC Sport,rss,2026-07-15,talks,https://www.bbc.co.uk/sport/football/articles/crr8r4zvj5jo?at_medium=RSS&at_campaign=rss,Bournemouth in talks for Benfica defender Silva,auto
@@ -275,7 +273,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 303,148,BBC Sport,rss,2026-07-17,denied,https://www.bbc.co.uk/sport/football/articles/c8626pzz96zo?at_medium=RSS&at_campaign=rss,How have missed targets affected Newcastle's summer rebuild?,auto
 304,187,The Guardian,rss,2026-07-16,agreement,https://www.theguardian.com/football/2026/jul/16/arsenal-34m-deal-club-brugge-forward-christos-tzolis-premier-league,Arsenal close in on £34m deal for Club Brugge forward Christos Tzolis,auto
 305,191,BBC Sport,rss,2026-07-16,interest,https://www.bbc.co.uk/sport/football/articles/cvgx4rvz57vo?at_medium=RSS&at_campaign=rss,Inter interested in Spence - Friday's gossip,auto
-306,192,BBC Sport,rss,2026-07-17,here_we_go,https://www.bbc.co.uk/sport/football/articles/c5yzye502vko?at_medium=RSS&at_campaign=rss,Defender Cascarino joins West Ham in permanent deal,auto
 307,193,BBC Sport,rss,2026-07-17,official,https://www.bbc.co.uk/sport/football/articles/cjwx3wjg1v5o?at_medium=RSS&at_campaign=rss,Arsenal sign teenage Danish goalkeeper Damm,auto
 308,194,BBC Sport,rss,2026-07-17,official,https://www.bbc.co.uk/sport/football/articles/c98v152z33ro?at_medium=RSS&at_campaign=rss,Aston Villa sign defender Harviken from Juventus,auto
 309,195,BBC Sport,rss,2026-07-17,agreement,https://www.bbc.co.uk/sport/football/articles/c1mymzpzv2ko?at_medium=RSS&at_campaign=rss,Defender Esteve leaves Burnley to join RB Leipzig,auto
@@ -300,7 +297,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 328,184,Sky Sports,rss,2026-07-20,here_we_go,https://www.skysports.com/football/news/12691/13564311/joao-gomes-aston-villa-sign-midfielder-from-wolves-in-38m-deal,Aston Villa sign Joao Gomes from Wolves in £38m deal,auto
 329,184,The Guardian,rss,2026-07-20,official,https://www.theguardian.com/football/2026/jul/20/joao-gomes-signs-aston-villa-lewis-hall-antonee-robinson-manchester-united-transfer-latest,"João Gomes seals £38m Aston Villa move, Hall and Robinson on Manchester United list",auto
 330,120,BBC Sport,rss,2026-07-20,talks,https://www.bbc.co.uk/sport/football/articles/c8xnpxy5v8vo?at_medium=RSS&at_campaign=rss,Chelsea step up interest in Palace's Lacroix,auto
-331,174,The Guardian,rss,2026-07-20,official,https://www.theguardian.com/football/2026/jul/20/chelsea-sign-melvine-malard-manchester-united,Melvine Malard hungry for trophies after joining Chelsea from Manchester United,auto
 332,205,BBC Sport,rss,2026-07-20,agreement,https://www.bbc.co.uk/sport/football/articles/ckg9r7v2vg3o?at_medium=RSS&at_campaign=rss,Hearts agree deal to sign Forest Green captain Mendy,auto
 333,206,BBC Sport,rss,2026-07-20,official,https://www.bbc.co.uk/sport/football/articles/cly520nn5r8o?at_medium=RSS&at_campaign=rss,Liverpool sign midfielder Itamura from Feyenoord,auto
 334,95,BBC Sport,rss,2026-07-21,interest,https://www.bbc.co.uk/sport/football/articles/c0rdn1p2z45o?at_medium=RSS&at_campaign=rss,Bournemouth midfielder Scott rejects new contract,auto
@@ -352,7 +348,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 380,160,The Guardian,rss,2026-07-23,official,https://www.theguardian.com/football/2026/jul/23/aston-villa-loan-signing-alejandro-garnacho-chelsea-transfer-latest,Aston Villa seal loan signing of Alejandro Garnacho from Chelsea,auto
 381,187,BBC Sport,rss,2026-07-23,here_we_go,https://www.bbc.co.uk/sport/football/articles/cp8xk0x902do?at_medium=RSS&at_campaign=rss,Arsenal sign Greece forward Tzolis for £34m,auto
 382,187,The Guardian,rss,2026-07-23,official,https://www.theguardian.com/football/2026/jul/23/arsenal-sign-greece-forward-christos-tzolis-from-club-brugge-for-34m,Arsenal sign Greece forward Christos Tzolis from Club Brugge for £34m,auto
-383,231,BBC Sport,rss,2026-07-23,official,https://www.bbc.co.uk/sport/football/articles/cn4nmjwl8j1o?at_medium=RSS&at_campaign=rss,Codina on why she joined West Ham project,auto
 384,232,BBC Sport,rss,2026-07-23,official,https://www.bbc.co.uk/sport/football/articles/c87ng75zlx4o?at_medium=RSS&at_campaign=rss,Rangers sign 'huge potential' in Partizan captain Dragojevic,auto
 385,78,Opta Analyst,rss,2026-07-23,official,https://www.theguardian.com/football/2026/jul/23/chelsea-aston-villa-117m-morgan-rogers-england-xabi-alonso,Chelsea paid Aston Villa £117m for Morgan Rogers. Is he the right fit?,auto
 386,100,BBC Sport,rss,2026-07-23,rumour_link,https://www.bbc.co.uk/sport/football/articles/cedjnz7wxy6o?at_medium=RSS&at_campaign=rss,Man Utd handed Tchouameni boost - Friday's gossip,auto
@@ -404,7 +399,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 433,228,BBC Sport,rss,2026-07-28,rumour_link,https://www.bbc.co.uk/sport/football/articles/clyer1yze4jo?at_medium=RSS&at_campaign=rss,Could Leeds move help Trafford challenge for England keeper spot?,auto
 434,234,Sky Sports,rss,2026-07-28,here_we_go,https://www.skysports.com/football/news/12691/13566947/celtic-transfer-news-kasper-hogh-completes-club-record-move-from-bodo-glimt,Celtic complete club-record signing of striker Hogh,auto
 435,241,Sky Sports News,rss,2026-07-28,denied,https://www.skysports.com/football/news/12691/13567839/real-madrid-transfer-news-vinicius-junior-to-stay-at-the-santiago-bernabeu-beyond-this-summer-despite-arsenal-interest,Vinicius Jr to stay at Real Madrid - what next for Arsenal?,auto
-436,251,BBC Sport,rss,2026-07-28,agreement,https://www.bbc.co.uk/sport/football/articles/cy745m20827o?at_medium=RSS&at_campaign=rss,Chelsea set to sign Italy's Dragoni from Barcelona,auto
 437,115,BBC Sport,rss,2026-07-28,agreement,https://www.bbc.co.uk/sport/football/articles/czrj8ke23g3o?at_medium=RSS&at_campaign=rss,Barcola agrees Liverpool move - Wednesday's gossip,auto
 438,115,Sky Sports,rss,2026-07-29,talks,https://www.skysports.com/football/news/12691/13567997/bradley-barcola-transfer-news-liverpool-set-to-open-talks-with-paris-saint-germain-over-winger-with-an-opening-offer-prepared,Liverpool set to open talks with PSG over Barcola signing,auto
 439,110,Sky Sports,rss,2026-07-28,denied,https://www.skysports.com/football/news/12691/13567925/arsenal-transfer-news-bruno-guimaraes-refusing-to-force-through-move-to-the-emirates-as-newcastle-stand-firm-on-asking-price-paper-talk,Papers: Guimaraes not forcing through Arsenal move,auto
