@@ -106,7 +106,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 121,Pascal Struijk,Leeds United,Brighton & Hove Albion,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Pascal_Struijk,YES,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
 122,Tjark Ernst,Celtic,Wolfsburg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 123,Trevoh Chalobah,Chelsea,Como,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-124,Yan Diomande,RB Leipzig,Paris Saint-Germain,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+124,Yan Diomande,RB Leipzig,Paris Saint-Germain,2026-summer,collapsed,,2026-08-07,https://en.wikipedia.org/wiki/Yan_Diomande,auto,"[auto] player joined Real Madrid, not Paris Saint-Germain - rumour did not happen | On 6 August 2026, Diomande returned to La Liga, signing for Real Madrid on a seven-year contract until 30 June 2033."
 126,Jérémy Jacquet,Rennes,Liverpool,2026-summer,completed,,2026-07-01,,YES,[verified 2026-07-05] joined Liverpool for GBP55m from Rennes | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026
 127,Kroupi,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 128,Lewis Ferguson,Bologna,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -202,7 +202,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 225,Aladji Bamba,Monaco,Newcastle United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Aladji_Bamba,auto,"[auto] player joined Newcastle United - the rumoured destination | On 24 July 2026, Bamba signed for Premier League club Newcastle United on a five year deal."
 226,Andoni Iraola,,Liverpool,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Andoni_Iraola,auto,"[auto] player joined Liverpool - the rumoured destination | On 4 June 2026, Iraola signed as head coach of Liverpool on a two-year contract."
 227,Eduardo Camavinga,Real Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-228,James Trafford,Manchester City,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+228,James Trafford,Manchester City,Leeds United,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/James_Trafford,auto,"[auto] player joined Leeds United - the rumoured destination | The transfer was completed on 6 August 2026, for £45 million."
 229,Karim Adeyemi,Borussia Dortmund,Barcelona,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Karim_Adeyemi,auto,"[auto] player joined Barcelona - the rumoured destination | On 23 July 2026, Adeyemi joined Barcelona on a five-year deal."
 230,Manu Kone,AS Roma,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 231,Laia Codina,Arsenal,West Ham,2026-summer,collapsed,,2026-07-23,https://en.wikipedia.org/wiki/Laia_Codina,auto,"[auto] player joined West Ham United, not West Ham - rumour did not happen | On 19 June 2026, it was announced that Codina had signed for West Ham United on a three year deal."
@@ -245,7 +245,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 268,Lewis-Skelly,Arsenal,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 269,Mohamed Salah,,Trabzonspor,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 270,Gineitis,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-271,Juanlu,Sevilla,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+271,Juanlu,Sevilla,Bournemouth,2026-summer,collapsed,,2026-08-07,https://en.wikipedia.org/wiki/Juanlu,auto,"[auto] player joined Premier League side Bournemouth, not Bournemouth - rumour did not happen | On 6 August 2026, Juanlu signed for Premier League side Bournemouth in a deal worth up to £11.2m."
 273,Cody Gakpo,Liverpool,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 274,Lukas Hornicek,Braga,Newcastle United,2026-summer,completed,,2026-08-03,https://en.wikipedia.org/wiki/Lukas_Hornicek,auto,"[auto] player joined Newcastle United - the rumoured destination | On 3 August 2026, Horníček signed for Premier League club Newcastle United."
 275,Valentín Barco,Strasbourg,Chelsea,2026-summer,completed,,2026-08-03,https://en.wikipedia.org/wiki/Valentín_Barco,auto,"[auto] player joined Chelsea - the rumoured destination | On 2 August 2026, Chelsea announced the signing of Barco on a seven-year contract until 2033 for a reported deal of £34 million."
@@ -266,4 +266,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 290,Zavier Gozo,Real Salt Lake,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 291,Christian Norgaard,Arsenal,Everton,2026-summer,completed,,2026-08-06,https://en.wikipedia.org/wiki/Christian_Norgaard,auto,"[auto] player joined Everton - the rumoured destination | In August 2026, Nørgaard transferred to Everton on a two-year contract from Arsenal."
 292,Juanlu Sanchez,Sevilla,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-293,Ross Stewart,Southampton,Swansea City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+293,Ross Stewart,Southampton,Swansea City,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/Ross_Stewart,auto,"[auto] player joined Swansea City - the rumoured destination | On 6 August 2026, Stewart joined Swansea City on a three-year contract."
+294,Chancelle Effa Effa,Le Havre,Birmingham City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+295,Mariona Caldentey,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+296,Will Ferry,Anderlecht,Dundee United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
