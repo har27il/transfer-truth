@@ -516,3 +516,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 543,294,BBC Sport,rss,2026-08-06,here_we_go,https://www.bbc.co.uk/sport/football/articles/ce971e8ny8mo?at_medium=RSS&at_campaign=rss,Birmingham sign striker Effa Effa for £100K,auto
 544,295,BBC Sport,rss,2026-08-07,interest,https://www.bbc.co.uk/sport/football/articles/c87nlvj2zy9o?at_medium=RSS&at_campaign=rss,Caldentey embraces 'cool' pressure as Arsenal target Treble,auto
 545,296,BBC Sport,rss,2026-08-07,advanced,https://www.bbc.co.uk/sport/football/articles/cglj670g0j4o?at_medium=RSS&at_campaign=rss,Old Firm bid for wingers as Anderlecht hold Ferry talks - gossip,auto
+546,239,BBC Sport,rss,2026-08-07,talks,https://www.bbc.co.uk/sport/football/articles/c0qv4g0x79go?at_medium=RSS&at_campaign=rss,Atletico hold talks with Spurs captain Romero,auto
+547,239,The Guardian,rss,2026-08-07,talks,https://www.theguardian.com/football/2026/aug/07/tottenham-and-atletico-in-talks-over-romero-with-van-de-ven-set-to-sign-new-deal,Tottenham and Atlético in talks over Romero with Van de Ven set to sign new deal,auto
+548,239,the Athletic,rss,2026-08-07,interest,https://www.theguardian.com/football/2026/aug/07/football-transfer-rumours-cristian-romero-spurs-arsenal-atletico-inter,Football transfer rumours: Cristian Romero to leave Spurs for … Arsenal?,auto
