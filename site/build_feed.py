@@ -26,6 +26,7 @@ sys.path.insert(0, str(ROOT / "site"))
 import theme
 from ingest import store, cluster, meter
 from ingest.exclude import is_known_non_player
+from outcome.detect import collapse_facts, display_club
 
 OUT = ROOT / "docs" / "feed.html"
 DEALS = ROOT / "ground-truth" / "deals.csv"
@@ -110,8 +111,12 @@ PAGE_CSS = """
   .feed .stand .who{font-weight:500}
   .feed .stand .who s{display:block;text-decoration:none;color:var(--muted);font-size:12px;margin-top:1px}
   .feed .stand .sc{font-weight:600;font-variant-numeric:tabular-nums;color:var(--likely)}
-  .feed .doneitem{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
-                  padding:10px 0;border-bottom:1px solid var(--hair);font-size:14.5px}
+  .feed .doneitem{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;
+                  flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--hair);font-size:14.5px}
+  /* "joined Brighton & Hove Albion instead" is ~3x the old "stayed put", and the rail
+     is 340px on desktop and full-width under 900px. Let the badge drop to its own line
+     rather than squeezing the name; min-width:0 stops the flex item refusing to shrink. */
+  .feed .doneitem .dn{min-width:0;flex:1 1 auto}
   .feed .tick{color:var(--likely);font-weight:600}
   .feed .stayed{color:var(--denied);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
   .feed .explain{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;
@@ -333,12 +338,22 @@ def _done_rail(done_rows):
     for r in done_rows[:6]:
         player = html.escape(r.get("player") or "Unknown")
         if (r.get("outcome") or "").strip().lower() == "completed":
-            sub = f'<span style="color:var(--muted)">&rarr; {html.escape(r.get("to_club") or "")}</span>'
+            sub = f'&rarr; {html.escape(r.get("to_club") or "")}'
             badge = '<span class="tick">Done &check;</span>'
         else:
-            sub = '<span style="color:var(--muted)">stayed put</span>'
+            # "collapsed" means THIS rumour did not happen -- it does NOT mean the
+            # player stayed. Every machine-written collapse in the ledger is a
+            # joined-somewhere-else verdict (28 of 28, measured 2026-08-07), so the
+            # old "stayed put" contradicted the row's own notes on screen: deal 124
+            # read "Yan Diomande stayed put" while its evidence said he signed for
+            # Real Madrid. Name the club he actually joined; fall back to a claim we
+            # can always support when the reason is a curated free-text note.
+            joined, _rumoured = collapse_facts(r.get("notes"))
+            sub = (f"joined {html.escape(display_club(joined))} instead" if joined
+                   else "move didn&rsquo;t happen")
             badge = '<span class="stayed">Move off</span>'
-        items += f'<div class="doneitem"><span>{player} {sub}</span>{badge}</div>'
+        items += (f'<div class="doneitem"><span class="dn">{player} '
+                  f'<span style="color:var(--muted)">{sub}</span></span>{badge}</div>')
     return ('<div class="railsec"><h3 class="railhead">Done &amp; dusted</h3>'
             f'<p class="railsub">Settled this window.</p>{items}</div>')
 

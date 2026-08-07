@@ -66,3 +66,46 @@ def test_lead_mixed_scored_and_unscored_sources():
     out = build_feed._lead(m, {"Sky Sports": 0.91})
     assert "Sky Sports</b> 91%" in out
     assert "Keith Downie</b> &middot; not yet scored" in out
+
+
+# --- "Done & dusted" rail: a collapse is not a stay -------------------------------
+
+def _done_row(player, outcome, to_club="", notes=""):
+    return {"player": player, "outcome": outcome, "to_club": to_club, "notes": notes}
+
+
+def test_done_rail_names_the_club_the_player_actually_joined():
+    """The live bug you could read off the page: deal 124 rendered
+    'Yan Diomande stayed put' while its own notes said he signed for Real Madrid."""
+    row = _done_row("Yan Diomande", "collapsed", "Paris Saint-Germain",
+                    "[auto] player joined Real Madrid, not Paris Saint-Germain - "
+                    "rumour did not happen | On 6 August 2026, Diomande returned to La Liga.")
+    out = build_feed._done_rail([row])
+    assert "joined Real Madrid instead" in out
+    assert "stayed put" not in out
+
+
+def test_done_rail_never_says_stayed_put_even_when_the_reason_is_unparseable():
+    """Curated free-text notes don't parse. The fallback must still not assert a
+    fact we cannot support -- 'stayed put' was wrong in every machine case."""
+    row = _done_row("Marc Guehi", "collapsed", "Liverpool",
+                    "Spurs walked away over ~£65-70m valuation.")
+    out = build_feed._done_rail([row])
+    assert "stayed put" not in out
+    assert "happen" in out                      # "move didn't happen"
+
+
+def test_done_rail_completed_row_is_unchanged():
+    out = build_feed._done_rail([_done_row("Victor Munoz", "completed", "Liverpool")])
+    assert "&rarr; Liverpool" in out
+    assert "Done &check;" in out
+    assert "stayed put" not in out
+
+
+def test_done_rail_escapes_a_club_name_from_the_notes():
+    """joined_club comes out of a notes field the LLM wrote -- escape it."""
+    row = _done_row("Test Player", "collapsed", "Arsenal",
+                    "[auto] player joined <b>Evil</b> & Co, not Arsenal - rumour did not happen")
+    out = build_feed._done_rail([row])
+    assert "<b>Evil</b>" not in out
+    assert "&lt;b&gt;Evil&lt;/b&gt; &amp; Co" in out

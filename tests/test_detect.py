@@ -11,7 +11,9 @@ import csv
 import json
 from pathlib import Path
 
-from outcome.detect import classify, same_club, club_token_in_text, COMPLETED, COLLAPSED, UNKNOWN
+from outcome.detect import (classify, same_club, club_token_in_text, collapse_facts,
+                            display_club,
+                            COMPLETED, COLLAPSED, UNKNOWN)
 
 ROOT = Path(__file__).resolve().parent.parent
 DEALS = ROOT / "ground-truth" / "deals.csv"
@@ -128,6 +130,71 @@ def test_same_club_rejects_distinct_clubs():
     assert not same_club("AC Milan", "Inter Milan")
     assert not same_club("Newcastle United", "Bayern Munich")
     assert not same_club("", "Arsenal")
+
+
+def test_same_club_matches_the_short_long_pairs_that_caused_false_collapses():
+    """Each pair below produced a real FALSE collapse in deals.csv (measured
+    2026-08-07): the journalist named the club correctly, the resolver read the
+    other form off Wikipedia, and same_club said 'did not happen'."""
+    assert same_club("Leeds", "Leeds United")                    # deal 70, Harry Wilson
+    assert same_club("West Ham", "West Ham United")              # deals 192, 231
+    assert same_club("Hearts", "Heart of Midlothian")            # deal 205, Laurent Mendy
+    assert same_club("Brighton", "Brighton & Hove Albion")       # TODOS 0b, deal 89
+
+
+def test_same_club_ignores_a_competition_qualifier():
+    """The resolver quotes Wikipedia prose, which prefixes the competition."""
+    assert same_club("Bournemouth", "Premier League side Bournemouth")      # deal 271
+    assert same_club("Chelsea", "Women's Super League club Chelsea")        # deal 251
+    assert same_club("Chelsea", "English Women's Super League club Chelsea")  # deal 174
+    # the qualifier is stripped, not the identity: a real hijack still collapses
+    assert not same_club("Fiorentina", "Premier League club Bournemouth")   # deal 161
+
+
+def test_competition_stripping_leaves_club_named_teams_alone():
+    """'club'/'side' only counts as a qualifier when a COMPETITION word precedes it,
+    so teams whose real name contains 'Club' survive intact."""
+    assert same_club("Athletic Club", "Athletic Bilbao")
+    assert same_club("Club Brugge", "Club Brugge")
+    assert not same_club("Athletic Club", "Club Brugge")
+    # and the ambiguity guard still refuses to guess
+    assert not same_club("Milan", "Inter Milan")
+
+
+def test_alias_miss_no_longer_collapses_a_move_that_happened():
+    """Deal 70 (Harry Wilson -> Leeds) shape: reported correctly, resolved to
+    'Leeds United', scored as a failed rumour. Positive evidence says COMPLETED."""
+    deal = {"to_club": "Leeds", "from_club": "Fulham"}
+    outcome, _reason = classify(deal, {"status": "moved", "joined_club": "Leeds United"})
+    assert outcome == COMPLETED
+
+
+def test_collapse_facts_round_trips_the_classifier_own_reason():
+    """Parser and producer must not drift: feed classify()'s output straight back in."""
+    deal = {"to_club": "Paris Saint-Germain", "from_club": "RB Leipzig"}
+    outcome, reason = classify(deal, {"status": "moved", "joined_club": "Real Madrid"})
+    assert outcome == COLLAPSED
+    joined, rumoured = collapse_facts(f"[auto] {reason} | On 6 August 2026, ...")
+    assert (joined, rumoured) == ("Real Madrid", "Paris Saint-Germain")
+
+
+def test_display_club_strips_the_qualifier_but_keeps_the_casing():
+    """Presentation only: the feed must print 'joined Bournemouth instead', not the
+    LLM's 'joined Premier League side Bournemouth instead'."""
+    assert display_club("Premier League side Bournemouth") == "Bournemouth"
+    assert display_club("English Women's Super League club Chelsea") == "Chelsea"
+    # untouched when there is no qualifier, including clubs whose NAME contains "Club"
+    for name in ("Real Madrid", "Athletic Club", "Club Brugge", "Leeds United"):
+        assert display_club(name) == name
+    assert display_club("") == ""
+
+
+def test_collapse_facts_refuses_curated_free_text():
+    """A hand note is prose, not a contract — guessing at it is how you invent a fact."""
+    assert collapse_facts("Spurs walked away over ~£65-70m valuation. Stayed at Bournemouth.") \
+        == (None, None)
+    assert collapse_facts("") == (None, None)
+    assert collapse_facts(None) == (None, None)
 
 
 def test_club_token_in_text_guards_wrong_page():
