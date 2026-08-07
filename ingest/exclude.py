@@ -99,6 +99,9 @@ _WOMEN_PLAYER_NAMES = {
     # field in TODOS' WS3, which retires this list entirely.
     "denise o sullivan", "jade rastocle", "lexi lloyd smith", "mathilde harviken",
     "mao itamura", "alice sombath", "ashleigh neville",
+    # deal 170: no WSL token in the evidence, only the pronoun ("She signed for
+    # the club"). England international, Chelsea/Man Utd/Everton women.
+    "hannah blundell",
     # Europe
     "aitana bonmati", "alexia putellas", "caroline graham hansen",
     "vivianne miedema", "pernille harder", "fridolina rolfo", "ada hegerberg",

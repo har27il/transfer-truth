@@ -28,7 +28,7 @@ from ground_truth import _TRUSTED_FLAGS
 from ingest import store, cluster
 from ingest.exclude import is_non_player, is_known_non_player
 from outcome.apply import DEALS, load_deals, write_atomic
-from outcome.detect import same_club, collapse_facts
+from outcome.detect import same_club, collapse_facts, classify
 from stagemap import STAGE_P
 
 CLAIMS_CSV = ROOT / "ground-truth" / "journalist_claims.csv"
@@ -153,8 +153,15 @@ def refresh_and_reopen(conn, rows, alias, groups=None):
             if not joined or not same_club(rumoured, r.get("to_club")):
                 continue                      # not a verdict we can prove was destination-based
             stale_destination = new["to_club"] and not same_club(new["to_club"], r.get("to_club"))
-            alias_miss = same_club(joined, r.get("to_club"))
-            if stale_destination or alias_miss:
+            # Would the classifier STILL call this collapsed on the very facts recorded
+            # in its own notes? If not, the verdict is stale relative to today's rules
+            # and must not stand. This one check subsumes every club-alias correction:
+            # "joined Leeds United, not Leeds" (now the same club -> COMPLETED) and
+            # "joined Hannover 96, not Rangers" where Hannover is the ORIGIN club
+            # (-> UNKNOWN, refusing to decide) both stop being collapses without
+            # needing a rule per shape.
+            outdated = classify(r, {"status": "moved", "joined_club": joined})[0] != "collapsed"
+            if stale_destination or outdated:
                 reopen_candidates.append((r, new, stale_destination))
 
     # Deterministic order so a capped run always drains the same prefix.
@@ -165,7 +172,8 @@ def refresh_and_reopen(conn, rows, alias, groups=None):
             r["to_club"] = new["to_club"]
             why = f"destination revised {old_to} -> {new['to_club']}"
         else:
-            why = f"{old_to} matched the club actually joined once club aliases were fixed"
+            why = (f"the classifier no longer calls this a collapse on its own recorded "
+                   f"evidence (joined {collapse_facts(r.get('notes'))[0]})")
         for f in ("outcome_date", "outcome_source_url"):
             r[f] = ""
         r["outcome"] = "unknown"

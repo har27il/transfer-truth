@@ -694,3 +694,37 @@ def test_refresh_then_rebridge_is_stable(tmp_path):
     stats = bridge.bridge(conn, deals_path=dp)
     assert stats["refreshed"] == [] and stats["created"] == []
     assert dp.read_bytes() == after_first, "bridge is not idempotent across runs"
+
+
+def test_reopen_when_the_classifier_no_longer_agrees_with_its_own_verdict(tmp_path):
+    """Generic rule, replacing a per-shape one: re-run classify on the facts the
+    notes record. Deal 278 said "joined Hannover 96, not Rangers" -- but Hannover is
+    the ORIGIN club, so the classifier now refuses to decide rather than collapsing.
+    Three sources including an official had said Rangers signed him."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Daisuke Yokota", [{"to_club": "Rangers", "from_club": "Hannover",
+                                            "source": "BBC Sport", "date": "2026-08-05"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("278", "Daisuke Yokota", "Rangers", outcome="collapsed",
+                            frm="Hannover",
+                            notes="[auto] player joined Hannover 96, not Rangers - "
+                                  "rumour did not happen | The move was made permanent.")])
+    stats = bridge.bridge(conn, deals_path=dp)
+    assert [d for d, _ in stats["reopened"]] == ["278"]
+    assert _read_deals(dp)[0]["outcome"] == "unknown"
+
+
+def test_a_genuine_collapse_is_left_alone(tmp_path):
+    """Akliouche: rumoured Liverpool, actually joined PSG. Different clubs, neither is
+    the origin -- the classifier still says collapsed, so the verdict stands."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Maghnes Akliouche", [{"to_club": "Liverpool", "from_club": "Monaco",
+                                               "source": "BBC Sport", "date": "2026-08-01"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("222", "Maghnes Akliouche", "Liverpool", outcome="collapsed",
+                            frm="Monaco",
+                            notes="[auto] player joined Paris Saint-Germain, not Liverpool "
+                                  "- rumour did not happen | He signed for PSG.")])
+    stats = bridge.bridge(conn, deals_path=dp)
+    assert stats["reopened"] == []
+    assert _read_deals(dp)[0]["outcome"] == "collapsed"
