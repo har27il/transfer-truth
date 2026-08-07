@@ -121,10 +121,19 @@ def refresh_and_reopen(conn, rows, alias, groups=None):
         if _is_curated(r):
             continue
         key = cluster.deal_key(r.get("player", ""), r.get("window", ""))
-        claims = groups.get(alias.get(key, key)) if key else None
+        canon = alias.get(key, key) if key else None
+        claims = groups.get(canon) if canon else None
         if not claims:
             continue
-        new = {f: cluster.provisional(claims, f) for f in ("player", "from_club", "to_club")}
+        new = {f: cluster.provisional(claims, f) for f in ("from_club", "to_club")}
+        # player comes from the CANONICAL cluster only, never the union. Over the
+        # union the bare-surname half can outvote the full name, renaming the row to
+        # "Olise" -- whose deal_key no longer equals the canonical key, so the next
+        # run would stop matching and create a DUPLICATE row. Restricting to the
+        # canonical cluster keeps deal_key(new_player, window) == canon by
+        # construction, because a cluster's key is minted from its own player name.
+        new["player"] = cluster.provisional(
+            [c for c in claims if c.get("deal_key") == canon], "player")
         outcome = (r.get("outcome") or "").strip().lower()
 
         if outcome in ("", "unknown"):

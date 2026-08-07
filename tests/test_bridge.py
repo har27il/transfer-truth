@@ -659,3 +659,38 @@ def test_merge_leaves_unmergeable_rows_alone(tmp_path):
                     [])
     bridge.merge_split_deals(deals_path=dp, claims_path=cp)
     assert len(_read_deals(dp)) == 2
+
+
+def test_refresh_never_renames_a_row_off_its_canonical_key(tmp_path):
+    """The bare half outnumbers the full-name half 3:1 here. Taking player from the
+    UNION would rename the row to "Olise", whose deal_key no longer equals the
+    canonical key -- so the next run would stop matching and create a DUPLICATE."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Olise", [{"to_club": "Real Madrid", "from_club": "Bayern Munich",
+                                   "source": s, "date": "2026-07-0" + str(i + 1)}
+                                  for i, s in enumerate(["Sky Sports", "BBC Sport",
+                                                         "The Guardian"])])
+    _seed_cluster(conn, "Michael Olise", [{"to_club": "Real Madrid",
+                                           "from_club": "Bayern Munich",
+                                           "source": "Sky Germany", "date": "2026-07-09"}])
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich")])
+    bridge.bridge(conn, deals_path=dp)
+    rows = _read_deals(dp)
+    assert len(rows) == 1, "a duplicate row was created"
+    assert rows[0]["player"] == "Michael Olise", "row was renamed off its canonical key"
+    # and the invariant that guarantees it
+    assert cluster.deal_key(rows[0]["player"], rows[0]["window"]) == \
+        cluster.deal_key("Michael Olise", WIN)
+
+
+def test_refresh_then_rebridge_is_stable(tmp_path):
+    """Two consecutive runs must converge: the second changes nothing."""
+    conn = _diomande_conn()
+    dp = tmp_path / "deals.csv"
+    _write_deals(dp, [_deal("124", "Yan Diomande", "Paris Saint-Germain")])
+    bridge.bridge(conn, deals_path=dp)
+    after_first = dp.read_bytes()
+    stats = bridge.bridge(conn, deals_path=dp)
+    assert stats["refreshed"] == [] and stats["created"] == []
+    assert dp.read_bytes() == after_first, "bridge is not idempotent across runs"
