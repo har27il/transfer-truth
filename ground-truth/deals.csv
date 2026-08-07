@@ -56,23 +56,18 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 61,Barney Stewart,Falkirk,West Bromwich Albion,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Barney_Stewart,YES,"[auto] player joined West Bromwich Albion - the rumoured destination | On 17 June 2026, Stewart signed for EFL Championship club West Bromwich Albion, signing a four-year contract for an undisclosed fee."
 62,Bernardo Silva,Manchester City,Real Madrid,2026-summer,completed,,2026-06-17,https://en.wikipedia.org/wiki/Bernardo_Silva,YES,[auto] player joined Real Madrid - the rumoured destination | He will join La Liga club Real Madrid on 1 July 2026.
 64,Luka Vuskovic,Tottenham Hotspur,Brighton,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Luka_Vuskovic,auto,"[auto] player joined Hamburger SV, not Brighton - rumour did not happen | On 29 August 2025, Vušković moved on loan to Bundesliga club Hamburger SV in Germany, joining his brother Mario."
-65,Munoz,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 66,Victor Munoz,Osasuna,Liverpool,2026-summer,completed,,2026-06-22,https://en.wikipedia.org/wiki/Victor_Munoz,YES,"[auto] player joined Liverpool - the rumoured destination | On 18 June 2026, Premier League club Liverpool bought out Muñoz from Osasuna"
 68,Jeremy Monga,Leicester City,Arsenal,2026-summer,collapsed,,2026-07-11,https://en.wikipedia.org/wiki/Jeremy_Monga,auto,"[auto] player joined Manchester City, not Arsenal - rumour did not happen | On 11 July 2026, Monga signed for fellow Premier League club Manchester City on a five-year deal."
-69,Raskin,Rangers,Atalanta,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 70,Harry Wilson,Fulham,Leeds,2026-summer,collapsed,,2026-07-08,https://en.wikipedia.org/wiki/Harry_Wilson,auto,"[auto] player joined Leeds United, not Leeds - rumour did not happen | On 8 July 2026, Wilson joined Leeds United on a free transfer."
 72,Adam Wharton,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-73,Diomande,RB Leipzig,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 74,Florian Wirtz,,Chelsea,2026-summer,collapsed,,2026-07-05,https://en.wikipedia.org/wiki/Florian_Wirtz,auto,"[auto] player joined Liverpool, not Chelsea - rumour did not happen | On 20 June 2025, Wirtz joined Premier League club Liverpool on a long-term contract."
 75,Ghuendouz,,Hearts,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 76,Broja,Burnley,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 77,Lucas Bergvall,Tottenham Hotspur,,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 78,Morgan Rogers,Aston Villa,Arsenal,2026-summer,collapsed,,2026-07-22,https://en.wikipedia.org/wiki/Morgan_Rogers,auto,"[auto] player joined Chelsea, not Arsenal - rumour did not happen | On 21 July 2026, Rogers joined Premier League club Chelsea."
-79,Olise,Bayern Munich,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 82,Svoboda,Venezia,Brighton & Hove Albion,2026-summer,completed,,2026-07-02,,YES,"[verified 2026-07-05] Svoboda joined Brighton from Venezia, ~EUR5m clause | beinsports.com veltman-leaves-brighton-as-svoboda-arrives"
 83,Aggie Beever-Jones,Chelsea,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 84,Marco Palestra,Atalanta,Chelsea,2026-summer,completed,,2026-06-24,https://en.wikipedia.org/wiki/Marco_Palestra,YES,"[auto] player joined Chelsea - the rumoured destination | On 24 June 2026, Palestra joined Chelsea"
-85,Gusto,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 86,Ross McCrorie,Bristol City,Rangers,2026-summer,completed,,2026-06-26,https://en.wikipedia.org/wiki/Ross_McCrorie,YES,"[auto] player joined Rangers - the rumoured destination | On 25 June 2026, McCrorie returned to Rangers on a three-year contract with the option of a further year."
 87,Malo Gusto,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 88,Martin Dubravka,Burnley,Tottenham Hotspur,2026-summer,completed,,2026-06-25,https://en.wikipedia.org/wiki/Martin_Dubravka,YES,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 24 June 2026, Dúbravka joined Premier League club Tottenham Hotspur"
@@ -96,10 +91,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 108,Tyrique George,Chelsea,Everton,2026-summer,completed,,2026-07-06,https://en.wikipedia.org/wiki/Tyrique_George,YES,"[auto] player joined Everton - the rumoured destination | On 6 July 2026, he joined Everton on a permanent deal, signing a four-year contract with the club."
 110,Bruno Guimaraes,Newcastle United,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 112,Felix Nmecha,Borussia Dortmund,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-113,Palestra,,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 114,Ben Godfrey,Atalanta,Rangers,2026-summer,completed,,2026-06-29,https://en.wikipedia.org/wiki/Ben_Godfrey,YES,"[verified 2026-07-05] season-long loan with buy option, announced by Rangers (auto collapse via stale 2025 evidence was WRONG) | rangers.co.uk/article/rangers-sign-ben-godfrey-on-loan-from-atalanta"
 115,Bradley Barcola,Paris Saint-Germain,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-116,Guimaraes,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 117,Harry Kane,,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 118,Ivor Pandur,Hull City,Rangers,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Ivor_Pandur,YES,"[auto] player joined Rangers - the rumoured destination | On 30 June 2026, Rangers announced the signing of Pandur on a four-year deal."
 120,Maxence Lacroix,Crystal Palace,Chelsea,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Maxence_Lacroix,auto,"[auto] player joined Chelsea - the rumoured destination | On 30 July 2026, Lacroix signed a six-year contract with Chelsea until 2032 in a deal worth £52 million."
@@ -131,7 +124,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 150,Bowie,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 151,Karl Darlow,Leeds United,Manchester United,2026-summer,completed,,2026-07-14,https://en.wikipedia.org/wiki/Karl_Darlow,YES,"[auto] player joined Manchester United - the rumoured destination | On 14 July 2026, Darlow signed for Manchester United on a free transfer, signing a two-year contract."
 152,Oscar Mingueza,Celta Vigo,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-153,Fosso,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 154,Randal Kolo Muani,,Tottenham Hotspur,2026-summer,completed,,2026-07-10,https://en.wikipedia.org/wiki/Randal_Kolo_Muani,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 1 September 2025, Kolo Muani joined Tottenham Hotspur on loan for the rest of the season."
 157,Topi Keskinen,Aberdeen,Odense,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 158,Cammy Devlin,Heart of Midlothian,Rangers,2026-summer,completed,,2026-07-11,https://en.wikipedia.org/wiki/Cammy_Devlin,YES,"[auto] player joined Rangers - the rumoured destination | On 11 July 2026, Devlin signed for Rangers on a two-year deal, with the option of a further year."
@@ -177,7 +169,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 200,Elliot Watt,Motherwell,Samsunspor,2026-summer,completed,,2026-07-20,https://en.wikipedia.org/wiki/Elliot_Watt,auto,"[auto] player joined Samsunspor - the rumoured destination | On 18 July 2026, Watt joined Süper Lig club Samsunspor on a four-year contract for an undisclosed fee."
 201,Savinho,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 202,Elijah Just,Motherwell,Swansea City,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Elijah_Just,auto,"[auto] player joined Swansea City - the rumoured destination | On 22 July 2026, Just signed a three-year contract with EFL Championship club Swansea City."
-203,Hogh,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 204,John Stones,Manchester City,Arsenal,2026-summer,collapsed,,2026-07-31,https://en.wikipedia.org/wiki/John_Stones,auto,"[auto] player joined Inter Milan, not Arsenal - rumour did not happen | On 30 July 2026, Stones joined Serie A club Inter Milan on a free transfer, signing a two-year contract until 2028."
 205,Laurent Mendy,Forest Green Rovers,Hearts,2026-summer,collapsed,,2026-08-03,https://en.wikipedia.org/wiki/Laurent_Mendy,auto,"[auto] player joined Heart of Midlothian, not Hearts - rumour did not happen | In July 2026, Forest Green accepted a bid of £500,000 from Hearts for Mendy, potentially rising to a club record fee of £1 million. The transfer was confirmed on 24 July, and Mendy signed a three-year contract with Hearts."
 206,Mao Itamura,Feyenoord,Liverpool,2026-summer,completed,,2026-07-21,https://en.wikipedia.org/wiki/Mao_Itamura,auto,"[auto] player joined Liverpool - the rumoured destination | On 20 July 2026, Itamura signed with Women's Super League side Liverpool."
@@ -218,11 +209,9 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 241,Vinicius Junior,Real Madrid,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 242,Vinicius Jr,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 243,Jamie Gittens,Chelsea,Bayer Leverkusen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-244,Baur,Paderborn,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 245,Danny Welbeck,Brighton & Hove Albion,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 246,Rodrigo Hernández Cascante,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 247,Jordan Henderson,Brentford,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-248,Makhanya,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 249,Rodri,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 250,Dayann Methalie,Toulouse,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 251,Giulia Dragoni,Barcelona,Chelsea,2026-summer,collapsed,,2026-08-01,https://en.wikipedia.org/wiki/Giulia_Dragoni,auto,"[auto] player joined Women's Super League club Chelsea, not Chelsea - rumour did not happen | On 31 July 2026, Dragoni joined Women's Super League club Chelsea, signing a contract until 2030."

@@ -316,6 +316,131 @@ def bridge_claims(conn, deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False)
     return added
 
 
+def _row_rank(row):
+    """Which row of a split pair survives: curated > resolved > full name."""
+    return (_is_curated(row),
+            (row.get("outcome") or "").strip().lower() in ("completed", "collapsed"),
+            len(cluster.normalize_name(row.get("player", "")).split()))
+
+
+def merge_split_deals(deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False):
+    """Fold each already-split bare-surname row into its full-name twin. Idempotent.
+
+    The alias layer stops NEW splits forming, but bridge has no deletion path, so the
+    11 rows already in the ledger would persist forever. Profiles come from deals.csv
+    itself -- player/from_club/to_club/window are all there -- so this needs no store
+    and can be dry-run against real data offline.
+
+    ORDER IS THE ATOMICITY MECHANISM. There is no cross-file transaction, and
+    bridge_claims deletes auto claims whose deal_id is not live. So: remap the claims
+    FIRST (deleting nothing), then drop the loser rows. A crash in between leaves
+    claims on a live survivor and an empty loser row -- degraded but non-destructive,
+    and self-correcting next run. The reverse order is the data-loss order: it would
+    destroy the Sky "Real Madrid deny interest" claim rather than reattach it.
+    """
+    fieldnames, rows = load_deals(deals_path)
+    profiles, by_key = {}, {}
+    for r in rows:
+        k = cluster.deal_key(r.get("player", ""), r.get("window", ""))
+        if k:
+            profiles.setdefault(k, {"player": r.get("player", ""),
+                                    "from_club": r.get("from_club", ""),
+                                    "to_club": r.get("to_club", "")})
+            by_key.setdefault(k, []).append(r)
+
+    cfields, crows = _load_claims_csv(claims_path)
+    yes_deal_ids = {(c.get("deal_id") or "").strip() for c in crows
+                    if (c.get("verified") or "").strip().lower() in _TRUSTED_FLAGS}
+
+    merged, refused, remap = [], [], {}
+    for bare_key, canon_key in sorted(cluster.alias_map(profiles).items()):
+        group = by_key.get(bare_key, []) + by_key.get(canon_key, [])
+        if len(group) < 2:
+            continue
+        survivor = max(group, key=_row_rank)
+        losers = [r for r in group if r is not survivor]
+        why = None
+        if sum(1 for r in group if _is_curated(r)) > 1:
+            why = "two curated rows -- a human must decide"
+        elif any(_is_curated(r) for r in losers):
+            why = "the losing row is curated and is never auto-deleted"
+        elif any((r.get("outcome") or "").strip().lower() in ("completed", "collapsed")
+                 for r in losers):
+            why = "the losing row carries a recorded verdict; deleting it loses history"
+        elif any(r["deal_id"].strip() in yes_deal_ids for r in losers):
+            why = "the losing row holds a promoted (verified=YES) claim"
+        if why:
+            refused.append((survivor.get("player"), why))
+            continue
+        for r in losers:
+            remap[r["deal_id"].strip()] = survivor["deal_id"].strip()
+        merged.append((survivor, losers))
+
+    if not merged:
+        return {"merged": [], "refused": refused, "remapped": 0, "deduped": []}
+
+    # 1) claims first: rewrite deal_id, delete nothing.
+    remapped = 0
+    for c in crows:
+        did = (c.get("deal_id") or "").strip()
+        if did in remap:
+            c["deal_id"] = remap[did]
+            remapped += 1
+
+    # 2) a remapped claim can now collide with one already on the survivor. That is the
+    # correlated-evidence duplicate bridge_claims guards against, and it would
+    # double-count a Brier sample. Drop the LATER-dated copy, never a curated one.
+    def _keeps(a, b):
+        """True if claim a should be kept over b: curated wins, then the EARLIER
+        claim (calling it first is what the scorer's earliness bonus rewards)."""
+        a_cur = (a.get("verified") or "").strip().lower() in _TRUSTED_FLAGS
+        b_cur = (b.get("verified") or "").strip().lower() in _TRUSTED_FLAGS
+        if a_cur != b_cur:
+            return a_cur
+        # Strict: on an equal date the incumbent stays, so the result does not depend
+        # on row order in the file.
+        return (a.get("claim_date") or "") < (b.get("claim_date") or "")
+
+    seen, keep, deduped = {}, [], []
+    for c in crows:
+        triple = ((c.get("deal_id") or "").strip(),
+                  (c.get("source_name") or "").strip().lower(),
+                  (c.get("stage") or "").strip().lower())
+        prev = seen.get(triple)
+        if prev is None:
+            seen[triple] = c
+            keep.append(c)
+        elif _keeps(c, prev):
+            keep[keep.index(prev)] = c
+            seen[triple] = c
+            deduped.append(prev.get("claim_id"))
+        else:
+            deduped.append(c.get("claim_id"))
+    if not dry_run:
+        write_atomic(claims_path, cfields, keep)
+
+    # 3) only now drop the loser rows.
+    dead = {r["deal_id"] for _s, ls in merged for r in ls}
+    if not dry_run:
+        write_atomic(deals_path, fieldnames, [r for r in rows if r["deal_id"] not in dead])
+    return {"merged": merged, "refused": refused, "remapped": remapped, "deduped": deduped}
+
+
+def _print_merge(stats, dry_run):
+    for survivor, losers in stats["merged"]:
+        for l in losers:
+            print(f"  merge deal {l['deal_id']} ({l['player']}) -> {survivor['deal_id']} "
+                  f"({survivor['player']}) [{l.get('from_club') or '-'} / "
+                  f"{l.get('to_club') or '-'}] into [{survivor.get('from_club') or '-'} / "
+                  f"{survivor.get('to_club') or '-'}]")
+    for player, why in stats["refused"]:
+        print(f"  REFUSED {player}: {why}")
+    if stats["merged"]:
+        print(f"{'Would merge' if dry_run else 'Merged'} {len(stats['merged'])} split "
+              f"player(s); {stats['remapped']} claim(s) reattached, "
+              f"{len(stats['deduped'])} duplicate(s) dropped.")
+
+
 def _print(stats, dry_run):
     for did, fields in stats.get("refreshed", []):
         print(f"  refreshed deal {did}: {', '.join(fields)} now match current reporting")
@@ -341,6 +466,9 @@ def _print(stats, dry_run):
 if __name__ == "__main__":
     dry = "--dry-run" in sys.argv
     conn = store.connect()
+    # Before bridge(): claims must be reattached before anything can prune them, and
+    # the merge must not run inside bridge_claims, whose prune runs first.
+    _print_merge(merge_split_deals(dry_run=dry), dry)
     _print(bridge(conn, dry_run=dry), dry)
     added = bridge_claims(conn, dry_run=dry)
     print(f"{'Would append' if dry else 'Appended'} {len(added)} claim(s) to "

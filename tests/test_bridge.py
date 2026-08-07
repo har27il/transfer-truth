@@ -487,3 +487,175 @@ def test_next_id_is_not_reused_after_a_scrub(tmp_path, monkeypatch):
     ids = [r["deal_id"] for r in _read_deals(dp)]
     assert "9" not in ids, "the denylisted row should be gone"
     assert ids == ["10"], "id 9 was reused: " + str(ids)
+
+
+# --- merge_split_deals: folding the already-split ledger rows --------------------
+
+
+def _claim(cid, deal_id, source, stage="interest", date="2026-07-01", verified="auto"):
+    return {"claim_id": cid, "deal_id": deal_id, "source_name": source,
+            "platform": "rss", "claim_date": date, "stage": stage,
+            "source_url": "http://x/" + cid, "raw_quote": "q" + cid, "verified": verified}
+
+
+def test_merge_folds_the_bare_row_and_reattaches_every_claim(tmp_path):
+    """Constraint: no claim may be lost. The bare row's claims must arrive on the
+    survivor, not be pruned -- that is where the Olise denial lives."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("1", "57", "BBC Sport", stage="rumour_link"),
+                     _claim("2", "79", "Sky Sports", stage="denied")])
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert [r["deal_id"] for r in _read_deals(dp)] == ["57"]
+    got = _read_claims(cp)
+    assert len(got) == 2, "a claim was destroyed instead of reattached"
+    assert {c["deal_id"] for c in got} == {"57"}
+    assert stats["remapped"] == 1
+
+
+def test_merge_then_bridge_claims_keeps_the_reattached_claim(tmp_path):
+    """The exact prune hazard: bridge_claims deletes auto claims whose deal_id is
+    not live. Running the two in sequence is the only way to catch it."""
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Michael Olise", [{"to_club": "Real Madrid",
+                                           "from_club": "Bayern Munich",
+                                           "source": "BBC Sport"}])
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("2", "79", "Sky Sports", stage="denied")])
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    bridge.bridge_claims(conn, deals_path=dp, claims_path=cp)
+    quotes = {c["raw_quote"] for c in _read_claims(cp)}
+    assert "q2" in quotes, "the denial claim was pruned instead of reattached"
+
+
+def test_merge_keeps_a_curated_survivor_byte_identical(tmp_path):
+    """Munoz 65/66: the survivor is verified=YES and must not be touched at all."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("65", "Munoz", "Liverpool", frm=""),
+                     _deal("66", "Victor Munoz", "Liverpool", outcome="completed",
+                           verified="YES", frm="Osasuna")],
+                    [])
+    before = [r for r in _read_deals(dp) if r["deal_id"] == "66"][0]
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    after = _read_deals(dp)
+    assert [r["deal_id"] for r in after] == ["66"]
+    assert after[0] == before, "the curated survivor was modified"
+
+
+def test_a_curated_row_always_survives_even_under_the_bare_name(tmp_path):
+    """Curated outranks the full-name preference, so the human-owned row is the one
+    that survives and the machine row folds into it. This is why 'the loser is
+    curated' cannot arise for a single curated row -- that guard covers 2+ only."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("65", "Munoz", "Liverpool", verified="YES", frm="Osasuna"),
+                     _deal("66", "Victor Munoz", "Liverpool", frm="Osasuna")],
+                    [_claim("1", "66", "BBC Sport")])
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert [r["deal_id"] for r in _read_deals(dp)] == ["65"]
+    assert [c["deal_id"] for c in _read_claims(cp)] == ["65"]
+
+
+def test_merge_refuses_when_both_rows_are_curated(tmp_path):
+    """Two hand-verified rows for one surname is a human judgement call, not ours."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("65", "Munoz", "Liverpool", verified="YES", frm="Osasuna"),
+                     _deal("66", "Victor Munoz", "Liverpool", verified="YES", frm="Osasuna")],
+                    [])
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert stats["merged"] == [] and stats["refused"]
+    assert len(_read_deals(dp)) == 2
+
+
+def test_merge_refuses_when_the_losing_row_carries_a_verdict(tmp_path):
+    """Deleting a resolved row would destroy promotion history."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", outcome="completed",
+                           frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", outcome="collapsed",
+                           frm="Bayern Munich")],
+                    [])
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert stats["merged"] == [] and stats["refused"]
+    assert len(_read_deals(dp)) == 2
+
+
+def test_merge_refuses_when_the_losing_row_holds_a_promoted_claim(tmp_path):
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("9", "79", "BBC Sport", verified="YES")])
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert stats["merged"] == [] and stats["refused"]
+    assert len(_read_deals(dp)) == 2
+
+
+def test_merge_prefers_the_resolved_survivor(tmp_path):
+    """Hogh 203/234: the full-name row is already completed, so it survives."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("203", "Hogh", "Celtic", frm=""),
+                     _deal("234", "Kasper Hogh", "Celtic", outcome="completed",
+                           frm="Bodo/Glimt")],
+                    [])
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert [r["deal_id"] for r in _read_deals(dp)] == ["234"]
+
+
+def test_merge_dedupes_a_collision_created_by_the_remap(tmp_path):
+    """Two claims from one outlet at one stage on one deal is correlated evidence,
+    not two Brier samples. Keep the earlier; never drop a curated row."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("1", "57", "Sky Sports", date="2026-07-01"),
+                     _claim("2", "79", "Sky Sports", date="2026-07-20")])
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    got = _read_claims(cp)
+    assert len(got) == 1 and got[0]["claim_id"] == "1", "should keep the earlier claim"
+    assert stats["deduped"] == ["2"]
+
+
+def test_merge_dedupe_never_drops_a_promoted_claim(tmp_path):
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("1", "57", "Sky Sports", date="2026-07-20", verified="YES"),
+                     _claim("2", "79", "Sky Sports", date="2026-07-01")])
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    got = _read_claims(cp)
+    assert len(got) == 1 and got[0]["verified"] == "YES"
+
+
+def test_merge_is_idempotent(tmp_path):
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("2", "79", "Sky Sports", stage="denied")])
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    first = (dp.read_bytes(), cp.read_bytes())
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert stats["merged"] == []
+    assert (dp.read_bytes(), cp.read_bytes()) == first
+
+
+def test_merge_dry_run_writes_nothing(tmp_path):
+    dp, cp = _paths(tmp_path,
+                    [_deal("57", "Michael Olise", "Real Madrid", frm="Bayern Munich"),
+                     _deal("79", "Olise", "Real Madrid", frm="Bayern Munich")],
+                    [_claim("2", "79", "Sky Sports")])
+    before = (dp.read_bytes(), cp.read_bytes())
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp, dry_run=True)
+    assert len(stats["merged"]) == 1              # still reports what it WOULD do
+    assert (dp.read_bytes(), cp.read_bytes()) == before
+
+
+def test_merge_leaves_unmergeable_rows_alone(tmp_path):
+    """Ousmane vs Yan Diomande: no shared club, two real players, two rows."""
+    dp, cp = _paths(tmp_path,
+                    [_deal("73", "Diomande", "Liverpool", frm="RB Leipzig"),
+                     _deal("217", "Ousmane Diomande", "Nottingham Forest", frm="Sporting CP")],
+                    [])
+    bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert len(_read_deals(dp)) == 2
