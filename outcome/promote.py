@@ -130,9 +130,12 @@ def promote(deal_ids, deals_path=DEALS, claims_path=CLAIMS_CSV, rebuild=True,
         for m in manual:
             print(f"NOTE: add a fixture by hand for {m} — collapsed outcomes "
                   f"need the actual destination, see tests/fixtures/resolutions.json")
-        print("REMINDER: bump the expected count in tests/test_detect.py by "
-              f"{len(promoted)}, run 'python -m pytest -q', then commit "
-              "ground-truth/, scoring/leaderboard.json and tests/ together.")
+        # tests/test_detect.py used to hardcode the expected count, so every wave
+        # needed a hand-edit here or the cron's test gate went red. It is a monotonic
+        # floor now -- the count only has to not go DOWN -- so there is nothing to bump.
+        print(f"NEXT: run 'python -m pytest -q', then commit ground-truth/, "
+              f"scoring/leaderboard.json and tests/ together ({len(promoted)} deal(s) "
+              "promoted; the test gate tracks the count automatically).")
         if rebuild:
             rescore_and_rebuild()
     return promoted, n_claims
