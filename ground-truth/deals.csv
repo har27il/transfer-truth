@@ -88,7 +88,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 106,Nathan Ake,Manchester City,Fenerbahce,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Nathan_Ake,YES,"[auto] player joined Fenerbahçe - the rumoured destination | On 3 July 2026, Turkish side Fenerbahçe announced the signing of Aké."
 107,Piero Hincapie,Bayer Leverkusen,Arsenal,2026-summer,completed,,2026-06-25,https://en.wikipedia.org/wiki/Piero_Hincapie,YES,"[verified 2026-07-05] permanent GBP34.5m transfer from Leverkusen, summer 2026 window | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
 108,Tyrique George,Chelsea,Everton,2026-summer,completed,,2026-07-06,https://en.wikipedia.org/wiki/Tyrique_George,YES,"[auto] player joined Everton - the rumoured destination | On 6 July 2026, he joined Everton on a permanent deal, signing a four-year contract with the club."
-110,Bruno Guimaraes,Newcastle United,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+110,Bruno Guimaraes,Newcastle United,Arsenal,2026-summer,completed,,2026-08-08,https://en.wikipedia.org/wiki/Bruno_Guimaraes,auto,"[auto] player joined Arsenal - the rumoured destination | On 8 August 2026, Guimarães signed a four-year contract with Arsenal for a reported transfer fee of around £75m."
 112,Felix Nmecha,Borussia Dortmund,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 114,Ben Godfrey,Atalanta,Rangers,2026-summer,completed,,2026-06-29,https://en.wikipedia.org/wiki/Ben_Godfrey,YES,"[verified 2026-07-05] season-long loan with buy option, announced by Rangers (auto collapse via stale 2025 evidence was WRONG) | rangers.co.uk/article/rangers-sign-ben-godfrey-on-loan-from-atalanta"
 115,Bradley Barcola,Paris Saint-Germain,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -247,4 +247,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 299,Dean Campbell,Northampton Town,Notts County,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 300,Enzo Fernandez,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 301,Geronimo Rulli,Marseille,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-302,Ronald Araujo,Barcelona,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+302,Ronald Araújo,Barcelona,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+303,Ilias Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+304,Mitchy Ntelo,Yverdon-Sport,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
