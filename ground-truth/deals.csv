@@ -250,3 +250,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 302,Ronald Araújo,Barcelona,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 303,Ilias Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 304,Mitchy Ntelo,Yverdon-Sport,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+305,Radek Vitek,Manchester United,Middlesbrough,2026-summer,collapsed,,2026-08-08,https://en.wikipedia.org/wiki/Radek_Vitek,auto,"[auto] player joined Bristol City, not Middlesbrough - rumour did not happen | On 28 July 2025, Vítek signed a new contract with Manchester United until 2028 and joined EFL Championship club Bristol City on a season-long loan deal."
