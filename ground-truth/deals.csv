@@ -239,7 +239,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 291,Christian Norgaard,Arsenal,Everton,2026-summer,completed,,2026-08-06,https://en.wikipedia.org/wiki/Christian_Norgaard,YES,"[auto] player joined Everton - the rumoured destination | In August 2026, Nørgaard transferred to Everton on a two-year contract from Arsenal."
 292,Juanlu Sanchez,Sevilla,Bournemouth,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 293,Ross Stewart,Southampton,Swansea City,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/Ross_Stewart,YES,"[auto] player joined Swansea City - the rumoured destination | On 6 August 2026, Stewart joined Swansea City on a three-year contract."
-294,Chancelle Effa Effa,Le Havre,Birmingham City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+294,Chancelle Effa Effa,Le Havre,Birmingham City,2026-summer,completed,,2026-08-09,https://en.wikipedia.org/wiki/Chancelle_Effa_Effa,auto,"[auto] player joined Birmingham City - the rumoured destination | On 6 August 2026, newly-promoted Women's Super League club Birmingham City announced the transfer acquisition of Effa Effa from Le Havre for a fee reportedly just upwards of £100,000."
 295,Mariona Caldentey,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 296,Will Ferry,Anderlecht,Dundee United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 297,Jens Hjerto-Dahl,Tromso,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -251,3 +251,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 303,Ilias Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 304,Mitchy Ntelo,Yverdon-Sport,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 305,Radek Vitek,Manchester United,Middlesbrough,2026-summer,collapsed,,2026-08-08,https://en.wikipedia.org/wiki/Radek_Vitek,auto,"[auto] player joined Bristol City, not Middlesbrough - rumour did not happen | On 28 July 2025, Vítek signed a new contract with Manchester United until 2028 and joined EFL Championship club Bristol City on a season-long loan deal."
+306,Alexandros Kyziridis,Heart of Midlothian,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+307,Dwight McNeil,Everton,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+308,Louis Page,Leicester City,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+309,Robbie Ure,IK Sirius,Sevilla,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+310,Shea Charles,Southampton,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
