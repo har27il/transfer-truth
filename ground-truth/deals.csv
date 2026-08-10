@@ -188,7 +188,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 234,Kasper Hogh,Bodo/Glimt,Celtic,2026-summer,completed,,2026-07-28,https://en.wikipedia.org/wiki/Kasper_Hogh,YES,"[auto] player joined Celtic - the rumoured destination | On 28 July 2026, it was confirmed that Høgh had signed a contract to join Scottish Premiership side Celtic."
 236,Raphael le Guen,Stade Brest,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 237,Michele Cancellieri,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Austin_MacPhee,auto,"[auto] player joined Chelsea - the rumoured destination | In July 2026, MacPhee departed Aston Villa and joined fellow Premier League club Chelsea as set-piece coach after they activated his release clause."
 239,Cristian Romero,Tottenham Hotspur,Atlético Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 240,Mason Mount,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 241,Vinícius Júnior,Real Madrid,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -259,3 +259,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 311,Endrick,Real Madrid,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 312,Lucas Digne,Aston Villa,Paris Saint-Germain,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Lucas_Digne,auto,"[auto] player joined Paris Saint-Germain - the rumoured destination | On 9 August 2026, Digne returned to Paris Saint-Germain, joining the club on a three-year contract until 2029."
 313,Mohamed Diomande,Rangers,Corum,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+314,Anthony Patterson,Sunderland,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+315,Brennan Johnson,Crystal Palace,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
