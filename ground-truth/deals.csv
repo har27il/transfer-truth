@@ -97,7 +97,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 120,Maxence Lacroix,Crystal Palace,Chelsea,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Maxence_Lacroix,YES,"[auto] player joined Chelsea - the rumoured destination | On 30 July 2026, Lacroix signed a six-year contract with Chelsea until 2032 in a deal worth £52 million."
 121,Pascal Struijk,Leeds United,Brighton & Hove Albion,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Pascal_Struijk,YES,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
 122,Tjark Ernst,Celtic,Wolfsburg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-123,Trevoh Chalobah,Chelsea,Como,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+123,Trevoh Chalobah,Chelsea,Como,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Trevoh_Chalobah,auto,"[auto] player joined Como - the rumoured destination | On 9 August 2026, Chalobah signed for Serie A club Como on a deal until 2031."
 124,Yan Diomande,RB Leipzig,Real Madrid,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/Yan_Diomande,YES,"[auto] player joined Real Madrid - the rumoured destination | On 6 August 2026, Diomande returned to La Liga, signing for Real Madrid on a seven-year contract until 30 June 2033."
 126,Jérémy Jacquet,Rennes,Liverpool,2026-summer,completed,,2026-07-01,,YES,[verified 2026-07-05] joined Liverpool for GBP55m from Rennes | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026
 127,Kroupi,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -256,3 +256,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 308,Louis Page,Leicester City,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 309,Robbie Ure,IK Sirius,Sevilla,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 310,Shea Charles,Southampton,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+311,Endrick,Real Madrid,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+312,Lucas Digne,Aston Villa,Paris Saint-Germain,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Lucas_Digne,auto,"[auto] player joined Paris Saint-Germain - the rumoured destination | On 9 August 2026, Digne returned to Paris Saint-Germain, joining the club on a three-year contract until 2029."
+313,Mohamed Diomande,Rangers,Corum,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
