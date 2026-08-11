@@ -265,3 +265,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 317,Manor Solomon,Tottenham Hotspur,West Ham United,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Manor_Solomon,auto,"[auto] player joined West Ham United - the rumoured destination | On 10 August 2026, Solomon signed for EFL Championship club West Ham United for an undisclosed fee on a three-year contract, with an optional extension of a year."
 318,Evann Guessand,Aston Villa,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 319,Mykhailo Mudryk,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+320,Jamie Vardy,,West Ham United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+321,Myles Lewis-Skelly,Arsenal,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
