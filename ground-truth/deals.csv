@@ -247,11 +247,11 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 299,Dean Campbell,Northampton Town,Notts County,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 300,Enzo Fernandez,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 301,Geronimo Rulli,Marseille,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-302,Ronald Araújo,Barcelona,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+302,Ronald Araujo,Barcelona,Liverpool,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Ronald_Araujo,auto,"[auto] player joined Liverpool - the rumoured destination | On 10 August 2026, Araújo joined Premier League club Liverpool on a season-long loan deal with an option to buy."
 303,Ilias Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 304,Mitchy Ntelo,Yverdon-Sport,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 305,Radek Vitek,Manchester United,Middlesbrough,2026-summer,collapsed,,2026-08-08,https://en.wikipedia.org/wiki/Radek_Vitek,auto,"[auto] player joined Bristol City, not Middlesbrough - rumour did not happen | On 28 July 2025, Vítek signed a new contract with Manchester United until 2028 and joined EFL Championship club Bristol City on a season-long loan deal."
-306,Alexandros Kyziridis,Heart of Midlothian,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+306,Alexandros Kyziridis,Heart of Midlothian,Corum,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 307,Dwight McNeil,Everton,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 308,Louis Page,Leicester City,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 309,Robbie Ure,IK Sirius,Sevilla,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -262,3 +262,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 314,Anthony Patterson,Sunderland,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 315,Brennan Johnson,Crystal Palace,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 316,Anan Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+317,Manor Solomon,Tottenham Hotspur,West Ham United,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Manor_Solomon,auto,"[auto] player joined West Ham United - the rumoured destination | On 10 August 2026, Solomon signed for EFL Championship club West Ham United for an undisclosed fee on a three-year contract, with an optional extension of a year."
