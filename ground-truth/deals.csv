@@ -195,7 +195,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 242,Vinicius Jr,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 243,Jamie Gittens,Chelsea,Bayer Leverkusen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 245,Danny Welbeck,Brighton,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-246,Rodrigo Hernández Cascante,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+246,Rodrigo Hernández Cascante,Manchester City,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 247,Jordan Henderson,Brentford,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 249,Rodri,Manchester City,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 250,Dayann Methalie,Toulouse,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -270,3 +270,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 322,Gustavo Hamer,Sheffield United,Coventry City,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Gustavo_Hamer,auto,"[auto] player joined Coventry City - the rumoured destination | On 11 August 2026, almost three years after leaving Coventry City, Hamer re-signed for an undisclosed fee on a new long-term contract."
 323,Jayden Meghoma,Brentford,Rangers,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Jayden_Meghoma,auto,"[auto] player joined Rangers - the rumoured destination | On 17 August 2025, Meghoma joined Rangers on a season-long loan."
 324,Mykhaylo Mudryk,Chelsea,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+325,Ferran Torres,Barcelona,Paris St-Germain,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+326,Julio Enciso,Strasbourg,Ipswich Town,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
