@@ -208,7 +208,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 259,Alistair Johnston,Celtic,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 260,Danny Imray,Crystal Palace,Wrexham,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Danny_Imray,YES,"[auto] player joined Wrexham - the rumoured destination | On 29 July 2026, Wrexham announced the signing of Imray to a four-year deal."
 261,Jack Grealish,Manchester City,Atlético Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-262,Kalvin Phillips,Manchester City,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+262,Kalvin Phillips,Manchester City,Sheffield United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 263,Olwethu Makhanya,Philadelphia Union,Rangers,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Olwethu_Makhanya,YES,"[auto] player joined Rangers - the rumoured destination | On 30 July 2026, Makhanya signed for Scottish Premiership club Rangers on a four-year deal with the option for an additional year."
 264,Arne Engels,Celtic,West Ham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 265,Liam Delap,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -226,7 +226,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 278,Daisuke Yokota,Hannover,Rangers,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/Daisuke_Yokota,auto,"[auto] player joined Rangers - the rumoured destination | Yokota chose to join Rangers, signing a three-year contract on 5 August 2026."
 279,Gonzalo Garcia,Real Madrid,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 280,Carl Rushworth,Brighton and Hove Albion,Coventry City,2026-summer,completed,,2026-08-04,https://en.wikipedia.org/wiki/Carl_Rushworth,YES,"[auto] player joined Coventry City - the rumoured destination | Despite an initial transfer bid being rejected by Brighton in June 2026, Rushworth joined Coventry permanently on 4 August 2026."
-281,Filip Jorgensen,Chelsea,Strasbourg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+281,Filip Jorgensen,Chelsea,Strasbourg,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Filip_Jorgensen,auto,"[auto] player joined Ligue 1 side Strasbourg - the rumoured destination | On 11 August 2026, Jörgensen joined Ligue 1 side Strasbourg on loan for the 2026–27 season."
 282,Costa,Porto,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 283,Folarin Balogun,AS Monaco,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 284,Ghedjemis,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -260,10 +260,13 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 312,Lucas Digne,Aston Villa,Paris Saint-Germain,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Lucas_Digne,auto,"[auto] player joined Paris Saint-Germain - the rumoured destination | On 9 August 2026, Digne returned to Paris Saint-Germain, joining the club on a three-year contract until 2029."
 313,Mohamed Diomande,Rangers,Corum,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 314,Anthony Patterson,Sunderland,Wrexham,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Anthony_Patterson,auto,[auto] player joined Wrexham - the rumoured destination | Patterson signed a four-year contract with Wrexham on 11 August 2026.
-315,Brennan Johnson,Crystal Palace,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+315,Brennan Johnson,Crystal Palace,Everton,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Brennan_Johnson,auto,"[auto] player joined Everton - the rumoured destination | On 11 August 2026, Johnson joined Everton on a four-year contract."
 316,Anan Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 317,Manor Solomon,Tottenham Hotspur,West Ham United,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Manor_Solomon,auto,"[auto] player joined West Ham United - the rumoured destination | On 10 August 2026, Solomon signed for EFL Championship club West Ham United for an undisclosed fee on a three-year contract, with an optional extension of a year."
 318,Evann Guessand,Aston Villa,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 319,Mykhailo Mudryk,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 320,Jamie Vardy,,West Ham United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 321,Myles Lewis-Skelly,Arsenal,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+322,Gustavo Hamer,Sheffield United,Coventry City,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Gustavo_Hamer,auto,"[auto] player joined Coventry City - the rumoured destination | On 11 August 2026, almost three years after leaving Coventry City, Hamer re-signed for an undisclosed fee on a new long-term contract."
+323,Jayden Meghoma,Brentford,Rangers,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Jayden_Meghoma,auto,"[auto] player joined Rangers - the rumoured destination | On 17 August 2025, Meghoma joined Rangers on a season-long loan."
+324,Mykhaylo Mudryk,Chelsea,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
