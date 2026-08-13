@@ -278,3 +278,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 330,Gabriel Martinelli,Arsenal,Galatasaray,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 331,Nobel Mendy,Rayo Vallecano,Hull City,2026-summer,completed,,2026-08-13,https://en.wikipedia.org/wiki/Nobel_Mendy,auto,"[auto] player joined Hull City - the rumoured destination | On 12 August 2026, Mendy signed for newly promoted Premier League club Hull City for an undisclosed club record fee on a five-year deal."
 332,Romelu Lukaku,Napoli,Fenerbahce,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+333,Enes Unal,Bournemouth,Getafe,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
