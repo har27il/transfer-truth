@@ -281,3 +281,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 333,Enes Unal,Bournemouth,Getafe,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Enes_Unal,auto,"[auto] player joined Getafe - the rumoured destination | On 13 August 2026, Getafe announced Ünal's return on a three-year contract."
 334,Couhaib Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 335,Kelsy,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+336,Jarell Quansah,Bayer Leverkusen,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
+337,Sofie Lundgaard,Liverpool,Eintracht Frankfurt,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Sofie_Lundgaard,auto,"[auto] player joined Eintracht Frankfurt - the rumoured destination | On 14 August 2026, Lundgaard joined Frauen-Bundesliga side Eintracht Frankfurt for an undisclosed fee."
