@@ -288,3 +288,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 340,Jack Hinshelwood,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 341,Ana Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 342,Calum Scanlon,Liverpool,Cardiff City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+343,Amar Dedic,Benfica,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+344,Joe Gelhardt,Leeds United,Hull City,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Joe_Gelhardt,auto,"[auto] player joined Hull City - the rumoured destination | On 15 August 2026, Gelhardt signed a four-year contract with Premier League club Hull City, for a fee of £6.5m."

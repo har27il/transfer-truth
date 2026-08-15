@@ -610,3 +610,5 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 660,325,The Guardian,rss,2026-08-15,official,https://www.theguardian.com/football/2026/aug/15/psg-ferran-torres-barcelona-transfer-window,Paris Saint-Germain sign Ferran Torres from Barcelona in €50m deal,auto
 661,341,BBC Sport,rss,2026-08-15,official,https://www.bbc.co.uk/sport/football/articles/clyqrd749d5o?at_medium=RSS&at_campaign=rss,Palace sign Khalaili from Union Saint-Gilloise,auto
 662,342,BBC Sport,rss,2026-08-15,agreement,https://www.bbc.co.uk/sport/football/articles/cd69e18glyvo?at_medium=RSS&at_campaign=rss,Cardiff secure return of Liverpool loanee Scanlon,auto
+663,343,BBC Sport,rss,2026-08-15,advanced,https://www.bbc.co.uk/sport/football/articles/c70gg3dp61lo?at_medium=RSS&at_campaign=rss,Newcastle progressing with move for Benfica defender Dedic,auto
+664,344,BBC Sport,rss,2026-08-15,here_we_go,https://www.bbc.co.uk/sport/football/articles/cvg8qgg7qg1o?at_medium=RSS&at_campaign=rss,Hull sign Gelhardt and Gourna-Douath,auto
