@@ -604,3 +604,9 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 654,338,BBC Sport,rss,2026-08-15,official,https://www.bbc.co.uk/sport/football/articles/cj9dpvwl1nmo?at_medium=RSS&at_campaign=rss,'This is the right one' - Rohl on leaving Rangers for Salzburg,auto
 655,339,BBC Sport,rss,2026-08-14,official,https://www.bbc.co.uk/sport/football/articles/c1w1y95305no?at_medium=RSS&at_campaign=rss,Burnley sign Chelsea's Satpayev on loan,auto
 656,340,BBC Sport,rss,2026-08-14,interest,https://www.bbc.co.uk/sport/football/articles/c80n2g2x0g7o?at_medium=RSS&at_campaign=rss,Arsenal lead Hinshelwood race - Saturday's gossip,auto
+657,239,Sky Sports,rss,2026-08-15,here_we_go,https://www.skysports.com/football/news/12691/13573213/cristian-romero-tottenham-captain-completes-move-to-atletico-madrid,Romero completes £34m Atletico Madrid transfer,auto
+658,325,BBC Sport,rss,2026-08-15,official,https://www.bbc.co.uk/sport/football/articles/c20jyxjl8yko?at_medium=RSS&at_campaign=rss,PSG sign World Cup winner Torres from Barcelona,auto
+659,325,Sky Sports,rss,2026-08-15,here_we_go,https://www.skysports.com/football/news/12691/13573232/ferran-torres-psg-sign-world-cup-final-hero-from-barcelona-for-42-7m,PSG sign World Cup final hero Torres from Barcelona,auto
+660,325,The Guardian,rss,2026-08-15,official,https://www.theguardian.com/football/2026/aug/15/psg-ferran-torres-barcelona-transfer-window,Paris Saint-Germain sign Ferran Torres from Barcelona in €50m deal,auto
+661,341,BBC Sport,rss,2026-08-15,official,https://www.bbc.co.uk/sport/football/articles/clyqrd749d5o?at_medium=RSS&at_campaign=rss,Palace sign Khalaili from Union Saint-Gilloise,auto
+662,342,BBC Sport,rss,2026-08-15,agreement,https://www.bbc.co.uk/sport/football/articles/cd69e18glyvo?at_medium=RSS&at_campaign=rss,Cardiff secure return of Liverpool loanee Scanlon,auto

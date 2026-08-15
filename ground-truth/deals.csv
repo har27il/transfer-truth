@@ -189,7 +189,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 236,Raphael le Guen,Stade Brest,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 237,Michele Cancellieri,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Austin_MacPhee,auto,"[auto] player joined Chelsea - the rumoured destination | In July 2026, MacPhee departed Aston Villa and joined fellow Premier League club Chelsea as set-piece coach after they activated his release clause."
-239,Cristian Romero,Tottenham Hotspur,Atletico Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+239,Cristian Romero,Tottenham Hotspur,Atletico Madrid,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Cristian_Romero,auto,"[auto] player joined Atlético Madrid - the rumoured destination | On 15 August 2026, Romero signed for La Liga club Atlético Madrid on a five-year contract."
 240,Mason Mount,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 241,Vinícius Júnior,Real Madrid,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 242,Vinicius Jr,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -261,7 +261,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 313,Mohamed Diomande,Rangers,Corum,2026-summer,completed,,2026-08-13,https://en.wikipedia.org/wiki/Mohamed_Diomande,auto,"[auto] player joined Çorum - the rumoured destination | On 12 August 2026, Diomande joined newly promoted Turkish Süper Lig club Çorum for a reported transfer fee of around £4.5m."
 314,Anthony Patterson,Sunderland,Wrexham,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Anthony_Patterson,auto,[auto] player joined Wrexham - the rumoured destination | Patterson signed a four-year contract with Wrexham on 11 August 2026.
 315,Brennan Johnson,Crystal Palace,Everton,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Brennan_Johnson,auto,"[auto] player joined Everton - the rumoured destination | On 11 August 2026, Johnson joined Everton on a four-year contract."
-316,Anan Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+316,Anan Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Anan_Khalaili,auto,[auto] player joined Crystal Palace - the rumoured destination | Khalili signed with Premier League club Crystal Palace on 15 August 2026 until 2031 in exchange for a reported £21m fee.
 317,Manor Solomon,Tottenham Hotspur,West Ham United,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Manor_Solomon,auto,"[auto] player joined West Ham United - the rumoured destination | On 10 August 2026, Solomon signed for EFL Championship club West Ham United for an undisclosed fee on a three-year contract, with an optional extension of a year."
 318,Evann Guessand,Aston Villa,Crystal Palace,2026-summer,completed,,2026-08-13,https://en.wikipedia.org/wiki/Evann_Guessand,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 12 August, they announced they had re-signed Guessand on a further season-long loan deal"
 319,Mykhailo Mudryk,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -270,7 +270,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 322,Gustavo Hamer,Sheffield United,Coventry City,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Gustavo_Hamer,auto,"[auto] player joined Coventry City - the rumoured destination | On 11 August 2026, almost three years after leaving Coventry City, Hamer re-signed for an undisclosed fee on a new long-term contract."
 323,Jayden Meghoma,Brentford,Rangers,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Jayden_Meghoma,auto,"[auto] player joined Rangers - the rumoured destination | On 17 August 2025, Meghoma joined Rangers on a season-long loan."
 324,Mykhaylo Mudryk,Chelsea,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-325,Ferran Torres,Barcelona,Paris Saint-Germain,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+325,Ferran Torres,Barcelona,Paris Saint-Germain,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Ferran_Torres,auto,"[auto] player joined Paris Saint-Germain - the rumoured destination | On 15 August 2026, Torres joined Ligue 1 club Paris Saint-Germain on a five-year contract."
 326,Julio Enciso,Strasbourg,Ipswich Town,2026-summer,collapsed,,2026-08-13,https://en.wikipedia.org/wiki/Julio_Enciso,auto,"[auto] player joined RC Strasbourg, not Ipswich Town - rumour did not happen | On 1 September 2025, Enciso joined Ligue 1 club Strasbourg on a deal worth £17 million, with Brighton retaining a sell-on clause."
 327,Lamine Camara,Monaco,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 328,Matteo Ruggeri,Atletico Madrid,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -286,3 +286,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 338,Danny Rohl,Rangers,Red Bull Salzburg,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Danny_Rohl,auto,[auto] player joined Red Bull Salzburg - the rumoured destination | In June 2026 he was appointed manager of Red Bull Salzburg.
 339,Dastan Satpayev,Chelsea,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 340,Jack Hinshelwood,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+341,Ana Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+342,Calum Scanlon,Liverpool,Cardiff City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
