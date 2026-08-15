@@ -290,3 +290,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 342,Calum Scanlon,Liverpool,Cardiff City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 343,Amar Dedic,Benfica,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 344,Joe Gelhardt,Leeds United,Hull City,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Joe_Gelhardt,auto,"[auto] player joined Hull City - the rumoured destination | On 15 August 2026, Gelhardt signed a four-year contract with Premier League club Hull City, for a fee of £6.5m."
+345,James Penrice,AEK Athens,Rangers,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/James_Penrice,auto,"[auto] player joined Rangers - the rumoured destination | On 15 August 2026, Penrice signed for Scottish Premiership club Rangers on loan, with an option to buy."
