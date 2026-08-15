@@ -189,7 +189,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 236,Raphael le Guen,Stade Brest,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 237,Michele Cancellieri,,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 238,Austin MacPhee,Aston Villa,Chelsea,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Austin_MacPhee,auto,"[auto] player joined Chelsea - the rumoured destination | In July 2026, MacPhee departed Aston Villa and joined fellow Premier League club Chelsea as set-piece coach after they activated his release clause."
-239,Cristian Romero,Tottenham Hotspur,Atlético Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+239,Cristian Romero,Tottenham Hotspur,Atletico Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 240,Mason Mount,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 241,Vinícius Júnior,Real Madrid,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 242,Vinicius Jr,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -283,3 +283,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 335,Kelsy,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 336,Jarell Quansah,Bayer Leverkusen,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 337,Sofie Lundgaard,Liverpool,Eintracht Frankfurt,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Sofie_Lundgaard,auto,"[auto] player joined Eintracht Frankfurt - the rumoured destination | On 14 August 2026, Lundgaard joined Frauen-Bundesliga side Eintracht Frankfurt for an undisclosed fee."
+338,Danny Rohl,Rangers,Red Bull Salzburg,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Danny_Rohl,auto,[auto] player joined Red Bull Salzburg - the rumoured destination | In June 2026 he was appointed manager of Red Bull Salzburg.
+339,Dastan Satpayev,Chelsea,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+340,Jack Hinshelwood,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
