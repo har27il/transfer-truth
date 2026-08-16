@@ -284,11 +284,13 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 336,Jarell Quansah,Bayer Leverkusen,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 337,Sofie Lundgaard,Liverpool,Eintracht Frankfurt,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Sofie_Lundgaard,auto,"[auto] player joined Eintracht Frankfurt - the rumoured destination | On 14 August 2026, Lundgaard joined Frauen-Bundesliga side Eintracht Frankfurt for an undisclosed fee."
 338,Danny Rohl,Rangers,Red Bull Salzburg,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Danny_Rohl,auto,[auto] player joined Red Bull Salzburg - the rumoured destination | In June 2026 he was appointed manager of Red Bull Salzburg.
-339,Dastan Satpayev,Chelsea,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+339,Dastan Satpayev,Chelsea,Burnley,2026-summer,completed,,2026-08-16,https://en.wikipedia.org/wiki/Dastan_Satpayev,auto,"[auto] player joined Burnley - the rumoured destination | On 14 August 2026, Satpayev's transfer to Chelsea was made official. He signed a seven-year contract with Chelsea and subsequently joined Championship club Burnley on a season-long loan."
 340,Jack Hinshelwood,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 341,Ana Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 342,Calum Scanlon,Liverpool,Cardiff City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 343,Amar Dedic,Benfica,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 344,Joe Gelhardt,Leeds United,Hull City,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Joe_Gelhardt,auto,"[auto] player joined Hull City - the rumoured destination | On 15 August 2026, Gelhardt signed a four-year contract with Premier League club Hull City, for a fee of £6.5m."
 345,James Penrice,AEK Athens,Rangers,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/James_Penrice,auto,"[auto] player joined Rangers - the rumoured destination | On 15 August 2026, Penrice signed for Scottish Premiership club Rangers on loan, with an option to buy."
-346,Zion Suzuki,,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+346,Zion Suzuki,Parma,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+347,Nico Elvedi,,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+348,Taiwo Awoniyi,Nottingham Forest,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
