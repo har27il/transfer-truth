@@ -176,7 +176,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 219,Casemiro,Manchester United,Inter Miami,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Casemiro,YES,"[auto] player joined Inter Miami CF - the rumoured destination | On 22 July 2026, Major League Soccer side Inter Miami CF announced that they had signed Casemiro to a contract through the end of the 2027 season."
 220,Issa Diop,Fulham,Ipswich Town,2026-summer,completed,,2026-07-22,https://en.wikipedia.org/wiki/Issa_Diop,YES,"[auto] player joined Ipswich Town - the rumoured destination | On 22 July 2026, Diop signed a four-year contract with Ipswich Town."
 222,Maghnes Akliouche,Monaco,Liverpool,2026-summer,collapsed,,2026-08-06,https://en.wikipedia.org/wiki/Maghnes_Akliouche,auto,"[auto] player joined Paris Saint-Germain, not Liverpool - rumour did not happen | On 6 August 2026 Akliouche signed with the french giants PSG for 50M€."
-223,Rodrigo Hernández,Manchester City,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+223,Rodrigo Hernández,Manchester City,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 224,Ryan Fosso,Sturm Graz,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 225,Aladji Bamba,Monaco,Newcastle United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Aladji_Bamba,YES,"[auto] player joined Newcastle United - the rumoured destination | On 24 July 2026, Bamba signed for Premier League club Newcastle United on a five year deal."
 227,Eduardo Camavinga,Real Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
