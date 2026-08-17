@@ -297,3 +297,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 349,Alexis Mac Allister,Liverpool,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 350,Guglielmo Vicario,Tottenham Hotspur,Juventus,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 351,Pedro Neto,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+352,Amario Cozier-Duberry,Brighton,Rangers,2026-summer,collapsed,,2026-08-17,https://en.wikipedia.org/wiki/Amario_Cozier-Duberry,auto,"[auto] player joined Bolton Wanderers, not Rangers - rumour did not happen | Cozier-Duberry joined League One club Bolton Wanderers on a season-long loan on 5 July 2025."
+353,Bruno Fernandes,Manchester United,Galatasaray,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+354,Emi Martinez,Aston Villa,Juventus,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
