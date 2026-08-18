@@ -641,3 +641,8 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 691,300,BBC Sport,rss,2026-08-17,rumour_link,https://www.bbc.co.uk/sport/football/articles/cz64z1dxn7xo?at_medium=RSS&at_campaign=rss,Fernandez will cost Man City more than £120m - Tuesday's gossip,auto
 692,355,BBC Sport,rss,2026-08-18,denied,https://www.bbc.co.uk/sport/football/articles/c9q9r0jpzlro?at_medium=RSS&at_campaign=rss,Hatate rejects Celtic exit options - gossip,auto
 693,356,BBC Sport,rss,2026-08-17,talks,https://www.bbc.co.uk/sport/football/articles/cly5egxez48o?at_medium=RSS&at_campaign=rss,West Brom in talks over permanent Collyer return,auto
+694,51,The Guardian,rss,2026-08-18,interest,https://www.theguardian.com/football/2026/aug/18/football-transfer-rumour-mill-atletico-madrid-julian-alvarez-arsenal-barcelona,Football transfer rumours: Atlético want Alvarez to join Arsenal over Barça?,auto
+695,343,BBC Sport,rss,2026-08-18,here_we_go,https://www.bbc.co.uk/sport/football/articles/czekzxd09zlo?at_medium=RSS&at_campaign=rss,Newcastle complete £30m move for Benfica's Dedic,auto
+696,343,Sky Sports,rss,2026-08-18,official,https://www.skysports.com/football/news/12691/13574258/newcastle-transfer-news-amar-dedic-completes-29-5m-move-to-st-james-park-from-benfica,Newcastle sign Dedic from Benfica,auto
+697,343,The Guardian,rss,2026-08-18,here_we_go,https://www.theguardian.com/football/2026/aug/18/newcastle-sign-amar-dedic-benfica-transfer-window,‘Really happy’ Amar Dedic completes £29.5m move from Benfica to Newcastle,auto
+698,357,BBC Sport,rss,2026-08-18,here_we_go,https://www.bbc.co.uk/sport/football/articles/c5y479ez74zo?at_medium=RSS&at_campaign=rss,Middleton-Patel joins Watford on loan from Man Utd,auto
