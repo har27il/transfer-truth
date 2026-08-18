@@ -293,10 +293,12 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 345,James Penrice,AEK Athens,Rangers,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/James_Penrice,auto,"[auto] player joined Rangers - the rumoured destination | On 15 August 2026, Penrice signed for Scottish Premiership club Rangers on loan, with an option to buy."
 346,Zion Suzuki,Parma,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 347,Nico Elvedi,,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-348,Taiwo Awoniyi,Nottingham Forest,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+348,Taiwo Awoniyi,Nottingham Forest,Coventry City,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Taiwo_Awoniyi,auto,"[auto] player joined Coventry City - the rumoured destination | On 17 August 2026, Awoniyi signed for Premier League club Coventry City for a reported fee of £9 million."
 349,Alexis Mac Allister,Liverpool,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 350,Guglielmo Vicario,Tottenham Hotspur,Juventus,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 351,Pedro Neto,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 352,Amario Cozier-Duberry,Brighton,Rangers,2026-summer,collapsed,,2026-08-17,https://en.wikipedia.org/wiki/Amario_Cozier-Duberry,auto,"[auto] player joined Bolton Wanderers, not Rangers - rumour did not happen | Cozier-Duberry joined League One club Bolton Wanderers on a season-long loan on 5 July 2025."
 353,Bruno Fernandes,Manchester United,Galatasaray,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 354,Emi Martinez,Aston Villa,Juventus,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+355,Hatate,Celtic,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+356,Toby Collyer,Manchester United,West Bromwich Albion,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Toby_Collyer,auto,"[auto] player joined West Bromwich Albion - the rumoured destination | On 15 August 2025, Collyer joined West Bromwich Albion on a season-long loan."
