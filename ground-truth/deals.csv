@@ -92,7 +92,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 112,Felix Nmecha,Borussia Dortmund,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 114,Ben Godfrey,Atalanta,Rangers,2026-summer,completed,,2026-06-29,https://en.wikipedia.org/wiki/Ben_Godfrey,YES,"[verified 2026-07-05] season-long loan with buy option, announced by Rangers (auto collapse via stale 2025 evidence was WRONG) | rangers.co.uk/article/rangers-sign-ben-godfrey-on-loan-from-atalanta"
 115,Bradley Barcola,Paris Saint-Germain,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-117,Harry Kane,Bayern Munich,Al Hilal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+117,Harry Kane,Bayern Munich,Al-Hilal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 118,Ivor Pandur,Hull City,Rangers,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Ivor_Pandur,YES,"[auto] player joined Rangers - the rumoured destination | On 30 June 2026, Rangers announced the signing of Pandur on a four-year deal."
 120,Maxence Lacroix,Crystal Palace,Chelsea,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Maxence_Lacroix,YES,"[auto] player joined Chelsea - the rumoured destination | On 30 July 2026, Lacroix signed a six-year contract with Chelsea until 2032 in a deal worth £52 million."
 121,Pascal Struijk,Leeds United,Brighton & Hove Albion,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Pascal_Struijk,YES,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 30 June 2026, Struijk signed a five-year contract with Brighton & Hove Albion."
@@ -291,8 +291,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 343,Amar Dedic,Benfica,Newcastle United,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Amar_Dedic,auto,"[auto] player joined Newcastle United - the rumoured destination | On 18 August 2026, Dedić signed for Premier League club Newcastle United on a five-year contract."
 344,Joe Gelhardt,Leeds United,Hull City,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Joe_Gelhardt,auto,"[auto] player joined Hull City - the rumoured destination | On 15 August 2026, Gelhardt signed a four-year contract with Premier League club Hull City, for a fee of £6.5m."
 345,James Penrice,AEK Athens,Rangers,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/James_Penrice,auto,"[auto] player joined Rangers - the rumoured destination | On 15 August 2026, Penrice signed for Scottish Premiership club Rangers on loan, with an option to buy."
-346,Zion Suzuki,Parma,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-347,Nico Elvedi,,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+346,Zion Suzuki,Parma,Aston Villa,2026-summer,completed,,2026-08-19,https://en.wikipedia.org/wiki/Zion_Suzuki,auto,"[auto] player joined Aston Villa - the rumoured destination | On 19 August 2026, Suzuki signed for Premier League club Aston Villa for an undisclosed fee, reported to be an initial €30 million, which could rise to €35 million with bonuses."
+347,Nico Elvedi,Borussia Monchengladbach,Leeds United,2026-summer,completed,,2026-08-19,https://en.wikipedia.org/wiki/Nico_Elvedi,auto,[auto] player joined Leeds United - the rumoured destination | Elvedi joined Leeds United on 19th August 2026.
 348,Taiwo Awoniyi,Nottingham Forest,Coventry City,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Taiwo_Awoniyi,auto,"[auto] player joined Coventry City - the rumoured destination | On 17 August 2026, Awoniyi signed for Premier League club Coventry City for a reported fee of £9 million."
 349,Alexis Mac Allister,Liverpool,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 350,Guglielmo Vicario,Tottenham Hotspur,Juventus,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Guglielmo_Vicario,auto,"[auto] player joined Juventus - the rumoured destination | On 18 August 2026, Vicario joined Serie A club Juventus on a season-long loan."
@@ -307,3 +307,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 359,Keito Nakamura,Stade de Reims,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 360,Promise David,Royale Union Saint-Gilloise,Brighton & Hove Albion,2026-summer,completed,,2026-08-19,https://en.wikipedia.org/wiki/Promise_David,auto,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 18 August 2026, David joined Premier League club Brighton & Hove Albion on a season-long loan, with an obligation to buy if certain criteria were met."
 361,Troy Parrott,AZ Alkmaar,Real Betis,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+362,Carlos Baleba,Brighton,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+363,Ethan Nwaneri,Arsenal,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+364,Jackie Burns,,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+365,Kosta Nedeljkovic,Aston Villa,Rangers,2026-summer,collapsed,,2026-08-19,https://en.wikipedia.org/wiki/Kosta_Nedeljkovic,auto,"[auto] player joined RB Leipzig, not Rangers - rumour did not happen | On 14 July 2025, Nedeljković re-joined RB Leipzig for a season-long loan."
+366,Ollie Watkins,Aston Villa,Al Hilal,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
