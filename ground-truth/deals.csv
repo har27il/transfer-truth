@@ -182,7 +182,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 227,Eduardo Camavinga,Real Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 228,James Trafford,Manchester City,Leeds United,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/James_Trafford,YES,"[auto] player joined Leeds United - the rumoured destination | The transfer was completed on 6 August 2026, for £45 million."
 229,Karim Adeyemi,Borussia Dortmund,Barcelona,2026-summer,completed,,2026-07-23,https://en.wikipedia.org/wiki/Karim_Adeyemi,YES,"[auto] player joined Barcelona - the rumoured destination | On 23 July 2026, Adeyemi joined Barcelona on a five-year deal."
-230,Manu Kone,AS Roma,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+230,Manu Koné,Roma,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 232,Vanja Dragojevic,Partizan,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 233,Janina Leitzig,Leicester City,Manchester United,2026-summer,completed,,2026-07-24,https://en.wikipedia.org/wiki/Janina_Leitzig,auto,"[auto] player joined Manchester United - the rumoured destination | In July 2026, Leitzig joined Manchester United for an undisclosed fee."
 234,Kasper Hogh,Bodo/Glimt,Celtic,2026-summer,completed,,2026-07-28,https://en.wikipedia.org/wiki/Kasper_Hogh,YES,"[auto] player joined Celtic - the rumoured destination | On 28 July 2026, it was confirmed that Høgh had signed a contract to join Scottish Premiership side Celtic."
@@ -273,7 +273,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 325,Ferran Torres,Barcelona,Paris Saint-Germain,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Ferran_Torres,auto,"[auto] player joined Paris Saint-Germain - the rumoured destination | On 15 August 2026, Torres joined Ligue 1 club Paris Saint-Germain on a five-year contract."
 326,Julio Enciso,Strasbourg,Ipswich Town,2026-summer,collapsed,,2026-08-13,https://en.wikipedia.org/wiki/Julio_Enciso,auto,"[auto] player joined RC Strasbourg, not Ipswich Town - rumour did not happen | On 1 September 2025, Enciso joined Ligue 1 club Strasbourg on a deal worth £17 million, with Brighton retaining a sell-on clause."
 327,Lamine Camara,Monaco,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-328,Matteo Ruggeri,Atletico Madrid,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+328,Matteo Ruggeri,Atletico Madrid,Aston Villa,2026-summer,completed,,2026-08-20,https://en.wikipedia.org/wiki/Matteo_Ruggeri,auto,"[auto] player joined Aston Villa - the rumoured destination | On 19 August 2026, Ruggeri signed for Premier League club Aston Villa for an undisclosed transfer fee, reported to be around £17 million."
 329,Emenalo,Chelsea,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 330,Gabriel Martinelli,Arsenal,Galatasaray,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 331,Nobel Mendy,Rayo Vallecano,Hull City,2026-summer,completed,,2026-08-13,https://en.wikipedia.org/wiki/Nobel_Mendy,auto,"[auto] player joined Hull City - the rumoured destination | On 12 August 2026, Mendy signed for newly promoted Premier League club Hull City for an undisclosed club record fee on a five-year deal."
