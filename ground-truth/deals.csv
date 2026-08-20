@@ -314,3 +314,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 366,Ollie Watkins,Aston Villa,Al Hilal,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 367,Sidiki Cherif,Fenerbahce,Coventry,2026-summer,collapsed,,2026-08-19,https://en.wikipedia.org/wiki/Sidiki_Cherif,auto,"[auto] player joined Coventry City, not Coventry - rumour did not happen | On August 18 2026, he joined Premier League club Coventry City for a fee of €21,000,000."
 368,Nico González,Manchester City,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+369,Joao Cancelo,Al-Hilal,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+370,Yankuba Minteh,Brighton,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
