@@ -155,7 +155,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 195,Maxime Esteve,Burnley,RB Leipzig,2026-summer,completed,,2026-07-17,https://en.wikipedia.org/wiki/Maxime_Esteve,YES,"[auto] player joined RB Leipzig - the rumoured destination | On 17 July 2026, Estève signed for RB Leipzig on a five-year deal."
 196,Beau Reus,,Heart of Midlothian,2026-summer,completed,,2026-07-18,https://en.wikipedia.org/wiki/Beau_Reus,YES,"[auto] player joined Heart of Midlothian - the rumoured destination | On 17 July 2026, Reus joined Scottish Premiership club Heart of Midlothian on a three-year deal."
 197,Kelechi Iheanacho,Celtic,Bursaspor,2026-summer,completed,,2026-07-19,https://en.wikipedia.org/wiki/Kelechi_Iheanacho,YES,"[auto] player joined Bursaspor - the rumoured destination | On 17 July 2026, Iheanacho signed for TFF 1. Lig side Bursaspor."
-198,Ezri Konsa,Aston Villa,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+198,Ezri Konsa,Aston Villa,Arsenal,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Ezri_Konsa,auto,"[auto] player joined Arsenal - the rumoured destination | On 21 August 2026, Konsa signed for Premier League club and defending champions Arsenal on a long-term contract for an undisclosed fee believed to be in the region of £51 million."
 199,Haissem Hassan,Real Oviedo,Celtic,2026-summer,completed,,2026-08-13,https://en.wikipedia.org/wiki/Haissem_Hassan,auto,"[auto] player joined Celtic - the rumoured destination | On 12 August 2026, Hassan signed a four-year contract with Celtic with an option for another year."
 200,Elliot Watt,Motherwell,Samsunspor,2026-summer,completed,,2026-07-20,https://en.wikipedia.org/wiki/Elliot_Watt,YES,"[auto] player joined Samsunspor - the rumoured destination | On 18 July 2026, Watt joined Süper Lig club Samsunspor on a four-year contract for an undisclosed fee."
 201,Savinho,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -264,7 +264,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 316,Anan Khalaili,Union Saint-Gilloise,Crystal Palace,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Anan_Khalaili,auto,[auto] player joined Crystal Palace - the rumoured destination | Khalili signed with Premier League club Crystal Palace on 15 August 2026 until 2031 in exchange for a reported £21m fee.
 317,Manor Solomon,Tottenham Hotspur,West Ham United,2026-summer,completed,,2026-08-11,https://en.wikipedia.org/wiki/Manor_Solomon,auto,"[auto] player joined West Ham United - the rumoured destination | On 10 August 2026, Solomon signed for EFL Championship club West Ham United for an undisclosed fee on a three-year contract, with an optional extension of a year."
 318,Evann Guessand,Aston Villa,Crystal Palace,2026-summer,completed,,2026-08-13,https://en.wikipedia.org/wiki/Evann_Guessand,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 12 August, they announced they had re-signed Guessand on a further season-long loan deal"
-319,Mykhailo Mudryk,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+319,Mykhailo Mudryk,Chelsea,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 320,Jamie Vardy,,West Ham United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 321,Myles Lewis-Skelly,Arsenal,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 322,Gustavo Hamer,Sheffield United,Coventry City,2026-summer,completed,,2026-08-12,https://en.wikipedia.org/wiki/Gustavo_Hamer,auto,"[auto] player joined Coventry City - the rumoured destination | On 11 August 2026, almost three years after leaving Coventry City, Hamer re-signed for an undisclosed fee on a new long-term contract."
@@ -306,7 +306,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 358,Aaron Wan-Bissaka,West Ham,Aston Villa,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Aaron_Wan-Bissaka,auto,"[auto] player joined Aston Villa - the rumoured destination | On 21 August 2026, Wan-Bissaka joined Aston Villa on a season-long loan with a conditional obligation to buy."
 359,Keito Nakamura,Stade de Reims,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 360,Promise David,Royale Union Saint-Gilloise,Brighton & Hove Albion,2026-summer,completed,,2026-08-19,https://en.wikipedia.org/wiki/Promise_David,auto,"[auto] player joined Brighton & Hove Albion - the rumoured destination | On 18 August 2026, David joined Premier League club Brighton & Hove Albion on a season-long loan, with an obligation to buy if certain criteria were met."
-361,Troy Parrott,AZ Alkmaar,Real Betis,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+361,Troy Parrott,AZ Alkmaar,Real Betis,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Troy_Parrott,auto,"[auto] player joined Real Betis - the rumoured destination | On 20 August 2026, it was announced that Parrott had signed for La Liga club Real Betis on a five-year-contract for a fee believed to be in the region of €20 million."
 362,Carlos Baleba,Brighton,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 363,Ethan Nwaneri,Arsenal,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 364,Jackie Burns,,Burnley,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -321,3 +321,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 373,Omar Marmoush,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 374,Ronaldinho,,Ravenna,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 375,Taylor Harwood-Bellis,Southampton,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+376,Axel Disasi,Chelsea,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+377,Nicolas Jackson,,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+378,Thomas Partey,,Al-Shabab,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Thomas_Partey,auto,"[auto] player joined Al-Shabab - the rumoured destination | On 21 August 2026, Partey signed with Saudi Pro League club Al-Shabab on a free transfer."
