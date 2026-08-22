@@ -324,3 +324,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 376,Axel Disasi,Chelsea,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 377,Nicolas Jackson,,Aston Villa,2026-summer,collapsed,,2026-08-22,https://en.wikipedia.org/wiki/Nicolas_Jackson,auto,"[auto] player joined Bayern Munich, not Aston Villa - rumour did not happen | On 1 September 2025, Jackson joined Bundesliga club Bayern Munich on a season-long loan for a reported fee of €16.5m."
 378,Thomas Partey,,Al-Shabab,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Thomas_Partey,auto,"[auto] player joined Al-Shabab - the rumoured destination | On 21 August 2026, Partey signed with Saudi Pro League club Al-Shabab on a free transfer."
+379,Leon Goretzka,Bayern Munich,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
