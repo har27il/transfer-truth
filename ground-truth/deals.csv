@@ -218,7 +218,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 269,Mohamed Salah,Liverpool,Trabzonspor,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 270,Gineitis,Torino,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 271,Juanlu,Sevilla,Bournemouth,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/Juanlu,YES,"[auto] player joined Premier League side Bournemouth - the rumoured destination | On 6 August 2026, Juanlu signed for Premier League side Bournemouth in a deal worth up to £11.2m."
-273,Cody Gakpo,Liverpool,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+273,Cody Gakpo,Liverpool,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 274,Lukas Hornicek,Braga,Newcastle United,2026-summer,completed,,2026-08-03,https://en.wikipedia.org/wiki/Lukas_Hornicek,YES,"[auto] player joined Newcastle United - the rumoured destination | On 3 August 2026, Horníček signed for Premier League club Newcastle United."
 275,Valentín Barco,Strasbourg,Chelsea,2026-summer,completed,,2026-08-03,https://en.wikipedia.org/wiki/Valentín_Barco,YES,"[auto] player joined Chelsea - the rumoured destination | On 2 August 2026, Chelsea announced the signing of Barco on a seven-year contract until 2033 for a reported deal of £34 million."
 276,Victor Osimhen,Galatasaray,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -330,3 +330,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 382,Kim Min-Su,Girona,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 383,Allan Elias,Palmeiras,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 384,Joel Ordonez,Club Brugge,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+385,Jean-Philippe Mateta,Crystal Palace,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+386,Savio,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
