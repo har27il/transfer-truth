@@ -719,3 +719,9 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 769,366,BBC Sport,rss,2026-08-24,interest,https://www.bbc.co.uk/sport/football/articles/cq63ry9q6jzo?at_medium=RSS&at_campaign=rss,Watkins' departure would cut deepest - and Villa did not see it coming,auto
 770,381,BBC Sport,rss,2026-08-24,official,https://www.bbc.co.uk/sport/football/articles/cx2ze3dz4jro?at_medium=RSS&at_campaign=rss,Sunderland sign Ahoka from Royal Antwerp,auto
 771,382,BBC Sport,rss,2026-08-24,medical,https://www.bbc.co.uk/sport/football/articles/crr4ldl1wp0o?at_medium=RSS&at_campaign=rss,Girona winger Kim to undergo Rangers medical,auto
+772,265,BBC Sport,rss,2026-08-24,talks,https://www.bbc.co.uk/sport/football/articles/c8xkl50ylweo?at_medium=RSS&at_campaign=rss,Forest working on deal for Chelsea striker Delap,auto
+773,265,The Guardian,rss,2026-08-24,advanced,https://www.theguardian.com/football/2026/aug/24/nottingham-forest-liam-delap-chelsea-tranfer-window,Nottingham Forest close in on signing Liam Delap from Chelsea,auto
+774,330,Sky Sports,rss,2026-08-23,talks,https://www.skysports.com/football/news/12691/13576278/gabriel-martinelli-transfer-news-al-hilal-and-arsenal-make-progress-on-deal-for-brazilian-winger,Arsenal and Al Hilal make progress on Martinelli deal,auto
+775,383,BBC Sport,rss,2026-08-24,agreement,https://www.bbc.co.uk/sport/football/articles/cpveylz0n8go?at_medium=RSS&at_campaign=rss,Man City agree deal for Palmeiras winger Allan,auto
+776,383,The Guardian,rss,2026-08-24,agreement,https://www.theguardian.com/football/2026/aug/24/manchester-city-agree-34m-deal-for-allan-elias-as-nico-gonzalez-nears-newcastle-move,Manchester City agree £34m deal for Allan Elias as Nico González nears Newcastle move,auto
+777,384,BBC Sport,rss,2026-08-24,talks,https://www.bbc.co.uk/sport/football/articles/c0469r217q5o?at_medium=RSS&at_campaign=rss,Villa in talks with Club Brugge for defender Ordonez,auto

@@ -211,7 +211,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 262,Kalvin Phillips,Manchester City,Sheffield United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 263,Olwethu Makhanya,Philadelphia Union,Rangers,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Olwethu_Makhanya,YES,"[auto] player joined Rangers - the rumoured destination | On 30 July 2026, Makhanya signed for Scottish Premiership club Rangers on a four-year deal with the option for an additional year."
 264,Arne Engels,Celtic,West Ham,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Arne_Engels,auto,"[auto] player joined West Ham United - the rumoured destination | On 14 August 2026, Engels signed a five-year contract with EFL Championship side West Ham United."
-265,Liam Delap,Chelsea,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+265,Liam Delap,Chelsea,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 266,Chris Cadden,Hibernian,Aberdeen,2026-summer,completed,,2026-07-31,https://en.wikipedia.org/wiki/Chris_Cadden,YES,[auto] player joined Aberdeen - the rumoured destination | Cadden signed a two-year contract with Aberdeen on 31 July 2026.
 267,Mamadou Sangare,Lens,Brentford,2026-summer,completed,,2026-08-01,https://en.wikipedia.org/wiki/Mamadou_Sangare,YES,"[auto] player joined Brentford FC - the rumoured destination | On 1 August 2026, Brentford FC announced the signing of Sangaré on a five-year contract with a club option for a further year."
 268,Lewis-Skelly,Arsenal,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -328,3 +328,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 380,Jacob Devaney,Manchester United,Hibernian,2026-summer,completed,,2026-08-23,https://en.wikipedia.org/wiki/Jacob_Devaney,auto,"[auto] player joined Hibernian - the rumoured destination | After featuring for Manchester United during pre-season, in August 2026 he was loaned to Hibernian."
 381,Jules Ahoka,Royal Antwerp,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 382,Kim Min-Su,Girona,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+383,Allan Elias,Palmeiras,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
+384,Joel Ordonez,Club Brugge,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
