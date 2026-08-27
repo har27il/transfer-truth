@@ -207,11 +207,11 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 258,Tolu Arokodare,Wolverhampton Wanderers,Ajax,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Tolu_Arokodare,YES,"[auto] player joined Ajax - the rumoured destination | On 29 July 2026, Tolu joined Eredivisie club Ajax on a season-long loan with an option to buy."
 259,Alistair Johnston,Celtic,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 260,Danny Imray,Crystal Palace,Wrexham,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Danny_Imray,YES,"[auto] player joined Wrexham - the rumoured destination | On 29 July 2026, Wrexham announced the signing of Imray to a four-year deal."
-261,Jack Grealish,Manchester City,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+261,Jack Grealish,Manchester City,Everton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 262,Kalvin Phillips,Manchester City,Sheffield United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 263,Olwethu Makhanya,Philadelphia Union,Rangers,2026-summer,completed,,2026-07-30,https://en.wikipedia.org/wiki/Olwethu_Makhanya,YES,"[auto] player joined Rangers - the rumoured destination | On 30 July 2026, Makhanya signed for Scottish Premiership club Rangers on a four-year deal with the option for an additional year."
 264,Arne Engels,Celtic,West Ham,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Arne_Engels,auto,"[auto] player joined West Ham United - the rumoured destination | On 14 August 2026, Engels signed a five-year contract with EFL Championship side West Ham United."
-265,Liam Delap,Chelsea,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+265,Liam Delap,Chelsea,Nottingham Forest,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Liam_Delap,auto,"[auto] player joined Nottingham Forest - the rumoured destination | On 27 August 2026, Delap joined Nottingham Forest on a five-year contract, for an initial transfer fee worth £45 million, with a further £5 million available in performance-related add-ons."
 266,Chris Cadden,Hibernian,Aberdeen,2026-summer,completed,,2026-07-31,https://en.wikipedia.org/wiki/Chris_Cadden,YES,[auto] player joined Aberdeen - the rumoured destination | Cadden signed a two-year contract with Aberdeen on 31 July 2026.
 267,Mamadou Sangare,Lens,Brentford,2026-summer,completed,,2026-08-01,https://en.wikipedia.org/wiki/Mamadou_Sangare,YES,"[auto] player joined Brentford FC - the rumoured destination | On 1 August 2026, Brentford FC announced the signing of Sangaré on a five-year contract with a club option for a further year."
 268,Lewis-Skelly,Arsenal,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -313,12 +313,12 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 365,Kosta Nedeljkovic,Aston Villa,Rangers,2026-summer,collapsed,,2026-08-19,https://en.wikipedia.org/wiki/Kosta_Nedeljkovic,auto,"[auto] player joined RB Leipzig, not Rangers - rumour did not happen | On 14 July 2025, Nedeljković re-joined RB Leipzig for a season-long loan."
 366,Ollie Watkins,Aston Villa,Al Hilal,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 367,Sidiki Cherif,Fenerbahce,Coventry,2026-summer,collapsed,,2026-08-19,https://en.wikipedia.org/wiki/Sidiki_Cherif,auto,"[auto] player joined Coventry City, not Coventry - rumour did not happen | On August 18 2026, he joined Premier League club Coventry City for a fee of €21,000,000."
-368,Nico Gonzalez,Manchester City,Newcastle United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+368,Nico Gonzalez,Manchester City,Newcastle United,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Nico_Gonzalez,auto,"[auto] player joined Newcastle United - the rumoured destination | On 26 August 2026, González signed for Newcastle United on a long-term deal."
 369,Joao Cancelo,Al-Hilal,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 370,Yankuba Minteh,Brighton,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 371,Gabriel Jesus,Arsenal,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 372,Kenan Yildiz,Juventus,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-373,Omar Marmoush,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+373,Omar Marmoush,Manchester City,Tottenham Hotspur,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Omar_Marmoush,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 27 August 2026, fellow Premier League club Tottenham Hotspur announced the signing of Marmoush on an initial season-long loan, with an obligation to buy at the end of the loan spell."
 374,Ronaldinho,,Ravenna,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 375,Taylor Harwood-Bellis,Southampton,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 376,Axel Disasi,Chelsea,Crystal Palace,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Axel_Disasi,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 26 August 2026, Disasi joined Crystal Palace on loan for the remainder of the 2026–27 season."
@@ -327,15 +327,23 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 379,Leon Goretzka,Bayern Munich,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 380,Jacob Devaney,Manchester United,Hibernian,2026-summer,completed,,2026-08-23,https://en.wikipedia.org/wiki/Jacob_Devaney,auto,"[auto] player joined Hibernian - the rumoured destination | After featuring for Manchester United during pre-season, in August 2026 he was loaned to Hibernian."
 381,Jules Ahoka,Royal Antwerp,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-382,Kim Min-Su,Girona,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+382,Kim Min-su,Girona,Rangers,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Kim_Min-su,auto,"[auto] player joined Scottish Premiership club Rangers - the rumoured destination | On 27 August 2026, Kim signed for Scottish Premiership club Rangers on a four-year deal with the option of a further year."
 383,Allan Elias,Palmeiras,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
-384,Joel Ordonez,Club Brugge,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+384,Joel Ordóñez,Club Brugge,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 385,Jean-Philippe Mateta,Crystal Palace,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-386,Savio,Manchester City,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+386,Savio,Manchester City,Tottenham Hotspur,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Savio,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 25 August 2026, Sávio completed a permanent move to fellow Premier League club Tottenham Hotspur in a deal reportedly worth £75m (£85m with add-ons)."
 387,Abdul Abdulmalik,Boreham Wood,Djurgarden,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 388,Emiliano Martínez,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 389,Ethan Pinnock,Brentford,Coventry City,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Ethan_Pinnock,auto,"[auto] player joined Coventry City - the rumoured destination | On 24 August 2026, newly promoted side Coventry agreed to sign Pinnock for ₤6million on a three-year contract with the option of extending by one year."
 390,Ismaila Sarr,Crystal Palace,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 391,Issa Kabore,Manchester City,Wrexham,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Issa_Kabore,auto,"[auto] player joined Wrexham - the rumoured destination | On 1 September 2025, Kaboré joined EFL Championship club Wrexham on loan until the end of the 2025–26 season."
 392,Javi Rueda,Celta Vigo,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-393,Krystian Bielik,West Bromwich Albion,Cardiff City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+393,Krystian Bielik,West Bromwich Albion,Cardiff City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Krystian_Bielik,auto,"[auto] player joined Cardiff City - the rumoured destination | On 26 August 2026, Bielik moved to fellow EFL Championship club Cardiff City on a three-year contract."
+394,Brad Spencer,Falkirk,Dundee United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+395,El Hadji Malick Diouf,West Ham,Brentford,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+396,Honest Ahanor,Atalanta,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+397,Iliman Ndiaye, Everton,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+398,Jenson Seelt,Sunderland,Swansea City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Jenson_Seelt,auto,"[auto] player joined Swansea City - the rumoured destination | On 27 August 2026, Seelt joined EFL Championship club Swansea City on loan for the 2026–27 season."
+399,Joshua Zirkzee,Manchester United,Fiorentina,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+400,Minsu Kim,Girona,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+401,Mohamed-Ali Cho,Nice,Hull City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Mohamed-Ali_Cho,auto,"[auto] player joined Hull City - the rumoured destination | On 27 August 2026, Cho joined newly promoted Premier League club Hull City for an undisclosed fee on a five-year contract."
