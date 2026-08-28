@@ -280,7 +280,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 332,Romelu Lukaku,Napoli,Fenerbahce,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 333,Enes Unal,Bournemouth,Getafe,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Enes_Unal,auto,"[auto] player joined Getafe - the rumoured destination | On 13 August 2026, Getafe announced Ünal's return on a three-year contract."
 334,Couhaib Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-335,Kelsy,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+335,Kevin Kelsy,Portland Timbers,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 336,Jarell Quansah,Bayer Leverkusen,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 337,Sofie Lundgaard,Liverpool,Eintracht Frankfurt,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Sofie_Lundgaard,auto,"[auto] player joined Eintracht Frankfurt - the rumoured destination | On 14 August 2026, Lundgaard joined Frauen-Bundesliga side Eintracht Frankfurt for an undisclosed fee."
 338,Danny Rohl,Rangers,Red Bull Salzburg,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Danny_Rohl,auto,[auto] player joined Red Bull Salzburg - the rumoured destination | In June 2026 he was appointed manager of Red Bull Salzburg.
@@ -324,7 +324,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 376,Axel Disasi,Chelsea,Crystal Palace,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Axel_Disasi,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 26 August 2026, Disasi joined Crystal Palace on loan for the remainder of the 2026–27 season."
 377,Nicolas Jackson,,Aston Villa,2026-summer,collapsed,,2026-08-22,https://en.wikipedia.org/wiki/Nicolas_Jackson,auto,"[auto] player joined Bayern Munich, not Aston Villa - rumour did not happen | On 1 September 2025, Jackson joined Bundesliga club Bayern Munich on a season-long loan for a reported fee of €16.5m."
 378,Thomas Partey,,Al-Shabab,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Thomas_Partey,auto,"[auto] player joined Al-Shabab - the rumoured destination | On 21 August 2026, Partey signed with Saudi Pro League club Al-Shabab on a free transfer."
-379,Leon Goretzka,Bayern Munich,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+379,Leon Goretzka,Bayern Munich,Aston Villa,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/Leon_Goretzka,auto,"[auto] player joined Aston Villa - the rumoured destination | On 27 August 2026, Goretzka signed with English Premier League club Aston Villa on a free transfer."
 380,Jacob Devaney,Manchester United,Hibernian,2026-summer,completed,,2026-08-23,https://en.wikipedia.org/wiki/Jacob_Devaney,auto,"[auto] player joined Hibernian - the rumoured destination | After featuring for Manchester United during pre-season, in August 2026 he was loaned to Hibernian."
 381,Jules Ahoka,Royal Antwerp,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 382,Kim Min-su,Girona,Rangers,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Kim_Min-su,auto,"[auto] player joined Scottish Premiership club Rangers - the rumoured destination | On 27 August 2026, Kim signed for Scottish Premiership club Rangers on a four-year deal with the option of a further year."
