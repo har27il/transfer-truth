@@ -280,7 +280,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 332,Romelu Lukaku,Napoli,Fenerbahce,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 333,Enes Unal,Bournemouth,Getafe,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Enes_Unal,auto,"[auto] player joined Getafe - the rumoured destination | On 13 August 2026, Getafe announced Ünal's return on a three-year contract."
 334,Couhaib Driouech,PSV Eindhoven,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-335,Kevin Kelsy,Portland Timbers,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+335,Kevin Kelsy,Portland Timbers,Rangers,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/Kevin_Kelsy,auto,"[auto] player joined Rangers - the rumoured destination | On 26 August 2026, Kelsy completed a transfer to Rangers for a fee reported to be worth $13 million."
 336,Jarell Quansah,Bayer Leverkusen,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
 337,Sofie Lundgaard,Liverpool,Eintracht Frankfurt,2026-summer,completed,,2026-08-14,https://en.wikipedia.org/wiki/Sofie_Lundgaard,auto,"[auto] player joined Eintracht Frankfurt - the rumoured destination | On 14 August 2026, Lundgaard joined Frauen-Bundesliga side Eintracht Frankfurt for an undisclosed fee."
 338,Danny Rohl,Rangers,Red Bull Salzburg,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Danny_Rohl,auto,[auto] player joined Red Bull Salzburg - the rumoured destination | In June 2026 he was appointed manager of Red Bull Salzburg.
@@ -329,7 +329,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 381,Jules Ahoka,Royal Antwerp,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 382,Kim Min-su,Girona,Rangers,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Kim_Min-su,auto,"[auto] player joined Scottish Premiership club Rangers - the rumoured destination | On 27 August 2026, Kim signed for Scottish Premiership club Rangers on a four-year deal with the option of a further year."
 383,Allan Elias,Palmeiras,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
-384,Joel Ordóñez,Club Brugge,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+384,Joel Ordonez,Club Brugge,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 385,Jean-Philippe Mateta,Crystal Palace,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 386,Savio,Manchester City,Tottenham Hotspur,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Savio,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 25 August 2026, Sávio completed a permanent move to fellow Premier League club Tottenham Hotspur in a deal reportedly worth £75m (£85m with add-ons)."
 387,Abdul Abdulmalik,Boreham Wood,Djurgarden,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -340,7 +340,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 392,Javi Rueda,Celta Vigo,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 393,Krystian Bielik,West Bromwich Albion,Cardiff City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Krystian_Bielik,auto,"[auto] player joined Cardiff City - the rumoured destination | On 26 August 2026, Bielik moved to fellow EFL Championship club Cardiff City on a three-year contract."
 394,Brad Spencer,Falkirk,Dundee United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-395,El Hadji Malick Diouf,West Ham,Brentford,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+395,El Hadji Malick Diouf,West Ham,Brentford,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/El_Hadji_Malick_Diouf,auto,[auto] player joined Brentford - the rumoured destination | Diouf signed a five year deal with Brentford on 28 August 2026.
 396,Honest Ahanor,Atalanta,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 397,Iliman Ndiaye, Everton,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 398,Jenson Seelt,Sunderland,Swansea City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Jenson_Seelt,auto,"[auto] player joined Swansea City - the rumoured destination | On 27 August 2026, Seelt joined EFL Championship club Swansea City on loan for the 2026–27 season."
@@ -348,3 +348,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 400,Minsu Kim,Girona,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 401,Mohamed-Ali Cho,Nice,Hull City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Mohamed-Ali_Cho,auto,"[auto] player joined Hull City - the rumoured destination | On 27 August 2026, Cho joined newly promoted Premier League club Hull City for an undisclosed fee on a five-year contract."
 402,Exequiel Palacios,Bayer Leverkusen,Ipswich Town,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+403,James Ward-Prowse,West Ham United,Southampton,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/James_Ward-Prowse,auto,"[auto] player joined Southampton - the rumoured destination | On 28 August 2026, Ward-Prowse rejoined Southampton on a two-year contract."
+404,Monica Jusu Bah,BK Hacken,Manchester United,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/Monica_Jusu_Bah,auto,"[auto] player joined Manchester United - the rumoured destination | On 28 August 2026, Jusu Bah signed for Manchester United on a four-year contract for a reported fee of just under £400,000."
+405,Rafael Leão,,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
