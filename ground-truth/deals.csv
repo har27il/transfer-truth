@@ -352,3 +352,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 404,Monica Jusu Bah,BK Hacken,Manchester United,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/Monica_Jusu_Bah,auto,"[auto] player joined Manchester United - the rumoured destination | On 28 August 2026, Jusu Bah signed for Manchester United on a four-year contract for a reported fee of just under £400,000."
 405,Rafael Leão,,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 406,Kevin Danso,Sunderland,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+407,Andrei Ratiu,Rayo Vallecano,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+408,Harrison Armstrong,Everton,Nottingham Forest,2026-summer,collapsed,,2026-08-29,https://en.wikipedia.org/wiki/Harrison_Armstrong,auto,"[auto] player joined Preston North End, not Nottingham Forest - rumour did not happen | On 1 September 2025, Armstrong joined Preston North End on loan until the end of the 2025–26 season."
+409,Joel van den Berg,PSV Eindhoven,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
