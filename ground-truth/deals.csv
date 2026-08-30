@@ -299,7 +299,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 351,Pedro Neto,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 352,Amario Cozier-Duberry,Brighton,Rangers,2026-summer,collapsed,,2026-08-17,https://en.wikipedia.org/wiki/Amario_Cozier-Duberry,auto,"[auto] player joined Bolton Wanderers, not Rangers - rumour did not happen | Cozier-Duberry joined League One club Bolton Wanderers on a season-long loan on 5 July 2025."
 353,Bruno Fernandes,Manchester United,Galatasaray,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
-354,Emi Martinez,Aston Villa,Juventus,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+354,Emi Martinez,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 355,Hatate,Celtic,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 356,Toby Collyer,Manchester United,West Bromwich Albion,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Toby_Collyer,auto,"[auto] player joined West Bromwich Albion - the rumoured destination | On 15 August 2025, Collyer joined West Bromwich Albion on a season-long loan."
 357,Safia Middleton-Patel,Manchester United,Watford,2026-summer,completed,,2026-08-18,https://en.wikipedia.org/wiki/Safia_Middleton-Patel,auto,"[auto] player joined Watford - the rumoured destination | Middleton-Patel was loaned to Watford again, this time for the full 2026–27 season, on 18 August 2026."
@@ -332,8 +332,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 384,Joel Ordonez,Club Brugge,Crystal Palace,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 385,Jean-Philippe Mateta,Crystal Palace,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 386,Savio,Manchester City,Tottenham Hotspur,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Savio,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 25 August 2026, Sávio completed a permanent move to fellow Premier League club Tottenham Hotspur in a deal reportedly worth £75m (£85m with add-ons)."
-387,Abdul Abdulmalik,Boreham Wood,Djurgarden,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-388,Emiliano Martínez,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 3 claim(s); to_club provisional
+387,Abdul Abdulmalik,Boreham Wood,Djurgardens,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+388,Emiliano Martínez,Aston Villa,Chelsea,2026-summer,completed,,2026-08-30,https://en.wikipedia.org/wiki/Emiliano_Martínez,auto,"[auto] player joined Chelsea - the rumoured destination | On 30 August 2026, Martínez signed for Chelsea on a three-year contract."
 389,Ethan Pinnock,Brentford,Coventry City,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Ethan_Pinnock,auto,"[auto] player joined Coventry City - the rumoured destination | On 24 August 2026, newly promoted side Coventry agreed to sign Pinnock for ₤6million on a three-year contract with the option of extending by one year."
 390,Ismaila Sarr,Crystal Palace,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 2 claim(s); to_club provisional
 391,Issa Kabore,Manchester City,Wrexham,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Issa_Kabore,auto,"[auto] player joined Wrexham - the rumoured destination | On 1 September 2025, Kaboré joined EFL Championship club Wrexham on loan until the end of the 2025–26 season."
@@ -342,7 +342,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 394,Brad Spencer,Falkirk,Dundee United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 395,El Hadji Malick Diouf,West Ham,Brentford,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/El_Hadji_Malick_Diouf,auto,[auto] player joined Brentford - the rumoured destination | Diouf signed a five year deal with Brentford on 28 August 2026.
 396,Honest Ahanor,Atalanta,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-397,Iliman Ndiaye, Everton,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+397,Iliman Ndiaye,Everton,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 398,Jenson Seelt,Sunderland,Swansea City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Jenson_Seelt,auto,"[auto] player joined Swansea City - the rumoured destination | On 27 August 2026, Seelt joined EFL Championship club Swansea City on loan for the 2026–27 season."
 399,Joshua Zirkzee,Manchester United,Fiorentina,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 400,Minsu Kim,Girona,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -356,3 +356,8 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 408,Harrison Armstrong,Everton,Nottingham Forest,2026-summer,collapsed,,2026-08-29,https://en.wikipedia.org/wiki/Harrison_Armstrong,auto,"[auto] player joined Preston North End, not Nottingham Forest - rumour did not happen | On 1 September 2025, Armstrong joined Preston North End on loan until the end of the 2025–26 season."
 409,Joel van den Berg,PSV Eindhoven,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 410,Daniel Munoz,Crystal Palace,Nottingham Forest,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+411,Axel Donczew,Cardiff City,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+412,Fabio Vieira,Arsenal,Hamburg,2026-summer,collapsed,,2026-08-30,https://en.wikipedia.org/wiki/Fabio_Vieira,auto,"[auto] player joined Hamburger SV, not Hamburg - rumour did not happen | On 1 September 2025, Vieira joined Hamburger SV, recently returned to the Bundesliga, on loan for the 2025–26 campaign."
+413,Jean-Matteo Bahoya,Eintracht Frankfurt,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+414,Nick Woltemade,Newcastle United,SSC Napoli,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+415,Vicko Sevelj,Dundee United,Neftci Baku,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
