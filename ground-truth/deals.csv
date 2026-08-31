@@ -361,4 +361,6 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 413,Jean-Matteo Bahoya,Eintracht Frankfurt,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 414,Nick Woltemade,Newcastle United,SSC Napoli,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 415,Vicko Sevelj,Dundee United,Neftci Baku,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-416,Stephen Mfuni,Manchester City,Coventry City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+416,Stephen Mfuni,Manchester City,Coventry City,2026-summer,completed,,2026-08-31,https://en.wikipedia.org/wiki/Stephen_Mfuni,auto,"[auto] player joined Coventry City - the rumoured destination | In August 2026, he joined newly promoted Premier League team Coventry City on a season-long loan."
+417,Carlotta Wamser,Bayer Leverkusen,Manchester City,2026-summer,completed,,2026-08-31,https://en.wikipedia.org/wiki/Carlotta_Wamser,auto,"[auto] player joined Manchester City - the rumoured destination | On 31 August 2026, Wamser joined Women's Super League champions Manchester City on a four-year contract."
+418,Harvey Elliott,Liverpool,Valencia,2026-summer,collapsed,,2026-08-31,https://en.wikipedia.org/wiki/Harvey_Elliott,auto,"[auto] player joined Aston Villa, not Valencia - rumour did not happen | On 1 September 2025, Elliott signed for fellow Premier League club Aston Villa on an initial season-long loan with an obligation to buy conditional to appearances."
