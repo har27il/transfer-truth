@@ -316,11 +316,11 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 368,Nico Gonzalez,Manchester City,Newcastle United,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Nico_Gonzalez,auto,"[auto] player joined Newcastle United - the rumoured destination | On 26 August 2026, González signed for Newcastle United on a long-term deal."
 369,Joao Cancelo,Al-Hilal,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 370,Yankuba Minteh,Brighton,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-371,Gabriel Jesus,Arsenal,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+371,Gabriel Jesus,Arsenal,Barcelona,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Gabriel_Jesus,auto,"[auto] player joined Barcelona - the rumoured destination | On 1 September 2026, Jesus signed for La Liga club Barcelona on a three-year contract for an undisclosed fee reported to be €10 million, with a further €4.5 million in potential add-ons."
 372,Kenan Yildiz,Juventus,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 373,Omar Marmoush,Manchester City,Tottenham Hotspur,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Omar_Marmoush,auto,"[auto] player joined Tottenham Hotspur - the rumoured destination | On 27 August 2026, fellow Premier League club Tottenham Hotspur announced the signing of Marmoush on an initial season-long loan, with an obligation to buy at the end of the loan spell."
 374,Ronaldinho,,Ravenna,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-375,Taylor Harwood-Bellis,Southampton,Aston Villa,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+375,Taylor Harwood-Bellis,Southampton,Aston Villa,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Taylor_Harwood-Bellis,auto,"[auto] player joined Aston Villa - the rumoured destination | On 1 September 2026, Harwood-Bellis joined Aston Villa for an undisclosed fee."
 376,Axel Disasi,Chelsea,Crystal Palace,2026-summer,completed,,2026-08-26,https://en.wikipedia.org/wiki/Axel_Disasi,auto,"[auto] player joined Crystal Palace - the rumoured destination | On 26 August 2026, Disasi joined Crystal Palace on loan for the remainder of the 2026–27 season."
 377,Nicolas Jackson,,Aston Villa,2026-summer,collapsed,,2026-08-22,https://en.wikipedia.org/wiki/Nicolas_Jackson,auto,"[auto] player joined Bayern Munich, not Aston Villa - rumour did not happen | On 1 September 2025, Jackson joined Bundesliga club Bayern Munich on a season-long loan for a reported fee of €16.5m."
 378,Thomas Partey,,Al-Shabab,2026-summer,completed,,2026-08-21,https://en.wikipedia.org/wiki/Thomas_Partey,auto,"[auto] player joined Al-Shabab - the rumoured destination | On 21 August 2026, Partey signed with Saudi Pro League club Al-Shabab on a free transfer."
@@ -341,7 +341,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 393,Krystian Bielik,West Bromwich Albion,Cardiff City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Krystian_Bielik,auto,"[auto] player joined Cardiff City - the rumoured destination | On 26 August 2026, Bielik moved to fellow EFL Championship club Cardiff City on a three-year contract."
 394,Brad Spencer,Falkirk,Dundee United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 395,El Hadji Malick Diouf,West Ham,Brentford,2026-summer,completed,,2026-08-28,https://en.wikipedia.org/wiki/El_Hadji_Malick_Diouf,auto,[auto] player joined Brentford - the rumoured destination | Diouf signed a five year deal with Brentford on 28 August 2026.
-396,Honest Ahanor,Atalanta,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+396,Honest Ahanor,Atalanta,Chelsea,2026-summer,collapsed,,2026-09-01,https://en.wikipedia.org/wiki/Honest_Ahanor,auto,"[auto] player joined Crystal Palace, not Chelsea - rumour did not happen | On 1 September 2026, Atalanta loaned Ahanor to Premier League side Crystal Palace on a season-long loan deal."
 397,Iliman Ndiaye,Everton,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 398,Jenson Seelt,Sunderland,Swansea City,2026-summer,completed,,2026-08-27,https://en.wikipedia.org/wiki/Jenson_Seelt,auto,"[auto] player joined Swansea City - the rumoured destination | On 27 August 2026, Seelt joined EFL Championship club Swansea City on loan for the 2026–27 season."
 399,Joshua Zirkzee,Manchester United,Fiorentina,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
@@ -376,3 +376,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 428,Joe Worrall,Burnley,Wrexham,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Joe_Worrall,auto,"[auto] player joined Wrexham - the rumoured destination | On 1 September 2026, Worrall signed for Wrexham on a two-year contract."
 429,Jorge Salinas,Racing Santander,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 430,Melvin Bard,Nice,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+431,Femi Azeez,Millwall,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+432,Manuel Angel,Real Madrid,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
