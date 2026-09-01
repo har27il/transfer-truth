@@ -359,17 +359,17 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 411,Axel Donczew,Cardiff City,Arsenal,2026-summer,completed,,2026-08-30,https://en.wikipedia.org/wiki/Axel_Donczew,auto,"[auto] player joined Arsenal - the rumoured destination | On 30 August 2026, Donczew signed for the academy of Premier League club Arsenal as part of club's first-year scholarship intake."
 412,Fabio Vieira,Arsenal,Hamburg,2026-summer,collapsed,,2026-08-30,https://en.wikipedia.org/wiki/Fabio_Vieira,auto,"[auto] player joined Hamburger SV, not Hamburg - rumour did not happen | On 1 September 2025, Vieira joined Hamburger SV, recently returned to the Bundesliga, on loan for the 2025–26 campaign."
 413,Jean-Matteo Bahoya,Eintracht Frankfurt,Hull City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-414,Nick Woltemade,Newcastle United,Juventus,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+414,Nick Woltemade,Newcastle United,Juventus,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Nick_Woltemade,auto,"[auto] player joined Juventus - the rumoured destination | On 1 September 2026, Woltemade joined Serie A club Juventus on loan."
 415,Vicko Sevelj,Dundee United,Neftci Baku,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 416,Stephen Mfuni,Manchester City,Coventry City,2026-summer,completed,,2026-08-31,https://en.wikipedia.org/wiki/Stephen_Mfuni,auto,"[auto] player joined Coventry City - the rumoured destination | In August 2026, he joined newly promoted Premier League team Coventry City on a season-long loan."
 417,Carlotta Wamser,Bayer Leverkusen,Manchester City,2026-summer,completed,,2026-08-31,https://en.wikipedia.org/wiki/Carlotta_Wamser,auto,"[auto] player joined Manchester City - the rumoured destination | On 31 August 2026, Wamser joined Women's Super League champions Manchester City on a four-year contract."
 418,Harvey Elliott,Liverpool,Valencia,2026-summer,collapsed,,2026-08-31,https://en.wikipedia.org/wiki/Harvey_Elliott,auto,"[auto] player joined Aston Villa, not Valencia - rumour did not happen | On 1 September 2025, Elliott signed for fellow Premier League club Aston Villa on an initial season-long loan with an obligation to buy conditional to appearances."
-419,Callum O'Hare,Sheffield United,Wrexham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+419,Callum O'Hare,Sheffield United,Wrexham,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Callum_O'Hare,auto,"[auto] player joined Wrexham - the rumoured destination | On 1 September 2026, O'Hare joined fellow Championship club Wrexham on a three-year deal."
 420,Christian Pulisic,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 421,Estêvão,Chelsea,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 422,Matias Fernandez-Pardo,Lille,Newcastle United,2026-summer,completed,,2026-08-31,https://en.wikipedia.org/wiki/Matias_Fernandez-Pardo,auto,[auto] player joined Newcastle United - the rumoured destination | On the 31st of August 2026 Fernandez-Pardo signed for Newcastle United for £51 million quid.
 423,Rebeca Bernal,Washington Spirit,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-424,Malick Fofana,Lyon,Sunderland,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+424,Malick Fofana,Lyon,Sunderland,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Malick_Fofana,auto,"[auto] player joined Sunderland - the rumoured destination | On 1st September 2026, Fofana joined Premier League side Sunderland for a fee of £29.8 million, plus lucrative bonuses and agent fees totalling a further £4 million."
 425,Omari Hutchinson,Nottingham Forest,AC Milan,2026-summer,completed,,2026-08-31,https://en.wikipedia.org/wiki/Omari_Hutchinson,auto,"[auto] player joined AC Milan - the rumoured destination | On 31 August 2026, he joined Italian Serie A club AC Milan, on loan for the 2026–27 season with the option to make the move permanent."
 426,Elisa de Almeida,Paris Saint-Germain,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 427,Ilyas Ansah,Union Berlin,Hull City,2026-summer,completed,,2026-09-01,https://en.wikipedia.org/wiki/Ilyas_Ansah,auto,"[auto] player joined Hull City - the rumoured destination | On 1 September 2026, Ansah joined Premier League club Hull City on a deal reportedly worth £12.8m with a further £10.5 million in add-ons."
@@ -378,3 +378,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 430,Melvin Bard,Nice,Leeds United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 431,Femi Azeez,Millwall,Brighton,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 432,Manuel Angel,Real Madrid,Fulham,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+433,Lucca Brughmans,,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+434,Oliver Sorensen,Parma,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
