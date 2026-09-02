@@ -897,3 +897,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 947,439,BBC Sport,rss,2026-09-01,here_we_go,https://www.bbc.co.uk/sport/football/articles/ce3r0yww04ro?at_medium=RSS&at_campaign=rss,Chelsea goalkeeper Sanchez joins Como on loan,auto
 948,440,BBC Sport,rss,2026-09-01,here_we_go,https://www.bbc.co.uk/sport/football/articles/c8e37d6w6w0o?at_medium=RSS&at_campaign=rss,Ipswich sign Burnley forward Flemming for £20m,auto
 949,441,BBC Sport,rss,2026-09-02,here_we_go,https://www.bbc.co.uk/sport/football/articles/c07lzmp03kpo?at_medium=RSS&at_campaign=rss,Celtic sign keeper Johnstone & striker Mheuka on loan,auto
+950,283,Thiago Scuro,rss,2026-09-02,denied,https://www.theguardian.com/football/2026/sep/02/folarin-balogun-transfer-deadline-day-collapse-monaco-everton-lamine-camara-chelsea,"Balogun pulled out of Everton move over handling of his medical, claim Monaco",auto
+951,442,The Guardian,rss,2026-09-02,interest,https://www.theguardian.com/football/2026/sep/02/richarlison-could-still-leave-tottenham-as-trabzonspor-weigh-up-bid-for-striker,Richarlison could still leave Tottenham as Trabzonspor weigh up bid for striker,auto
+952,443,BBC Sport,rss,2026-09-02,advanced,https://www.bbc.co.uk/sport/football/articles/c624z0q5y5jo?at_medium=RSS&at_campaign=rss,Aasgaard set for Anderlecht switch as Rangers reject Raskin bid,auto
