@@ -919,3 +919,6 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 969,446,BBC Sport,rss,2026-09-03,official,https://www.bbc.co.uk/sport/football/articles/c5yep5d6qnno?at_medium=RSS&at_campaign=rss,Man City sign England goalkeeper Moorhouse on loan,auto
 970,300,Enzo Maresca,rss,2026-09-04,interest,https://www.bbc.co.uk/sport/football/articles/c5y4ge76jx8o?at_medium=RSS&at_campaign=rss,Several players wanted Fernandez updates - Maresca,auto
 971,447,BBC Sport,rss,2026-09-04,official,https://www.bbc.co.uk/sport/football/articles/cvgypzg4y75o?at_medium=RSS&at_campaign=rss,Coventry sign winger Gboho - cousin of PSG's Doue,auto
+972,128,BBC Sport,rss,2026-09-05,denied,https://www.bbc.co.uk/sport/football/articles/cj3dj07vkyno?at_medium=RSS&at_campaign=rss,Rangers failed to pursue Ferguson despite agreement - gossip,auto
+973,448,BBC Sport,rss,2026-09-04,rumour_link,https://www.bbc.co.uk/sport/football/articles/c7903g4nvn3o?at_medium=RSS&at_campaign=rss,Bissouma was offered to Chelsea - Saturday's gossip,auto
+974,448,Sky Sports,rss,2026-09-04,interest,https://www.skysports.com/football/news/12691/13581538/chelsea-transfer-news-blues-offered-chance-to-sign-former-tottenham-midfielder-yves-bissouma-paper-talk,Papers: Chelsea offered chance to sign Bissouma as Fernandez replacement,auto
