@@ -922,3 +922,5 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 972,128,BBC Sport,rss,2026-09-05,denied,https://www.bbc.co.uk/sport/football/articles/cj3dj07vkyno?at_medium=RSS&at_campaign=rss,Rangers failed to pursue Ferguson despite agreement - gossip,auto
 973,448,BBC Sport,rss,2026-09-04,rumour_link,https://www.bbc.co.uk/sport/football/articles/c7903g4nvn3o?at_medium=RSS&at_campaign=rss,Bissouma was offered to Chelsea - Saturday's gossip,auto
 974,448,Sky Sports,rss,2026-09-04,interest,https://www.skysports.com/football/news/12691/13581538/chelsea-transfer-news-blues-offered-chance-to-sign-former-tottenham-midfielder-yves-bissouma-paper-talk,Papers: Chelsea offered chance to sign Bissouma as Fernandez replacement,auto
+975,390,BBC Sport,rss,2026-09-05,rumour_link,https://www.bbc.co.uk/sport/football/articles/cdx0knz81p2o?at_medium=RSS&at_campaign=rss,Liverpool may make January move for Sarr - Sunday's gossip,auto
+976,449,BBC Sport,rss,2026-09-06,interest,https://www.bbc.co.uk/sport/football/articles/cwyzj20rxe3o?at_medium=RSS&at_campaign=rss,Aberdeen could move for former Rangers midfielder - gossip,auto
