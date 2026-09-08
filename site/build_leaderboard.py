@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "site"))
 
 import theme
+import windows
 
 DATA = ROOT / "scoring" / "leaderboard.json"
 OUT = ROOT / "docs" / "index.html"
@@ -191,6 +192,7 @@ def main():
                  f'<span class="sep">&middot;</span><span>{datestr}</span>'
                  f'<span class="sep">&middot;</span><span>{len(board)} reporters</span>'
                  f'<span class="sep">&middot;</span><span>{n} resolved calls</span>'
+                 f'<span class="sep">&middot;</span><span id="tt-window">{windows.dateline()}</span>'
                  f'</div><div class="rule"></div></div>')
 
     rail = (f'<div class="railsec"><a class="live" href="feed.html">'
@@ -222,7 +224,7 @@ def main():
     gen = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     foot = (f'<p class="foot"><b>Reliability, made visible.</b> Reporters ranked by how often their '
             f'transfer calls come true &mdash; scored against real outcomes, not vibes. The score is the '
-            f'only colour on the page. Static file, rebuilt daily. Generated {gen} UTC.</p>')
+            f'only colour on the page. Static file, rebuilt twice weekly. Generated {gen} UTC.</p>')
 
     page = f"""{theme.head("Transfer Truth — Reliability Leaderboard", PAGE_CSS)}
 <body>
@@ -243,6 +245,7 @@ def main():
     {foot}
   </div>
   <script>function ttTheme(){{var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='dark'?'':'dark');}}</script>
+  {windows.countdown_js()}
 </body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")

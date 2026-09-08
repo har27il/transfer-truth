@@ -15,16 +15,36 @@ on:
         required: false
         default: ''
   schedule:
-    # GitHub's schedule trigger is BEST-EFFORT: under load it delays runs by up to a
-    # few hours and sometimes DROPS them entirely. A single daily cron therefore can't
-    # be trusted to actually fire. We fan out across three windows hours apart so a
-    # correlated drop on one window is unlikely to take all three. This is safe to do
-    # because the job is IDEMPOTENT -- "Commit on change" only pushes when data actually
-    # changed, and the concurrency group below serialises overlapping runs -- so the
-    # extra windows simply no-op (warm ingest ~1s, dedup bounds NIM) when nothing's new.
-    - cron: '17 6 * * *'    # 06:17 UTC (primary; off the top-of-hour cron stampede)
-    - cron: '17 11 * * *'   # 11:17 UTC (backup if the morning window is dropped)
-    - cron: '17 16 * * *'   # 16:17 UTC (final backup)
+    # CADENCE IS TIED TO THE TRANSFER WINDOW, NOT THE CALENDAR. The summer window shut
+    # 23:00 BST 2026-09-01 and the next one opens 2027-01-01 (site/windows.py holds the
+    # dates). Between windows there is almost no rumour flow, so daily runs burned NIM
+    # tokens to re-confirm an empty feed. Dropped to a twice-weekly beat: 21 runs/week
+    # -> 4 scheduled, across 2 effective days.
+    #
+    # WHY NOT ONE CRON A WEEK. Two independent 7-day limits make a strict weekly
+    # schedule unsafe:
+    #   1. actions/cache evicts any entry not accessed for 7 days. ingest/ingest.db
+    #      lives ONLY in that cache (never committed) and holds the live feed's whole
+    #      claim history. A 7-day cron sits exactly on the eviction boundary.
+    #   2. GitHub's schedule trigger is BEST-EFFORT: it delays runs by hours under load
+    #      and sometimes DROPS them. One dropped weekly run = a 14-day gap = the cache
+    #      is gone for certain, and the feed rebuilds from a single run's claims.
+    # Mon + Thu caps the worst-case gap at 4 days, so even a fully dropped day still
+    # lands inside the 7-day cache window.
+    #
+    # The same-day backup keeps the ORIGINAL fan-out principle (a dropped run must not
+    # cost the whole slot), just at the new cadence. Safe because the job is IDEMPOTENT:
+    # "Commit on change" only pushes when data actually changed and the concurrency
+    # group serialises overlaps, so a backup run no-ops (warm ingest ~1s, dedup bounds
+    # NIM) when the primary already did the work.
+    #
+    # WHEN THE WINDOW REOPENS (2027-01-01): put this back to the daily fan-out --
+    # deadline-day rumour flow needs same-day resolution. Also flip ACTIVE_WINDOW /
+    # DEFAULT_WINDOW to 2027-winter (see site/build_feed.py, ingest/pipeline.py).
+    - cron: '17 6 * * 1'    # Mon 06:17 UTC (primary; off the top-of-hour cron stampede)
+    - cron: '17 14 * * 1'   # Mon 14:17 UTC (backup if the Monday morning run is dropped)
+    - cron: '17 6 * * 4'    # Thu 06:17 UTC (primary)
+    - cron: '17 14 * * 4'   # Thu 14:17 UTC (backup)
 
 # Least privilege: the job only needs to push the rebuilt site + resolved CSVs.
 permissions:

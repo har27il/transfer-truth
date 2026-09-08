@@ -24,6 +24,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "site"))
 
 import theme
+import windows
 from ingest import store, cluster, meter
 from ingest.exclude import is_known_non_player
 from outcome.detect import collapse_facts, display_club
@@ -278,7 +279,19 @@ def _lead(m, reliability):
       </section>"""
 
 
-def _empty_lead():
+def _empty_lead(now=None):
+    """Between windows this is the page's PRIMARY view, not an edge case — for ~4
+    months a year there is legitimately nothing to contest. Say why, so an empty
+    feed reads as the market being shut rather than the pipeline being broken."""
+    st = windows.state(now)
+    if st.phase == "closed":
+        reopen = (f' It reopens in {st.days_until} {"day" if st.days_until == 1 else "days"}.'
+                  if st.next_open else "")
+        return ('<section class="lede"><p class="kicker">Between windows</p>'
+                '<h2>The transfer window is shut</h2>'
+                '<p class="dek">No club can register a signing right now, so there is nothing '
+                f'live to contest. Settled deals and the standings are in the rail.{reopen}'
+                '</p></section>')
     return ('<section class="lede"><p class="kicker">All quiet</p>'
             '<h2>No contested deals right now</h2>'
             '<p class="dek">The window has gone quiet. Agreed and settled deals are in the rail; '
@@ -378,7 +391,13 @@ def _done_rail(done_rows):
             f'<p class="railsub">Settled this window.</p>{items}</div>')
 
 
-STALE_AFTER_HOURS = 24
+# Sized to the CRON, not to a gut feeling. The pipeline runs Mon+Thu, so a healthy
+# site is routinely ~3.5 days old and GitHub delays scheduled runs by hours under load.
+# At the old 24h this badge fired on every healthy run — a false STALE is the same
+# trust failure as a missed real one, inverted. 120h = 5 days: clears the 4-day
+# Thu->Mon gap with headroom, still catches a genuinely dead pipeline well inside a
+# week. If the cron cadence changes, change this with it.
+STALE_AFTER_HOURS = 120
 
 
 def data_freshness(conn, now=None):
@@ -475,7 +494,7 @@ def main():
                  f'<div class="np-line">{edition}'
                  f'<span class="sep">&middot;</span><span>{datestr}</span>'
                  f'{asof_html}'
-                 f'<span class="sep">&middot;</span><span>Summer window</span>'
+                 f'<span class="sep">&middot;</span><span id="tt-window">{windows.dateline()}</span>'
                  f'<span class="sep">&middot;</span><span>{len(live_rows)} contested &middot; {len(agreed_rows)} agreed'
                  f'{f" &middot; {len(quiet)} cooling" if quiet else ""}</span>'
                  f'</div><div class="rule"></div></div>')
@@ -491,7 +510,7 @@ def main():
     # local rebuild in a non-UTC timezone).
     gen = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     foot = (f'<p class="foot">Reliability-weighted, recency-decayed. The meter is the only colour on the page. '
-            f'Static file, rebuilt daily. Generated {gen} UTC.</p>')
+            f'Static file, rebuilt twice weekly. Generated {gen} UTC.</p>')
 
     page = f"""{theme.head("Transfer Truth — Live Rumour Feed", PAGE_CSS)}
 <body>
@@ -515,6 +534,7 @@ def main():
     {foot}
   </div>
   <script>function ttTheme(){{var b=document.body;b.setAttribute('data-theme',b.getAttribute('data-theme')==='dark'?'':'dark');}}</script>
+  {windows.countdown_js()}
 </body></html>"""
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(page, encoding="utf-8")

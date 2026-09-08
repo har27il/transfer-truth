@@ -3,7 +3,8 @@
 Football transfer-rumour **credibility** site: extracts structured claims from RSS
 rumour text via LLM, scores journalist reliability (Brier), shows a per-deal
 probability meter, and a tiered feed (contested → agreed → cold → done). Static
-pages on GitHub Pages, rebuilt by a daily GitHub Actions cron.
+pages on GitHub Pages, rebuilt by a twice-weekly GitHub Actions cron (Mon + Thu —
+the cadence tracks the transfer window; see Pipeline).
 
 ## Design System
 Always read **DESIGN.md** before making any visual or UI decision. All fonts, colours,
@@ -36,7 +37,13 @@ explicit user approval. In QA, flag any code that doesn't match DESIGN.md.
 - Tests: `python -m pytest -q`
 
 ## Pipeline (update-site.yml — the real orchestrator)
-Runs at 06:17/11:17/16:17 UTC or via `workflow_dispatch`. This IS the orchestration
+Runs Mon + Thu at 06:17 UTC (14:17 same-day backup) or via `workflow_dispatch`.
+**Cadence follows the market, not the calendar:** the window shut 2026-09-01 and
+reopens 2027-01-01, so daily runs were re-confirming an empty feed. Not a single
+weekly cron — `actions/cache` evicts `ingest.db` after 7 unaccessed days and
+GitHub drops scheduled runs, so one dropped weekly run would lose the whole claim
+history. Restore the daily fan-out when the window reopens (the workflow's schedule
+comment carries the full reasoning and the reopening checklist). This IS the orchestration
 layer — it's a straight line, not a graph, and that's correct for what it does:
 
 1. checkout → setup-python 3.12 → `pip install -r requirements.txt`

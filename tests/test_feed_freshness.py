@@ -36,9 +36,19 @@ def test_fresh_stamp_yields_asof_label_below_threshold():
 
 def test_old_stamp_is_flagged_stale():
     conn = _conn()
-    store.set_meta(conn, store.LAST_INGEST_KEY, (NOW - timedelta(days=3)).isoformat())
+    store.set_meta(conn, store.LAST_INGEST_KEY, (NOW - timedelta(days=7)).isoformat())
     label, age_h = build_feed.data_freshness(conn, now=NOW)
     assert label and age_h > build_feed.STALE_AFTER_HOURS
+
+
+def test_normal_twice_weekly_gap_is_not_stale():
+    """The cron runs Mon+Thu, so a HEALTHY site is routinely ~3.5 days old. A badge
+    that fires on the happy path is the same trust failure as one that never fires
+    (it trains you to ignore it). Guards the threshold against drifting back down."""
+    conn = _conn()
+    store.set_meta(conn, store.LAST_INGEST_KEY, (NOW - timedelta(days=4, hours=12)).isoformat())
+    _label, age_h = build_feed.data_freshness(conn, now=NOW)
+    assert age_h < build_feed.STALE_AFTER_HOURS
 
 
 def test_garbage_stamp_fails_safe_to_unknown():
