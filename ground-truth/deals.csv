@@ -398,5 +398,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 450,Milo Beimers,,Viterbese,2026-summer,completed,,2026-09-07,https://en.wikipedia.org/wiki/Milo_Beimers,auto,[auto] player joined Viterbese - the rumoured destination | Beimers signed for Italian side Viterbese who play in the fourth division of Italian Football in August 2026.
 451,Sander Berge,Fulham,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 452,Gabriel,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-453,JJ Gabriel,Manchester United,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+453,JJ Gabriel,Manchester United,Real Madrid,2026-summer,collapsed,,2026-09-17,https://en.wikipedia.org/wiki/JJ_Gabriel,auto,"[auto] window closed; player stayed at Manchester United - move to Real Madrid did not happen | On 1 August 2026, he made his first-team debut in a pre-season friendly against Atlético Madrid at Nationalarenan in Stockholm, Sweden, coming on as a substitute for Bryan Mbeumo in the 82nd minute."
 454,Max Dowman,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
