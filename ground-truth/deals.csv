@@ -100,7 +100,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 123,Trevoh Chalobah,Chelsea,Como,2026-summer,completed,,2026-08-10,https://en.wikipedia.org/wiki/Trevoh_Chalobah,auto,"[auto] player joined Como - the rumoured destination | On 9 August 2026, Chalobah signed for Serie A club Como on a deal until 2031."
 124,Yan Diomande,RB Leipzig,Real Madrid,2026-summer,completed,,2026-08-07,https://en.wikipedia.org/wiki/Yan_Diomande,YES,"[auto] player joined Real Madrid - the rumoured destination | On 6 August 2026, Diomande returned to La Liga, signing for Real Madrid on a seven-year contract until 30 June 2033."
 126,Jérémy Jacquet,Rennes,Liverpool,2026-summer,completed,,2026-07-01,,YES,[verified 2026-07-05] joined Liverpool for GBP55m from Rennes | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026
-127,Kroupi,,Tottenham Hotspur,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+127,Kroupi,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 128,Lewis Ferguson,Bologna,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 129,Bazoumana Toure,Hoffenheim,Newcastle United,2026-summer,completed,,2026-07-05,https://en.wikipedia.org/wiki/Bazoumana_Toure,YES,"[auto] player joined Newcastle United - the rumoured destination | On 5 July 2026, Touré signed for Premier League club Newcastle United on a £42 million transfer fee."
 130,Rasmus Hojlund,Manchester United,Napoli,2026-summer,completed,,2026-06-29,,YES,"[verified 2026-07-05] outage coverage gap, added from census | en.wikipedia.org/wiki/List_of_English_football_transfers_summer_2026"
@@ -400,3 +400,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 452,Gabriel,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 453,JJ Gabriel,Manchester United,Real Madrid,2026-summer,collapsed,,2026-09-17,https://en.wikipedia.org/wiki/JJ_Gabriel,auto,"[auto] window closed; player stayed at Manchester United - move to Real Madrid did not happen | On 1 August 2026, he made his first-team debut in a pre-season friendly against Atlético Madrid at Nationalarenan in Stockholm, Sweden, coming on as a substitute for Bryan Mbeumo in the 82nd minute."
 454,Max Dowman,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+455,Morgan Gibbs-White,,Tottenham Hotspur,2026-summer,collapsed,,2026-09-21,https://en.wikipedia.org/wiki/Morgan_Gibbs-White,auto,"[auto] window closed; player stayed at  - move to Tottenham Hotspur did not happen | On 26 July, Gibbs-White signed a new three-year contract with Nottingham Forest."
