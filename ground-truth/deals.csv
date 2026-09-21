@@ -399,5 +399,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 451,Sander Berge,Fulham,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 452,Gabriel,,Manchester City,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 453,JJ Gabriel,Manchester United,Real Madrid,2026-summer,collapsed,,2026-09-17,https://en.wikipedia.org/wiki/JJ_Gabriel,auto,"[auto] window closed; player stayed at Manchester United - move to Real Madrid did not happen | On 1 August 2026, he made his first-team debut in a pre-season friendly against Atlético Madrid at Nationalarenan in Stockholm, Sweden, coming on as a substitute for Bryan Mbeumo in the 82nd minute."
-454,Max Dowman,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+454,Max Dowman,Arsenal,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 455,Morgan Gibbs-White,,Tottenham Hotspur,2026-summer,collapsed,,2026-09-21,https://en.wikipedia.org/wiki/Morgan_Gibbs-White,auto,"[auto] window closed; player stayed at  - move to Tottenham Hotspur did not happen | On 26 July, Gibbs-White signed a new three-year contract with Nottingham Forest."
