@@ -24,6 +24,7 @@ A RESOLUTION is a dict:
 
 import re
 import unicodedata
+from datetime import date, timedelta
 
 COMPLETED, COLLAPSED, UNKNOWN = "completed", "collapsed", "unknown"
 
@@ -160,6 +161,59 @@ def club_token_in_text(club, text):
     return any(re.search(r"\b" + re.escape(t) + r"\b", nt) for t in toks)
 
 
+# Window bounds for the evidence check (TODOS 0a), with slack: summer deals are often
+# agreed in April/May and registered when the window opens, and a late registration can
+# trail the deadline. The slack still rejects the observed failure -- evidence from the
+# PREVIOUS season. Dates mirror site/windows.py (2026-summer opened 15 Jun, closed 1 Sep).
+# A window missing here gets no check (the old behaviour), never a guess.
+_WINDOW_BOUNDS = {
+    "2025-summer": (date(2025, 6, 1), date(2025, 9, 2)),
+    "2026-summer": (date(2026, 6, 15), date(2026, 9, 1)),
+    "2027-winter": (date(2027, 1, 1), date(2027, 2, 1)),
+}
+_SLACK_BEFORE, _SLACK_AFTER = timedelta(days=60), timedelta(days=30)
+
+
+def _date_span(value):
+    """'YYYY-MM-DD' -> that day; 'YYYY-MM' -> that month; 'YYYY' -> that year; else None."""
+    s = (value or "").strip()
+    try:
+        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", s):
+            d = date.fromisoformat(s)
+            return d, d
+        if re.fullmatch(r"\d{4}-\d{2}", s):
+            y, m = map(int, s.split("-"))
+            start = date(y, m, 1)
+            return start, (date(y + (m == 12), m % 12 + 1, 1) - timedelta(days=1))
+        if re.fullmatch(r"\d{4}", s):
+            return date(int(s), 1, 1), date(int(s), 12, 31)
+    except ValueError:
+        return None
+    return None
+
+
+def outside_window(move_date, window):
+    """True only when the move is CERTAINLY outside the window (+ slack). Anything
+    unknown -- no date, an unreadable date, an untracked window -- is False."""
+    bounds, span = _WINDOW_BOUNDS.get((window or "").strip()), _date_span(move_date)
+    if not bounds or not span:
+        return False
+    lo, hi = bounds[0] - _SLACK_BEFORE, bounds[1] + _SLACK_AFTER
+    return span[1] < lo or span[0] > hi
+
+
+def _evidence_year(resolution, window):
+    """The latest year the resolver's own evidence quotes, IGNORING years after the
+    window: those are contract ends ("a deal until 2032"), not the move. "signed in 2019;
+    joined Valencia on 1 September 2026" -> "2026". None when nothing usable is dated."""
+    bounds = _WINDOW_BOUNDS.get((window or "").strip())
+    if not bounds:
+        return None
+    years = [int(y) for y in re.findall(r"\b((?:19|20)\d\d)\b", resolution.get("evidence") or "")
+             if int(y) <= bounds[1].year]
+    return str(max(years)) if years else None
+
+
 def classify(deal, resolution):
     """Return (outcome, reason). outcome in {completed, collapsed, unknown}.
 
@@ -176,6 +230,22 @@ def classify(deal, resolution):
         if not joined:
             # claims a move but names no club -> not positive evidence
             return UNKNOWN, "status=moved but no destination club given"
+        window = deal.get("window")
+        md = resolution.get("move_date")
+        if outside_window(md, window):
+            # TODOS 0a: the move the evidence describes happened in ANOTHER window (deal
+            # 418: a Sept-2025 loan "settling" a 2026 rumour). It says nothing about this
+            # rumour, so refuse to decide rather than grade a journalist on it.
+            return UNKNOWN, f"evidence describes a move dated {md}, outside the {window} window"
+        if not md and not same_club(joined, to_club):
+            # No move_date: on the COLLAPSE path only, date it by the evidence's own
+            # years. That path is where the stale verdicts were (3 of 4 re-checked on
+            # 2026-09-27 had in fact completed). A completion is left alone: its stale
+            # quote can sit beside real proof (deal 114, verified from BBC/Sky reports).
+            ey = _evidence_year(resolution, window)
+            if outside_window(ey, window):
+                return UNKNOWN, (f"evidence describes a move dated {ey}, "
+                                 f"outside the {window} window")
         if same_club(joined, from_club):
             # 'moved' but the named club IS the origin = a renewal/stay, not a transfer.
             # Refuse to decide rather than mislabel (D-safety: when in doubt, UNKNOWN).

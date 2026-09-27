@@ -234,6 +234,8 @@ def _build_prompt(text, player, window):
         "Return JSON with exactly these keys:\n"
         '  "status": "moved" | "stayed" | "unclear"\n'
         '  "joined_club": "<full club name if status=moved, else null>"\n'
+        '  "move_date": "<date of the move your evidence describes, as YYYY-MM-DD, or YYYY-MM '
+        'if only the month is given, or null if the text gives no date>"\n'
         '  "evidence": "<one short quote or fact from the text, with a date if present>"\n\n'
         "Definitions:\n"
         "- moved: the text clearly says he transferred to and signed for a club DURING this window.\n"
@@ -252,7 +254,7 @@ def _parse_json_object(raw):
     from engine.run import parse_engine_json
     obj = parse_engine_json(raw or "")
     if not isinstance(obj, dict):
-        return {"status": "unclear", "joined_club": None,
+        return {"status": "unclear", "joined_club": None, "move_date": None,
                 "evidence": "could not parse model output"}
     status = str(obj.get("status", "unclear")).strip().lower()
     if status not in ("moved", "stayed", "unclear"):
@@ -264,7 +266,11 @@ def _parse_json_object(raw):
             joined = None
     else:
         joined = None
-    return {"status": status, "joined_club": joined,
+    # The date of the move the evidence describes: detect.classify refuses a verdict when
+    # it falls outside the deal's window (TODOS 0a). A non-string is treated as no date.
+    move_date = obj.get("move_date")
+    move_date = move_date.strip() or None if isinstance(move_date, str) else None
+    return {"status": status, "joined_club": joined, "move_date": move_date,
             "evidence": str(obj.get("evidence", ""))[:300]}
 
 

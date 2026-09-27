@@ -259,7 +259,13 @@ def refresh_and_reopen(conn, rows, alias, groups=None):
             # "joined Hannover 96, not Rangers" where Hannover is the ORIGIN club
             # (-> UNKNOWN, refusing to decide) both stop being collapses without
             # needing a rule per shape.
-            outdated = classify(r, {"status": "moved", "joined_club": joined})[0] != "collapsed"
+            # The recorded evidence rides along, so a verdict resting on a move from
+            # ANOTHER window (TODOS 0a: deal 418, a Sept-2025 loan "settling" a 2026
+            # rumour) is no longer upheld and the row goes back to the resolver.
+            notes = r.get("notes") or ""
+            evidence = notes.split("|", 1)[1] if "|" in notes else ""
+            outdated = classify(r, {"status": "moved", "joined_club": joined,
+                                    "evidence": evidence})[0] != "collapsed"
             if stale_destination or outdated:
                 reopen_candidates.append((r, new, stale_destination))
 

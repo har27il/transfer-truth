@@ -206,3 +206,62 @@ def test_club_token_in_text_guards_wrong_page():
     assert not club_token_in_text("Crystal Palace", "")
     # distinctive token must match the right club, not just a shared generic word
     assert not club_token_in_text("Manchester United", "He signed for Newcastle City fans.")
+
+
+# --- TODOS 0a: evidence must describe a move inside THIS window -----------------------
+# 2026-09-27: 31 of 60 queued auto-collapses cited only pre-2026 years. Deal 418 (Harvey
+# Elliott -> Valencia, 2026-summer) was "collapsed" because Wikipedia says he joined Aston
+# Villa -- on 1 September 2025, a season earlier. The guard only ever turns a verdict into
+# UNKNOWN, never the reverse: positive-evidence-only gets stricter, not looser.
+
+ELLIOTT = {"player": "Harvey Elliott", "from_club": "Liverpool", "to_club": "Valencia",
+           "window": "2026-summer"}
+
+
+def _moved(joined, move_date):
+    return {"status": "moved", "joined_club": joined, "move_date": move_date,
+            "window_closed": True, "evidence": "..."}
+
+
+def test_a_move_from_last_season_cannot_settle_this_windows_rumour():
+    got, why = classify(ELLIOTT, _moved("Aston Villa", "2025-09-01"))
+    assert got == UNKNOWN and "outside" in why
+    assert classify(ELLIOTT, _moved("Aston Villa", "2025"))[0] == UNKNOWN   # year only
+
+
+def test_an_in_window_move_still_resolves():
+    assert classify(ELLIOTT, _moved("Aston Villa", "2026-08-30"))[0] == COLLAPSED
+    assert classify(ELLIOTT, _moved("Valencia", "2026-07-02"))[0] == COMPLETED
+    assert classify(ELLIOTT, _moved("Valencia", "2026-07"))[0] == COMPLETED     # month only
+
+
+def test_an_early_announced_deal_is_not_voided():
+    """Summer deals are often agreed in May and registered when the window opens."""
+    assert classify(ELLIOTT, _moved("Valencia", "2026-05-20"))[0] == COMPLETED
+
+
+def test_no_or_unreadable_move_date_leaves_the_old_behaviour():
+    for md in (None, "", "sometime", "2026-13-45"):
+        assert classify(ELLIOTT, _moved("Valencia", md))[0] == COMPLETED
+    assert classify({**ELLIOTT, "window": "1999-summer"},
+                    _moved("Valencia", "2025-09-01"))[0] == COMPLETED        # unknown window
+
+
+def test_the_resolver_parser_keeps_move_date():
+    from outcome.source import _parse_json_object
+    r = _parse_json_object('{"status":"moved","joined_club":"Aston Villa",'
+                           '"move_date":"2025-09-01","evidence":"On 1 September 2025 ..."}')
+    assert r["move_date"] == "2025-09-01"
+    assert _parse_json_object('{"status":"stayed","joined_club":null,"evidence":""}')["move_date"] is None
+
+
+def test_with_no_move_date_the_evidence_years_decide():
+    """The resolver may omit move_date; its own evidence quote still dates the move."""
+    stale = {"status": "moved", "joined_club": "Aston Villa", "window_closed": True,
+             "evidence": "On 1 September 2025, Elliott joined Aston Villa on loan."}
+    assert classify(ELLIOTT, stale)[0] == UNKNOWN
+    mixed = {**stale, "joined_club": "Valencia",
+             "evidence": "Signed from Fulham in 2019; on 1 September 2026 he joined Valencia."}
+    assert classify(ELLIOTT, mixed)[0] == COMPLETED          # the LATEST year counts
+    undated = {**stale, "evidence": "He joined Aston Villa on loan."}
+    assert classify(ELLIOTT, undated)[0] == COLLAPSED        # no date anywhere: unchanged

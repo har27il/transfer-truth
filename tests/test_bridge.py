@@ -728,3 +728,20 @@ def test_a_genuine_collapse_is_left_alone(tmp_path):
     stats = bridge.bridge(conn, deals_path=dp)
     assert stats["reopened"] == []
     assert _read_deals(dp)[0]["outcome"] == "collapsed"
+
+
+def test_a_collapse_resting_on_last_seasons_move_is_reopened(tmp_path):
+    """TODOS 0a, 2026-09-27: deal 418 was collapsed on a Sept-2025 loan; re-resolved on
+    today's Wikipedia the player had joined the rumoured club in 2026. Gate C re-asks the
+    classifier WITH the recorded evidence, which now refuses a stale verdict -> re-open."""
+    notes = ("[auto] player joined Aston Villa, not Valencia - rumour did not happen | "
+             "On 1 September 2025, Elliott signed for Aston Villa on a season-long loan.")
+    p = tmp_path / "deals.csv"
+    _write_deals(p, [{**_deal("418", "Harvey Elliott", "Valencia", outcome="collapsed",
+                              notes=notes, frm="Liverpool"), "window": "2026-summer"}])
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Harvey Elliott", [{"to_club": "Valencia", "from_club": "Liverpool"}],
+                  window="2026-summer")
+    stats = bridge.bridge(conn, deals_path=p)
+    assert [did for did, _ in stats["reopened"]] == ["418"]
+    assert _read_deals(p)[0]["outcome"] == "unknown"
