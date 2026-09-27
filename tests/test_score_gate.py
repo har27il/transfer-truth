@@ -42,3 +42,22 @@ def test_include_auto_previews_auto_claims(tmp_path, monkeypatch):
 
 def teardown_module():
     importlib.reload(score_mod)   # restore module-level CLAIMS/INCLUDE_AUTO
+
+# --- the earliness bonus no longer moves the ranked score (RESEARCH.md §4, rec. 5) -----
+# The bonus paid only when a HIGH stage was called early on a deal that completed, so
+# overstating a claim's stage could only gain: it rewarded exactly the overclaiming the
+# Brier score exists to punish. It is still computed and shown; it no longer counts.
+
+def test_the_ranked_score_is_the_shrunk_brier_accuracy_alone():
+    from datetime import date
+    claims = [
+        {"deal_id": "1", "source": "Early Bird", "stage": "here_we_go", "p": 0.99,
+         "outcome": 1.0, "date": date(2026, 6, 1)},
+        {"deal_id": "1", "source": "Late Owl", "stage": "here_we_go", "p": 0.99,
+         "outcome": 1.0, "date": date(2026, 6, 20)},
+    ]
+    rows, _pop = score_mod.rank_rows(claims)
+    early = next(r for r in rows if r["source"] == "Early Bird")
+    assert early["earliness_bonus"] > 0                    # still computed and published
+    assert early["score"] == early["shrunk"]               # ...but not added to the score
+    assert {r["score"] for r in rows} == {rows[0]["shrunk"]}   # same calls, same score

@@ -151,7 +151,8 @@ def _brow(i, r):
     name = html.escape(r["source"])
     score = r["score"]
     bar = max(3, min(100, score))
-    early = f" &middot; +{r['earliness_bonus']:.1f} scoop" if r.get("earliness_bonus") else ""
+    # Recognition only: since 2026-09-27 the scoop is shown but not added to the score.
+    early = " &middot; broke deals early" if r.get("earliness_bonus") else ""
     top = " top" if i == 1 else ""
     return f"""<div class="brow{top}">
         <div class="rk">{i}</div>
@@ -211,7 +212,7 @@ def main():
             f'&ldquo;here we go&rdquo; on a deal that <b>collapsed</b> is punished hard; a hedged '
             f'&ldquo;in talks&rdquo; on the same deal barely dents you. Scores are shrunk toward the '
             f'field average by sample size (K={d.get("k","?")}) so a few lucky calls can&rsquo;t top the '
-            f'table, and breaking a deal genuinely early earns a small bonus. One honest caveat: '
+            f'table. Breaking a deal early is noted beside a name but never adds points, because a bonus for early calls would reward overstating them. One honest caveat: '
             f'mid-window, completed deals resolve faster than collapses (a collapse often needs the '
             f'window to close), so standings can tilt toward confident callers until deadline day '
             f'grades the misses.</div></div>')

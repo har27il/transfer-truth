@@ -94,14 +94,14 @@ def earliness_bonus(claims):
     return {s: min(v, EARLINESS_CAP) for s, v in bonus.items()}
 
 
-def score():
-    deals = load_deals()
-    claims = load_claims(deals)
-    if not claims:
-        print("No scoreable claims found. Fill journalist_claims.csv (stage + a "
-              "deal_id whose outcome is completed/collapsed).")
-        return
+def rank_rows(claims):
+    """(rows sorted best-first, population mean accuracy %) for scored claims.
 
+    SCORE = Brier accuracy shrunk toward the population mean (K). The earliness bonus
+    is computed and published but NOT added: it paid only when a HIGH stage was called
+    early on a deal that completed, so overstating a claim's stage could only gain --
+    it rewarded exactly the overclaiming a proper scoring rule exists to punish
+    (Gneiting & Raftery 2007; RESEARCH.md §4). Removed from the score 2026-09-27."""
     all_briers = [(c["p"] - c["outcome"]) ** 2 for c in claims]
     pop_mean_acc = (1 - statistics.mean(all_briers)) * 100
 
@@ -113,19 +113,29 @@ def score():
     rows = []
     for src, briers in by_src.items():
         n = len(briers)
-        mean_brier = statistics.mean(briers)
-        raw_acc = (1 - mean_brier) * 100
+        raw_acc = (1 - statistics.mean(briers)) * 100
         shrunk = (n / (n + K)) * raw_acc + (K / (n + K)) * pop_mean_acc
-        eb = bonus.get(src, 0.0)
-        final = max(0.0, min(100.0, shrunk + eb))
         rows.append({
             "source": src, "n_claims": n,
             "raw_accuracy": round(raw_acc, 1),
             "shrunk": round(shrunk, 1),
-            "earliness_bonus": round(eb, 2),
-            "score": round(final, 1),
+            "earliness_bonus": round(bonus.get(src, 0.0), 2),
+            "score": round(max(0.0, min(100.0, shrunk)), 1),
         })
     rows.sort(key=lambda r: r["score"], reverse=True)
+    return rows, pop_mean_acc
+
+
+def score():
+    deals = load_deals()
+    claims = load_claims(deals)
+    if not claims:
+        print("No scoreable claims found. Fill journalist_claims.csv (stage + a "
+              "deal_id whose outcome is completed/collapsed).")
+        return
+
+    rows, pop_mean_acc = rank_rows(claims)
+    by_src = {r["source"] for r in rows}
 
     print(f"\nJournalist Truth Score  (population mean = {pop_mean_acc:.1f}%, "
           f"K={K}, {len(claims)} claims over {len(by_src)} sources)\n")
