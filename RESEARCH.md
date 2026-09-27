@@ -275,6 +275,24 @@ Constrained latency: median 6.7s, max 64.3s.
 The one-case gap is inside the n=27 noise shown in §3. **Not adopted.** Decide with the
 repeated, paired A/B of rec. 4.
 
+**First repeated baseline (`python engine/golden.py 3`, current prompt and model).**
+- 27 cases × 3 runs: **pass 91%, 95% CI 75–97%** (Wilson, over cases). 24 cases pass
+  every run.
+- Flaky: `woltemade-talks` (1/3, "Stuttgart" vs "VfB Stuttgart") and
+  `postecoglou-manager` (1/3, manager read as a player).
+- Stable miss: `olise-meeting-talks` fails 0/3 on stage nuance. That's a real
+  prompt target, not noise.
+- Regressions: both cases 3/3.
+
+So the single runs earlier today (89% free-form, 85% constrained) both sit inside this
+interval. They cannot rank the two modes; use `golden.paired()` on repeated runs.
+
+**Truncation does happen, rarely.** In those ~87 calls, one extraction ran to the full
+4096-token cap: a runaway reasoning trace, now logged by `finished_text`. At the old 2048
+cap it, and any trace between 2048 and 4096, would have failed as a "contract break". This
+supports rec. 2's second half: set an explicit `reasoning_budget` below `max_tokens`. It
+changes model behaviour, so it must go through the golden gate.
+
 **Other claims re-checked.**
 - The golden-floor probabilities reproduce exactly: a true 75% clears the 80% floor 30% of
   the time, and a true 85% fails it 21% of the time.
