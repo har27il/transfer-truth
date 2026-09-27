@@ -25,7 +25,8 @@ sys.path.insert(0, str(ROOT / "site"))
 
 import theme
 import windows
-from ingest import store, cluster, meter
+from ground_truth import _TRUSTED_FLAGS
+from ingest import store, cluster, meter, retro
 from ingest.exclude import is_known_non_player
 from outcome.detect import collapse_facts, display_club
 
@@ -39,6 +40,11 @@ ACTIVE_WINDOW = "2026-summer"
 # accreting claims; this keeps the live feed current). ~1.5x the meter's 14-day half-life.
 DISPLAY_MAX_AGE_DAYS = 21
 _RESOLVED = ("completed", "collapsed")
+# A historical deal (a retrospective story, never a live rumour -- see ingest.retro) is
+# listed in the rail with its correction, but its key is NOT pulled from the live feed:
+# the retrospective claims are already filtered claim by claim, so a genuinely new
+# rumour about the same player must still show.
+_HISTORICAL = retro.HISTORICAL
 
 # Feed-specific CSS, scoped under .feed so nothing collides with the leaderboard page
 # (which still defines its own .row/.lede). Lifted from the approved design preview.
@@ -121,6 +127,8 @@ PAGE_CSS = """
   .feed .doneitem .dn{min-width:0;flex:1 1 auto}
   .feed .tick{color:var(--likely);font-weight:600}
   .feed .stayed{color:var(--denied);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+  /* historical = a correction (an old story resurfaced), not a verdict: ink, never a meter hue */
+  .feed .hist{color:var(--ink);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
   .feed .explain{background:var(--surface);border:1px solid var(--hair);border-radius:10px;padding:16px 18px;
                  font-size:13.5px;color:var(--muted);line-height:1.6}
   .feed .explain b{color:var(--ink)}
@@ -174,7 +182,8 @@ def load_resolved(path=DEALS, window=ACTIVE_WINDOW, alias=None):
     Returns (resolved_keys, done_rows): keys to PULL OUT of the live feed (a deal that
     already happened/collapsed stops showing as a live rumour), and the settled rows
     themselves (newest first) for the rail. deals.csv is authoritative and survives a
-    rumour aging out of the RSS, so a confirmed deal stays on the page.
+    rumour aging out of the RSS, so a confirmed deal stays on the page. A historical row
+    joins the rail but never resolved_keys (see _HISTORICAL).
 
     alias: the SAME {raw_key: canonical_key} map passed to meter.meters. Both sides of
     this join must canonicalize identically or a settled deal keeps rendering as a live
@@ -187,11 +196,13 @@ def load_resolved(path=DEALS, window=ACTIVE_WINDOW, alias=None):
             for r in csv.DictReader(f):
                 if (r.get("window") or "").strip() != window:
                     continue
-                if (r.get("outcome") or "").strip().lower() not in _RESOLVED:
+                outcome = (r.get("outcome") or "").strip().lower()
+                if outcome not in _RESOLVED and outcome != _HISTORICAL:
                     continue
                 raw = cluster.deal_key(r["player"], window)
                 key = alias.get(raw, raw)
-                resolved_keys.add(key)
+                if outcome in _RESOLVED:
+                    resolved_keys.add(key)
                 # Two ledger rows can map to one canonical key until the merge lands.
                 # Prefer the hand-curated row, then the most recently resolved one.
                 prev = by_key.get(key)
@@ -329,14 +340,26 @@ def _cooling_section(rows, cap=COOLING_CAP):
     Only the first `cap` (busiest/least-stale, per the caller's sort) render -- the
     nameplate's own "N cooling" stat counts the FULL list, so when the two would
     otherwise disagree the section label says so explicitly ("8 of 48 shown") instead
-    of silently truncating and leaving the header stat looking wrong."""
-    shown = rows[:cap]
+    of silently truncating and leaving the header stat looking wrong.
+
+    A deal held UNDER REVIEW (flag_for_review) always renders, cap or no cap: the flag
+    downgrades a deal to this tail, it must never hide it. The cap trims the rest."""
+    held = sum(1 for m in rows if m.get("review"))
+    room = max(0, cap - held)
+    shown = []
+    for m in rows:
+        if m.get("review"):
+            shown.append(m)
+        elif room:
+            shown.append(m)
+            room -= 1
     items = ""
     for m in shown:
         player = html.escape(m.get("player") or "Unknown")
         to_club = html.escape(m.get("to_club") or "?")
         dq = m.get("days_quiet")
-        ago = f"quiet {dq}d" if dq is not None else "undated"
+        ago = ("under review" if m.get("review")
+               else f"quiet {dq}d" if dq is not None else "undated")
         stage = html.escape((m.get("latest_stage") or "").replace("_", " "))
         pct = m["percent"]
         items += (f'<div class="row cold"><div class="deal">{player} '
@@ -346,6 +369,8 @@ def _cooling_section(rows, cap=COOLING_CAP):
                   f'background:var(--muted)"></div></div>'
                   f'<div class="num" style="color:var(--muted)">{pct}%</div></div>')
     base = f"no movement in {meter.FRESH_DAYS}+ days"
+    if held:
+        base += f" &middot; {held} under review"
     count_label = f"{len(shown)} of {len(rows)} shown &middot; {base}" if len(rows) > len(shown) else base
     return (f'<div class="sec"><h2>Cooling off</h2>'
             f'<span class="count">{count_label}</span></div>{items}')
@@ -370,9 +395,18 @@ def _done_rail(done_rows):
     items = ""
     for r in done_rows[:6]:
         player = html.escape(r.get("player") or "Unknown")
-        if (r.get("outcome") or "").strip().lower() == "completed":
+        outcome = (r.get("outcome") or "").strip().lower()
+        if outcome == "completed":
             sub = f'&rarr; {html.escape(r.get("to_club") or "")}'
             badge = '<span class="tick">Done &check;</span>'
+        elif outcome == _HISTORICAL:
+            # A correction, not a result: an old story resurfaced as a rumour (deal 458,
+            # Mbappé -> Liverpool). A hand-verified note says what actually happened; a
+            # machine note is audit text and never page copy.
+            curated = (r.get("verified") or "").strip().lower() in _TRUSTED_FLAGS
+            note = (r.get("notes") or "").strip()
+            sub = html.escape(note) if curated and note else "old story, not a live rumour"
+            badge = '<span class="hist">Not live</span>'
         else:
             # "collapsed" means THIS rumour did not happen -- it does NOT mean the
             # player stayed. Every machine-written collapse in the ledger is a
@@ -421,13 +455,68 @@ def data_freshness(conn, now=None):
     return as_of.strftime("%d %b %H:%M") + " UTC", age_h
 
 
+def live_claim_filter(conn, today=None, texts=None):
+    """Claim predicate for meter.meters: False for a claim whose source post is a
+    retrospective story (ingest.retro). Applied at READ time because such a claim may
+    already sit in the cached ingest.db -- the Mbappé claim that led the feed did -- and
+    backfill only re-reads posts that produced no claim, so nothing else would clear it."""
+    texts = store.post_texts(conn) if texts is None else texts
+    return lambda c: not retro.is_retrospective(texts.get(c.get("post_url"), ""), today)
+
+
+def flag_for_review(rows, current_clubs, today=None, texts=None):
+    """Set m["review"] on each meter row whose reporting contradicts the player's verified
+    current club with no fresh, forward-looking source to back it (retro.needs_review).
+
+    The flag ONLY moves the deal to the cooling tail as "under review" (split_fresh +
+    _cooling_section): it is never dropped, hidden, or written back to the ledger."""
+    for m in rows:
+        club = current_clubs.get(cluster.normalize_name(m.get("player")))
+        m["review"] = retro.needs_review(m.get("claims") or [], club, today, texts)
+    return rows
+
+
+def split_fresh(rows):
+    """(fresh, quiet): the prominent feed vs the cooling tail.
+
+    Freshness gate: build the prominent feed from deals with MOTION in the last
+    FRESH_DAYS only. A deal that's gone quiet (no new claim 3-21 days) demotes into the
+    cooling tail and pops back the moment a source files again -- so a stuck 'agreement'
+    like Éderson can't hold the lede forever. If a quiet spell leaves nothing fresh, fall
+    back to the quiet deals so the page never goes blank.
+
+    A deal flagged for review is always in the tail, never fresh -- not even through that
+    fallback, which would otherwise hand the lede to the one deal we couldn't vouch for."""
+    held = [m for m in rows if m.get("review")]
+    rest = [m for m in rows if not m.get("review")]
+    fresh = [m for m in rest if not meter.is_quiet(m)]
+    quiet = [m for m in rest if meter.is_quiet(m)]
+    if not fresh:
+        fresh, quiet = quiet, []
+    return fresh, quiet + held
+
+
+def _ledger_rows(path=DEALS):
+    try:
+        with open(path, newline="", encoding="utf-8") as f:
+            return list(csv.DictReader(f))
+    except FileNotFoundError:
+        return []
+
+
 def main():
     reliability, _ = meter.load_reliability()
     conn = store.connect()
+    today = date.today()
     # ONE alias map, shared by both sides of the resolved-deal join below. Building it
     # twice would risk two different maps and a settled deal rendering as a live rumour.
     alias = cluster.alias_map_for(conn)
-    rows = meter.meters(conn, max_age_days=DISPLAY_MAX_AGE_DAYS, alias=alias)
+    # Retrospective stories ("I was close to joining Liverpool in 2016") are dropped
+    # claim by claim BEFORE the meter runs -- including ones cached in ingest.db before
+    # the pipeline filter existed. That is what took Mbappé -> Liverpool off the lede.
+    texts = store.post_texts(conn)
+    rows = meter.meters(conn, today=today, max_age_days=DISPLAY_MAX_AGE_DAYS, alias=alias,
+                        claim_filter=live_claim_filter(conn, today, texts))
     # The live feed reads clusters straight from the store, so a confirmed non-player
     # cached before the ingest filter existed (e.g. Derek McInnes) would still surface
     # here even though bridge keeps him out of deals.csv. Drop denylisted names so the
@@ -438,19 +527,16 @@ def main():
         rows = _demo_meters()
 
     # Pull settled deals out of the live feed (they live in the rail's Done section instead).
-    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(alias=alias)
+    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(DEALS, alias=alias)
     if resolved_keys:
         rows = [m for m in rows if m.get("deal_key") not in resolved_keys]
 
-    # Freshness gate: build the prominent feed from deals with MOTION in the last
-    # FRESH_DAYS only. A deal that's gone quiet (no new claim 3-21 days) demotes into the
-    # cooling tail and pops back the moment a source files again -- so a stuck 'agreement'
-    # like Éderson can't hold the lede forever. If a quiet spell leaves nothing fresh,
-    # fall back to the quiet deals so the page never goes blank.
-    fresh = [m for m in rows if not meter.is_quiet(m)]
-    quiet = [m for m in rows if meter.is_quiet(m)]
-    if not fresh:
-        fresh, quiet = quiet, []
+    # Sanity check: reporting that contradicts a player's VERIFIED current club (deals.csv
+    # YES completions) with no fresh, consistent source is held "under review" in the
+    # cooling tail instead of being published as live. Display-only: nothing is written.
+    if not is_demo:
+        flag_for_review(rows, retro.verified_current_clubs(_ledger_rows(DEALS)), today, texts)
+    fresh, quiet = split_fresh(rows)
 
     # Split near-certainties (Agreed) from everything still in play (live), then pick the
     # hero from LIVE only so a 99%-everyone-agrees deal can't win "most contested".
@@ -475,7 +561,6 @@ def main():
     standings_html = _standings_html(load_standings())
     done_html = _done_rail(done_rows)
 
-    today = date.today()
     datestr = f"{today.strftime('%a')} {today.day} {today.strftime('%B %Y')}"
     # Edition marker tells the truth: the green live-dot only when the pipeline
     # actually succeeded recently; otherwise a plain ink STALE badge (never let a

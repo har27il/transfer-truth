@@ -214,8 +214,14 @@ def is_quiet(m):
     return dq is None or dq > FRESH_DAYS
 
 
-def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None, alias=None):
+def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=None, alias=None,
+           claim_filter=None):
     """Compute a meter for every deal in the ingest store, hottest first.
+
+    claim_filter: optional predicate(claim) -> bool; claims failing it are ignored, and a
+    deal left with none is dropped. build_feed passes the retrospective-story filter so a
+    claim cached before that rule existed can't move a meter. Each meter also carries the
+    claims it was computed from (m["claims"]) for the feed's current-club review check.
 
     max_age_days: when set, drop deals whose NEWEST claim is older than this many days.
     Once ingest.db is persisted between runs it keeps accumulating claims, so without a
@@ -235,6 +241,10 @@ def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=Non
     out = []
     for canon, raw_keys in cluster.group_keys(store.deal_keys(conn), alias).items():
         claims = [c for rk in raw_keys for c in store.claims_for_deal(conn, rk)]
+        if claim_filter is not None:
+            claims = [c for c in claims if claim_filter(c)]
+            if not claims:
+                continue
         if max_age_days is not None:
             dates = [d for d in (_parse_date(c.get("claim_date")) for c in claims) if d]
             if dates and (today - max(dates)).days > max_age_days:
@@ -251,6 +261,7 @@ def meters(conn, today=None, reliability=None, pop_weight=None, max_age_days=Non
                 # the right destination even while deals.csv had frozen on a stale one.
                 canon_claims = [c for c in claims if c.get("deal_key") == canon]
                 m["player"] = cluster.provisional(canon_claims, "player") or m["player"]
+            m["claims"] = claims
             out.append(m)
     out.sort(key=lambda m: m["probability"], reverse=True)
     return out

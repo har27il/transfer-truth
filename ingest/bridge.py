@@ -19,6 +19,7 @@ Posture (matches the rest of the project):
 """
 import sys
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,6 +28,7 @@ sys.path.insert(0, str(ROOT))
 from ground_truth import _TRUSTED_FLAGS
 from ingest import store, cluster
 from ingest.exclude import is_non_player, is_known_non_player
+from ingest.retro import is_retrospective, HISTORICAL
 from outcome.apply import DEALS, load_deals, write_atomic
 from outcome.detect import same_club, collapse_facts, classify
 from stagemap import STAGE_P
@@ -82,7 +84,7 @@ def _is_curated(row):
     return (row.get("verified") or "").strip().lower() in _TRUSTED_FLAGS
 
 
-def _group_claims(conn, alias):
+def _all_claims(conn, alias):
     """canonical deal_key -> every claim across the raw keys that fold into it.
 
     The union matters: after an alias forms, querying only the canonical key would
@@ -90,6 +92,72 @@ def _group_claims(conn, alias):
     interest" that makes the Olise meter honest."""
     return {canon: [c for rk in raw for c in store.claims_for_deal(conn, rk)]
             for canon, raw in cluster.group_keys(store.deal_keys(conn), alias).items()}
+
+
+def _is_retro_post(conn, url, fallback=""):
+    """True when the post behind a claim is a retrospective story (ingest.retro). Judged
+    on the stored post -- title + summary, the text the pipeline saw. A ledger claim whose
+    post has left the store falls back to its own raw_quote, the headline it was filed from."""
+    text = store.post_text(conn, url) if url else None
+    return is_retrospective(text if text is not None else (fallback or ""))
+
+
+def _split_retro(conn, groups):
+    """(live, historical): every group minus its retrospective claims, and the groups
+    whose EVERY claim was retrospective -- a deal built on nothing but history. One live
+    claim keeps a deal out of `historical`."""
+    live, historical = {}, {}
+    for key, claims in groups.items():
+        kept = [c for c in claims if not _is_retro_post(conn, c.get("post_url"))]
+        if kept:
+            live[key] = kept
+        elif claims:
+            historical[key] = claims
+    return live, historical
+
+
+def _group_claims(conn, alias):
+    """canonical deal_key -> every LIVE claim folding into it. Retrospective stories are
+    dropped here, once, so no caller can create, refresh or append from one: the store
+    may still hold claims cached before the rule existed (the Mbappé claim behind 458)."""
+    return _split_retro(conn, _all_claims(conn, alias))[0]
+
+
+def relabel_historical(rows, historical, alias=None):
+    """Machine deals built ONLY on retrospective stories become outcome=historical.
+    Mutates `rows`; returns [(deal_id, player)].
+
+    Deal 458 is the case: one claim, BBC's "I was close to joining Liverpool in 2016".
+    Left unknown, the resolver would have collapsed it ("window closed; he stayed") and
+    queued claim 995 to score AGAINST BBC Sport for a call it never made.
+
+    Guards, each pinned in tests/test_retro.py:
+      - a curated row (verified=YES) is never machine-edited;
+      - only unresolved or machine-collapsed rows: a completed move is Wikipedia's
+        positive evidence and stands, and a historical row is already settled;
+      - the WHOLE cluster must be retrospective: `historical` never holds a key with a
+        live claim left (see _split_retro).
+    The row stays verified=auto: a machine proposes, only a human verifies. `historical`
+    is outside every outcome gate (ground_truth.trusted, promote.PROMOTABLE,
+    apply.resolve_unknowns), so it can never score, be promoted, or be re-resolved."""
+    alias = alias or {}
+    changed = []
+    for r in rows:
+        if _is_curated(r):
+            continue
+        if (r.get("outcome") or "").strip().lower() not in ("", "unknown", "collapsed"):
+            continue
+        key = cluster.deal_key(r.get("player", ""), r.get("window", ""))
+        claims = historical.get(alias.get(key, key)) if key else None
+        if not claims:
+            continue
+        r.update({"outcome": HISTORICAL, "verified": "auto",
+                  "outcome_date": date.today().isoformat(),
+                  "outcome_source_url": claims[0].get("post_url") or "",
+                  "notes": f"[auto] {HISTORICAL}: every source is a retrospective story "
+                           f"({len(claims)} claim(s)), not a live rumour"})
+        changed.append((r["deal_id"], r.get("player")))
+    return changed
 
 
 def refresh_and_reopen(conn, rows, alias, groups=None):
@@ -193,7 +261,9 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
     """Create deals.csv rows for ingested clusters not yet represented. Returns stats."""
     fieldnames, rows = load_deals(deals_path)
     alias = cluster.alias_map_for(conn)
-    groups = _group_claims(conn, alias)
+    # Live claims drive everything below; clusters that are ALL retrospective story are
+    # never created, and an existing machine row built on one is relabelled historical.
+    groups, historical = _split_retro(conn, _all_claims(conn, alias))
 
     # High-water mark BEFORE any deletion. Computing it after the scrub lets a
     # deleted max id be handed to the next created deal, which then inherits the
@@ -210,6 +280,7 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
     if scrubbed:
         rows = [r for r in rows if r not in scrubbed]
 
+    relabelled = relabel_historical(rows, historical, alias)
     refreshed = refresh_and_reopen(conn, rows, alias, groups)
 
     existing = _existing_keys(rows, alias)
@@ -245,11 +316,12 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
         existing[key] = row                 # guard against dup keys within one run
         created.append(row)
 
-    dirty = created or scrubbed or refreshed["refreshed"] or refreshed["reopened"]
+    dirty = created or scrubbed or relabelled or refreshed["refreshed"] or refreshed["reopened"]
     if dirty and not dry_run:
         write_atomic(deals_path, fieldnames, rows)
     return {"created": created, "attached": attached, "excluded": excluded,
-            "scrubbed": scrubbed, **refreshed}
+            "scrubbed": scrubbed, "historical": relabelled,
+            "retro_skipped": [k for k in historical if k not in existing], **refreshed}
 
 
 def _load_claims_csv(path):
@@ -278,11 +350,21 @@ def bridge_claims(conn, deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False)
     key_to_deal = _existing_keys(deal_rows, alias)
 
     # Companion to the deals scrub: machine-appended claims whose deal no longer
-    # exists (e.g. a denylisted player's row was scrubbed) must not linger.
+    # exists (e.g. a denylisted player's row was scrubbed) must not linger. Nor may a
+    # machine claim filed from a retrospective story (claim 995: BBC's "I was close to
+    # joining Liverpool in 2016" as an `advanced` claim) -- promoted, it would score
+    # the outlet on a call it never made. Hand-curated (YES) claims are never auto-pruned.
     live_ids = {r.get("deal_id", "").strip() for r in deal_rows}
-    pruned = [r for r in rows
-              if (r.get("verified") or "").strip().lower() == "auto"
-              and (r.get("deal_id") or "").strip() not in live_ids]
+    auto = [r for r in rows if (r.get("verified") or "").strip().lower() == "auto"]
+    orphaned = [r for r in auto if (r.get("deal_id") or "").strip() not in live_ids]
+    retro = [r for r in auto if r not in orphaned
+             and _is_retro_post(conn, (r.get("source_url") or "").strip(), r.get("raw_quote"))]
+    pruned = orphaned + retro
+    if retro:
+        # Named in the log on purpose: CI judges each claim on its stored title + summary,
+        # so this line is the audit trail of exactly what the rule removed.
+        print(f"  pruned {len(retro)} machine claim(s) filed from a retrospective story: "
+              + ", ".join(f"{r.get('claim_id')} (deal {r.get('deal_id')})" for r in retro))
     if pruned:
         rows = [r for r in rows if r not in pruned]
         if not dry_run:
@@ -466,6 +548,11 @@ def _print(stats, dry_run):
     if stats.get("deferred"):
         print(f"  {len(stats['deferred'])} more re-open(s) deferred to the next run "
               f"(cap {MAX_REOPENS}): {', '.join(stats['deferred'])}")
+    for did, player in stats.get("historical", []):
+        print(f"  deal {did} ({player}) -> {HISTORICAL}: every source is a retrospective story")
+    if stats.get("retro_skipped"):
+        print(f"  {len(stats['retro_skipped'])} retrospective-only cluster(s) not bridged: "
+              f"{', '.join(stats['retro_skipped'])}")
     excluded = len(stats.get("excluded", []))
     excl_note = f" {excluded} non-player cluster(s) filtered (manager/women)." if excluded else ""
     if not stats["created"]:

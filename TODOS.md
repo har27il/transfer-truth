@@ -91,6 +91,30 @@ suffix survives `_STRIPPABLE`). It did not block the Baur merge, which matched o
   **Revisit once the refresh in `bridge.refresh_and_reopen` has been running long
   enough that destinations can be trusted.**
 
+## 0d. Post-deadline claims are filed under the closed window — MEDIUM
+
+- **What:** `ingest/pipeline.py` keys every claim to `DEFAULT_WINDOW = "2026-summer"`
+  (a constant, passed as `pipeline.run(window=...)`), whatever the post's date.
+  `site/build_feed.py` `ACTIVE_WINDOW` mirrors it. So a post published after the
+  2026-09-01 deadline still lands on a `2026-summer` deal.
+- **How it contributed to the Mbappé → Liverpool bug (found 2026-09-27):** BBC's
+  "I was close to joining Liverpool in 2016 - Mbappe" ran on 2026-09-22, three
+  weeks after the window shut, and became deal 458 / claim 995 in `2026-summer`.
+  A closed window turns a resolver "stayed" into positive evidence of a collapse
+  (`outcome/detect.classify`), so the next run could have auto-collapsed 458 and
+  queued claim 995 to score against BBC Sport. The root cause was the
+  retrospective story (fixed: `ingest/retro.py` + the prompt's PAST EVENTS rule);
+  this is the contributing bug, left open by decision.
+- **Side effect to know:** deal 458 is now `historical` under the key
+  `kylian mbappe|2026-summer`, and the key is player + window only, so any later
+  Mbappé claim attaches to that row until claims get the right window. The feed
+  still shows such a claim live (the retrospective filter is per-claim), but in the
+  ledger it sits on a deal that never resolves.
+- **Start at:** derive the window from `claim_date` (the window containing it, or
+  the next one when between windows) using `site/windows.py`'s calendar, and keep
+  `ACTIVE_WINDOW` in step. Mind item 0's warning: `deal_key` is stored in the
+  cached ingest.db, so a window change re-keys NEW claims only.
+
 ## 1. Live canary against provider model drift
 
 - **What:** At the top of each cron ingest run, send 1–2 golden cases

@@ -29,12 +29,20 @@ from stagemap import STAGE_P
 from outcome.detect import same_club
 
 CASES = ROOT / "tests" / "golden" / "cases.jsonl"
+# Fixed PRODUCTION misses, one case per bug that reached the live site. Kept apart from
+# CASES so the main corpus's pinned size (tests/test_golden.py) and its self-grading test
+# stay untouched; the gated live eval runs both files (see .github/workflows/golden-eval.yml).
+REGRESSIONS = ROOT / "tests" / "golden" / "regressions.jsonl"
 CRITICAL = ("is_transfer_claim", "player", "from_club", "to_club",
             "stage", "source_identifiable", "multi_claim")
 
 
 def load_cases(path=CASES):
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def load_regressions(path=REGRESSIONS):
+    return load_cases(path)
 
 
 def _norm_name(s):
@@ -92,6 +100,18 @@ def grade(expected, output):
         "critical_ok": all(fields.values()),
         "fee_ok": _fee_match(expected.get("fee_eur"), output.get("fee_eur")),
     }
+
+
+def grade_regression(expected, output):
+    """grade(), plus the `historical` label when the case sets one (the field postdates
+    CRITICAL). A regression must pass outright -- it is a bug that already shipped once.
+    A missing `historical` in the output reads as false."""
+    g = grade(expected, output)
+    if "historical" in expected:
+        ok = output is not None and bool(output.get("historical")) == expected["historical"]
+        g["fields"]["historical"] = ok
+        g["critical_ok"] = g["critical_ok"] and ok
+    return g
 
 
 def run_eval(analyze_fn, cases=None):

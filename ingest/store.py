@@ -180,6 +180,25 @@ def get_meta(conn, key):
     return row["value"] if row else None
 
 
+def _post_text(title, summary):
+    # Joined exactly as ingest.pipeline joins them before its filters + the extraction call.
+    return " ".join(filter(None, [title, summary]))
+
+
+def post_text(conn, url):
+    """The raw text (title + summary) of one stored post, or None if it isn't stored."""
+    row = conn.execute("SELECT title, summary FROM posts WHERE url = ?", (url,)).fetchone()
+    return _post_text(row["title"], row["summary"]) if row else None
+
+
+def post_texts(conn):
+    """post url -> raw text for every post that produced a claim. Lets a read-time filter
+    re-judge claims cached BEFORE the filter existed (ingest.retro) -- the cached DB is
+    never re-extracted, so nothing else would ever clear them."""
+    return {r["url"]: _post_text(r["title"], r["summary"]) for r in conn.execute(
+        "SELECT url, title, summary FROM posts WHERE url IN (SELECT post_url FROM claims)")}
+
+
 def claims_for_deal(conn, deal_key):
     return [dict(r) for r in conn.execute(
         "SELECT * FROM claims WHERE deal_key = ? ORDER BY claim_date", (deal_key,))]

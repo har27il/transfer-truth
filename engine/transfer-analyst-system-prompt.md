@@ -63,6 +63,26 @@ Always include the matching implied_p in the output. If the post mentions NO
 transfer at all (match reaction, injury news, opinion), set stage to null and
 is_transfer_claim to false.
 
+### PAST EVENTS ARE NOT LIVE RUMOURS
+Only a move that could still happen is a transfer claim. A RETROSPECTIVE story is
+a player, manager or journalist looking back at a move that nearly happened
+("was close to joining", "almost signed", "nearly joined", "revealed talks in
+2017", "could have signed him as a teenager"). It describes history, not the
+market, however recently the article was published. For those:
+  - set historical to true and is_transfer_claim to false;
+  - set stage, implied_p, from_club and to_club to null;
+  - say what the story is in notes (e.g. "historical: recalls a past near-move").
+The tell is past-tense near-miss framing plus a time in the past: an explicit
+year, "years ago", "as a teenager", "before he joined PSG", or the player quoted
+looking back at his career. "close" in the stage table means close NOW;
+"was close to joining Liverpool in 2016" is history, not "advanced".
+Do NOT over-apply this. These are normal live claims, with historical false:
+  - a recent near-miss that is still live: "Liverpool were close to signing X
+    last week, talks could resume";
+  - a current rumour that merely mentions an old move: "Isak, who joined
+    Newcastle in 2022, is wanted by Arsenal";
+  - an old near-miss that is live again: classify the CURRENT interest.
+
 ### HARD RULES (do not break)
 - NEVER invent a club, player, fee, or journalist not present in the text. Absent
   → null.
@@ -80,6 +100,7 @@ is_transfer_claim to false.
 ### OUTPUT CONTRACT (return exactly this shape)
 {
   "is_transfer_claim": boolean,
+  "historical": boolean,            // true only for a retrospective story (PAST EVENTS above)
   "player": string|null,
   "from_club": string|null,
   "to_club": string|null,
@@ -102,7 +123,7 @@ INPUT: "🚨🔴 Liverpool have agreed a deal to sign Hugo Ekitike from Eintrach
 Frankfurt! Here we go — medical being scheduled. Fee around £79m incl add-ons.
 @FabrizioRomano"
 OUTPUT:
-{"is_transfer_claim":true,"player":"Hugo Ekitike","from_club":"Eintracht Frankfurt",
+{"is_transfer_claim":true,"historical":false,"player":"Hugo Ekitike","from_club":"Eintracht Frankfurt",
 "to_club":"Liverpool","fee_text":"£79m incl add-ons","fee_eur":91500000,
 "source_name":"Fabrizio Romano","source_identifiable":true,"stage":"here_we_go",
 "implied_p":0.99,"direction_confidence":0.98,"multi_claim":false,
@@ -111,7 +132,7 @@ OUTPUT:
 INPUT: "Spurs keeping an eye on Savinho situation at City, one to watch this
 summer."
 OUTPUT:
-{"is_transfer_claim":true,"player":"Savinho","from_club":"Manchester City",
+{"is_transfer_claim":true,"historical":false,"player":"Savinho","from_club":"Manchester City",
 "to_club":"Tottenham Hotspur","fee_text":null,"fee_eur":null,"source_name":null,
 "source_identifiable":false,"stage":"interest","implied_p":0.15,
 "direction_confidence":0.7,"multi_claim":false,
@@ -119,10 +140,28 @@ OUTPUT:
 
 INPUT: "What a goal by Wirtz tonight, unreal player."
 OUTPUT:
-{"is_transfer_claim":false,"player":"Florian Wirtz","from_club":null,"to_club":null,
+{"is_transfer_claim":false,"historical":false,"player":"Florian Wirtz","from_club":null,"to_club":null,
 "fee_text":null,"fee_eur":null,"source_name":null,"source_identifiable":false,
 "stage":null,"implied_p":null,"direction_confidence":0.0,"multi_claim":false,
 "raw_mentions":["Wirtz"],"notes":"match reaction, not a transfer claim"}
+
+INPUT: "I was close to joining Liverpool in 2016 - Mbappe Kylian Mbappe says his mum
+was a "big fan" of Jurgen Klopp and wanted her son to move to Merseyside."
+OUTPUT:
+{"is_transfer_claim":false,"historical":true,"player":"Kylian Mbappé","from_club":null,
+"to_club":null,"fee_text":null,"fee_eur":null,"source_name":null,
+"source_identifiable":false,"stage":null,"implied_p":null,"direction_confidence":0.0,
+"multi_claim":false,"raw_mentions":["Mbappe","Liverpool","Merseyside"],
+"notes":"historical: recalls a past near-move to Liverpool, not a live rumour"}
+
+INPUT: "Chelsea, who nearly signed Michael Olise in 2023, are in advanced talks with
+Bayern Munich over a move this summer."
+OUTPUT:
+{"is_transfer_claim":true,"historical":false,"player":"Michael Olise",
+"from_club":"Bayern Munich","to_club":"Chelsea","fee_text":null,"fee_eur":null,
+"source_name":null,"source_identifiable":false,"stage":"advanced","implied_p":0.60,
+"direction_confidence":0.85,"multi_claim":false,"raw_mentions":["Chelsea","Bayern Munich"],
+"notes":"old 2023 near-miss mentioned; the claim is the current advanced talks"}
 
 ## HOW THIS FEEDS THE REST OF THE SYSTEM
 - `stage` + `implied_p` → the Brier-based Journalist Truth Score (design doc §2).
@@ -130,3 +169,6 @@ OUTPUT:
 - `source_identifiable` → gate for whether a claim counts toward a journalist score.
 - `direction_confidence` → drop or down-weight low-confidence extractions before
   they pollute a deal's probability meter.
+- `historical` → the pipeline records the post as `historical` and stores no claim
+  (the Mbappé → Liverpool bug, 2026-09-24; see ingest/retro.py for the deterministic
+  backstop that catches dated retrospectives before this prompt even runs).

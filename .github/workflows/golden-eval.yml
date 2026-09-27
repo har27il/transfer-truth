@@ -72,13 +72,22 @@ jobs:
           EOF
 
       # Offline gate first: corpus well-formed + grader catches regressions. Cheap, no key.
+      # Includes the fixed-production-miss corpus (tests/golden/regressions.jsonl) and
+      # the check that the prompt actually ships its historical rule.
       - name: Offline golden checks
         if: ${{ github.event.inputs.list_models != 'true' }}
-        run: pytest -q tests/test_golden.py -k "not live"
+        run: |
+          pytest -q tests/test_golden.py -k "not live"
+          pytest -q tests/test_retro.py::test_regression_corpus_carries_the_mbappe_miss \
+            tests/test_retro.py::test_regression_grader_fails_a_live_reading_of_a_historical_story \
+            tests/test_retro.py::test_prompt_ships_the_historical_rule_and_the_mbappe_negative_example
 
       # The real gate: run the live engine over all 15 cases and assert the floor.
       # -s streams the per-case PASS/FAIL table + pass_rate/field_accuracy to the log.
       # NIM_MODEL is set only when an input model was given, so blank = engine default.
+      # The second test runs tests/golden/regressions.jsonl (engine.golden.load_regressions):
+      # fixed production misses -- the Mbappé -> Liverpool retrospective first -- each of
+      # which must pass outright rather than count toward the floor.
       - name: Live golden eval
         if: ${{ github.event.inputs.list_models != 'true' }}
         env:
@@ -89,4 +98,5 @@ jobs:
         run: |
           if [ -n "$NIM_MODEL" ]; then echo "Evaluating model: $NIM_MODEL"; else
             unset NIM_MODEL; echo "Evaluating engine default model"; fi
-          pytest -q -s tests/test_golden.py::test_live_engine_eval_clears_floor
+          pytest -q -s tests/test_golden.py::test_live_engine_eval_clears_floor \
+            tests/test_retro.py::test_live_engine_labels_the_regression_cases
