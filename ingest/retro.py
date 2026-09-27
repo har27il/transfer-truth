@@ -54,7 +54,7 @@ _NEAR_MISS = (
     rf"|how\s+{_Q}close{_Q}\s+(?:he|she|they|i|we)\s+came\s+to"
     r"|(?:almost|nearly)\s+(?:joined|signed|moved|went|became|swapped|completed)"
     r"|(?:could|would|should|might)\s+have\s+(?:joined|signed|moved|gone|played)"
-    r"|(?:held|had|revealed|recalled|admitted|opened)\s+(?:secret\s+|private\s+|advanced\s+|early\s+)?talks"
+    r"|(?:held|had|revealed|recalled|admitted)\s+(?:secret\s+|private\s+|advanced\s+|early\s+)?talks"
 )
 _MONTHS = ("summer|winter|spring|autumn|january|february|march|april|may|june|july|"
            "august|september|october|november|december")
@@ -68,7 +68,11 @@ _ANCHOR = (
 # near-miss, then the past time in the same clause (no , . ; ! ? between them)
 _MISS_THEN_TIME = re.compile(rf"\b(?:{_NEAR_MISS})\b[^.,;!?]{{0,60}}?\b{_ANCHOR}", re.I)
 # ...or a sentence that opens on the past time: "In 2016, Liverpool almost signed him"
-_TIME_THEN_MISS = re.compile(rf"^\s*{_ANCHOR}\s*,?.{{0,80}}?\b(?:{_NEAR_MISS})\b", re.I)
+_TIME_THEN_MISS = re.compile(rf"^\s*{_ANCHOR}\s*,?[^,;.!?]{{0,80}}?\b(?:{_NEAR_MISS})\b", re.I)
+# A near-miss in a side clause ("Liverpool sign Ekitike, WHO was close to joining PSG in
+# 2022", "... AFTER he nearly joined them in 2024") is background to a live headline.
+_SUBORDINATE = re.compile(r"\b(?:who|whom|whose|which|after|since|having|once)\b"
+                          r"(?:\s+[\w'’.-]+){0,3}\s*$", re.I)
 _SENTENCE = re.compile(r"(?<=[.!?;])\s+|\s+[-–—|]\s+|\n+")
 
 # Anything that says the story is live NOW rescues it. Deliberately NOT here: recency
@@ -83,10 +87,13 @@ _LIVE = re.compile(
     r"exploring|wanted|linked|in\s+(?:advanced\s+)?talks|closing\s+in|set\s+to|poised\s+to|"
     r"ready\s+to|expected\s+to|hoping\s+to|looking\s+to|planning\s+to|in\s+the\s+race|"
     r"leading\s+the\s+race|favourites|frontrunners)"
-    r"|(?:have|has)\s+(?:now\s+|also\s+|already\s+)?(?:reignited|revived|renewed|rekindled|"
-    r"reopened|resumed|opened|made|submitted|lodged|launched|tabled|agreed|stepped\s+up)"
+    r"|(?:have|has|'ve|’ve)\s+(?:now\s+|also\s+|already\s+)?(?:reignited|revived|renewed|"
+    r"rekindled|reopened|resumed|opened|made|submitted|lodged|launched|tabled|agreed|"
+    r"stepped\s+up|held|returned|joined|signed|completed|confirmed)"
     r"|(?:lead|leads|leading)\s+the\s+race|back\s+in\s+for|again"
-    r"|fresh\s+(?:bid|approach|interest|talks|offer|move)|renewed\s+interest"
+    r"|fresh\s+(?:bid|approach|interest|talks|offer|move)"
+    r"|renewed\s+(?:pursuit|interest|approach|bid|talks)"
+    r"|open\s+to\s+(?:an?\s+)?(?:\w+\s+)?(?:move|switch|exit|offers?)"
     r"|second\s+(?:bid|approach|attempt|offer)"
     r")\b", re.I)
 # "Arsenal want him" is live; "I didn't want to leave my country" (Mbappé, looking back) is not.
@@ -108,13 +115,14 @@ def is_retrospective(text, today=None):
     today = today or date.today()
     if _LIVE.search(text) or _WANTS.search(text):
         return False
-    for sentence in _SENTENCE.split(text):
-        if any(_past_time(m, today) for m in _MISS_THEN_TIME.finditer(sentence)):
-            return True
-        m = _TIME_THEN_MISS.search(sentence)
-        if m and _past_time(m, today):
-            return True
-    return False
+    # Only the headline's FIRST segment: a live headline followed by "- they nearly signed
+    # him in 2023" is background, not the story.
+    sentence = _SENTENCE.split(text)[0]
+    if any(_past_time(m, today) and not _SUBORDINATE.search(sentence[:m.start()])
+           for m in _MISS_THEN_TIME.finditer(sentence)):
+        return True
+    m = _TIME_THEN_MISS.search(sentence)
+    return bool(m and _past_time(m, today))
 
 
 # --- current-club sanity check --------------------------------------------------------
@@ -167,11 +175,18 @@ def contradicts_current_club(claim, current_club):
     return bool(frm) and not _maybe_same_club(frm, current_club)
 
 
-def _claim_date(claim):
+def day(value):
+    """'YYYY-MM-DD...' -> date, else None. Read-time callers judge a story AS OF ITS OWN
+    DATE: judged against the build date, a live 2026 story about a 2025 near-miss would
+    flip to 'history' on 2027-01-01 and be pruned from the committed ledger."""
     try:
-        return date.fromisoformat((claim.get("claim_date") or "").strip()[:10])
+        return date.fromisoformat((value or "").strip()[:10])
     except ValueError:
         return None
+
+
+def _claim_date(claim):
+    return day(claim.get("claim_date"))
 
 
 def needs_review(claims, current_club, today=None, texts=None):
@@ -194,7 +209,7 @@ def needs_review(claims, current_club, today=None, texts=None):
         d = _claim_date(c)
         if d is None or (today - d).days > REVIEW_FRESH_DAYS:
             continue
-        if texts is not None and is_retrospective(texts.get(c.get("post_url"), ""), today):
+        if texts is not None and is_retrospective(texts.get(c.get("post_url"), ""), d):
             continue
         backed = True
     return contradicted and not backed

@@ -168,7 +168,11 @@ def test_pipeline_drops_a_retrospective_story_before_extraction():
     assert stats["excluded"] == 1 and stats["claims"] == 1
     assert len(seen) == 1 and "Guehi" in seen[0]       # zero tokens spent on the old story
     assert store.deal_keys(conn) == [cluster.deal_key("Marc Guehi", WIN)]
-    assert _disposition(conn, MBAPPE_URL) == "historical"   # auditable; backfill skips it
+    # A regex drop records NO verdict: if the rule ever misfires, a backfill after the
+    # fix can still recover the post (backfill skips anything with a disposition).
+    assert _disposition(conn, MBAPPE_URL) is None
+    from ingest import backfill
+    assert MBAPPE_URL in [p["url"] for p in backfill.claimless_posts(conn, "2000-01-01")]
 
 
 def test_pipeline_trusts_the_model_when_it_flags_a_story_historical():
@@ -241,14 +245,19 @@ def test_bridge_leaves_a_deal_with_any_live_claim_alone(tmp_path):
     """A retrospective story next to a genuine current rumour on the same player is NOT
     a historical deal -- the live claim keeps it open."""
     p = tmp_path / "deals.csv"
-    _write(p, DEALS_HEADER, [{"deal_id": "458", "player": "Kylian Mbappe", "to_club": "Liverpool",
-                              "window": WIN, "outcome": "unknown", "verified": "auto"}])
+    before = {"deal_id": "458", "player": "Kylian Mbappe", "to_club": "Liverpool",
+              "window": WIN, "outcome": "unknown", "verified": "auto",
+              "notes": "[auto-ingested] 2 claim(s); to_club provisional"}
+    _write(p, DEALS_HEADER, [before])
     conn = store.connect(":memory:")
     _store_mbappe(conn)
     _store_claim(conn, _post("http://x/live", "Liverpool in talks to sign Kylian Mbappe"),
                  "Kylian Mbappe", "Liverpool", "talks", 0.35, "2026-09-25")
-    bridge.bridge(conn, deals_path=p)
-    assert _read(p)[0]["outcome"] == "unknown"
+    stats = bridge.bridge(conn, deals_path=p)
+    # Never relabelled at all -- not relabelled and then quietly re-opened, which would
+    # leave the outcome right but wipe the row's notes (the reopen step masks that).
+    assert stats["historical"] == [] and stats["reopened"] == []
+    assert _read(p) == [{k: before.get(k, "") for k in DEALS_HEADER}]
 
 
 def test_bridge_never_relabels_a_curated_row(tmp_path):
@@ -292,15 +301,16 @@ def test_bridge_claims_prunes_retrospective_auto_claims_and_never_appends_them(t
     assert [r["claim_id"] for r in _read(cp)] == ["996", "1"]
 
 
-def test_bridge_claims_judges_a_claim_by_its_quote_when_the_post_is_gone(tmp_path):
-    """The ledger outlives the cache: with no post in the store, the claim's own
-    raw_quote (the headline it was filed from) is the text the rule is applied to."""
+def test_bridge_claims_never_prunes_on_a_headline_alone(tmp_path):
+    """Review finding: with the post evicted from the cache, judging the claim's
+    raw_quote (title only) loses any live signal that was in the summary, and a claim
+    kept yesterday gets pruned today. No stored post -> no verdict -> the claim stays."""
     dp, cp = tmp_path / "deals.csv", tmp_path / "claims.csv"
     _write(dp, DEALS_HEADER, [{"deal_id": "458", "player": "Kylian Mbappe", "window": WIN,
                                "outcome": "unknown", "verified": "auto"}])
     _write(cp, CLAIMS_HEADER, _claims_for_458())
     bridge.bridge_claims(store.connect(":memory:"), deals_path=dp, claims_path=cp)
-    assert [r["claim_id"] for r in _read(cp)] == ["996", "1"]
+    assert [r["claim_id"] for r in _read(cp)] == ["995", "996", "1"]
 
 
 # --- current-club sanity check ------------------------------------------------------
@@ -580,3 +590,178 @@ def test_live_engine_labels_the_regression_cases():
         if not g["critical_ok"]:
             failed.append(c["id"])
     assert not failed, f"regressions failing: {failed}"
+
+
+# --- fresh-context review findings (2026-09-27) --------------------------------------
+# Every input below is verbatim from the review, which CONFIRMED each one was wrongly
+# flagged: a current rumour that merely mentions an old near-miss in a side clause.
+
+REVIEW_FALSE_POSITIVES = [
+    # (a) the dated near-miss sits in a relative clause; the headline is live
+    "Chelsea, who nearly signed Michael Olise in 2023, have returned for the winger",
+    "Chelsea, who nearly signed Michael Olise in 2023, make £60m bid for Bayern winger",
+    "Chelsea, who nearly signed Michael Olise in 2023, open talks with Bayern",
+    "Liverpool reignite interest in Adam Wharton, who they almost signed in 2023",
+    "Arsenal return for Martin Zubimendi after he nearly joined them in 2024",
+    "Man Utd, who were close to signing Jobe Bellingham as a teenager, lodge bid for Dortmund midfielder",
+    "Tottenham step up pursuit of Eze, who they were close to signing in 2023",
+    "Juventus in talks for Jadon Sancho, who was close to joining them in 2021",
+    "Aston Villa target Joao Felix, who almost joined them in January 2024",
+    "Barcelona eye move for Nico Williams, who nearly joined in summer 2024",
+    "Newcastle held talks over James Trafford in 2023 and have returned with a £30m bid",
+    "Sesko, who Arsenal held talks over in 2024, is a January target for the Gunners",
+    "Everton make approach for Dwight McNeil two years after he almost signed in 2024",
+    "Man City, who could have signed Jude Bellingham in 2020, make Wharton top target",
+    "PSG hijack: Paris Saint-Germain move for Kvaratskhelia who nearly joined Newcastle in 2022",
+    "Bayern Munich, who were close to signing Florian Wirtz in 2023-24, submit €120m offer",
+    "Napoli target Rasmus Hojlund, who was close to joining them years ago",
+    "Fulham agree £27m fee for Emile Smith Rowe, who was close to joining Newcastle in 2023",
+    # (b) "have held talks" is the live verb
+    "Newcastle United have held talks over a move for Marc Guehi, who they came close to signing in 2022. (Telegraph)",
+    "Arsenal, who came close to signing Dominik Szoboszlai in 2019, have held talks with Liverpool over a January move",
+    "Liverpool have held talks with Marc Guehi's representatives. The Reds came close to signing him in 2022.",
+    # (c) completed signings -- the highest-value claims of all
+    "Here we go: Liverpool sign Ekitike, who was close to joining PSG in 2022",
+    "Sunderland sign Granit Xhaka, who was close to joining Bayer Leverkusen in 2023",
+    "Everton confirm signing of Jack Grealish, who nearly joined Man Utd in 2019",
+    "Aston Villa, who were close to signing Harvey Elliott in 2019, sign him on loan from Liverpool",
+    "Man Utd, who held talks with Leverkusen over Frimpong in 2023, complete his signing",
+    # (d) the old near-miss is a second segment after a dash / pipe
+    "Chelsea make Olise bid - they nearly signed him in 2023",
+    '"We were close to signing him in 2024" - Arteta on Arsenal\'s renewed pursuit of Zubimendi',
+    "Toney admits he was close to joining Chelsea in 2023 | Brentford striker open to Saudi move",
+    # (e) a time-first sentence running across a comma
+    "In 2024 Chelsea signed Pedro Neto from Wolves, now they've opened talks for Rodrygo",
+]
+
+
+@pytest.mark.parametrize("text", REVIEW_FALSE_POSITIVES)
+def test_review_false_positives_stay_live(retro, text):
+    assert not retro.is_retrospective(text, TODAY), f"FALSE POSITIVE: {text!r}"
+
+
+def test_the_year_is_judged_against_the_claims_own_date(retro):
+    """Review finding: read-time callers passed the BUILD date, so a live 2026 story
+    about a 2025 near-miss flipped to 'history' on 2027-01-01 and got pruned from the
+    committed ledger. The story is judged as of when it ran."""
+    text = "Liverpool almost signed him in 2025"
+    assert not retro.is_retrospective(text, date(2026, 9, 20))
+    assert retro.is_retrospective(text, date(2027, 1, 1))      # the flip the review found
+    conn = store.connect(":memory:")
+    _store_claim(conn, _post("http://x/g", text), "Marc Guehi", "Liverpool", "talks", 0.35,
+                 "2026-09-20")
+    claims = store.claims_for_deal(conn, cluster.deal_key("Marc Guehi", WIN))
+    assert build_feed.live_claim_filter(conn, today=date(2027, 1, 1))(claims[0])
+    live, historical = bridge._split_retro(conn, {"k": claims})
+    assert "k" in live and not historical
+
+
+def test_pipeline_logs_a_retrospective_drop_by_title(capsys):
+    conn = store.connect(":memory:")
+    pipeline.run(conn, sources_fn=lambda: [_mbappe_post()], analyze_fn=_claims_everything,
+                 window=WIN)
+    assert MBAPPE_TITLE in capsys.readouterr().out     # the audit trail is the CI log
+
+
+def test_pipeline_does_not_read_the_string_false_as_historical():
+    post = _post("http://x/live", "Liverpool in talks to sign Marc Guehi")
+    conn = store.connect(":memory:")
+    stats = pipeline.run(conn, sources_fn=lambda: [post],
+                         analyze_fn=lambda t: {**_claims_everything(t), "historical": "false"},
+                         window=WIN)
+    assert stats["claims"] == 1
+
+
+def test_an_auto_historical_deal_reopens_when_a_live_claim_arrives(tmp_path):
+    """Review finding: a machine-relabelled historical row was terminal -- a later live
+    claim attached to it and could never resolve or score. A live claim now hands the
+    row back to the resolver (unknown), the way refresh_and_reopen undoes a stale
+    collapse: it only removes an assertion, never writes an outcome."""
+    p = tmp_path / "deals.csv"
+    _write(p, DEALS_HEADER, [{"deal_id": "458", "player": "Kylian Mbappe", "to_club": "Liverpool",
+                              "window": WIN, "outcome": "historical", "verified": "auto",
+                              "outcome_date": "2026-09-27", "notes": "[auto] historical: ..."}])
+    conn = store.connect(":memory:")
+    _store_mbappe(conn)
+    _store_claim(conn, _post("http://x/ars", "Arsenal in advanced talks to sign Kylian Mbappe"),
+                 "Kylian Mbappe", "Arsenal", "advanced", 0.60, "2026-09-26", from_club="Real Madrid")
+    stats = bridge.bridge(conn, deals_path=p)
+    row = _read(p)[0]
+    assert row["outcome"] == "unknown" and row["verified"] == "auto" and not row["outcome_date"]
+    assert [did for did, _ in stats["reopened"]] == ["458"]
+
+
+def test_a_curated_historical_deal_is_never_reopened(tmp_path):
+    curated = {"deal_id": "458", "player": "Kylian Mbappe", "to_club": "Liverpool", "window": WIN,
+               "outcome": "historical", "verified": "YES", "notes": NOTE}
+    p = tmp_path / "deals.csv"
+    _write(p, DEALS_HEADER, [curated])
+    conn = store.connect(":memory:")
+    _store_claim(conn, _post("http://x/ars", "Arsenal in advanced talks to sign Kylian Mbappe"),
+                 "Kylian Mbappe", "Arsenal", "advanced", 0.60, "2026-09-26")
+    bridge.bridge(conn, deals_path=p)
+    assert _read(p) == [{k: curated.get(k, "") for k in DEALS_HEADER}]
+
+
+def test_relabel_keeps_the_resolvers_collapse_evidence(tmp_path):
+    p = tmp_path / "deals.csv"
+    _write(p, DEALS_HEADER, [{"deal_id": "459", "player": "Wayne Rooney", "to_club": "Newcastle United",
+                              "window": WIN, "outcome": "collapsed", "verified": "auto",
+                              "outcome_date": "2026-09-03",
+                              "outcome_source_url": "https://en.wikipedia.org/wiki/Wayne_Rooney",
+                              "notes": "[auto] window closed; player stayed at Everton"}])
+    conn = store.connect(":memory:")
+    _store_claim(conn, _post("http://x/rooney", "Rooney nearly signed for Newcastle as a teenager",
+                             "BBC Sport"), "Wayne Rooney", "Newcastle United", "advanced", 0.60,
+                 "2026-09-22")
+    bridge.bridge(conn, deals_path=p)
+    row = _read(p)[0]
+    assert row["outcome"] == "historical"
+    assert "window closed; player stayed at Everton" in row["notes"]
+    assert "2026-09-03" in row["notes"] and "wikipedia.org/wiki/Wayne_Rooney" in row["notes"]
+
+
+def test_merge_refuses_a_pair_with_a_historical_row(tmp_path):
+    """Review finding: merge_split_deals ignored `historical` -- it deleted a live bare
+    twin into a historical row, or silently deleted a historical row."""
+    dp, cp = tmp_path / "deals.csv", tmp_path / "claims.csv"
+    _write(dp, DEALS_HEADER, [
+        {"deal_id": "910", "player": "Michael Olise", "to_club": "Chelsea", "window": WIN,
+         "outcome": "historical", "verified": "auto"},
+        {"deal_id": "911", "player": "Olise", "to_club": "Chelsea", "window": WIN,
+         "outcome": "unknown", "verified": "auto"},
+    ])
+    _write(cp, CLAIMS_HEADER, [{"claim_id": "7000", "deal_id": "911", "source_name": "Sky Sports",
+                                "stage": "talks", "claim_date": "2026-09-20", "verified": "auto"}])
+    stats = bridge.merge_split_deals(deals_path=dp, claims_path=cp)
+    assert stats["merged"] == [] and len(stats["refused"]) == 1
+    assert [r["deal_id"] for r in _read(dp)] == ["910", "911"]
+    assert _read(cp)[0]["deal_id"] == "911"
+
+
+def test_promote_only_accepts_deals_in_the_review_queue(tmp_path):
+    """Review finding (predates the branch): promote(ids) flipped ANY auto deal to YES,
+    including a historical one -- its claims then became unprunable, one outcome edit
+    away from scoring."""
+    dp, cp = tmp_path / "deals.csv", tmp_path / "claims.csv"
+    _write(dp, DEALS_HEADER, [{**HISTORICAL_ROW, "verified": "auto"}])
+    _write(cp, CLAIMS_HEADER, [{"claim_id": "995", "deal_id": "458", "source_name": "BBC Sport",
+                                "stage": "advanced", "claim_date": "2026-09-22", "verified": "auto"}])
+    promoted, n_claims = promote.promote(["458"], deals_path=dp, claims_path=cp, rebuild=False,
+                                         fixtures_path=tmp_path / "res.json")
+    assert promoted == [] and n_claims == 0
+    assert _read(dp)[0]["verified"] == "auto" and _read(cp)[0]["verified"] == "auto"
+
+
+def test_rail_lists_only_hand_verified_historical_deals(tmp_path):
+    """Review finding: machine relabels sorted to the top of the 6-slot rail and could
+    push real results off it. Only a human-verified correction earns a rail slot."""
+    p = tmp_path / "deals.csv"
+    _write(p, DEALS_HEADER, [
+        {"deal_id": "458", "player": "Kylian Mbappe", "window": WIN, "outcome": "historical",
+         "verified": "YES", "outcome_date": "2026-09-27", "notes": NOTE},
+        {"deal_id": "459", "player": "Wayne Rooney", "window": WIN, "outcome": "historical",
+         "verified": "auto", "outcome_date": "2026-09-27"},
+    ])
+    _keys, done = build_feed.load_resolved(p)
+    assert [r["deal_id"] for r in done] == ["458"]

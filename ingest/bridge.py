@@ -28,7 +28,7 @@ sys.path.insert(0, str(ROOT))
 from ground_truth import _TRUSTED_FLAGS
 from ingest import store, cluster
 from ingest.exclude import is_non_player, is_known_non_player
-from ingest.retro import is_retrospective, HISTORICAL
+from ingest.retro import is_retrospective, HISTORICAL, day as retro_day
 from outcome.apply import DEALS, load_deals, write_atomic
 from outcome.detect import same_club, collapse_facts, classify
 from stagemap import STAGE_P
@@ -94,12 +94,13 @@ def _all_claims(conn, alias):
             for canon, raw in cluster.group_keys(store.deal_keys(conn), alias).items()}
 
 
-def _is_retro_post(conn, url, fallback=""):
-    """True when the post behind a claim is a retrospective story (ingest.retro). Judged
-    on the stored post -- title + summary, the text the pipeline saw. A ledger claim whose
-    post has left the store falls back to its own raw_quote, the headline it was filed from."""
+def _is_retro_post(conn, url, claim_date=None):
+    """True when the post behind a claim is a retrospective story (ingest.retro), judged
+    on the stored post (title + summary, the text the pipeline saw) AS OF the claim's own
+    date. No stored post -> no verdict -> False: a headline alone has lost any live signal
+    that was in the summary, so an evicted post must never flip a claim to history."""
     text = store.post_text(conn, url) if url else None
-    return is_retrospective(text if text is not None else (fallback or ""))
+    return text is not None and is_retrospective(text, retro_day(claim_date))
 
 
 def _split_retro(conn, groups):
@@ -108,7 +109,8 @@ def _split_retro(conn, groups):
     claim keeps a deal out of `historical`."""
     live, historical = {}, {}
     for key, claims in groups.items():
-        kept = [c for c in claims if not _is_retro_post(conn, c.get("post_url"))]
+        kept = [c for c in claims
+                if not _is_retro_post(conn, c.get("post_url"), c.get("claim_date"))]
         if kept:
             live[key] = kept
         elif claims:
@@ -151,13 +153,42 @@ def relabel_historical(rows, historical, alias=None):
         claims = historical.get(alias.get(key, key)) if key else None
         if not claims:
             continue
+        # Keep whatever the resolver had recorded (a collapse's reason, date, source):
+        # relabelling must not destroy evidence a human may want to audit.
+        was = ""
+        if (r.get("outcome") or "").strip().lower() == "collapsed":
+            was = (f" | was collapsed {r.get('outcome_date') or ''} "
+                   f"{r.get('outcome_source_url') or ''}: {r.get('notes') or ''}")
         r.update({"outcome": HISTORICAL, "verified": "auto",
                   "outcome_date": date.today().isoformat(),
                   "outcome_source_url": claims[0].get("post_url") or "",
                   "notes": f"[auto] {HISTORICAL}: every source is a retrospective story "
-                           f"({len(claims)} claim(s)), not a live rumour"})
+                           f"({len(claims)} claim(s)), not a live rumour{was}"})
         changed.append((r["deal_id"], r.get("player")))
     return changed
+
+
+def reopen_historical(rows, live, alias=None):
+    """A MACHINE historical row whose deal now has a live claim goes back to unknown, so
+    the resolver can settle it and its claims can one day score. Mutates `rows`; returns
+    [(deal_id, why)] in refresh_and_reopen's shape.
+
+    Without this a relabel was terminal: every later claim on the same player+window
+    attached to a row nothing ever resolves. Like refresh_and_reopen, this only REMOVES an
+    assertion and never writes an outcome. Curated rows (deal 458) are never touched."""
+    alias = alias or {}
+    reopened = []
+    for r in rows:
+        if _is_curated(r) or (r.get("outcome") or "").strip().lower() != HISTORICAL:
+            continue
+        key = cluster.deal_key(r.get("player", ""), r.get("window", ""))
+        if not key or alias.get(key, key) not in live:
+            continue
+        why = "a live claim arrived for a deal marked historical"
+        r.update({"outcome": "unknown", "verified": "auto", "outcome_date": "",
+                  "outcome_source_url": "", "notes": f"[auto] re-opened: {why}"})
+        reopened.append((r["deal_id"], why))
+    return reopened
 
 
 def refresh_and_reopen(conn, rows, alias, groups=None):
@@ -281,7 +312,9 @@ def bridge(conn, deals_path=DEALS, dry_run=False):
         rows = [r for r in rows if r not in scrubbed]
 
     relabelled = relabel_historical(rows, historical, alias)
+    revived = reopen_historical(rows, groups, alias)   # before refresh, so it refreshes too
     refreshed = refresh_and_reopen(conn, rows, alias, groups)
+    refreshed["reopened"] = revived + refreshed["reopened"]
 
     existing = _existing_keys(rows, alias)
 
@@ -358,7 +391,7 @@ def bridge_claims(conn, deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False)
     auto = [r for r in rows if (r.get("verified") or "").strip().lower() == "auto"]
     orphaned = [r for r in auto if (r.get("deal_id") or "").strip() not in live_ids]
     retro = [r for r in auto if r not in orphaned
-             and _is_retro_post(conn, (r.get("source_url") or "").strip(), r.get("raw_quote"))]
+             and _is_retro_post(conn, (r.get("source_url") or "").strip(), r.get("claim_date"))]
     pruned = orphaned + retro
     if retro:
         # Named in the log on purpose: CI judges each claim on its stored title + summary,
@@ -459,7 +492,11 @@ def merge_split_deals(deals_path=DEALS, claims_path=CLAIMS_CSV, dry_run=False):
         survivor = max(group, key=_row_rank)
         losers = [r for r in group if r is not survivor]
         why = None
-        if sum(1 for r in group if _is_curated(r)) > 1:
+        if any((r.get("outcome") or "").strip().lower() == HISTORICAL for r in group):
+            # A historical row is a correction, not a live deal: folding a live twin into
+            # it strands the live claims, folding it away deletes the correction.
+            why = "one row is historical (a correction) -- a human must decide"
+        elif sum(1 for r in group if _is_curated(r)) > 1:
             why = "two curated rows -- a human must decide"
         elif any(_is_curated(r) for r in losers):
             why = "the losing row is curated and is never auto-deleted"

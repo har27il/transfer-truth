@@ -103,11 +103,14 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
         # A retrospective story ("I was close to joining Liverpool in 2016") is history,
         # not a rumour -- the Mbappé -> Liverpool bug (see ingest.retro). Dropped here it
         # costs 0 tokens and never becomes a claim. Counted under `excluded` (the stats
-        # shape is pinned); the verdict is recorded so the drop is auditable and backfill
-        # never re-chews the post.
-        if is_retrospective(text):
+        # shape is pinned) and logged by title -- the CI log is the audit trail. NO
+        # disposition is recorded on purpose: backfill skips posts that have one, so if
+        # this rule ever misfires, a backfill after the fix can still recover the post.
+        # Judged as of the post's own date, not the run date.
+        if is_retrospective(text, date.fromisoformat(_iso_date(post.get("published")))):
             stats["excluded"] += 1
-            store.record_disposition(conn, post["url"], HISTORICAL)
+            print(f"  retrospective story, not a live rumour: "
+                  f"[{post.get('source')}] {post.get('title')!r}")
             continue
         stats["new"] += 1
         new_posts.append(post)
@@ -152,7 +155,7 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
             store.release_failed_post(conn, post["url"])
             continue
         store.clear_failure(conn, post["url"])
-        if result.get("historical"):
+        if result.get("historical") is True:   # a stray "false" string must not drop a post
             # The prompt's PAST EVENTS rule caught a retrospective story the regex can't
             # anchor (no year, no "years ago"). History is never a claim, whatever
             # is_transfer_claim says.

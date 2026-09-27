@@ -199,6 +199,11 @@ def load_resolved(path=DEALS, window=ACTIVE_WINDOW, alias=None):
                 outcome = (r.get("outcome") or "").strip().lower()
                 if outcome not in _RESOLVED and outcome != _HISTORICAL:
                     continue
+                # Only a HUMAN-verified correction earns a rail slot: machine relabels
+                # sort to the top by date and would push real results off the 6-slot rail.
+                if outcome == _HISTORICAL and \
+                        (r.get("verified") or "").strip().lower() not in _TRUSTED_FLAGS:
+                    continue
                 raw = cluster.deal_key(r["player"], window)
                 key = alias.get(raw, raw)
                 if outcome in _RESOLVED:
@@ -461,7 +466,9 @@ def live_claim_filter(conn, today=None, texts=None):
     already sit in the cached ingest.db -- the Mbappé claim that led the feed did -- and
     backfill only re-reads posts that produced no claim, so nothing else would clear it."""
     texts = store.post_texts(conn) if texts is None else texts
-    return lambda c: not retro.is_retrospective(texts.get(c.get("post_url"), ""), today)
+    # Judged as of the claim's own date (retro.day); `today` only covers undated claims.
+    return lambda c: not retro.is_retrospective(texts.get(c.get("post_url"), ""),
+                                                retro.day(c.get("claim_date")) or today)
 
 
 def flag_for_review(rows, current_clubs, today=None, texts=None):

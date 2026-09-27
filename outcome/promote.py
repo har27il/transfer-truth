@@ -108,8 +108,12 @@ def promote(deal_ids, deals_path=DEALS, claims_path=CLAIMS_CSV, rebuild=True,
             fixtures_path=FIXTURES):
     """Flip the given deals AND their auto claims to verified=YES, and write the
     reproducibility fixtures the test gate requires. Atomic."""
-    deal_ids = {str(d) for d in deal_ids}
     fieldnames, rows = load_deals(deals_path)
+    # Only deals in the review queue (auto + completed/collapsed) can be promoted. Without
+    # this, `--yes <id>` flipped ANY auto deal -- unknown or historical included -- to YES,
+    # and its claims with it, one outcome edit away from scoring.
+    queue = {(r.get("deal_id") or "").strip() for r in pending(rows)}
+    deal_ids = {str(d).strip() for d in deal_ids} & queue
     cf, claim_rows = _load_claims(claims_path)
     promoted = []
     for r in rows:
