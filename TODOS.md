@@ -41,6 +41,25 @@ Shipped in `786c5d6` (alias layer + feed grouping) and `fe4dd91` (ledger merge).
   compare it to the window bounds (`WINDOW_CLOSE` map).
 - **Unpromoted examples to retest after the fix:** deals 50, 56, 64, 74, 90,
   99, 107, 114 in `ground-truth/deals.csv`.
+- **2026-09-27: now the top data risk.** The window has closed, so collapses are
+  finally resolvable, and the ledger's 2026 verified outcomes are 100 completions
+  and 0 collapses (RESEARCH.md). In the promotion queue, 39 of 189 proposals cite
+  only pre-2026 years: 31 collapses (15 "joined elsewhere", e.g. deal 418 Elliott
+  → Valencia on a 2025 loan) and 8 completions. `promote.py` now WARNS on these
+  (display only), which makes the human review safe today. The resolver fix below
+  stops new ones.
+- **Proposed design (awaiting go-ahead; resolution logic → plan mode per CLAUDE.md):**
+  1. `outcome/source.py` prompt asks for the `move_date` (ISO, or null) of the
+     move the evidence describes, alongside `evidence`.
+  2. `detect.classify` returns UNKNOWN ("evidence outside the window") when
+     `status == moved` and `move_date` falls outside the window's bounds. Add
+     `WINDOW_OPEN` next to `WINDOW_CLOSE`. Only ever turns a verdict into UNKNOWN,
+     never the reverse, so positive-evidence-only is strengthened, not bent.
+  3. `status == stayed`: unchanged. A stay is legitimately undated.
+  4. Tests: fixtures for deals 418 and 64 (stale "joined elsewhere" → UNKNOWN)
+     plus a genuine in-window move that must still resolve.
+  5. Existing proposals: not touched by code. They stay in the queue behind the
+     warning, for a human to decide.
 
 ## 0b. Club-alias normalization in outcome matching — DONE 2026-08-07
 
