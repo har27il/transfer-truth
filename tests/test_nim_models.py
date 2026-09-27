@@ -143,3 +143,19 @@ def test_default_cap_leaves_headroom_over_the_measured_longest_trace():
     the old 2048 cap). The default must keep real headroom above that."""
     from engine.run import DEFAULT_MAX_TOKENS
     assert int(DEFAULT_MAX_TOKENS) >= 2 * 1710
+
+
+def test_reasoning_budget_is_sent_only_when_configured(monkeypatch):
+    from engine import run
+    monkeypatch.setattr(run, "DEFAULT_REASONING_BUDGET", "")
+    monkeypatch.delenv("NIM_REASONING_BUDGET", raising=False)
+    assert run.reasoning_budget_kwargs() == {}
+    monkeypatch.setenv("NIM_REASONING_BUDGET", "3072")
+    assert run.reasoning_budget_kwargs() == {"extra_body": {"reasoning_budget": 3072}}
+
+
+def test_a_configured_reasoning_budget_stays_below_the_output_cap():
+    """The budget must leave room for the JSON answer inside max_tokens."""
+    from engine import run
+    if run.DEFAULT_REASONING_BUDGET:
+        assert int(run.DEFAULT_REASONING_BUDGET) + 512 <= int(run.DEFAULT_MAX_TOKENS)

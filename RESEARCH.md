@@ -293,6 +293,32 @@ cap it, and any trace between 2048 and 4096, would have failed as a "contract br
 supports rec. 2's second half: set an explicit `reasoning_budget` below `max_tokens`. It
 changes model behaviour, so it must go through the golden gate.
 
+**`reasoning_budget` tested: accepted, but NOT adopted.** The hosted endpoint honours
+`extra_body={"reasoning_budget": N}`: at N=256 a call used 424 completion tokens against
+675 unbudgeted, and still finished with valid JSON. Repeated test at N=3072 (27 × 3,
+`golden.paired` against the baseline above):
+
+| Setting | Pass | 95% CI |
+|---|---|---|
+| Baseline (no budget) | 91% | 75–97% |
+| Budget 3072 | 86% | 69–95% |
+
+- Paired comparison: worse on 3 cases (kane, postecoglou, woltemade), better on 0,
+  p = 0.25. Not significant, but every disagreement went the wrong way.
+- The one runaway still ran to the full 4096-token cap under the budget, so it didn't
+  stop the failure it was meant to stop.
+
+Decision: keep the knob (`NIM_REASONING_BUDGET`, off by default) for future A/Bs. Rely
+on the 4096 cap, the truncation log, and `analyze()`'s retry for the ~1-in-90 runaway.
+
+**Resolver evidence-window guard shipped (TODOS 0a, commit `5c34bc2`).**
+- Re-resolved live, 3 of 4 sampled stale "joined elsewhere" collapses had in fact
+  completed in 2026.
+- The new check re-opens 17 of the 60 queued collapses for re-resolution (10 per run).
+- The ground-truth gate caught two bad fallback designs before they shipped:
+  - contract-end years ("until 2032") being read as the move date;
+  - a verified completion (deal 114) whose Wikipedia quote is stale.
+
 **Other claims re-checked.**
 - The golden-floor probabilities reproduce exactly: a true 75% clears the 80% floor 30% of
   the time, and a true 85% fails it 21% of the time.

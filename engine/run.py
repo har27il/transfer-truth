@@ -100,8 +100,20 @@ def _nim_complete(system, user, model=None):
                   {"role": "user", "content": user}],
         temperature=0,
         max_tokens=int(os.environ.get("NIM_MAX_TOKENS", DEFAULT_MAX_TOKENS)),
+        **reasoning_budget_kwargs(),
     )
     return finished_text(resp, "extraction")
+
+
+# Hard ceiling on the reasoning trace (hosted-API field `reasoning_budget`, default 16384
+# -- RESEARCH.md §2). Kept BELOW max_tokens so a runaway trace can't eat the budget the
+# JSON answer needs (one ran to 4096 in the 2026-09-27 baseline). Empty = not sent.
+DEFAULT_REASONING_BUDGET = ""
+
+
+def reasoning_budget_kwargs():
+    budget = os.environ.get("NIM_REASONING_BUDGET", DEFAULT_REASONING_BUDGET).strip()
+    return {"extra_body": {"reasoning_budget": int(budget)}} if budget else {}
 
 
 # 2026-09-27 measurement, 27 golden cases on nemotron-3-super: 0 truncated, median 676
