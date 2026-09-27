@@ -99,9 +99,28 @@ def _nim_complete(system, user, model=None):
         messages=[{"role": "system", "content": system},
                   {"role": "user", "content": user}],
         temperature=0,
-        max_tokens=int(os.environ.get("NIM_MAX_TOKENS", "2048")),
+        max_tokens=int(os.environ.get("NIM_MAX_TOKENS", DEFAULT_MAX_TOKENS)),
     )
-    return resp.choices[0].message.content or ""
+    return finished_text(resp, "extraction")
+
+
+# 2026-09-27 measurement, 27 golden cases on nemotron-3-super: 0 truncated, median 676
+# completion tokens, max 1710 -- 84% of the old 2048 cap, on headline-only inputs (real
+# posts add a summary). The hosted endpoint's own reasoning budget defaults to 16384
+# (RESEARCH.md), so the cap, not the model, decides when a long trace gets cut.
+DEFAULT_MAX_TOKENS = "4096"
+
+
+def finished_text(resp, where):
+    """The answer text. A trace cut off at max_tokens (finish_reason == "length") used to
+    look exactly like the model breaking the JSON contract -- say which it was, so the
+    log can tell truncation apart from a bad answer."""
+    choice = resp.choices[0]
+    if getattr(choice, "finish_reason", None) == "length":
+        used = getattr(getattr(resp, "usage", None), "completion_tokens", "?")
+        print(f"  ! {where}: answer truncated at max_tokens ({used} completion tokens); "
+              f"raise NIM_MAX_TOKENS", flush=True)
+    return choice.message.content or ""
 
 
 def analyze(post, complete=_nim_complete, system=None):

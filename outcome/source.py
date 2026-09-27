@@ -277,6 +277,7 @@ def extract_resolution(text, player, window, model=None):
         raise RuntimeError(
             "NVIDIA_API_KEY not set. Get a free key at https://build.nvidia.com and "
             "export NVIDIA_API_KEY=... (or inject a fake `extract` in tests).")
+    from engine.run import finished_text, DEFAULT_MAX_TOKENS   # shared cap + truncation log
     client = OpenAI(base_url=NIM_BASE, api_key=key)
     resp = client.chat.completions.create(
         model=model or NIM_MODEL,
@@ -285,9 +286,9 @@ def extract_resolution(text, player, window, model=None):
         temperature=0,
         # Same reasoning-headroom rule as engine/run.py: a <think> preamble must
         # not eat the budget before the JSON is emitted.
-        max_tokens=int(os.environ.get("NIM_MAX_TOKENS", "2048")),
+        max_tokens=int(os.environ.get("NIM_MAX_TOKENS", DEFAULT_MAX_TOKENS)),
     )
-    return _parse_json_object(resp.choices[0].message.content or "")
+    return _parse_json_object(finished_text(resp, f"resolution of {player}"))
 
 
 def resolve(player, window, from_club=None, fetch=None, extract=extract_resolution):

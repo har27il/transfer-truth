@@ -115,3 +115,31 @@ def test_analyze_retries_once_on_contract_break():
     calls.clear()
     assert analyze("post", complete=always_broken, system="s") is None
     assert len(calls) == 2                      # exactly one retry, no loop
+
+
+# --- truncation is its own failure, not a "contract break" (RESEARCH.md, 2026-09-27) ---
+
+def _resp(text, finish, tokens=2048):
+    from types import SimpleNamespace as NS
+    return NS(choices=[NS(finish_reason=finish, message=NS(content=text))],
+              usage=NS(completion_tokens=tokens))
+
+
+def test_a_truncated_answer_is_logged_as_truncation(capsys):
+    from engine.run import finished_text
+    assert finished_text(_resp("<think>long...", "length"), "extraction") == "<think>long..."
+    out = capsys.readouterr().out
+    assert "truncated at max_tokens" in out and "2048" in out
+
+
+def test_a_normal_answer_is_silent(capsys):
+    from engine.run import finished_text
+    assert finished_text(_resp('{"ok": true}', "stop", 600), "extraction") == '{"ok": true}'
+    assert capsys.readouterr().out == ""
+
+
+def test_default_cap_leaves_headroom_over_the_measured_longest_trace():
+    """Measured 2026-09-27: the longest golden-case completion was 1710 tokens (84% of
+    the old 2048 cap). The default must keep real headroom above that."""
+    from engine.run import DEFAULT_MAX_TOKENS
+    assert int(DEFAULT_MAX_TOKENS) >= 2 * 1710
