@@ -319,6 +319,35 @@ on the 4096 cap, the truncation log, and `analyze()`'s retry for the ~1-in-90 ru
   - contract-end years ("until 2032") being read as the move date;
   - a verified completion (deal 114) whose Wikipedia quote is stale.
 
+**Publication date to the extractor (rec. 3, first half): tested, NOT adopted.** Each
+input was prefixed "Published: YYYY-MM-DD", and the PAST EVENTS rule said to judge "past"
+against that date. Repeated, production-shaped test (27 × 3, every input dated):
+
+| Setting | Pass | 95% CI | Szoboszlai guard |
+|---|---|---|---|
+| Baseline | 91% | 75–97% | 3/3 |
+| With `Published:` line | 88% | 70–95% | **1/3** |
+
+- Against the baseline: worse on 2 cases, better on 0, p = 0.5.
+- The regression guard `old-near-miss-plus-current-talks` (an old near-miss that is live
+  again) fell to 1/3: the date line made the model over-apply "historical". Regressions
+  must pass every run, so the change was reverted.
+- Date probes went 4/5. The miss ("almost signed … in 2025, but talks could resume",
+  dated 2025-08-20) is called historical 2/3 WITH or WITHOUT the date line, so it is an
+  existing prompt weakness on that sentence shape, not caused by the date.
+
+Next attempt, if any:
+- add a dated few-shot pair (same sentence, historical in one year, live in another);
+- re-test with `golden.paired()`;
+- the regressions must stay 3/3.
+
+The second half of rec. 3 (file each claim by its date) SHIPPED separately (TODOS 0d).
+
+**Earliness bonus removed from the ranked score (rec. 5, commit `b54ce9a`).**
+- The top 4 each drop the 3-point cap and keep their order.
+- Fabrizio Romano moves #13 → #15, and Sky Sports News #14 → #21.
+- The bonus is still published and shown as "broke deals early".
+
 **Other claims re-checked.**
 - The golden-floor probabilities reproduce exactly: a true 75% clears the 80% floor 30% of
   the time, and a true 85% fails it 21% of the time.
