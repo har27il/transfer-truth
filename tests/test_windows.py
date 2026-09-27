@@ -66,3 +66,22 @@ def test_countdown_js_targets_the_same_instant_as_the_server_render():
     js = windows.countdown_js(at(2026, 9, 8))
     assert "2027-01-01T00:00:00Z" in js
     assert "tt-window" in js
+
+
+# --- one calendar: the tables must agree (TODOS 0d maintenance) ------------------------
+
+def test_the_site_calendar_and_the_pipeline_calendar_agree():
+    """site/windows.py (the page's countdown) and outcome.detect.WINDOW_BOUNDS (claim
+    filing + resolution) hold the same windows. Editing one without the other would file
+    claims by one calendar and show another."""
+    import windows
+    from outcome.detect import WINDOW_BOUNDS
+    for key, _label, opens, closes in windows.WINDOWS:
+        assert key in WINDOW_BOUNDS, f"{key} missing from outcome.detect.WINDOW_BOUNDS"
+        assert WINDOW_BOUNDS[key] == (opens.date(), closes.date()), key
+
+
+def test_the_resolver_deadlines_come_from_the_same_calendar():
+    from outcome.detect import WINDOW_BOUNDS
+    from outcome.source import WINDOW_CLOSE
+    assert WINDOW_CLOSE == {k: closes for k, (_opens, closes) in WINDOW_BOUNDS.items()}

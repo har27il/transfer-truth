@@ -365,3 +365,17 @@ def test_claims_are_filed_under_the_window_their_date_belongs_to():
     conn2 = _conn()
     pipeline.run(conn2, sources_fn=lambda: [post], analyze_fn=analyze, window="2025-summer")
     assert store.deal_keys(conn2) == [cluster.deal_key("Adam Wharton", "2025-summer")]  # explicit wins
+
+
+def test_the_log_warns_when_the_window_calendar_runs_out(capsys):
+    """Past the calendar a claim falls back to DEFAULT_WINDOW. That must be loud in the
+    CI log (a GitHub ::warning:: annotation), not a silent misfiling."""
+    def analyze(text):
+        return {"is_transfer_claim": True, "player": "Adam Wharton", "from_club": None,
+                "to_club": "Liverpool", "stage": "interest", "implied_p": 0.15, "source_name": None,
+                "source_identifiable": False, "direction_confidence": 0.9, "fee_eur": None}
+    post = {"url": "f", "source": "BBC Sport", "title": "Liverpool eye Wharton", "summary": "",
+            "published": "Tue, 01 Jun 2027 09:00:00 GMT"}
+    pipeline.run(_conn(), sources_fn=lambda: [post], analyze_fn=analyze)
+    out = capsys.readouterr().out
+    assert "::warning::" in out and "WINDOW_BOUNDS" in out

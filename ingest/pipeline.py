@@ -146,6 +146,7 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=None,
                 print(f"  ! extract failed for {post.get('url')}: {e}")
 
     # Phase 3 - filter + store (sequential SQLite).
+    calendar_warned = False   # past-the-calendar warning, printed once per run
     # A None result is a PARSE FAILURE (model broke the JSON contract), not a
     # "no transfer here" answer — conflating the two hid the June 25 outage.
     # Failed posts are released for retry (store.release_failed_post) so a bad
@@ -175,7 +176,16 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=None,
         # rumour is about January, not the summer that just shut. An explicit `window`
         # (tests, one-off runs) still wins; past the calendar, fall back to the default.
         claim_window = window or window_for(
-            date.fromisoformat(_iso_date(post.get("published")))) or DEFAULT_WINDOW
+            date.fromisoformat(_iso_date(post.get("published"))))
+        if not claim_window:
+            # Past the end of the window calendar: fall back, but loudly (once per run).
+            if not calendar_warned:
+                print("::warning::no transfer window covers claims dated "
+                      f"{_iso_date(post.get('published'))}; filed under {DEFAULT_WINDOW}. "
+                      "Add next season's dates to outcome/detect.py WINDOW_BOUNDS and "
+                      "site/windows.py.", flush=True)
+                calendar_warned = True
+            claim_window = DEFAULT_WINDOW
         key = cluster.deal_key(result.get("player"), claim_window)
         if not key:
             stats["no_player"] += 1
