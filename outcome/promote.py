@@ -57,6 +57,22 @@ def claims_for(claim_rows, deal_id):
             and (c.get("verified") or "").strip().lower() == "auto"]
 
 
+def stale_evidence_warning(deal):
+    """A review hint, never a decision: the resolver's evidence (notes after "|") names
+    only years BEFORE the window it settles -- the TODOS 0a pattern, where a 2025 career
+    line was used to resolve a 2026 rumour. Undated evidence gets no warning (can't tell).
+    Returns the warning line, or None."""
+    import re
+    wy = re.match(r"\s*(\d{4})", deal.get("window") or "")
+    notes = deal.get("notes") or ""
+    years = [int(y) for y in re.findall(r"\b((?:19|20)\d\d)\b", notes.split("|", 1)[1])] \
+        if "|" in notes else []
+    if not wy or not years or max(years) >= int(wy.group(1)):
+        return None
+    return (f"  WARNING:  evidence cites only {', '.join(map(str, sorted(set(years))))} for a "
+            f"{deal.get('window')} rumour -- check it describes THIS window (TODOS 0a)")
+
+
 def _describe(deal, deal_claims):
     lines = [
         f"deal {deal['deal_id']}: {deal.get('player')} "
@@ -65,6 +81,9 @@ def _describe(deal, deal_claims):
         f"  evidence: {deal.get('notes') or '(none recorded)'}",
         f"  source:   {deal.get('outcome_source_url') or '(none)'}",
     ]
+    warning = stale_evidence_warning(deal)
+    if warning:
+        lines.append(warning)
     for c in deal_claims:
         lines.append(f"  claim: {c.get('source_name'):<20} {c.get('stage'):<12} "
                      f"{c.get('claim_date')}  \"{(c.get('raw_quote') or '')[:70]}\"")

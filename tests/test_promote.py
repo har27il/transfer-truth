@@ -104,3 +104,27 @@ def test_promote_writes_fixtures_for_completed_deals(tmp_path):
     assert res["A Player"] == {"status": "moved", "joined_club": "Arsenal",
                                "evidence": "joined Arsenal on 1 July 2026"}
     assert "C Player" not in res          # collapsed -> flagged, never guessed
+
+
+# --- stale-evidence warning in the review display (TODOS 0a; RESEARCH.md) -------------
+# Display only: it changes nothing about what gets promoted. 31 of the 60 collapse
+# proposals queued on 2026-09-27 cited only pre-2026 years for a 2026-summer rumour.
+
+def _proposal(notes, window="2026-summer"):
+    return {"deal_id": "418", "player": "Harvey Elliott", "from_club": "Liverpool",
+            "to_club": "Valencia", "window": window, "outcome": "collapsed",
+            "verified": "auto", "notes": notes}
+
+
+def test_review_warns_when_evidence_predates_the_window():
+    deal = _proposal("[auto] player joined Aston Villa, not Valencia - rumour did not happen"
+                     " | On 1 September 2025, Elliott joined Aston Villa on loan.")
+    out = promote._describe(deal, [])
+    assert "WARNING" in out and "2025" in out and "2026-summer" in out
+
+
+def test_review_is_quiet_when_evidence_is_in_the_window_or_undated():
+    in_window = _proposal("[auto] ... | On 30 August 2026, he signed for Aston Villa.")
+    undated = _proposal("[auto] window closed; player stayed at Liverpool | He remained.")
+    assert "WARNING" not in promote._describe(in_window, [])
+    assert "WARNING" not in promote._describe(undated, [])

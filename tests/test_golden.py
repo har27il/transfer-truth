@@ -106,3 +106,41 @@ def test_live_engine_eval_clears_floor():
     print(f"\npass_rate={summary['pass_rate']:.0%} field_accuracy={summary['field_accuracy']:.0%}")
     assert summary["pass_rate"] >= 0.80
     assert summary["field_accuracy"] >= 0.90
+
+
+# --- repeated runs + honest intervals (RESEARCH.md §3, rec. 4) ------------------------
+
+def test_wilson_interval_matches_the_textbook_values():
+    # Newcombe (1998), Statistics in Medicine 17:857, worked examples -- Wilson score, 95%
+    for k, n, ref in [(81, 263, [0.2553, 0.3662]), (15, 148, [0.0624, 0.1605]),
+                      (0, 20, [0.0, 0.1611]), (1, 29, [0.0061, 0.1718])]:
+        assert [round(x, 4) for x in golden.wilson(k, n)] == ref
+    assert golden.wilson(0, 0) == (0.0, 1.0)            # no data -> no information
+
+
+def test_repeated_eval_scores_each_case_by_its_share_of_passing_runs():
+    calls = {}
+
+    def flaky(post):
+        calls[post] = calls.get(post, 0) + 1
+        exp = next(c["expected"] for c in CASES if c["input"] == post)
+        if post == CASES[0]["input"] and calls[post] % 2 == 0:
+            return {**exp, "to_club": "Nowhere FC"}      # fails every second run
+        return exp
+
+    s = golden.run_repeated(flaky, repeats=4)
+    assert s["n_cases"] == len(CASES) and s["repeats"] == 4
+    assert s["per_case"][CASES[0]["id"]] == 0.5
+    assert s["flaky"] == [CASES[0]["id"]]
+    assert s["solid"] == len(CASES) - 1
+    lo, hi = s["ci"]
+    assert lo < s["pass_rate"] < hi <= 1.0
+
+
+def test_paired_comparison_counts_only_discordant_cases():
+    a = {"x": 1.0, "y": 1.0, "z": 0.0, "w": 0.5}
+    b = {"x": 1.0, "y": 0.0, "z": 0.0, "w": 0.5}
+    p = golden.paired(a, b)
+    assert p == {"a_better": ["y"], "b_better": [], "ties": 3, "p_value": 1.0}
+    many = golden.paired({str(i): 1.0 for i in range(8)}, {str(i): 0.0 for i in range(8)})
+    assert many["p_value"] < 0.01                      # 8-0 is real, 1-0 is not

@@ -44,6 +44,10 @@ BASE_CSS = """
   .mini{font-family:var(--serif);font-weight:700;font-size:16px;letter-spacing:-.01em;white-space:nowrap}
   nav{margin-left:auto;display:flex;gap:22px;align-items:center}
   @media(max-width:480px){.bar{gap:10px;padding:10px 16px}nav{gap:14px}}
+  /* 360px phones: wordmark + two tabs + the 44px theme toggle needed ~384px (measured
+     2026-09-27: the page scrolled sideways by 18px). Tighten gaps and type, not targets. */
+  @media(max-width:380px){.bar{gap:8px;padding:10px 12px}nav{gap:8px}nav a{font-size:13px}
+    .mini{font-size:15px}}
   nav a{font-size:14px;font-weight:500;color:var(--muted);text-decoration:none;
         padding-bottom:2px;border-bottom:2px solid transparent;white-space:nowrap}
   nav a.on{color:var(--ink);border-color:var(--likely)}
