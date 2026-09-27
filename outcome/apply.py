@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from outcome import source
-from outcome.detect import classify, COMPLETED, COLLAPSED
+from outcome.detect import classify, normalize_move_date, COMPLETED, COLLAPSED
 
 DEALS = ROOT / "ground-truth" / "deals.csv"
 RESOLVED = (COMPLETED, COLLAPSED)
@@ -89,7 +89,12 @@ def _record(row, res, changes, i, total):
     row["outcome_date"] = date.today().isoformat()
     row["outcome_source_url"] = "https://en.wikipedia.org/wiki/" + row["player"].replace(" ", "_")
     ev = (res.get("evidence") or "").strip()
-    row["notes"] = f"[auto] {reason}" + (f" | {ev}" if ev else "")
+    # Record the move_date the verdict rested on: the bridge's Gate C re-checks recorded
+    # collapses, and re-checking WITHOUT it made the two disagree and flip-flop a row
+    # between collapsed and unknown on every run (2026-09-27 review).
+    md = normalize_move_date(res.get("move_date"))
+    row["notes"] = (f"[auto] {reason}" + (f" (move_date {md})" if md else "")
+                    + (f" | {ev}" if ev else ""))
     changes.append((row["deal_id"], row["player"], outcome, reason))
 
 

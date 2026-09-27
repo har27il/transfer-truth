@@ -292,3 +292,49 @@ def test_a_rumour_months_after_the_deadline_is_about_the_next_window():
 def test_past_the_calendar_there_is_no_guess():
     assert window_for(_d(2027, 6, 1)) is None
     assert window_for(None) is None
+
+
+# --- second fresh-context review (2026-09-27): resolver + window findings ------------------
+
+def test_an_unreadable_move_date_counts_as_no_date_so_the_evidence_still_decides():
+    """Review #2: "null", "August 2025", "2025/09/01"... used to skip the evidence-year
+    check entirely, so a 2025 move still collapsed a 2026 rumour."""
+    stale_ev = "On 1 September 2025, Elliott joined Aston Villa on loan."
+    for md in ("null", "None", "unknown", "August 2025", "2025-09-01T00:00:00",
+               "2025/09/01", "2025-9"):
+        res = {"status": "moved", "joined_club": "Aston Villa", "move_date": md,
+               "window_closed": True, "evidence": stale_ev}
+        assert classify(ELLIOTT, res)[0] == UNKNOWN, md
+
+
+def test_common_date_shapes_are_read_not_ignored():
+    for md in ("2026-08-30T00:00:00", "2026/08/30", "2026-8"):
+        res = {"status": "moved", "joined_club": "Valencia", "move_date": md,
+               "window_closed": True, "evidence": ""}
+        assert classify(ELLIOTT, res)[0] == COMPLETED, md
+
+
+def test_october_moves_are_not_a_dead_zone():
+    """Review #4: window_for files 2 Oct - 1 Nov under the winter window, so the winter
+    window must accept moves from 2 October (a free-agent signing), and a summer move
+    must not complete a winter deal (review #3)."""
+    winter = {**ELLIOTT, "window": "2027-winter"}
+    assert classify(winter, _moved("Valencia", "2026-10-10"))[0] == COMPLETED
+    assert classify(winter, _moved("Valencia", "2026-08-30"))[0] == UNKNOWN
+
+
+def test_the_move_date_used_is_recorded_so_the_recheck_agrees():
+    """Review #1: apply classified WITH move_date but only saved reason + evidence; the
+    Gate C re-check classified WITHOUT it, disagreed, re-opened, and apply collapsed it
+    again -- every run. The verdict now records the move_date it rested on."""
+    from outcome.apply import _record
+    row = {"deal_id": "1", "player": "Harvey Elliott", "from_club": "Liverpool",
+           "to_club": "Valencia", "window": "2026-summer", "outcome": "unknown"}
+    res = {"status": "moved", "joined_club": "Aston Villa", "move_date": "2026-08-30",
+           "window_closed": True, "evidence": "on loan at Benfica in 2024-25"}
+    _record(row, res, [], 1, 1)
+    assert row["outcome"] == "collapsed" and "(move_date 2026-08-30)" in row["notes"]
+    joined, rumoured = collapse_facts(row["notes"])
+    assert (joined, rumoured) == ("Aston Villa", "Valencia")     # reason still parses
+    from ingest.bridge import recorded_resolution
+    assert classify(row, recorded_resolution(row, joined))[0] == COLLAPSED   # re-check agrees

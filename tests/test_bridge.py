@@ -745,3 +745,35 @@ def test_a_collapse_resting_on_last_seasons_move_is_reopened(tmp_path):
     stats = bridge.bridge(conn, deals_path=p)
     assert [did for did, _ in stats["reopened"]] == ["418"]
     assert _read_deals(p)[0]["outcome"] == "unknown"
+
+
+def test_a_destination_revision_is_reopened_before_evidence_only_rechecks(monkeypatch):
+    """Review #1: candidates were drained by deal_id under MAX_REOPENS, so a genuine
+    destination revision could sit behind evidence-only re-checks for ever."""
+    monkeypatch.setattr(bridge, "MAX_REOPENS", 1)
+    stale = ("[auto] player joined Aston Villa, not Valencia - rumour did not happen | "
+             "On 1 September 2025, he joined Aston Villa.")
+    revised = "[auto] player joined Arsenal, not Leeds United - rumour did not happen"
+    rows = [{**_deal("1", "Harvey Elliott", "Valencia", outcome="collapsed", notes=stale,
+                     frm="Liverpool"), "window": "2026-summer"},
+            {**_deal("9", "Jobe Bellingham", "Leeds United", outcome="collapsed", notes=revised,
+                     frm="Dortmund"), "window": "2026-summer"}]
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Harvey Elliott", [{"to_club": "Valencia"}], window="2026-summer")
+    _seed_cluster(conn, "Jobe Bellingham", [{"to_club": "Chelsea"}], window="2026-summer")
+    stats = bridge.refresh_and_reopen(conn, rows, cluster.alias_map_for(conn))
+    assert [did for did, _ in stats["reopened"]] == ["9"]      # the revision goes first
+    assert stats["deferred"] == ["1"]
+
+
+def test_an_evidence_based_reopen_says_so():
+    """Review #10: the note always blamed 'the old destination', even for evidence reopens."""
+    stale = ("[auto] player joined Aston Villa, not Valencia - rumour did not happen | "
+             "On 1 September 2025, he joined Aston Villa.")
+    rows = [{**_deal("1", "Harvey Elliott", "Valencia", outcome="collapsed", notes=stale,
+                     frm="Liverpool"), "window": "2026-summer"}]
+    conn = store.connect(":memory:")
+    _seed_cluster(conn, "Harvey Elliott", [{"to_club": "Valencia"}], window="2026-summer")
+    bridge.refresh_and_reopen(conn, rows, {})
+    assert "old destination" not in rows[0]["notes"]
+    assert "evidence" in rows[0]["notes"]

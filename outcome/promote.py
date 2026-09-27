@@ -62,15 +62,18 @@ def stale_evidence_warning(deal):
     only years BEFORE the window it settles -- the TODOS 0a pattern, where a 2025 career
     line was used to resolve a 2026 rumour. Undated evidence gets no warning (can't tell).
     Returns the warning line, or None."""
-    import re
-    wy = re.match(r"\s*(\d{4})", deal.get("window") or "")
+    # Same reading of the evidence as the resolver (outcome.detect), so the warning and
+    # the resolver's own guard can never disagree (2026-09-27 review): the latest year
+    # quoted, ignoring years after the window (contract ends), checked against the
+    # window's accepted span.
+    from outcome.detect import evidence_year, outside_window
     notes = deal.get("notes") or ""
-    years = [int(y) for y in re.findall(r"\b((?:19|20)\d\d)\b", notes.split("|", 1)[1])] \
-        if "|" in notes else []
-    if not wy or not years or max(years) >= int(wy.group(1)):
+    evidence = notes.partition("|")[2]
+    year = evidence_year(evidence, deal.get("window"))
+    if not year or not outside_window(year, deal.get("window")):
         return None
-    return (f"  WARNING:  evidence cites only {', '.join(map(str, sorted(set(years))))} for a "
-            f"{deal.get('window')} rumour -- check it describes THIS window (TODOS 0a)")
+    return (f"  WARNING:  evidence dates the move to {year} for a {deal.get('window')} "
+            f"rumour -- check it describes THIS window (TODOS 0a)")
 
 
 def _describe(deal, deal_claims):

@@ -193,3 +193,10 @@ def test_the_rail_covers_the_window_in_progress_or_the_last_one_to_close():
     assert build_feed.active_window(_date(2026, 7, 1)) == "2026-summer"    # in progress
     assert build_feed.active_window(_date(2026, 10, 15)) == "2026-summer"  # between windows
     assert build_feed.active_window(_date(2027, 1, 10)) == "2027-winter"   # no hand-flip needed
+
+
+def test_deals_settled_in_either_live_window_leave_the_feed():
+    """Review #5: from 2 Oct claims are keyed to the coming window while the rail still
+    shows the last one; a winter deal settled in November must still leave the live feed."""
+    assert build_feed.live_windows(_date(2026, 11, 25)) == {"2026-summer", "2027-winter"}
+    assert build_feed.live_windows(_date(2026, 7, 1)) == {"2026-summer"}

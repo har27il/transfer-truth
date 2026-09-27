@@ -379,3 +379,27 @@ def test_the_log_warns_when_the_window_calendar_runs_out(capsys):
     pipeline.run(_conn(), sources_fn=lambda: [post], analyze_fn=analyze)
     out = capsys.readouterr().out
     assert "::warning::" in out and "WINDOW_BOUNDS" in out
+
+
+def test_a_claim_past_the_calendar_is_not_misfiled_and_stays_recoverable():
+    """Review #6: past the calendar, claims fell back to the long-closed default window
+    and attached to settled deals. Now they are held back (loud warning, no claim, no
+    disposition), so a backfill recovers them once the next season's dates are added."""
+    from ingest import backfill
+    def analyze(text):
+        return {"is_transfer_claim": True, "player": "Adam Wharton", "from_club": None,
+                "to_club": "Liverpool", "stage": "interest", "implied_p": 0.15, "source_name": None,
+                "source_identifiable": False, "direction_confidence": 0.9, "fee_eur": None}
+    post = {"url": "late", "source": "BBC Sport", "title": "Liverpool eye Wharton", "summary": "",
+            "published": "Tue, 01 Jun 2027 09:00:00 GMT"}
+    conn = _conn()
+    pipeline.run(conn, sources_fn=lambda: [post], analyze_fn=analyze)
+    assert store.counts(conn)["claims"] == 0
+    assert "late" in [p["url"] for p in backfill.claimless_posts(conn, "2000-01-01")]
+
+
+def test_the_calendar_warns_ninety_days_before_it_runs_out():
+    from datetime import date
+    assert pipeline.calendar_warning(date(2026, 9, 27)) is None
+    msg = pipeline.calendar_warning(date(2026, 12, 20))
+    assert msg and msg.startswith("::warning::") and "WINDOW_BOUNDS" in msg

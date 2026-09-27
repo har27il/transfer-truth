@@ -60,6 +60,17 @@ Shipped in `786c5d6` (alias layer + feed grouping) and `fe4dd91` (ledger merge).
      plus a genuine in-window move that must still resolve.
   5. Existing proposals: not touched by code. They stay in the queue behind the
      warning, for a human to decide.
+- **SHIPPED 2026-09-27 (`5c34bc2`, hardened after a second review).**
+  - The "joined elsewhere" path is guarded.
+  - 17 stale queued collapses re-open via Gate C.
+  - The move_date the verdict used is recorded in notes, so Gate C and apply agree (no
+    flip-flop).
+  - Unreadable dates count as no date.
+  - The winter window accepts moves from 2 Oct (no October dead zone).
+- **STILL OPEN:** 15 auto collapses from the "window closed, stayed" path rest on
+  pre-2026 evidence (deals 72, 77, 95, 112, 149, 218, 227, 273, 311, 330, 363, 372,
+  385, 448, 454). A stay is often legitimately undated, so no code reopens them. The
+  `promote.py` warning flags them for the human review.
 
 ## 0b. Club-alias normalization in outcome matching — DONE 2026-08-07
 

@@ -168,6 +168,9 @@ def club_token_in_text(club, text):
 # A window missing here gets no check (the old behaviour), never a guess.
 WINDOW_BOUNDS = {
     "2025-summer": (date(2025, 6, 1), date(2025, 9, 2)),
+    # PL winter 2026: opened 1 Jan, closed Mon 2 Feb 2026. Needed so the calendar has no
+    # gap: each window's evidence range starts where the previous one's filing grace ends.
+    "2026-winter": (date(2026, 1, 1), date(2026, 2, 2)),
     "2026-summer": (date(2026, 6, 15), date(2026, 9, 1)),
     "2027-winter": (date(2027, 1, 1), date(2027, 2, 1)),
 }
@@ -191,42 +194,86 @@ def window_for(day):
     return None
 
 
-def _date_span(value):
-    """'YYYY-MM-DD' -> that day; 'YYYY-MM' -> that month; 'YYYY' -> that year; else None."""
-    s = (value or "").strip()
+_DATE = re.compile(r"(\d{4})(?:[-/](\d{1,2})(?:[-/](\d{1,2}))?)?(?:[T ].*)?")
+
+
+def _date_parts(value):
+    m = _DATE.fullmatch(value.strip()) if isinstance(value, str) else None
+    if not m:
+        return None
+    y, mo, d = int(m.group(1)), m.group(2), m.group(3)
     try:
-        if re.fullmatch(r"\d{4}-\d{2}-\d{2}", s):
-            d = date.fromisoformat(s)
-            return d, d
-        if re.fullmatch(r"\d{4}-\d{2}", s):
-            y, m = map(int, s.split("-"))
-            start = date(y, m, 1)
-            return start, (date(y + (m == 12), m % 12 + 1, 1) - timedelta(days=1))
-        if re.fullmatch(r"\d{4}", s):
-            return date(int(s), 1, 1), date(int(s), 12, 31)
+        if d:
+            date(y, int(mo), int(d))
+            return y, int(mo), int(d)
+        if mo:
+            date(y, int(mo), 1)
+            return y, int(mo), None
+        return y, None, None
     except ValueError:
         return None
+
+
+def normalize_move_date(value):
+    """A model's move date as YYYY-MM-DD / YYYY-MM / YYYY, else None. Accepts what models
+    actually write (2026-08-30, 2026/08/30, 2026-8, 2026-08-30T00:00:00, 2026); anything
+    else ("null", "August 2025", "unknown") is None -- no date, never a guessed one."""
+    p = _date_parts(value)
+    if not p:
+        return None
+    y, mo, d = p
+    return f"{y}-{mo:02d}-{d:02d}" if d else f"{y}-{mo:02d}" if mo else str(y)
+
+
+def _date_span(value):
+    """A day, month or year -> (first day, last day), else None."""
+    p = _date_parts(value)
+    if not p:
+        return None
+    y, mo, d = p
+    if d:
+        return date(y, mo, d), date(y, mo, d)
+    if mo:
+        return date(y, mo, 1), date(y + (mo == 12), mo % 12 + 1, 1) - timedelta(days=1)
+    return date(y, 1, 1), date(y, 12, 31)
+
+
+def accepted_span(window):
+    """(first, last) move date that can settle a rumour in `window`, or None if untracked.
+
+    Opens at the EARLIER of 60 days before the window (deals agreed in spring) and the
+    day after the previous window's filing grace ends -- the dates window_for files here,
+    so an October free-agent signing on a winter deal is not a dead zone. Closes 30 days
+    after the deadline (late registrations, other leagues)."""
+    ordered = sorted(WINDOW_BOUNDS.items(), key=lambda kv: kv[1][0])
+    for i, (key, (opens, closes)) in enumerate(ordered):
+        if key == (window or "").strip():
+            lo = opens - _SLACK_BEFORE
+            if i:
+                lo = min(lo, ordered[i - 1][1][1] + _DEADLINE_GRACE + timedelta(days=1))
+            return lo, closes + _SLACK_AFTER
     return None
 
 
 def outside_window(move_date, window):
-    """True only when the move is CERTAINLY outside the window (+ slack). Anything
+    """True only when the move is CERTAINLY outside the window's accepted span. Anything
     unknown -- no date, an unreadable date, an untracked window -- is False."""
-    bounds, span = WINDOW_BOUNDS.get((window or "").strip()), _date_span(move_date)
-    if not bounds or not span:
+    accepted, span = accepted_span(window), _date_span(move_date)
+    if not accepted or not span:
         return False
-    lo, hi = bounds[0] - _SLACK_BEFORE, bounds[1] + _SLACK_AFTER
-    return span[1] < lo or span[0] > hi
+    return span[1] < accepted[0] or span[0] > accepted[1]
 
 
-def _evidence_year(resolution, window):
-    """The latest year the resolver's own evidence quotes, IGNORING years after the
-    window: those are contract ends ("a deal until 2032"), not the move. "signed in 2019;
-    joined Valencia on 1 September 2026" -> "2026". None when nothing usable is dated."""
+def evidence_year(evidence, window):
+    """The latest year an evidence quote names, IGNORING years after the window: those are
+    contract ends ("a deal until 2032"), not the move. "signed in 2019; joined Valencia on
+    1 September 2026" -> "2026". None when nothing usable is dated. Shared with
+    outcome/promote.py's review warning so the two never read evidence differently.
+    Known limit: a contract end INSIDE the window's year can mask stale evidence."""
     bounds = WINDOW_BOUNDS.get((window or "").strip())
     if not bounds:
         return None
-    years = [int(y) for y in re.findall(r"\b((?:19|20)\d\d)\b", resolution.get("evidence") or "")
+    years = [int(y) for y in re.findall(r"\b((?:19|20)\d\d)\b", evidence or "")
              if int(y) <= bounds[1].year]
     return str(max(years)) if years else None
 
@@ -248,7 +295,7 @@ def classify(deal, resolution):
             # claims a move but names no club -> not positive evidence
             return UNKNOWN, "status=moved but no destination club given"
         window = deal.get("window")
-        md = resolution.get("move_date")
+        md = normalize_move_date(resolution.get("move_date"))   # unreadable -> None
         if outside_window(md, window):
             # TODOS 0a: the move the evidence describes happened in ANOTHER window (deal
             # 418: a Sept-2025 loan "settling" a 2026 rumour). It says nothing about this
@@ -259,7 +306,7 @@ def classify(deal, resolution):
             # years. That path is where the stale verdicts were (3 of 4 re-checked on
             # 2026-09-27 had in fact completed). A completion is left alone: its stale
             # quote can sit beside real proof (deal 114, verified from BBC/Sky reports).
-            ey = _evidence_year(resolution, window)
+            ey = evidence_year(resolution.get("evidence"), window)
             if outside_window(ey, window):
                 return UNKNOWN, (f"evidence describes a move dated {ey}, "
                                  f"outside the {window} window")

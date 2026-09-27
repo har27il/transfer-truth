@@ -10,7 +10,7 @@ Live use needs the NIM key (the extractor calls NVIDIA NIM via engine.run.analyz
 import os
 import sys
 from concurrent.futures import ThreadPoolExecutor
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
@@ -46,6 +46,20 @@ def _iso_date(published):
         except (TypeError, ValueError):
             pass
     return date.today().isoformat()
+
+
+CALENDAR_NOTICE_DAYS = 90
+
+
+def calendar_warning(today):
+    """A GitHub ::warning:: when the window calendar runs out within CALENDAR_NOTICE_DAYS,
+    so the yearly chore (add the next season's dates) is flagged months ahead instead of
+    on the day claims start being held back. None while the calendar is comfortably long."""
+    if window_for(today + timedelta(days=CALENDAR_NOTICE_DAYS)):
+        return None
+    return ("::warning::the transfer-window calendar ends within "
+            f"{CALENDAR_NOTICE_DAYS} days; add next season's dates to outcome/detect.py "
+            "WINDOW_BOUNDS, outcome/source.py WINDOW_CLOSE and site/windows.py.")
 
 
 def _to_claim(post, result, deal_key, window):
@@ -174,18 +188,21 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=None,
             continue
         # Each claim is filed under the window ITS date belongs to (TODOS 0d): an October
         # rumour is about January, not the summer that just shut. An explicit `window`
-        # (tests, one-off runs) still wins; past the calendar, fall back to the default.
+        # (tests, one-off runs) still wins.
         claim_window = window or window_for(
             date.fromisoformat(_iso_date(post.get("published"))))
         if not claim_window:
-            # Past the end of the window calendar: fall back, but loudly (once per run).
+            # Past the end of the window calendar. Filing it under an old window would
+            # attach a new rumour to a closed, possibly settled deal (2026-09-27 review),
+            # so HOLD it: no claim, no disposition -- a backfill recovers it once the next
+            # season's dates are added. Loud, once per run.
             if not calendar_warned:
                 print("::warning::no transfer window covers claims dated "
-                      f"{_iso_date(post.get('published'))}; filed under {DEFAULT_WINDOW}. "
-                      "Add next season's dates to outcome/detect.py WINDOW_BOUNDS and "
-                      "site/windows.py.", flush=True)
+                      f"{_iso_date(post.get('published'))}; holding them back. Add next "
+                      "season's dates to outcome/detect.py WINDOW_BOUNDS, outcome/source.py "
+                      "WINDOW_CLOSE and site/windows.py, then run a backfill.", flush=True)
                 calendar_warned = True
-            claim_window = DEFAULT_WINDOW
+            continue
         key = cluster.deal_key(result.get("player"), claim_window)
         if not key:
             stats["no_player"] += 1
@@ -215,6 +232,9 @@ def failure_rate_exceeded(stats):
 if __name__ == "__main__":
     conn = store.connect()
     print("Ingesting live feeds (needs NVIDIA_API_KEY for extraction)...")
+    notice = calendar_warning(date.today())
+    if notice:
+        print(notice, flush=True)
     s = run(conn)
     print(f"  fetched={s['fetched']} new={s['new']} dup={s['dup']} "
           f"claims={s['claims']} (excluded={s['excluded']}, "

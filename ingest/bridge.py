@@ -17,6 +17,7 @@ Posture (matches the rest of the project):
     attaches to it instead of spawning a duplicate.
   - Atomic: same temp-file + os.replace write as outcome/apply.py.
 """
+import re
 import sys
 from collections import Counter
 from datetime import date
@@ -191,6 +192,20 @@ def reopen_historical(rows, live, alias=None):
     return reopened
 
 
+_RECORDED_MOVE_DATE = re.compile(r"\(move_date ([^)]+)\)")
+
+
+def recorded_resolution(row, joined):
+    """Rebuild the resolution a recorded collapse rested on, from its own notes:
+    "[auto] <reason> (move_date D) | <evidence>" -- as written by outcome/apply.py. Gate C
+    must judge the SAME facts apply judged, or the two disagree and flip-flop the row."""
+    notes = row.get("notes") or ""
+    head, _sep, evidence = notes.partition("|")
+    md = _RECORDED_MOVE_DATE.search(head)
+    return {"status": "moved", "joined_club": joined,
+            "move_date": md.group(1) if md else None, "evidence": evidence}
+
+
 def refresh_and_reopen(conn, rows, alias, groups=None):
     """Bring unresolved rows back in line with what sources are NOW saying, and undo
     collapses that rested on a destination since revised. Mutates `rows` in place.
@@ -259,31 +274,34 @@ def refresh_and_reopen(conn, rows, alias, groups=None):
             # "joined Hannover 96, not Rangers" where Hannover is the ORIGIN club
             # (-> UNKNOWN, refusing to decide) both stop being collapses without
             # needing a rule per shape.
-            # The recorded evidence rides along, so a verdict resting on a move from
-            # ANOTHER window (TODOS 0a: deal 418, a Sept-2025 loan "settling" a 2026
-            # rumour) is no longer upheld and the row goes back to the resolver.
-            notes = r.get("notes") or ""
-            evidence = notes.split("|", 1)[1] if "|" in notes else ""
-            outdated = classify(r, {"status": "moved", "joined_club": joined,
-                                    "evidence": evidence})[0] != "collapsed"
+            # The recorded move_date and evidence ride along, so a verdict resting on a
+            # move from ANOTHER window (TODOS 0a: deal 418, a Sept-2025 loan "settling" a
+            # 2026 rumour) is no longer upheld and the row goes back to the resolver --
+            # and one resting on an in-window move_date is upheld, exactly as apply saw it.
+            outdated = classify(r, recorded_resolution(r, joined))[0] != "collapsed"
             if stale_destination or outdated:
                 reopen_candidates.append((r, new, stale_destination))
 
-    # Deterministic order so a capped run always drains the same prefix.
-    reopen_candidates.sort(key=lambda t: int(t[0]["deal_id"]) if t[0]["deal_id"].isdigit() else 0)
+    # Deterministic order so a capped run always drains the same prefix. A revised
+    # destination (fresh claims name another club) goes before an evidence-only re-check,
+    # so the cap can never starve a real revision behind a queue of re-checks.
+    reopen_candidates.sort(key=lambda t: (not t[2],
+                                          int(t[0]["deal_id"]) if t[0]["deal_id"].isdigit() else 0))
     for r, new, stale_destination in reopen_candidates[:MAX_REOPENS]:
         old_to = r.get("to_club")
         if stale_destination:
             r["to_club"] = new["to_club"]
             why = f"destination revised {old_to} -> {new['to_club']}"
+            tail = "the prior collapse rested on the old destination"
         else:
             why = (f"the classifier no longer calls this a collapse on its own recorded "
                    f"evidence (joined {collapse_facts(r.get('notes'))[0]})")
+            tail = "the prior collapse rested on evidence that no longer supports it"
         for f in ("outcome_date", "outcome_source_url"):
             r[f] = ""
         r["outcome"] = "unknown"
         r["verified"] = "auto"
-        r["notes"] = f"[auto] re-opened: {why}; the prior collapse rested on the old destination"
+        r["notes"] = f"[auto] re-opened: {why}; {tail}"
         stats["reopened"].append((r["deal_id"], why))
     stats["deferred"] = [r["deal_id"] for r, _, _ in reopen_candidates[MAX_REOPENS:]]
     return stats

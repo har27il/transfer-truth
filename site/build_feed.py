@@ -28,7 +28,7 @@ import windows
 from ground_truth import _TRUSTED_FLAGS
 from ingest import store, cluster, meter, retro
 from ingest.exclude import is_known_non_player
-from outcome.detect import collapse_facts, display_club, WINDOW_BOUNDS
+from outcome.detect import collapse_facts, display_club, window_for, WINDOW_BOUNDS
 
 OUT = ROOT / "docs" / "feed.html"
 DEALS = ROOT / "ground-truth" / "deals.csv"
@@ -473,6 +473,15 @@ def active_window(today=None):
     return best
 
 
+def live_windows(today=None):
+    """Every window whose deals can be live on the page today: the rail's window, plus the
+    one new claims are filed under (outcome.detect.window_for). From 2 October those
+    differ -- claims go to January while the rail still shows the summer -- and a winter
+    deal settled in November must still leave the live feed."""
+    today = today or date.today()
+    return {w for w in (active_window(today), window_for(today)) if w}
+
+
 def live_claim_filter(conn, today=None, texts=None):
     """Claim predicate for meter.meters: False for a claim whose source post is a
     retrospective story (ingest.retro). Applied at READ time because such a claim may
@@ -547,7 +556,11 @@ def main():
         rows = _demo_meters()
 
     # Pull settled deals out of the live feed (they live in the rail's Done section instead).
-    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(DEALS, window=active_window(today) or ACTIVE_WINDOW, alias=alias)
+    rail_window = active_window(today) or ACTIVE_WINDOW
+    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(DEALS, window=rail_window, alias=alias)
+    if not is_demo:   # a deal settled in the OTHER live window leaves the feed too
+        for w in live_windows(today) - {rail_window}:
+            resolved_keys |= load_resolved(DEALS, window=w, alias=alias)[0]
     if resolved_keys:
         rows = [m for m in rows if m.get("deal_key") not in resolved_keys]
 

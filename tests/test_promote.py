@@ -128,3 +128,11 @@ def test_review_is_quiet_when_evidence_is_in_the_window_or_undated():
     undated = _proposal("[auto] window closed; player stayed at Liverpool | He remained.")
     assert "WARNING" not in promote._describe(in_window, [])
     assert "WARNING" not in promote._describe(undated, [])
+
+
+def test_review_warning_matches_the_resolvers_reading_of_the_evidence():
+    """Review #7: a contract-end year ('until 2028') hid stale evidence from the warning
+    while the resolver's own check (outcome.detect) flagged it (deal 305)."""
+    deal = _proposal("[auto] player joined Lech Poznan, not Middlesbrough - rumour did not "
+                     "happen | On 28 July 2025 he signed a contract until 2028.")
+    assert "WARNING" in promote._describe(deal, [])
