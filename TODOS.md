@@ -110,7 +110,23 @@ suffix survives `_STRIPPABLE`). It did not block the Baur merge, which matched o
   **Revisit once the refresh in `bridge.refresh_and_reopen` has been running long
   enough that destinations can be trusted.**
 
-## 0d. Post-deadline claims are filed under the closed window — MEDIUM
+## 0d. Post-deadline claims are filed under the closed window — DONE 2026-09-27
+
+**Shipped (`fab6429`):**
+- `outcome.detect.window_for(date)` files each claim under the window its date belongs
+  to: during it, before it ("this summer"), or up to 30 days after its deadline (other
+  leagues buy into mid-September). Anything later goes to the next window.
+- `ingest/pipeline.py` uses it per claim.
+- `build_feed.active_window()` makes the rail follow the calendar.
+- `outcome/source.py` knows the 2027-winter deadline.
+
+So 1 January needs no hand-flip. Deal 458 no longer absorbs later Mbappé claims: from
+2 October, a claim is filed under 2027-winter.
+
+**Maintenance:** add each season's dates to `WINDOW_BOUNDS`, `WINDOW_CLOSE` and
+`site/windows.py` before the calendar runs out. Next: 2027-summer, before 2027-02-01.
+
+The original entry is kept below for context.
 
 - **What:** `ingest/pipeline.py` keys every claim to `DEFAULT_WINDOW = "2026-summer"`
   (a constant, passed as `pipeline.run(window=...)`), whatever the post's date.
