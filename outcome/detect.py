@@ -166,12 +166,29 @@ def club_token_in_text(club, text):
 # trail the deadline. The slack still rejects the observed failure -- evidence from the
 # PREVIOUS season. Dates mirror site/windows.py (2026-summer opened 15 Jun, closed 1 Sep).
 # A window missing here gets no check (the old behaviour), never a guess.
-_WINDOW_BOUNDS = {
+WINDOW_BOUNDS = {
     "2025-summer": (date(2025, 6, 1), date(2025, 9, 2)),
     "2026-summer": (date(2026, 6, 15), date(2026, 9, 1)),
     "2027-winter": (date(2027, 1, 1), date(2027, 2, 1)),
 }
 _SLACK_BEFORE, _SLACK_AFTER = timedelta(days=60), timedelta(days=30)
+
+
+_DEADLINE_GRACE = timedelta(days=30)   # = _SLACK_AFTER: other leagues buy into mid-September
+
+
+def window_for(day):
+    """The transfer window a claim dated `day` belongs to (TODOS 0d): the first window
+    that has not closed more than _DEADLINE_GRACE before it. So a May rumour belongs to
+    the coming summer, a 22 September story still to the summer just shut, and an October
+    rumour to January. None past the end of the calendar -- extend WINDOW_BOUNDS (and
+    site/windows.py) as each season's dates are confirmed; never guess a window."""
+    if day is None:
+        return None
+    for key, (_opens, closes) in sorted(WINDOW_BOUNDS.items(), key=lambda kv: kv[1][0]):
+        if day <= closes + _DEADLINE_GRACE:
+            return key
+    return None
 
 
 def _date_span(value):
@@ -195,7 +212,7 @@ def _date_span(value):
 def outside_window(move_date, window):
     """True only when the move is CERTAINLY outside the window (+ slack). Anything
     unknown -- no date, an unreadable date, an untracked window -- is False."""
-    bounds, span = _WINDOW_BOUNDS.get((window or "").strip()), _date_span(move_date)
+    bounds, span = WINDOW_BOUNDS.get((window or "").strip()), _date_span(move_date)
     if not bounds or not span:
         return False
     lo, hi = bounds[0] - _SLACK_BEFORE, bounds[1] + _SLACK_AFTER
@@ -206,7 +223,7 @@ def _evidence_year(resolution, window):
     """The latest year the resolver's own evidence quotes, IGNORING years after the
     window: those are contract ends ("a deal until 2032"), not the move. "signed in 2019;
     joined Valencia on 1 September 2026" -> "2026". None when nothing usable is dated."""
-    bounds = _WINDOW_BOUNDS.get((window or "").strip())
+    bounds = WINDOW_BOUNDS.get((window or "").strip())
     if not bounds:
         return None
     years = [int(y) for y in re.findall(r"\b((?:19|20)\d\d)\b", resolution.get("evidence") or "")

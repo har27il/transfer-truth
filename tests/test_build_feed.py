@@ -183,3 +183,13 @@ def test_load_resolved_sorts_newest_first(tmp_path):
                                  _row("2", "Eze", date="2026-08-06")])
     _keys, done = build_feed.load_resolved(path)
     assert [r["deal_id"] for r in done] == ["2", "1"]
+
+
+# --- the rail follows the calendar, not a constant flipped by hand (TODOS 0d) ----------
+from datetime import date as _date
+
+
+def test_the_rail_covers_the_window_in_progress_or_the_last_one_to_close():
+    assert build_feed.active_window(_date(2026, 7, 1)) == "2026-summer"    # in progress
+    assert build_feed.active_window(_date(2026, 10, 15)) == "2026-summer"  # between windows
+    assert build_feed.active_window(_date(2027, 1, 10)) == "2027-winter"   # no hand-flip needed

@@ -39,8 +39,11 @@ on:
     # NIM) when the primary already did the work.
     #
     # WHEN THE WINDOW REOPENS (2027-01-01): put this back to the daily fan-out --
-    # deadline-day rumour flow needs same-day resolution. Also flip ACTIVE_WINDOW /
-    # DEFAULT_WINDOW to 2027-winter (see site/build_feed.py, ingest/pipeline.py).
+    # deadline-day rumour flow needs same-day resolution. The window itself needs no
+    # flip: claims are filed by date (outcome.detect.window_for) and the feed follows
+    # the calendar (build_feed.active_window). Before 2027-02-01, add the 2027-summer
+    # dates to outcome/detect.py WINDOW_BOUNDS, outcome/source.py WINDOW_CLOSE and
+    # site/windows.py, or new claims fall back to DEFAULT_WINDOW.
     - cron: '17 6 * * 1'    # Mon 06:17 UTC (primary; off the top-of-hour cron stampede)
     - cron: '17 14 * * 1'   # Mon 14:17 UTC (backup if the Monday morning run is dropped)
     - cron: '17 6 * * 4'    # Thu 06:17 UTC (primary)

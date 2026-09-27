@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT))
 from ingest import store, cluster, sources
 from ingest.exclude import is_non_player
 from ingest.retro import is_retrospective, HISTORICAL
+from outcome.detect import window_for
 
 DEFAULT_WINDOW = "2026-summer"
 MIN_CONFIDENCE = 0.5   # drop vague extractions before they pollute a deal
@@ -70,7 +71,7 @@ def _to_claim(post, result, deal_key, window):
     }
 
 
-def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WINDOW,
+def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=None,
         min_confidence=MIN_CONFIDENCE, concurrency=None):
     if analyze_fn is None:
         from engine.run import analyze as analyze_fn  # deferred: needs NIM key
@@ -170,12 +171,17 @@ def run(conn, sources_fn=sources.fetch_all, analyze_fn=None, window=DEFAULT_WIND
             stats["low_conf"] += 1
             store.record_disposition(conn, post["url"], "low_conf")
             continue
-        key = cluster.deal_key(result.get("player"), window)
+        # Each claim is filed under the window ITS date belongs to (TODOS 0d): an October
+        # rumour is about January, not the summer that just shut. An explicit `window`
+        # (tests, one-off runs) still wins; past the calendar, fall back to the default.
+        claim_window = window or window_for(
+            date.fromisoformat(_iso_date(post.get("published")))) or DEFAULT_WINDOW
+        key = cluster.deal_key(result.get("player"), claim_window)
         if not key:
             stats["no_player"] += 1
             store.record_disposition(conn, post["url"], "no_player")
             continue
-        if store.add_claim(conn, _to_claim(post, result, key, window)) is not None:
+        if store.add_claim(conn, _to_claim(post, result, key, claim_window)) is not None:
             stats["claims"] += 1
         store.record_disposition(conn, post["url"], "claim")
 

@@ -51,6 +51,9 @@ USER_AGENT = "TransferMarket/0.1 (outcome-detection; research; contact via repo)
 WINDOW_CLOSE = {
     "2025-summer": date(2025, 9, 2),
     "2026-summer": date(2026, 9, 1),
+    # Premier League: closes 23:00 GMT Mon 1 Feb 2027 (site/windows.py). Without this
+    # entry no winter rumour could ever be graded a collapse (TODOS 0d).
+    "2027-winter": date(2027, 2, 1),
 }
 
 

@@ -265,3 +265,30 @@ def test_with_no_move_date_the_evidence_years_decide():
     assert classify(ELLIOTT, mixed)[0] == COMPLETED          # the LATEST year counts
     undated = {**stale, "evidence": "He joined Aston Villa on loan."}
     assert classify(ELLIOTT, undated)[0] == COLLAPSED        # no date anywhere: unchanged
+
+
+# --- which window a claim belongs to (TODOS 0d) ----------------------------------------
+from datetime import date as _d
+from outcome.detect import window_for
+
+
+def test_a_claim_belongs_to_the_window_it_was_made_in_or_before():
+    assert window_for(_d(2026, 7, 10)) == "2026-summer"      # during
+    assert window_for(_d(2026, 5, 20)) == "2026-summer"      # "X to Arsenal this summer"
+    assert window_for(_d(2027, 1, 15)) == "2027-winter"
+
+
+def test_the_weeks_after_a_deadline_still_belong_to_it():
+    """Other leagues (Turkey, Saudi Arabia) buy into mid-September, and deadline-day deals
+    are announced days later -- keying those to January would orphan them."""
+    assert window_for(_d(2026, 9, 2)) == "2026-summer"
+    assert window_for(_d(2026, 9, 22)) == "2026-summer"
+
+
+def test_a_rumour_months_after_the_deadline_is_about_the_next_window():
+    assert window_for(_d(2026, 10, 15)) == "2027-winter"     # was filed under the closed summer
+
+
+def test_past_the_calendar_there_is_no_guess():
+    assert window_for(_d(2027, 6, 1)) is None
+    assert window_for(None) is None

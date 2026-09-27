@@ -348,3 +348,20 @@ def test_sky_feed_is_football_only_not_mixed_multisport():
     sky = sources.DEFAULT_FEEDS["Sky Sports"]
     assert "skysports.com/rss/12691" in sky, f"Sky feed regressed to a mixed feed: {sky}"
     assert "/12040" not in sky
+
+
+def test_claims_are_filed_under_the_window_their_date_belongs_to():
+    """TODOS 0d: every claim used to be keyed to one hard-coded window, so an October
+    rumour about January landed on a closed summer deal."""
+    def analyze(text):
+        return {"is_transfer_claim": True, "player": "Adam Wharton", "from_club": "Crystal Palace",
+                "to_club": "Liverpool", "stage": "interest", "implied_p": 0.15, "source_name": None,
+                "source_identifiable": False, "direction_confidence": 0.9, "fee_eur": None}
+    post = {"url": "o", "source": "BBC Sport", "title": "Liverpool eye Wharton for January",
+            "summary": "", "published": "Thu, 15 Oct 2026 09:00:00 GMT"}
+    conn = _conn()
+    pipeline.run(conn, sources_fn=lambda: [post], analyze_fn=analyze)       # no window given
+    assert store.deal_keys(conn) == [cluster.deal_key("Adam Wharton", "2027-winter")]
+    conn2 = _conn()
+    pipeline.run(conn2, sources_fn=lambda: [post], analyze_fn=analyze, window="2025-summer")
+    assert store.deal_keys(conn2) == [cluster.deal_key("Adam Wharton", "2025-summer")]  # explicit wins

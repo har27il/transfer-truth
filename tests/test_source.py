@@ -295,3 +295,10 @@ def test_parse_json_object_survives_reasoning_transcript():
     res = _parse_json_object(raw)
     assert res["status"] == "moved" and res["joined_club"] == "Tottenham Hotspur"
     assert _parse_json_object("no json here")["status"] == "unclear"
+
+
+def test_the_winter_deadline_is_known_so_winter_collapses_can_resolve():
+    from datetime import date
+    from outcome.source import window_is_closed
+    assert not window_is_closed("2027-winter", today=date(2027, 1, 20))
+    assert window_is_closed("2027-winter", today=date(2027, 2, 2))

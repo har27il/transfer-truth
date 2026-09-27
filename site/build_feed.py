@@ -28,13 +28,14 @@ import windows
 from ground_truth import _TRUSTED_FLAGS
 from ingest import store, cluster, meter, retro
 from ingest.exclude import is_known_non_player
-from outcome.detect import collapse_facts, display_club
+from outcome.detect import collapse_facts, display_club, WINDOW_BOUNDS
 
 OUT = ROOT / "docs" / "feed.html"
 DEALS = ROOT / "ground-truth" / "deals.csv"
 STANDINGS = ROOT / "scoring" / "leaderboard.json"
-# The window the live feed covers. Must match ingest.pipeline.DEFAULT_WINDOW so the
-# resolved-deal join lines up (both sides key on cluster.deal_key(player, window)).
+# FALLBACK only: the rail's window now follows the calendar (active_window), the same
+# calendar ingest.pipeline files claims by (outcome.detect.window_for). Used only if
+# the calendar has run out; keep it equal to ingest.pipeline.DEFAULT_WINDOW.
 ACTIVE_WINDOW = "2026-summer"
 # Only show deals whose newest claim is within this many days (persisted ingest.db keeps
 # accreting claims; this keeps the live feed current). ~1.5x the meter's 14-day half-life.
@@ -460,6 +461,18 @@ def data_freshness(conn, now=None):
     return as_of.strftime("%d %b %H:%M") + " UTC", age_h
 
 
+def active_window(today=None):
+    """The window the rail's "settled this window" covers: the one in progress, else the
+    one that most recently closed. Follows the calendar (outcome.detect.WINDOW_BOUNDS),
+    so 1 January needs no hand-flip (TODOS 0d). None before the calendar starts."""
+    today = today or date.today()
+    best = None
+    for key, (opens, _closes) in sorted(WINDOW_BOUNDS.items(), key=lambda kv: kv[1][0]):
+        if opens <= today:
+            best = key
+    return best
+
+
 def live_claim_filter(conn, today=None, texts=None):
     """Claim predicate for meter.meters: False for a claim whose source post is a
     retrospective story (ingest.retro). Applied at READ time because such a claim may
@@ -534,7 +547,7 @@ def main():
         rows = _demo_meters()
 
     # Pull settled deals out of the live feed (they live in the rail's Done section instead).
-    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(DEALS, alias=alias)
+    resolved_keys, done_rows = (set(), []) if is_demo else load_resolved(DEALS, window=active_window(today) or ACTIVE_WINDOW, alias=alias)
     if resolved_keys:
         rows = [m for m in rows if m.get("deal_key") not in resolved_keys]
 
