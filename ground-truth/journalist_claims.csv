@@ -961,3 +961,7 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 1011,468,BBC Sport,rss,2026-10-07,official,https://www.bbc.co.uk/sport/football/articles/cmy4xpgeydn3o?at_medium=RSS&at_campaign=rss,Wales winger Matondo joins Hibernian,auto
 1012,214,BBC Sport,rss,2026-10-12,rumour_link,https://www.bbc.co.uk/sport/football/articles/cq1kdmej1xnvo?at_medium=RSS&at_campaign=rss,The 'Kane-esque' striker Spurs may regret letting go,auto
 1013,469,BBC Sport,rss,2026-10-12,rumour_link,https://www.bbc.co.uk/sport/football/articles/cmy8376gz5nvo?at_medium=RSS&at_campaign=rss,Man Utd eye Simeone - Tuesday's gossip,auto
+1014,95,Sky Sports News,rss,2026-10-15,rumour_link,https://www.skysports.com/football/news/12691/13599539/alex-scott-transfer-news-bournemouth-will-consider-offers-in-excess-of-80m-for-england-international-amid-refusal-to-sign-new-contract,Bournemouth will consider Scott sale in January for over £80m,auto
+1015,115,BBC Sport,rss,2026-10-14,official,https://www.bbc.co.uk/sport/football/videos/cmx237q7nl21o?at_medium=RSS&at_campaign=rss,Brilliant Barcola scores first hat-trick to get lift-off at Liverpool,auto
+1016,470,BBC Sport,rss,2026-10-15,denied,https://www.bbc.co.uk/sport/football/articles/cm0j07pdw95eo?at_medium=RSS&at_campaign=rss,Why Souness rejected Barcelona when he left Liverpool,auto
+1017,471,BBC Sport,rss,2026-10-15,interest,https://www.bbc.co.uk/sport/football/articles/ckvgdnqmzdplo?at_medium=RSS&at_campaign=rss,Napoli back McTominay to stay amid Real links - gossip,auto
