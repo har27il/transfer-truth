@@ -26,6 +26,9 @@ EVALUATED_MODELS = {
                                             # (endpoint degraded to timeouts 2026-07-05)
     "nvidia/nemotron-3-super-120b-a12b",    # evaluated 2026-07-05 run 28741893878:
                                             # 87% pass / 98% field @ NIM_MAX_TOKENS=2048
+                                            # (endpoint 404 "Function not found" 2026-10-22)
+    "nvidia/nemotron-3-ultra-550b-a55b",    # evaluated 2026-10-22 run 39826481885:
+                                            # 85% pass / 97% field @ NIM_MAX_TOKENS=2048
 }
 
 

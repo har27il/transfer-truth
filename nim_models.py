@@ -25,7 +25,10 @@ import os
 # serverless endpoint degraded into 100% timeouts. Eval run 28741893878:
 # 87% pass / 98% field with NIM_MAX_TOKENS>=2048 (reasoning models need <think>
 # headroom or they truncate into parse failures — never lower it below that).
-DEFAULT_NIM_MODEL = "nvidia/nemotron-3-super-120b-a12b"
+# 2026-10-22: switched to nemotron-3-ultra after nemotron-3-super's hosted endpoint
+# started returning 404 "Function not found" (no longer listed on build.nvidia.com).
+# Eval run 39826481885: 85% pass / 97% field at NIM_MAX_TOKENS=2048.
+DEFAULT_NIM_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
 
 ENGINE_MODEL = os.environ.get("NIM_MODEL", DEFAULT_NIM_MODEL)
 RESOLVER_MODEL = os.environ.get("NIM_RESOLVER_MODEL", DEFAULT_NIM_MODEL)
