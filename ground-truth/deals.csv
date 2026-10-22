@@ -416,8 +416,9 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 468,Rabbi Matondo,Rangers,Hibernian,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 469,Giuliano Simeone,Atletico Madrid,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 470,Graeme Souness,Liverpool,Barcelona,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-471,Scott McTominay,Napoli,Real Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+471,Scott McTominay,Napoli,Real Madrid,2026-summer,collapsed,,2026-10-22,https://en.wikipedia.org/wiki/Scott_McTominay,auto,"[auto] window closed; player stayed at Napoli - move to Real Madrid did not happen | ==== 2026–27 season ==== On 1 September 2026, Napoli announced that McTominay would undergo corrective surgery using pulsed-field ablation (PFA) for a 'mild benign arrhythmia'."
 472,Mikey Moore,Tottenham Hotspur,1. FC Köln,2026-summer,completed,,2026-10-15,https://en.wikipedia.org/wiki/Mikey_Moore,auto,"[auto] player joined 1. FC Köln - the rumoured destination | On 31 August 2026, Moore joined Bundesliga side 1. FC Köln on loan until the end of the 2026–27 season."
 473,Balazs Toth,Blackburn Rovers,Celtic,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 474,Fabian Hurzeler,Brighton & Hove Albion,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 475,Manzambi,Aston Villa,Liverpool,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+476,Yasin Ayari,Brighton & Hove Albion,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
