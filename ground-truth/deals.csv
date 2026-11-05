@@ -192,7 +192,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 239,Cristian Romero,Tottenham Hotspur,Atletico Madrid,2026-summer,completed,,2026-08-15,https://en.wikipedia.org/wiki/Cristian_Romero,auto,"[auto] player joined Atlético Madrid - the rumoured destination | On 15 August 2026, Romero signed for La Liga club Atlético Madrid on a five-year contract."
 240,Mason Mount,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 241,Vinícius Júnior,Real Madrid,Arsenal,2026-summer,collapsed,,2026-09-28,https://en.wikipedia.org/wiki/Vinícius_Júnior,auto,[auto] window closed; player stayed at Real Madrid - move to Arsenal did not happen | Real Madrid announced on 31 October 2023 that they had extended Vinícius' contract until 30 June 2027.
-242,Vinicius Jr,,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+242,Vinicius Jr,,Arsenal,2026-summer,collapsed,,2026-11-05,https://en.wikipedia.org/wiki/Vinicius_Jr,auto,"[auto] window closed; player stayed at  - move to Arsenal did not happen | On 22 January 2025, Vinícius scored his 100th and 101st goals for Real Madrid... On 26 February, he took to the pitch at the Reale Arena wearing Real Madrid's captain armband... On 17 February 2026, Vinícius scored the only goal in a 1–0 away win over Benfica..."
 243,Jamie Gittens,Chelsea,Bayer Leverkusen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 245,Danny Welbeck,Brighton,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 246,Rodrigo Hernández Cascante,Manchester City,Barcelona,2026-summer,completed,,2026-08-19,https://en.wikipedia.org/wiki/Rodrigo_Hernández_Cascante,auto,"[auto] player joined Barcelona - the rumoured destination | On 18 August 2026, Rodri signed for La Liga champions Barcelona on a four-year contract."
@@ -428,3 +428,4 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 480,Billy Sharp,,AFC Rushden & Diamonds,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 481,Lisandro Martinez,Manchester United,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 482,Ait-Nouri,Manchester City,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+483,Nicolo Tresoldi,Club Brugge,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
