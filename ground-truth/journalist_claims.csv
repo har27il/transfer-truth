@@ -987,3 +987,4 @@ claim_id,deal_id,source_name,platform,claim_date,stage,source_url,raw_quote,veri
 1037,483,BBC Sport,rss,2026-11-05,interest,https://www.bbc.co.uk/sport/football/articles/c9rky3g7e8zro?at_medium=RSS&at_campaign=rss,Deschamps not interested in Man Utd job - Friday's gossip,auto
 1038,479,Sky Sports,rss,2026-11-06,interest,https://www.skysports.com/football/news/12691/13609030/man-utd-handed-boost-in-pursuit-of-barcelona-left-back-paper-talk,Papers: Man Utd handed boost in pursuit of Barca left-back Balde,auto
 1039,484,BBC Sport,rss,2026-11-08,interest,https://www.bbc.co.uk/sport/football/articles/c8qlnqggwge0o?at_medium=RSS&at_campaign=rss,Villa's Kamara on Chelsea watchlist - Monday's gossip,auto
+1040,485,BBC Sport,rss,2026-11-09,interest,https://www.bbc.co.uk/sport/football/articles/cjn5v5xypez2o?at_medium=RSS&at_campaign=rss,Atletico target Zubimendi move - Tuesday's gossip,auto

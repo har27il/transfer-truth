@@ -429,4 +429,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 481,Lisandro Martinez,Manchester United,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 482,Ait-Nouri,Manchester City,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 483,Nicolo Tresoldi,Club Brugge,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-484,Boubacar Kamara,Aston Villa,Chelsea,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+484,Boubacar Kamara,Aston Villa,Chelsea,2026-summer,collapsed,,2026-11-09,https://en.wikipedia.org/wiki/Boubacar_Kamara,auto,"[auto] window closed; player stayed at Aston Villa - move to Chelsea did not happen | On 24 July 2025, Kamara signed a new contract with Aston Villa, lasting until 2030."
+485,Martin Zubimendi,Arsenal,Atletico Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
