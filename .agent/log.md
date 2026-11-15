@@ -2,7 +2,7 @@
 
 One entry per task: date, commit, what changed, how it was verified.
 
-## 2026-11-15 — e4a0045 — README matches how the project runs today
+## 2026-11-15 — e4a0045 (+ a wording fix in the commit after this log's) — README matches how the project runs today
 
 - **Changed:** README.md only. Automation now describes `update-site.yml` and
   `golden-eval.yml` (it named `outcomes.yml`, which no longer exists, and said
