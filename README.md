@@ -44,7 +44,8 @@ button. It runs the tests, pulls the RSS feeds, proposes new deals, resolves out
 rebuilds the site, and commits any changes to `main` as `transfer-bot`.
 
 `.github/workflows/golden-eval.yml` is the model and prompt quality gate. It runs on
-demand, and on pushes that change the engine or the prompt (paths listed in the file).
+demand, and on pushes that change the engine, the model choice or the golden tests
+(paths listed in the file).
 
 Both need an `NVIDIA_API_KEY` repo secret (free key at build.nvidia.com);
 `update-site.yml` also passes `LANGSMITH_API_KEY` for tracing:
