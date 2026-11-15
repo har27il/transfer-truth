@@ -26,17 +26,28 @@ happens. Learning side project.
 
 ```bash
 pip install -r requirements.txt
-pytest -q                                               # 38 tests
+pytest -q
 python scoring/score.py ground-truth/journalist_claims.csv
 python site/build_leaderboard.py                        # -> docs/index.html
-python site/build_feed.py                               # -> docs/feed.html (live meter; demo until ingestion runs)
+python site/build_feed.py                               # -> docs/feed.html (live meter)
 ```
 
-## Automation (Phase 2)
+The build commands overwrite the tracked pages in `docs/`. On a fresh clone the feed
+shows demo data, because the live claims database exists only in the GitHub Actions
+cache, so don't commit `docs/` from a local run.
 
-`.github/workflows/outcomes.yml` resolves `unknown` deals, rebuilds the site, and
-commits on change. Manual-run only for now (no `unknown` deals exist until Phase 3
-ingestion). Needs an `NVIDIA_API_KEY` repo secret (free key at build.nvidia.com):
+## Automation
+
+`.github/workflows/update-site.yml` is the live pipeline. It runs on the schedule set
+in that file (its comments explain the cadence) or on demand with the "Run workflow"
+button. It runs the tests, pulls the RSS feeds, proposes new deals, resolves outcomes,
+rebuilds the site, and commits any changes to `main` as `transfer-bot`.
+
+`.github/workflows/golden-eval.yml` is the model and prompt quality gate. It runs on
+demand, and on pushes that change the engine or the prompt (paths listed in the file).
+
+Both need an `NVIDIA_API_KEY` repo secret (free key at build.nvidia.com);
+`update-site.yml` also passes `LANGSMITH_API_KEY` for tracing:
 
 ```bash
 gh secret set NVIDIA_API_KEY
