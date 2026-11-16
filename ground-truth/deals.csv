@@ -426,7 +426,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 478,Ethan Hamilton,Dundee,Aberdeen,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 479,Alejandro Balde,Barcelona,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 480,Billy Sharp,,AFC Rushden & Diamonds,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-481,Lisandro Martinez,Manchester United,,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+481,Lisandro Martinez,Manchester United,,2026-summer,collapsed,,2026-11-16,https://en.wikipedia.org/wiki/Lisandro_Martinez,auto,"[auto] window closed; player stayed at Manchester United - move to  did not happen | On 13 April 2026, Martinez received a straight red card for pulling the hair of Dominic Calvert-Lewin in their 2–1 home defeat to Leeds United and was suspended for three games. On 31 October 2026, Martinez gave away a penalty and got a red card after receiving his second booking for a foul on Wesle"
 482,Ait-Nouri,Manchester City,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 483,Nicolo Tresoldi,Club Brugge,Arsenal,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 484,Boubacar Kamara,Aston Villa,Chelsea,2026-summer,collapsed,,2026-11-09,https://en.wikipedia.org/wiki/Boubacar_Kamara,auto,"[auto] window closed; player stayed at Aston Villa - move to Chelsea did not happen | On 24 July 2025, Kamara signed a new contract with Aston Villa, lasting until 2030."
@@ -434,3 +434,5 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 486,Mauricio Pochettino,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 487,Calvin Bassey,Fulham,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 488,Paz,Como,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+489,Lewis Hall,Newcastle United,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+490,Vitor Matos,Swansea City,Strasbourg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
