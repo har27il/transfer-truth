@@ -433,6 +433,7 @@ deal_id,player,from_club,to_club,window,outcome,fee_eur_actual,outcome_date,outc
 485,Martin Zubimendi,Arsenal,Atletico Madrid,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 486,Mauricio Pochettino,,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
 487,Calvin Bassey,Fulham,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-488,Paz,Como,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
-489,Lewis Hall,Newcastle United,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+488,Nico Paz,Como,Manchester United,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+489,Lewis Hall,Newcastle United,Manchester United,2026-summer,collapsed,,2026-11-19,https://en.wikipedia.org/wiki/Lewis_Hall,auto,"[auto] window closed; player stayed at Newcastle United - move to Manchester United did not happen | On 11 September 2026, he signed a new five-year contract with Newcastle."
 490,Vitor Matos,Swansea City,Strasbourg,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
+491,Armstrong,,Rangers,2026-summer,unknown,,,,auto,[auto-ingested] 1 claim(s); to_club provisional
