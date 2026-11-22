@@ -42,5 +42,7 @@ One entry per task: date, commit, what changed, how it was verified.
   comments in dependabot.yml. The corrected check replays that pyenv list: no file
   and 3.12.16 -> 3.15.2 (fail), 3.12.12 -> 3.12.16 (pass). After merge, the first
   pip job's log must say "Dependabot is using Python version '3.12.16'".
+- **Also, at Harshil's request:** CLAUDE.md now says to comment
+  `@coderabbitai review` on every PR opened in this repo.
 - **Undo:** `gh api -X DELETE` on the repo's automated-security-fixes, then
   vulnerability-alerts; revert the PR merge commit for the files.

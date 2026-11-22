@@ -82,3 +82,8 @@ any fixed production extraction miss there as a regression case, not just a patc
   wait for go-ahead before editing.
 - Small, verifiable steps over sweeping rewrites.
 - Reference files by path/line — don't paste large blocks back in conversation.
+
+## Pull requests
+- After opening any PR in this repo, post a comment whose whole body is exactly
+  `@coderabbitai review` (no quotes, no other words: extra text stops CodeRabbit
+  recognising the command). Then read its review before saying the PR is ready.
