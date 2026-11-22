@@ -42,5 +42,8 @@ One entry per task: date, commit, what changed, how it was verified.
   comments in dependabot.yml. The corrected check replays that pyenv list: no file
   and 3.12.16 -> 3.15.2 (fail), 3.12.12 -> 3.12.16 (pass). After merge, the first
   pip job's log must say "Dependabot is using Python version '3.12.16'".
+- **Cron unaffected (checked before push):** main and branch give the same test
+  result, byte-identical offline score/leaderboard/feed output and the same
+  Linux/3.12 install set; no workflow, code or bot-committed file changes.
 - **Undo:** `gh api -X DELETE` on the repo's automated-security-fixes, then
   vulnerability-alerts; revert the PR merge commit for the files.
