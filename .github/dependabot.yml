@@ -1,7 +1,12 @@
 # Monthly version updates, one grouped PR per ecosystem. Read from main only.
 # Alerts and security updates are repo settings, not controlled by this file.
+# For pip neither is reliable here: with ranges and no lockfile GitHub knows no
+# installed version, so check Python advisories by hand until versions are pinned.
 version: 2
 updates:
+  # Raises each floor to the newest release inside its cap (intended). It picks
+  # releases for the Python in /.python-version, which must match the workflows'
+  # python-version and be a full patch version (a bare 3.12 is ignored).
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
@@ -14,7 +19,7 @@ updates:
     # These mirror the caps in requirements.txt: change both together. Without
     # them Dependabot raises a cap as soon as a new major ships. (update-types:
     # semver-major can't do this job, for the same unknown-version reason.)
-    # They apply to security updates too, so a fix above a cap needs a manual bump.
+    # They also block any security update above a cap.
     ignore:
       - dependency-name: "openai"
         versions: [">=3"]
@@ -30,5 +35,7 @@ updates:
     schedule:
       interval: "monthly"
     groups:
+      # Before merging a PR that bumps actions/cache, confirm the new version can
+      # restore the old cache: ingest.db is stored nowhere else.
       actions:
         patterns: ["*"]

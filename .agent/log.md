@@ -33,5 +33,8 @@ One entry per task: date, commit, what changed, how it was verified.
 - **Not proven:** that Dependabot accepts the file or opens a PR (needs main).
   Dependabot PRs run no tests; actions/cache bumps need a cache-restore check,
   because ingest.db lives only in that cache.
+- **Review fix:** `.python-version` (3.12.16) added, because without it Dependabot
+  resolves for its newest Python (3.15) and could set floors the 3.12 cron can't
+  install; comments in dependabot.yml and requirements.txt corrected.
 - **Undo:** `gh api -X DELETE` on the repo's automated-security-fixes, then
-  vulnerability-alerts; revert the commit for the file.
+  vulnerability-alerts; revert the PR merge commit for the files.
