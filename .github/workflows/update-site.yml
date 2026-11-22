@@ -78,9 +78,9 @@ jobs:
     # If you add a NIM-calling step, give THAT step the env block too -- both keyed
     # steps below throw loudly without it (engine/run.py:59, outcome/source.py:200).
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
 
@@ -97,7 +97,7 @@ jobs:
       # Keyed per-run so each run saves a fresh snapshot; restore-keys grabs the most
       # recent previous one.
       - name: Restore ingest cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ingest/ingest.db
           key: ingest-db-v1-${{ github.run_id }}
