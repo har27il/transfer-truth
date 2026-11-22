@@ -34,12 +34,13 @@ One entry per task: date, commit, what changed, how it was verified.
   Dependabot PRs run no tests; actions/cache bumps need a cache-restore check,
   because ingest.db lives only in that cache.
 - **Review fixes:** d47c826 added `.python-version`, because without it Dependabot
-  resolves for Python 3.15 (seen in job 45015006815) and could set floors the 3.12
-  cron can't install. Its value, 3.12.16, was wrong: Dependabot's bundled pyenv
-  (v2.6.16) doesn't list it and ignores it, and the check for it passed falsely by
-  reading the wrong list. The commit after d47c826 sets 3.12.12. The corrected
-  check replays that pyenv list: no file and 3.12.16 -> 3.15.2 (fail), 3.12.12 ->
-  3.12.16 (pass). After merge, the first pip job's log must say
-  "Dependabot is using Python version '3.12.16'".
+  resolves for Python 3.15 (seen in run 45015006815, job 137185363244) and could set
+  floors the 3.12 cron can't install; it also corrected comments in dependabot.yml
+  and requirements.txt. Its value, 3.12.16, was wrong: Dependabot's bundled pyenv
+  (v2.6.16) doesn't list it, so Dependabot ignores it, and the check for it passed
+  falsely by reading the wrong list. 4a3f25f sets 3.12.12 and corrects three
+  comments in dependabot.yml. The corrected check replays that pyenv list: no file
+  and 3.12.16 -> 3.15.2 (fail), 3.12.12 -> 3.12.16 (pass). After merge, the first
+  pip job's log must say "Dependabot is using Python version '3.12.16'".
 - **Undo:** `gh api -X DELETE` on the repo's automated-security-fixes, then
   vulnerability-alerts; revert the PR merge commit for the files.
