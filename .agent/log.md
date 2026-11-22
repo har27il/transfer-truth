@@ -14,3 +14,24 @@ One entry per task: date, commit, what changed, how it was verified.
   The README's commands (score.py, build_leaderboard.py, build_feed.py) ran
   with exit 0 on a throwaway copy of main; the feed built as DEMO, as the README now says.
 - **Not proven:** that the README reads clearly to a newcomer.
+
+## 2026-11-22 — c70aa77 — Dependabot alerts, security updates, monthly grouped config
+
+- **Changed:** repo settings (live at once): Dependabot alerts and security updates
+  turned on. `.github/dependabot.yml` (live once on main): monthly, one group each
+  for pip and github-actions; ignore rules mirror the caps in requirements.txt.
+- **Verified:** settings read back with gh, before -> after: vulnerability-alerts
+  404 -> 204, automated-security-fixes enabled false -> true (paused false),
+  dependabot/alerts 403 -> 200. A one-off config check (schema, grouping, every
+  published stable release against the caps) exits 1 without the file and on 4 broken
+  copies, 0 with it. `pytest -q`: 222 passed, 3 skipped.
+- **Known gap:** requirements.txt has ranges and no lockfile, so GitHub records the
+  Python packages without versions. The ranges admit versions with published
+  advisories (langsmith <0.8.18, pytest <9.0.3) and 0 alerts were raised; Dependabot
+  source also refuses pip security-update PRs without a known version. The 35
+  packages the 2026-11-19 cron run installed had no advisories when queried.
+- **Not proven:** that Dependabot accepts the file or opens a PR (needs main).
+  Dependabot PRs run no tests; actions/cache bumps need a cache-restore check,
+  because ingest.db lives only in that cache.
+- **Undo:** `gh api -X DELETE` on the repo's automated-security-fixes, then
+  vulnerability-alerts; revert the commit for the file.
