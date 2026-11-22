@@ -1,0 +1,34 @@
+# Monthly version updates, one grouped PR per ecosystem. Read from main only.
+# Alerts and security updates are repo settings, not controlled by this file.
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      # No update-types here: with unpinned ranges Dependabot doesn't know the
+      # current version, so that filter would drop every package from the group.
+      python:
+        patterns: ["*"]
+    # These mirror the caps in requirements.txt: change both together. Without
+    # them Dependabot raises a cap as soon as a new major ships. (update-types:
+    # semver-major can't do this job, for the same unknown-version reason.)
+    # They apply to security updates too, so a fix above a cap needs a manual bump.
+    ignore:
+      - dependency-name: "openai"
+        versions: [">=3"]
+      - dependency-name: "numpy"
+        versions: [">=3"]
+      - dependency-name: "pytest"
+        versions: [">=10"]
+      - dependency-name: "langsmith"
+        versions: [">=1"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns: ["*"]
