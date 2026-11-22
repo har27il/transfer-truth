@@ -4,9 +4,11 @@
 # installed version, so check Python advisories by hand until versions are pinned.
 version: 2
 updates:
-  # Raises each floor to the newest release inside its cap (intended). It picks
-  # releases for the Python in /.python-version, which must match the workflows'
-  # python-version and be a full patch version (a bare 3.12 is ignored).
+  # Raises each floor to the newest release inside its cap that is 3+ days old
+  # (intended). It picks releases for the major.minor in /.python-version, which
+  # must match the workflows' python-version. Write a patch that is listed in the
+  # pyenv tag pinned by dependabot-core's python/Dockerfile: an unlisted one, even
+  # a newer real release, is silently ignored and the newest Python is used.
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
@@ -18,7 +20,7 @@ updates:
         patterns: ["*"]
     # These mirror the caps in requirements.txt: change both together. Without
     # them Dependabot raises a cap as soon as a new major ships. (update-types:
-    # semver-major can't do this job, for the same unknown-version reason.)
+    # semver-major can't do this while a floor is a bare number like >=2.)
     # They also block any security update above a cap.
     ignore:
       - dependency-name: "openai"
@@ -36,6 +38,7 @@ updates:
       interval: "monthly"
     groups:
       # Before merging a PR that bumps actions/cache, confirm the new version can
-      # restore the old cache: ingest.db is stored nowhere else.
+      # restore the old cache (same versionSalt and version hash in its dist):
+      # ingest.db is stored nowhere else.
       actions:
         patterns: ["*"]
